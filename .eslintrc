@@ -1,0 +1,70 @@
+{
+  "extends": [
+    "airbnb-base",
+    "airbnb-typescript/base"
+  ],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "no-console": "off",
+    "no-unreachable-loop": "error",
+    "no-unsafe-optional-chaining": ["error", { "disallowArithmeticOperators": true }],
+    "no-useless-backreference": "error",
+    "default-case-last": "error",
+    "no-eq-null": "error",
+    "no-implicit-coercion": "error",
+    "init-declarations": "error",
+    "array-bracket-newline": ["error", "consistent"],
+    "array-element-newline": [
+      "error",
+      { "ArrayExpression": "consistent", "ArrayPattern": { "multiline": true, "minItems": 3 } }
+    ],
+    "func-style": ["error", "expression"],
+    "function-call-argument-newline": ["error", "consistent"],
+    "id-length": ["error", { "min": 2, "max": 40, "exceptions": ["i", "x", "y", "z", "e", "r"] }],
+    "max-depth": "error",
+    "max-nested-callbacks": ["error", 3],
+    "padding-line-between-statements": [
+      "error",
+      { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*" },
+      { "blankLine": "any", "prev": ["const", "let", "var"], "next": ["const", "let", "var", "import"] },
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": ["return", "export", "for", "if", "switch", "try", "while"]
+      },
+      { "blankLine": "always", "prev": "import", "next": "*" },
+      { "blankLine": "any", "prev": "import", "next": "import" },
+      { "blankLine": "never", "prev": "*", "next": "case"},
+      { "blankLine": "never", "prev": "*", "next": "default"}
+    ],
+    "prefer-exponentiation-operator": "error",
+    "no-duplicate-imports": "error",
+    "import/default": "error",
+    "import/namespace": ["error", { "allowComputed": true }],
+    "import/no-unused-modules": ["error", { "unusedExports": true }],
+    "import/order": [
+      "error",
+      {
+        "newlines-between": "always",
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "builtin",
+            "position": "before"
+          }, {
+            "pattern": "React",
+            "group": "builtin",
+            "position": "before"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["React", "react"],
+        "groups": ["builtin", "external", "internal", "index", "object", "unknown", ["parent", "sibling"]]
+      }
+    ],
+    "import/no-anonymous-default-export": "error",
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "import/prefer-default-export": "off"
+  }
+}
