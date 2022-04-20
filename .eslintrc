@@ -6,6 +6,7 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
+  "parser": "@typescript-eslint/parser",
   "rules": {
     "no-console": "off",
     "no-unreachable-loop": "error",
@@ -18,7 +19,7 @@
     "array-bracket-newline": ["error", "consistent"],
     "array-element-newline": [
       "error",
-      { "ArrayExpression": "consistent", "ArrayPattern": { "multiline": true, "minItems": 3 } }
+      { "ArrayExpression": "consistent", "ArrayPattern": { "multiline": true, "minItems": 5 } }
     ],
     "func-style": ["error", "expression"],
     "function-call-argument-newline": ["error", "consistent"],
@@ -60,11 +61,15 @@
           }
         ],
         "pathGroupsExcludedImportTypes": ["React", "react"],
-        "groups": ["builtin", "external", "internal", "index", "object", "unknown", ["parent", "sibling"]]
+        "groups": ["builtin", "external", "internal", "index", "object", "unknown", ["parent", "sibling"]],
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": false
+        }
       }
     ],
     "import/no-anonymous-default-export": "error",
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "error"
   }
 }
