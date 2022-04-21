@@ -1,11 +1,10 @@
-import fs from 'fs';
-
 import { compareAsc } from 'date-fns';
 
 import fetchData from './fetchData';
 import addPlayerGameResultToGlobalStatistics from './globalStatistics/add';
-import sortPlayerStatistics from './output/sortStatistics';
+import generateOutput from './output/generateOutput';
 import parseReplayInfo from './parseReplay';
+import sortPlayerStatistics from './utils/sortStatistics';
 
 const processReplays = (replays: ReplayInfoWithDate[]): GlobalPlayerStatistics[] => {
   let globalStatistics: GlobalPlayerStatistics[] = [];
@@ -47,17 +46,17 @@ const fetchReplayInfo = async (replay: Replay): Promise<ReplayInfoWithDate> => {
     (first, second) => compareAsc(new Date(first.date), new Date(second.date)),
   );
 
-  console.log('Parsing replays completed.');
-  console.log('Started collecting statistics.');
+  console.log('Parsing replays completed, started collecting statistics.');
 
   const globalStatistics = processReplays(orderedParsedReplaysByDate.reverse());
   const sortedStatisticsByScore = sortPlayerStatistics(globalStatistics);
   const filteredStatistics = sortedStatisticsByScore.filter(
-    (statistics) => statistics.totalPlayedGames > 20,
+    (statistics) => statistics.totalPlayedGames > 5,
   );
 
-  fs.mkdirSync('output');
-  fs.writeFileSync('output/stats.json', JSON.stringify(filteredStatistics), 'ascii');
+  console.log('Statistics collected, start generating output files.');
+
+  generateOutput(filteredStatistics);
 
   console.log('Completed.');
 })();
