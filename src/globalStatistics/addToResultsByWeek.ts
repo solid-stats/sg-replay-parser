@@ -1,4 +1,4 @@
-import { format } from 'date-fns';
+import { format, startOfWeek } from 'date-fns';
 
 import calculateKDRatio from '../utils/calculateKDRatio';
 import calculateScore from '../utils/calculateScore';
@@ -21,6 +21,7 @@ const addPlayerGameResultToWeekStatistics = (
   if (currentStatisticsIndex === -1) {
     const newArrLength = currentWeekStatistics.push({
       week,
+      date: startOfWeek(parsedDate, { weekStartsOn: 1 }),
       ...defaultWeekStatistics,
     });
 

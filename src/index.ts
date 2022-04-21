@@ -1,7 +1,10 @@
 import fs from 'fs';
 
+import { compareAsc } from 'date-fns';
+
 import fetchData from './fetchData';
 import addPlayerGameResultToGlobalStatistics from './globalStatistics/add';
+import sortPlayerStatistics from './output/sortStatistics';
 import parseReplayInfo from './parseReplay';
 
 const processReplays = (replays: ReplayInfoWithDate[]): GlobalPlayerStatistics[] => {
@@ -40,13 +43,18 @@ const fetchReplayInfo = async (replay: Replay): Promise<ReplayInfoWithDate> => {
   const parsedReplays = await Promise.all(
     sgReplays.map((replay) => (fetchReplayInfo(replay))),
   );
+  const orderedParsedReplaysByDate = parsedReplays.sort(
+    (first, second) => compareAsc(new Date(first.date), new Date(second.date)),
+  );
 
   console.log('Parsing replays completed.');
   console.log('Started collecting statistics.');
 
-  const globalStatistics = processReplays(parsedReplays.reverse());
+  const globalStatistics = processReplays(orderedParsedReplaysByDate.reverse());
+  const sortedStatisticsByScore = sortPlayerStatistics(globalStatistics);
 
-  fs.writeFileSync('output/stats.json', JSON.stringify(globalStatistics), 'ascii');
+  fs.mkdirSync('output');
+  fs.writeFileSync('output/stats.json', JSON.stringify(sortedStatisticsByScore), 'ascii');
 
   console.log('Completed.');
 })();
