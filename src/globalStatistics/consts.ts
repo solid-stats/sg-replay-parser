@@ -3,6 +3,7 @@ export const defaultStatistics: Omit<GlobalPlayerStatistics, 'playerName' | 'las
   kills: 0,
   teamkills: 0,
   deaths: 0,
+  kdRatio: 0,
   totalScore: 0,
   byWeeks: [],
 };
@@ -12,5 +13,6 @@ export const defaultWeekStatistics: Omit<GlobalPlayerWeekStatistics, 'week'> = {
   kills: 0,
   teamkills: 0,
   deaths: 0,
+  kdRatio: 0,
   score: 0,
 };

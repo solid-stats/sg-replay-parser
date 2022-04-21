@@ -9,6 +9,7 @@ type GlobalPlayerWeekStatistics = {
   kills: Kills;
   teamkills: Teamkills;
   deaths: Deaths;
+  kdRatio: Score;
   score: Score;
 };
 
@@ -19,6 +20,7 @@ type GlobalPlayerStatistics = {
   kills: Kills;
   teamkills: Teamkills;
   deaths: Deaths;
+  kdRatio: Score;
   totalScore: Score;
   byWeeks: GlobalPlayerWeekStatistics[];
 };

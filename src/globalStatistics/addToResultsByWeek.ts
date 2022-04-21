@@ -1,5 +1,6 @@
 import { format } from 'date-fns';
 
+import calculateKDRatio from '../utils/calculateKDRatio';
 import calculateScore from '../utils/calculateScore';
 import { defaultWeekStatistics } from './consts';
 
@@ -31,13 +32,15 @@ const addPlayerGameResultToWeekStatistics = (
   const totalPlayedGames = weekStatistics.totalPlayedGames + 1;
   const kills = weekStatistics.kills + playerGameResult.kills;
   const teamkills = weekStatistics.teamkills + playerGameResult.teamkills;
+  const deaths = playerGameResult.isDead ? weekStatistics.deaths + 1 : weekStatistics.deaths;
 
   currentWeekStatistics[currentStatisticsIndex] = {
     ...currentWeekStatistics[currentStatisticsIndex],
     totalPlayedGames,
     kills,
     teamkills,
-    deaths: playerGameResult.isDead ? weekStatistics.deaths + 1 : weekStatistics.deaths,
+    deaths,
+    kdRatio: calculateKDRatio(kills, deaths),
     score: calculateScore(totalPlayedGames, kills, teamkills),
   };
 

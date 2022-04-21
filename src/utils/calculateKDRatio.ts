@@ -1,0 +1,8 @@
+import round from 'lodash/round';
+
+const calculateKDRatio = (
+  kills: GlobalPlayerStatistics['kills'],
+  deaths: GlobalPlayerStatistics['deaths'],
+): GlobalPlayerStatistics['kdRatio'] => round(kills / deaths, 2);
+
+export default calculateKDRatio;

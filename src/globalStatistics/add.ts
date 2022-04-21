@@ -1,3 +1,4 @@
+import calculateKDRatio from '../utils/calculateKDRatio';
 import calculateScore from '../utils/calculateScore';
 import getPlayerName from '../utils/getPlayerName';
 import addPlayerGameResultToWeekStatistics from './addToResultsByWeek';
@@ -38,6 +39,7 @@ const addPlayerGameResultToGlobalStatistics = (
   const totalPlayedGames = playerStatistics.totalPlayedGames + 1;
   const kills = playerStatistics.kills + playerGameResult.kills;
   const teamkills = playerStatistics.teamkills + playerGameResult.teamkills;
+  const deaths = playerGameResult.isDead ? playerStatistics.deaths + 1 : playerStatistics.deaths;
 
   currentGlobalStatistics[currentStatisticsIndex] = {
     ...playerStatistics,
@@ -45,9 +47,10 @@ const addPlayerGameResultToGlobalStatistics = (
     totalPlayedGames,
     kills,
     teamkills,
-    deaths: playerGameResult.isDead ? playerStatistics.deaths + 1 : playerStatistics.deaths,
-    byWeeks: statisticsByWeek,
+    deaths,
+    kdRatio: calculateKDRatio(kills, deaths),
     totalScore: calculateScore(totalPlayedGames, kills, teamkills),
+    byWeeks: statisticsByWeek,
   };
 
   return currentGlobalStatistics;
