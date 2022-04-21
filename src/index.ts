@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 import fetchData from './fetchData';
 import addPlayerGameResultToGlobalStatistics from './globalStatistics/add';
 import parseReplayInfo from './parseReplay';
@@ -44,7 +46,7 @@ const fetchReplayInfo = async (replay: Replay): Promise<ReplayInfoWithDate> => {
 
   const globalStatistics = processReplays(parsedReplays.reverse());
 
-  console.log(globalStatistics);
+  fs.writeFileSync('output/stats.json', JSON.stringify(globalStatistics), 'ascii');
 
   console.log('Completed.');
 })();
