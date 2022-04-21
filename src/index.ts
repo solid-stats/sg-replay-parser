@@ -52,9 +52,12 @@ const fetchReplayInfo = async (replay: Replay): Promise<ReplayInfoWithDate> => {
 
   const globalStatistics = processReplays(orderedParsedReplaysByDate.reverse());
   const sortedStatisticsByScore = sortPlayerStatistics(globalStatistics);
+  const filteredStatistics = sortedStatisticsByScore.filter(
+    (statistics) => statistics.totalPlayedGames > 20,
+  );
 
   fs.mkdirSync('output');
-  fs.writeFileSync('output/stats.json', JSON.stringify(sortedStatisticsByScore), 'ascii');
+  fs.writeFileSync('output/stats.json', JSON.stringify(filteredStatistics), 'ascii');
 
   console.log('Completed.');
 })();
