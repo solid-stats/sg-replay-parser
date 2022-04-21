@@ -1,4 +1,5 @@
-import { getPlayerName } from '../utils';
+import calculateScore from '../utils/calculateScore';
+import getPlayerName from '../utils/getPlayerName';
 import addPlayerGameResultToWeekStatistics from './addToResultsByWeek';
 import { defaultStatistics } from './consts';
 
@@ -34,14 +35,19 @@ const addPlayerGameResultToGlobalStatistics = (
     date,
   );
 
+  const totalPlayedGames = playerStatistics.totalPlayedGames + 1;
+  const kills = playerStatistics.kills + playerGameResult.kills;
+  const teamkills = playerStatistics.teamkills + playerGameResult.teamkills;
+
   currentGlobalStatistics[currentStatisticsIndex] = {
     ...playerStatistics,
     lastSquadPrefix: squadPrefix,
-    totalPlayedGames: playerStatistics.totalPlayedGames + 1,
-    kills: playerStatistics.kills + playerGameResult.kills,
-    teamkills: playerStatistics.teamkills + playerGameResult.teamkills,
+    totalPlayedGames,
+    kills,
+    teamkills,
     deaths: playerGameResult.isDead ? playerStatistics.deaths + 1 : playerStatistics.deaths,
     byWeeks: statisticsByWeek,
+    totalScore: calculateScore(totalPlayedGames, kills, teamkills),
   };
 
   return currentGlobalStatistics;

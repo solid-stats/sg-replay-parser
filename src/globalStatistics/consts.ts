@@ -8,6 +8,7 @@ export const defaultStatistics: Omit<GlobalPlayerStatistics, 'playerName' | 'las
 };
 
 export const defaultWeekStatistics: Omit<GlobalPlayerWeekStatistics, 'week'> = {
+  totalPlayedGames: 0,
   kills: 0,
   teamkills: 0,
   deaths: 0,

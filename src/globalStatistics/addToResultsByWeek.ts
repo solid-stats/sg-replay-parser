@@ -1,5 +1,6 @@
 import { format } from 'date-fns';
 
+import calculateScore from '../utils/calculateScore';
 import { defaultWeekStatistics } from './consts';
 
 const addPlayerGameResultToWeekStatistics = (
@@ -27,11 +28,17 @@ const addPlayerGameResultToWeekStatistics = (
 
   const weekStatistics = currentWeekStatistics[currentStatisticsIndex];
 
+  const totalPlayedGames = weekStatistics.totalPlayedGames + 1;
+  const kills = weekStatistics.kills + playerGameResult.kills;
+  const teamkills = weekStatistics.teamkills + playerGameResult.teamkills;
+
   currentWeekStatistics[currentStatisticsIndex] = {
     ...currentWeekStatistics[currentStatisticsIndex],
-    kills: weekStatistics.kills + playerGameResult.kills,
-    teamkills: weekStatistics.teamkills + playerGameResult.teamkills,
+    totalPlayedGames,
+    kills,
+    teamkills,
     deaths: playerGameResult.isDead ? weekStatistics.deaths + 1 : weekStatistics.deaths,
+    score: calculateScore(totalPlayedGames, kills, teamkills),
   };
 
   return currentWeekStatistics;

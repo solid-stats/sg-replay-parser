@@ -5,6 +5,7 @@ type Score = number;
 
 type GlobalPlayerWeekStatistics = {
   week: `${number}${number}${number}${number}-${number}${number}`; // 2022-35
+  totalPlayedGames: number;
   kills: Kills;
   teamkills: Teamkills;
   deaths: Deaths;

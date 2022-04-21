@@ -1,4 +1,4 @@
-export const getPlayerName = (playerName: PlayerName): [PlayerName, PlayerPrefix | null] => {
+const getPlayerName = (playerName: PlayerName): [PlayerName, PlayerPrefix | null] => {
   if (!playerName.includes('[')) return [playerName, null];
 
   const squadPrefixRegex = /\[\w*\]/;
@@ -7,3 +7,5 @@ export const getPlayerName = (playerName: PlayerName): [PlayerName, PlayerPrefix
 
   return [name, squadPrefix];
 };
+
+export default getPlayerName;
