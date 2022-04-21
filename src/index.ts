@@ -12,7 +12,7 @@ const processReplays = (replays: ReplayInfoWithDate[]): GlobalPlayerStatistics[]
       globalStatistics = addPlayerGameResultToGlobalStatistics(
         globalStatistics,
         playerGameResult,
-        // replayInfo.date,
+        replayInfo.date,
       );
     });
   });
@@ -23,6 +23,9 @@ const processReplays = (replays: ReplayInfoWithDate[]): GlobalPlayerStatistics[]
 const fetchReplayInfo = async (replay: Replay): Promise<ReplayInfoWithDate> => {
   const replayInfo = await fetchData<ReplayInfo>(`https://replays.solidgames.ru/data/${replay.filename}.json`);
 
+  console.log(`Parsed replay\nserver id: ${replay.serverId}\nmission name: ${replay.world_name}\ndate: ${replay.date}\nfilename: ${replay.filename}`);
+  console.log('——————————————————————————————');
+
   return {
     ...replayInfo,
     date: replay.date,
@@ -31,12 +34,17 @@ const fetchReplayInfo = async (replay: Replay): Promise<ReplayInfoWithDate> => {
 
 (async () => {
   const replays = await fetchData<Replay[]>('https://replays.solidgames.ru/Replays');
-  const sgReplays = replays.filter((replay) => replay.mission_name.includes('sg')).slice(0, 5);
+  const sgReplays = replays.filter((replay) => replay.mission_name.includes('sg')).slice(0, 20);
   const parsedReplays = await Promise.all(
     sgReplays.map((replay) => (fetchReplayInfo(replay))),
   );
 
-  const globalStatistics = processReplays(parsedReplays);
+  console.log('Parsing replays completed.');
+  console.log('Started collecting statistics.');
+
+  const globalStatistics = processReplays(parsedReplays.reverse());
 
   console.log(globalStatistics);
+
+  console.log('Completed.');
 })();

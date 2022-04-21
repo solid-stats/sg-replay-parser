@@ -1,4 +1,5 @@
 import { getPlayerName } from '../utils';
+import addPlayerGameResultToWeekStatistics from './addToResultsByWeek';
 import { defaultStatistics } from './consts';
 
 const isSameNickName = (first: string, second: string) => (
@@ -8,7 +9,7 @@ const isSameNickName = (first: string, second: string) => (
 const addPlayerGameResultToGlobalStatistics = (
   globalStatistics: GlobalPlayerStatistics[],
   playerGameResult: PlayerGameResult,
-  // date: Replay['date'],
+  date: Replay['date'],
 ): GlobalPlayerStatistics[] => {
   const currentGlobalStatistics = globalStatistics.slice();
   const [playerName, squadPrefix] = getPlayerName(playerGameResult.name);
@@ -27,6 +28,11 @@ const addPlayerGameResultToGlobalStatistics = (
   }
 
   const playerStatistics = currentGlobalStatistics[currentStatisticsIndex];
+  const statisticsByWeek = addPlayerGameResultToWeekStatistics(
+    playerStatistics.byWeeks,
+    playerGameResult,
+    date,
+  );
 
   currentGlobalStatistics[currentStatisticsIndex] = {
     ...playerStatistics,
@@ -35,6 +41,7 @@ const addPlayerGameResultToGlobalStatistics = (
     kills: playerStatistics.kills + playerGameResult.kills,
     teamkills: playerStatistics.teamkills + playerGameResult.teamkills,
     deaths: playerGameResult.isDead ? playerStatistics.deaths + 1 : playerStatistics.deaths,
+    byWeeks: statisticsByWeek,
   };
 
   return currentGlobalStatistics;
