@@ -36,6 +36,7 @@ type ReplayInfo = {
   missionName: string;
   worldName: string;
 };
+type ReplayInfoWithDate = ReplayInfo & Pick<Replay, 'date'>;
 
 type PlayerInfo = {
   id: PlayerId;

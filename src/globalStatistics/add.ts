@@ -1,36 +1,44 @@
 import { getPlayerName } from '../utils';
-import { defaultStatistics, playersToShowInStatistics } from './consts';
+import { defaultStatistics } from './consts';
 
-const addStatisticsToGlobalStatistics = (
+const isSameNickName = (first: string, second: string) => (
+  first.toLowerCase() === second.toLowerCase()
+);
+
+const addPlayerGameResultToGlobalStatistics = (
   globalStatistics: GlobalPlayerStatistics[],
   playerGameResult: PlayerGameResult,
-  gameInfo: GameInfo,
+  // date: Replay['date'],
 ): GlobalPlayerStatistics[] => {
-  if (!playersToShowInStatistics.includes(playerGameResult.name.toLowerCase())) {
-    return globalStatistics;
-  }
-
+  const currentGlobalStatistics = globalStatistics.slice();
   const [playerName, squadPrefix] = getPlayerName(playerGameResult.name);
-  let currentStatistics = globalStatistics.find(
-    (playerStatistics) => playerStatistics.playerName === playerName.toLowerCase(),
+
+  const currentStatisticsIndex = globalStatistics.findIndex(
+    (playerStatistics) => (isSameNickName(playerStatistics.playerName, playerName)),
   );
 
-  if (!currentStatistics) {
-    currentStatistics = {
+  if (currentStatisticsIndex === -1) {
+    currentGlobalStatistics.push({
       playerName,
       lastSquadPrefix: squadPrefix,
       ...defaultStatistics,
-    };
+    });
   }
 
-  const newStatistics: GlobalPlayerStatistics = {
-    ...currentStatistics,
-    lastSquadPrefix: squadPrefix,
-    totalPlayedGames: currentStatistics.totalPlayedGames + 1,
-    kills: currentStatistics.kills + playerGameResult.kills,
-    teamkills: currentStatistics.teamkills + playerGameResult.teamkills,
-    deaths: playerGameResult.isDead ? currentStatistics.deaths + 1 : currentStatistics.deaths,
-  };
+  const newStatistics = currentGlobalStatistics.map((playerStatistics) => {
+    if (!isSameNickName(playerStatistics.playerName, playerName)) return playerStatistics;
+
+    return {
+      ...playerStatistics,
+      lastSquadPrefix: squadPrefix,
+      totalPlayedGames: playerStatistics.totalPlayedGames + 1,
+      kills: playerStatistics.kills + playerGameResult.kills,
+      teamkills: playerStatistics.teamkills + playerGameResult.teamkills,
+      deaths: playerGameResult.isDead ? playerStatistics.deaths + 1 : playerStatistics.deaths,
+    };
+  });
+
+  return newStatistics;
 };
 
-export default addStatisticsToGlobalStatistics;
+export default addPlayerGameResultToGlobalStatistics;

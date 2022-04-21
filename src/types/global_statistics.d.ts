@@ -23,5 +23,3 @@ type GlobalPlayerStatistics = {
 };
 
 type PlayerGameResult = Pick<PlayerInfo, 'name' | 'kills' | 'teamkills' | 'isDead'>;
-
-type GameInfo = Pick<Replay, 'mission_name' | 'world_name' | 'serverId' | 'date'>;
