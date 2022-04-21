@@ -12,33 +12,32 @@ const addPlayerGameResultToGlobalStatistics = (
 ): GlobalPlayerStatistics[] => {
   const currentGlobalStatistics = globalStatistics.slice();
   const [playerName, squadPrefix] = getPlayerName(playerGameResult.name);
-
-  const currentStatisticsIndex = globalStatistics.findIndex(
+  let currentStatisticsIndex = globalStatistics.findIndex(
     (playerStatistics) => (isSameNickName(playerStatistics.playerName, playerName)),
   );
 
   if (currentStatisticsIndex === -1) {
-    currentGlobalStatistics.push({
+    const newArrLength = currentGlobalStatistics.push({
       playerName,
       lastSquadPrefix: squadPrefix,
       ...defaultStatistics,
     });
+
+    currentStatisticsIndex = newArrLength - 1;
   }
 
-  const newStatistics = currentGlobalStatistics.map((playerStatistics) => {
-    if (!isSameNickName(playerStatistics.playerName, playerName)) return playerStatistics;
+  const playerStatistics = currentGlobalStatistics[currentStatisticsIndex];
 
-    return {
-      ...playerStatistics,
-      lastSquadPrefix: squadPrefix,
-      totalPlayedGames: playerStatistics.totalPlayedGames + 1,
-      kills: playerStatistics.kills + playerGameResult.kills,
-      teamkills: playerStatistics.teamkills + playerGameResult.teamkills,
-      deaths: playerGameResult.isDead ? playerStatistics.deaths + 1 : playerStatistics.deaths,
-    };
-  });
+  currentGlobalStatistics[currentStatisticsIndex] = {
+    ...playerStatistics,
+    lastSquadPrefix: squadPrefix,
+    totalPlayedGames: playerStatistics.totalPlayedGames + 1,
+    kills: playerStatistics.kills + playerGameResult.kills,
+    teamkills: playerStatistics.teamkills + playerGameResult.teamkills,
+    deaths: playerGameResult.isDead ? playerStatistics.deaths + 1 : playerStatistics.deaths,
+  };
 
-  return newStatistics;
+  return currentGlobalStatistics;
 };
 
 export default addPlayerGameResultToGlobalStatistics;
