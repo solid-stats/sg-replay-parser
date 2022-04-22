@@ -1,9 +1,7 @@
 import fetch from 'node-fetch';
 
-const fetchData = async <DataType>(url: string): Promise<DataType> => {
-  const resp = await fetch(url);
-
-  return resp.json();
-};
+const fetchData = async <DataType>(url: string): Promise<DataType> => (
+  fetch(url).then((res) => res.json())
+);
 
 export default fetchData;

@@ -8,7 +8,7 @@ type Distance = number;
 type KilledPlayerId = PlayerId;
 type KillerPlayerId = PlayerId;
 
-type ConnectEvent = [Frame, 'connected' | 'disconnected', PlayerName, PlayerId];
+type ConnectEvent = [Frame, 'connected' | 'disconnected', PlayerName, PlayerId | undefined];
 type KillEvent = [Frame, 'killed', KilledPlayerId, [KillerPlayerId, KillerWeaponName], Distance];
 
 type Entity = {
@@ -36,7 +36,6 @@ type ReplayInfo = {
   missionName: string;
   worldName: string;
 };
-type ReplayInfoWithDate = ReplayInfo & Pick<Replay, 'date'>;
 
 type PlayerInfo = {
   id: PlayerId;
@@ -47,3 +46,8 @@ type PlayerInfo = {
   isDead: Boolean;
 };
 type PlayersList = Record<PlayerId, PlayerInfo>;
+
+type PlayersListWithDate = {
+  result: PlayersList,
+  date: Replay['date'],
+};

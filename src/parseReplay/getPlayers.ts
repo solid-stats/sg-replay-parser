@@ -1,3 +1,5 @@
+import isUndefined from 'lodash/isUndefined';
+
 const defaultPlayerInfo = {
   kills: 0,
   teamkills: 0,
@@ -25,6 +27,8 @@ const getPlayersInfo = ({ entities, events }: ReplayInfo): PlayersList => {
 
     if (eventType === 'connected') {
       const [, , name, id] = event;
+
+      if (isUndefined(id)) return;
 
       const entityInfo = entities.find((entity) => entity.id === id);
 
