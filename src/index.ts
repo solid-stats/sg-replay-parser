@@ -39,7 +39,7 @@ const fetchReplayInfo = async (replay: Replay): Promise<PlayersListWithDate> => 
 
 (async () => {
   const replays = await fetchData<Replay[]>('https://replays.solidgames.ru/Replays');
-  const sgReplays = replays.filter((replay) => replay.mission_name.includes('sg'));
+  const sgReplays = replays.filter((replay) => replay.mission_name.includes('sg')).slice(0, 50);
 
   const limit = pLimit(20);
   const parsedReplays = await Promise.all(
