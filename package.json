@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "rimraf dist && rimraf output && tsc && node dist/index.js",
+    "start": "rimraf dist && rimraf output && tsc && node --max-old-space-size=8192 --expose-gc dist/index.js",
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
     "lint": "eslint ./src/**/*.ts"
   },
@@ -30,6 +30,7 @@
     "date-fns": "^2.28.0",
     "lodash": "^4.17.21",
     "markdown-table": "2.x.x",
-    "node-fetch": "2.x.x"
+    "node-fetch": "2.x.x",
+    "p-limit": "3.1.0"
   }
 }
