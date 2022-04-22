@@ -1,3 +1,5 @@
 export const statsFolder = 'output';
 
-export const statsByWeeksFolder = `${statsFolder}/Личная статистика по неделям`;
+export const statsByWeeksFolderName = 'Личная статистика по неделям';
+
+export const statsByWeeksFolder = `${statsFolder}/${statsByWeeksFolderName}`;
