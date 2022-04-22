@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
+  "license": "GPL-3.0-or-later",
   "scripts": {
     "start": "rimraf dist && rimraf output && tsc && node --max-old-space-size=8192 --expose-gc dist/index.js",
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
