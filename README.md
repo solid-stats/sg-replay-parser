@@ -37,7 +37,7 @@ If you find bugs in the app or want to suggest new features, you should open the
 
 If you want to change the code, you can fork this repository or open a pull request
 
-In order to start development, you should make points 0.1 and 1 from [How to get statistics](#how-to-get-statistics), and then start app in dev mode:
+In order to start development, you should make points 0 and 1 from [How to get statistics](#how-to-get-statistics), and then start app in dev mode:
 
 ```sh
 yarn dev
