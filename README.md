@@ -18,12 +18,12 @@ This application outputs 3 types of files:
 
 ## How to get statistics
 
-0.1) Install `NodeJS` and then `yarn` via npx
-1) Install dependencies
+0. Install `NodeJS` and then `yarn` via npx
+1. Install dependencies
 ```sh
 yarn install
 ```
-2) Start parsing replays
+2. Start parsing replays
 ```sh
 yarn start
 ```
