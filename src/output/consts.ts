@@ -6,4 +6,4 @@ export const statsByWeeksFolder = `${statsFolder}/${statsByWeeksFolderName}`;
 
 export const readmeFileName = 'Прочитай меня';
 
-export const readmeFilePath = `${statsFolder}/readme.txt`;
+export const readmeFilePath = `${statsFolder}/${readmeFileName}.txt`;
