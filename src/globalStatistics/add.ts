@@ -23,6 +23,7 @@ const addPlayerGameResultToGlobalStatistics = (
     const newArrLength = currentGlobalStatistics.push({
       playerName,
       lastSquadPrefix: squadPrefix,
+      lastPlayedGameDate: new Date(date),
       ...defaultStatistics,
     });
 
@@ -44,6 +45,7 @@ const addPlayerGameResultToGlobalStatistics = (
   currentGlobalStatistics[currentStatisticsIndex] = {
     ...playerStatistics,
     lastSquadPrefix: squadPrefix,
+    lastPlayedGameDate: new Date(date),
     totalPlayedGames,
     kills,
     teamkills,

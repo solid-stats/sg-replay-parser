@@ -1,4 +1,4 @@
-export const defaultStatistics: Omit<GlobalPlayerStatistics, 'playerName' | 'lastSquadPrefix'> = {
+export const defaultStatistics: Omit<GlobalPlayerStatistics, 'playerName' | 'lastSquadPrefix' | 'lastPlayedGameDate'> = {
   totalPlayedGames: 0,
   kills: 0,
   teamkills: 0,

@@ -1,5 +1,5 @@
 type PlayerName = string;
-type PlayerPrefix = string;
+type PlayerPrefix = string | null;
 
 type Replay = {
   id: string;

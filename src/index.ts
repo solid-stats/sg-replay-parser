@@ -3,6 +3,7 @@ import pLimit from 'p-limit';
 
 import fetchData from './fetchData';
 import addPlayerGameResultToGlobalStatistics from './globalStatistics/add';
+import calculateSquadStatistics from './globalStatistics/squadStatistics';
 import generateOutput from './output/generateOutput';
 import parseReplayInfo from './parseReplay';
 import sortPlayerStatistics from './utils/sortStatistics';
@@ -56,6 +57,8 @@ const fetchReplayInfo = async (replay: Replay): Promise<PlayersListWithDate> => 
   const filteredStatistics = sortedStatisticsByScore.filter(
     (statistics) => statistics.totalPlayedGames > 20,
   );
+
+  const squadStatistics = calculateSquadStatistics(filteredStatistics);
 
   console.log('Statistics collected, start generating output files.');
 

@@ -15,15 +15,24 @@ type GlobalPlayerWeekStatistics = {
 };
 
 type GlobalPlayerStatistics = {
-  playerName: string;
-  lastSquadPrefix: string;
+  playerName: PlayerName;
+  lastSquadPrefix: PlayerPrefix;
   totalPlayedGames: number;
   kills: Kills;
   teamkills: Teamkills;
   deaths: Deaths;
   kdRatio: Score;
   totalScore: Score;
+  lastPlayedGameDate: Date;
   byWeeks: GlobalPlayerWeekStatistics[];
 };
 
 type PlayerGameResult = Pick<PlayerInfo, 'name' | 'kills' | 'teamkills' | 'isDead'>;
+
+type GlobalSquadStatistics = {
+  prefix: PlayerPrefix;
+  kills: Kills;
+  teamkills: Teamkills;
+  score: Score;
+  players: PlayerName[];
+};
