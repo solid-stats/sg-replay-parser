@@ -6,7 +6,7 @@ import generateReadmeFile from './generateReadmeFile';
 import generateJSONOutput from './jsonOutput';
 import { generateMarkdownTable, generateMarkdownTablesByWeek } from './markdownOutput';
 
-const generateOutput = (statistics: GlobalPlayerStatistics[]): void => {
+const generateOutput = (statistics: StatisticsForOutput): void => {
   fs.mkdirSync(statsFolder);
   fs.mkdirSync(statsByWeeksFolder);
   generateMarkdownTable(statistics);

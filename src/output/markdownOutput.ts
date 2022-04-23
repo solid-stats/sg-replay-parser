@@ -6,7 +6,7 @@ import markdownTable from 'markdown-table';
 
 import { statsByWeeksFolder, statsFolder } from './consts';
 
-export const generateMarkdownTable = (statistics: GlobalPlayerStatistics[]): void => {
+export const generateMarkdownTable = (statistics: StatisticsForOutput): void => {
   const headers = [
     'Место',
     'Отряд',
@@ -22,7 +22,7 @@ export const generateMarkdownTable = (statistics: GlobalPlayerStatistics[]): voi
   const result = markdownTable(
     [
       headers,
-      ...statistics.map((stats, index) => ([
+      ...statistics.global.map((stats, index) => ([
         index + 1,
         stats.lastSquadPrefix,
         stats.playerName,
@@ -43,7 +43,7 @@ export const generateMarkdownTable = (statistics: GlobalPlayerStatistics[]): voi
 const dateFormat = 'dd MMM yyyy';
 const formatDate = (date: Date) => format(date, dateFormat, { locale: ru });
 
-export const generateMarkdownTablesByWeek = (statistics: GlobalPlayerStatistics[]): void => {
+export const generateMarkdownTablesByWeek = (statistics: StatisticsForOutput): void => {
   const headers = [
     'Даты',
     'Кол-во игр',
@@ -54,7 +54,7 @@ export const generateMarkdownTablesByWeek = (statistics: GlobalPlayerStatistics[
     'Счет',
   ];
 
-  statistics.forEach(({ playerName, byWeeks }) => {
+  statistics.global.forEach(({ playerName, byWeeks }) => {
     const result = markdownTable(
       [
         headers,

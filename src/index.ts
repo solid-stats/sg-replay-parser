@@ -62,7 +62,10 @@ const fetchReplayInfo = async (replay: Replay): Promise<PlayersListWithDate> => 
 
   console.log('Statistics collected, start generating output files.');
 
-  generateOutput(filteredStatistics);
+  generateOutput({
+    global: filteredStatistics,
+    squad: squadStatistics,
+  });
 
   console.log('Completed.');
 })();

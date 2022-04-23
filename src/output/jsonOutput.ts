@@ -4,21 +4,37 @@ import { endOfWeek, startOfWeek } from 'date-fns';
 
 import { statsFolder } from './consts';
 
-const generateJSONOutput = (statistics: GlobalPlayerStatistics[]): void => {
-  const result = statistics.map((stats) => ({
+// indent rule broken in this case
+// https://github.com/typescript-eslint/typescript-eslint/issues/1824
+/* eslint-disable @typescript-eslint/indent */
+type JSONOutput = Array<
+  Omit<GlobalPlayerStatistics, 'byWeeks'> & {
+    byWeeks: Array<Omit<GlobalPlayerWeekStatistics, 'date'>>
+  }
+>;
+/* eslint-enable @typescript-eslint/indent */
+
+const generateJSONOutput = (statistics: StatisticsForOutput): void => {
+  const result: JSONOutput = statistics.global.map((stats) => ({
     ...stats,
     byWeeks: stats.byWeeks.map((statsByWeek) => {
-      const newStats = { ...statsByWeek };
+      const startDate = startOfWeek(statsByWeek.date).toJSON();
+      const endDate = endOfWeek(statsByWeek.date).toJSON();
 
-      const startDate = startOfWeek(newStats.date).toJSON();
-      const endDate = endOfWeek(newStats.date).toJSON();
-
-      delete newStats.date;
+      const {
+        week, totalPlayedGames, kills, teamkills, deaths, kdRatio, score,
+      } = statsByWeek;
 
       return {
         startDate,
         endDate,
-        ...newStats,
+        week,
+        totalPlayedGames,
+        kills,
+        teamkills,
+        deaths,
+        kdRatio,
+        score,
       };
     }),
   }));
