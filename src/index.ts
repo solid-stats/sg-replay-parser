@@ -4,7 +4,7 @@ import pLimit from 'p-limit';
 import fetchData from './fetchData';
 import addPlayerGameResultToGlobalStatistics from './globalStatistics/add';
 import calculateSquadStatistics from './globalStatistics/squadStatistics';
-import generateOutput from './output/generateOutput';
+import generateOutput from './output';
 import parseReplayInfo from './parseReplay';
 import sortPlayerStatistics from './utils/sortStatistics';
 
