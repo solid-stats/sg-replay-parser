@@ -32,6 +32,8 @@ const getPlayersInfo = ({ entities, events }: ReplayInfo): PlayersList => {
 
       const entityInfo = entities.find((entity) => entity.id === id);
 
+      if (isUndefined(entityInfo)) return;
+
       connectedPlayers[id] = {
         id,
         name,
