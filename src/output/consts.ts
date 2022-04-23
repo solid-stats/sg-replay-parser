@@ -4,6 +4,10 @@ export const statsByWeeksFolderName = 'Личная статистика по н
 
 export const statsByWeeksFolder = `${statsFolder}/${statsByWeeksFolderName}`;
 
-export const readmeFileName = 'Прочитай меня';
+export const statsBySquadFolderName = 'Статистика игроков по отрядам';
 
-export const readmeFilePath = `${statsFolder}/${readmeFileName}.txt`;
+export const statsBySquadFolder = `${statsFolder}/${statsBySquadFolderName}`;
+
+export const readmeFileName = 'Прочитай меня.txt';
+
+export const readmeFilePath = `${statsFolder}/${readmeFileName}`;

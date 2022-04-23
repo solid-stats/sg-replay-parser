@@ -30,9 +30,9 @@ type GlobalPlayerStatistics = {
 type PlayerGameResult = Pick<PlayerInfo, 'name' | 'kills' | 'teamkills' | 'isDead'>;
 
 type GlobalSquadStatistics = {
-  prefix: PlayerPrefix;
+  prefix: NonNullable<PlayerPrefix>;
   kills: Kills;
   teamkills: Teamkills;
   score: Score;
-  players: PlayerName[];
+  players: Omit<GlobalPlayerStatistics, 'lastSquadPrefix' | 'byWeeks'>[];
 };

@@ -6,7 +6,7 @@ import omit from 'lodash/omit';
 import { statsFolder } from './consts';
 
 const generateJSONOutput = (statistics: StatisticsForOutput): void => {
-  const result = statistics.global.map((stats) => ({
+  const globalStatistics = statistics.global.map((stats) => ({
     ...stats,
     byWeeks: stats.byWeeks.map((statsByWeek) => {
       const startDate = startOfWeek(statsByWeek.date).toJSON();
@@ -19,6 +19,11 @@ const generateJSONOutput = (statistics: StatisticsForOutput): void => {
       };
     }),
   }));
+
+  const result = {
+    globalStatistics,
+    squadStatistics: statistics.squad,
+  };
 
   fs.writeFileSync(`${statsFolder}/stats.json`, JSON.stringify(result, null, '\t'));
 };
