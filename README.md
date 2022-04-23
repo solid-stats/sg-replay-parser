@@ -2,14 +2,16 @@
 
 ## About
 
-This app gets all replays from https://replays.solidgames.ru/ and then calculates the stats for each player. Total stats and stats by week are calculated
+This app gets all replays from https://replays.solidgames.ru/ and then calculates the stats for each player
 
 ## Output
 
 This application outputs 3 types of files:
 1) General statistics for all players
-2) A folder with statistics by week for each player
-3) JSON file with all information
+2) General statistics for each squads
+3) A folder with players statistics by squads
+4) A folder with statistics by week for each player
+5) JSON file with all information
 
 ## Limitations
 
