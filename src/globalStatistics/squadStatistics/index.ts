@@ -32,7 +32,7 @@ const calculateSquadStatistics = (
       differenceInMonths(player.lastPlayedGameDate, new Date()) > -1
     ));
 
-    if (isEmpty(filteredPlayers) || players.length <= 4) return;
+    if (isEmpty(filteredPlayers) || filteredPlayers.length <= 4) return;
 
     filteredPlayersBySquadPrefix[prefix] = filteredPlayers;
   });
