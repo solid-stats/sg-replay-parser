@@ -3,23 +3,15 @@ import fs from 'fs';
 import archiveFiles from './archiveFiles';
 import { statsBySquadFolder, statsByWeeksFolder, statsFolder } from './consts';
 import generateReadmeFile from './generateReadmeFile';
-import generateJSONOutput from './jsonOutput';
-import {
-  generateMarkdownTable,
-  generateMarkdownTableForSquads,
-  generateMarkdownTablesBySquad,
-  generateMarkdownTablesByWeek,
-} from './markdownOutput';
+import generateJSONOutput from './json';
+import generateMarkdownOutput from './markdown';
 
 const generateOutput = (statistics: StatisticsForOutput): void => {
   fs.mkdirSync(statsFolder);
   fs.mkdirSync(statsByWeeksFolder);
   fs.mkdirSync(statsBySquadFolder);
-  generateMarkdownTable(statistics);
-  generateMarkdownTableForSquads(statistics);
-  generateMarkdownTablesBySquad(statistics);
-  generateMarkdownTablesByWeek(statistics);
   generateJSONOutput(statistics);
+  generateMarkdownOutput(statistics);
   generateReadmeFile();
   archiveFiles();
 };
