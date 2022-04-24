@@ -9,16 +9,6 @@ import sumBy from 'lodash/sumBy';
 
 type PlayersBySquadPrefix = Record<string, GlobalPlayerStatistics[]>;
 
-const calculateMedian = (numbers: number[]): number => {
-  numbers.sort((first, second) => first - second);
-
-  const half = Math.floor(numbers.length / 2);
-
-  if (numbers.length % 2) return numbers[half];
-
-  return (numbers[half - 1] + numbers[half]) / 2.0;
-};
-
 const calculateSquadStatistics = (
   globalStatistics: GlobalPlayerStatistics[],
 ): GlobalSquadStatistics[] => {
@@ -46,8 +36,7 @@ const calculateSquadStatistics = (
       const kills = sumBy(players, 'kills');
       const teamkills = sumBy(players, 'teamkills');
 
-      const scores = players.map((player) => player.totalScore);
-      const score = round(calculateMedian(scores), 2);
+      const score = round(sumBy(players, 'totalScore') / players.length, 2);
 
       return {
         prefix,
