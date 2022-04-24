@@ -20,7 +20,8 @@ This application outputs 3 types of files:
 
 ## How to get statistics
 
-0. Install `NodeJS` and then `yarn` via npx
+### If you have already installed NodeJS and yarn
+
 1. Install dependencies
 ```sh
 yarn install
@@ -31,6 +32,22 @@ yarn start
 ```
 3) Get statistics from folder `output`
 
+### Using Docker
+
+1) Build docker image
+
+```sh
+docker build -t sg-parser .
+```
+
+2) Get output folder from docker image
+
+```sh
+docker create --name sg-parser sg-parser &&
+docker cp sg-parser:/app/output/ your_folder_name/ &&
+docker rm sg-parser
+```
+
 ## Contributing
 
 If you find bugs in the app or want to suggest new features, you should open the issue
@@ -39,7 +56,7 @@ If you find bugs in the app or want to suggest new features, you should open the
 
 If you want to change the code, you can fork this repository or open a pull request
 
-In order to start development, you should make points 0 and 1 from [How to get statistics](#how-to-get-statistics), and then start app in dev mode:
+In order to start development, you should install NodeJS and yarn, and then start app in dev mode:
 
 ```sh
 yarn dev
