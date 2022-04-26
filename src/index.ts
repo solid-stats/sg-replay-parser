@@ -2,10 +2,10 @@ import { compareAsc } from 'date-fns';
 import pLimit from 'p-limit';
 
 import fetchData from './fetchData';
-import addPlayerGameResultToGlobalStatistics from './globalStatistics/add';
-import calculateSquadStatistics from './globalStatistics/squadStatistics';
 import generateOutput from './output';
 import parseReplayInfo from './parseReplay';
+import addPlayerGameResultToGlobalStatistics from './statistics/global/add';
+import calculateSquadStatistics from './statistics/squads';
 import sortPlayerStatistics from './utils/sortStatistics';
 
 const processReplays = (replays: PlayersListWithDate[]): GlobalPlayerStatistics[] => {

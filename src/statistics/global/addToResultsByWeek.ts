@@ -1,8 +1,8 @@
 import { format, startOfWeek } from 'date-fns';
 
-import calculateKDRatio from '../utils/calculateKDRatio';
-import calculateScore from '../utils/calculateScore';
-import { defaultWeekStatistics } from './consts';
+import calculateKDRatio from '../../utils/calculateKDRatio';
+import calculateScore from '../../utils/calculateScore';
+import { defaultWeekStatistics } from '../consts';
 
 const addPlayerGameResultToWeekStatistics = (
   globalWeekStatistics: GlobalPlayerWeekStatistics[],
