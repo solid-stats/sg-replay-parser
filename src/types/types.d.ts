@@ -10,3 +10,5 @@ type Replay = {
   date: string;
   serverId: number;
 };
+
+type Rotation = [startDate: Date, endDate: Date | null];
