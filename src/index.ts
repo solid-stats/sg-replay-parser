@@ -8,17 +8,21 @@ import calculateSquadStatistics from './statistics/squads';
   const replays = await getReplays();
   const parsedReplays = await parseReplays(replays);
 
-  console.log('Parsing replays completed, started collecting statistics.');
+  console.log('\nParsing replays completed, started collecting statistics:');
 
-  const globalStatistics = getGlobalStatistics(parsedReplays);
+  const globalStatistics = getGlobalStatistics(parsedReplays.slice(0, 50));
+
+  console.log('- Global player statistics collected;');
+
   const squadStatistics = calculateSquadStatistics(globalStatistics);
 
-  console.log('Statistics collected, start generating output files.');
+  console.log('- Squad statistics collected;');
+  console.log('\nAll statistics collected, start generating output files.');
 
   generateOutput({
     global: globalStatistics,
     squad: squadStatistics,
   });
 
-  console.log('Completed.');
+  console.log('\nCompleted.');
 })();
