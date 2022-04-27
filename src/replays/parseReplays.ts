@@ -1,15 +1,15 @@
-import { compareAsc } from 'date-fns';
+import { compareAsc, format } from 'date-fns';
 import pLimit from 'p-limit';
 
 import fetchData from '../fetchData';
 import parseReplayInfo from '../parseReplayInfo';
 
-const fetchReplayInfo = async (replay: Replay): Promise<PlayersListWithDate> => {
+const fetchReplayInfo = async (replay: Replay): Promise<PlayersGameResultWithDate> => {
   const replayInfo = await fetchData<ReplayInfo>(`https://replays.solidgames.ru/data/${replay.filename}.json`);
   const parsedReplayInfo = parseReplayInfo(replayInfo);
 
   console.log('——————————————————————————————');
-  console.log(`Parsed replay\nserver id: ${replay.serverId}\nmission name: ${replay.mission_name}\ndate: ${replay.date}\nfilename: ${replay.filename}`);
+  console.log(`Parsed replay\nserver id: ${replay.serverId}\nmission name: ${replay.mission_name}\ndate: ${format(replay.date, 'yyyy-MM-dd')}\nfilename: ${replay.filename}`);
   console.log('——————————————————————————————');
 
   return {
@@ -24,7 +24,7 @@ const parseReplays = async (replays: Replay[]) => {
     replays.map((replay) => limit(() => fetchReplayInfo(replay))),
   );
   const orderedParsedReplaysByDate = parsedReplays.sort(
-    (first, second) => compareAsc(new Date(first.date), new Date(second.date)),
+    (first, second) => compareAsc(first.date, second.date),
   );
 
   return orderedParsedReplaysByDate;

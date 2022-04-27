@@ -15,7 +15,12 @@ const sortPlayerStatistics = (statistics: GlobalPlayerStatistics[]): GlobalPlaye
   return sortedStatistics;
 };
 
-const getGlobalStatistics = (replays: PlayersListWithDate[]): GlobalPlayerStatistics[] => {
+const calculateGlobalStatistics = (
+  replays: PlayersGameResultWithDate[],
+  // user only in statistics by rotations
+  // to reduce the number of games needed to be in the statistics
+  gamesCount?: number,
+): GlobalPlayerStatistics[] => {
   let globalStatistics: GlobalPlayerStatistics[] = [];
 
   replays.forEach((replayInfo) => {
@@ -29,11 +34,14 @@ const getGlobalStatistics = (replays: PlayersListWithDate[]): GlobalPlayerStatis
   });
 
   const sortedStatisticsByScore = sortPlayerStatistics(globalStatistics);
+  const minGamesCount = gamesCount
+    ? (20 * gamesCount) / 100 // 20%
+    : 20;
   const filteredStatistics = sortedStatisticsByScore.filter(
-    (statistics) => statistics.totalPlayedGames > 20,
+    (statistics) => statistics.totalPlayedGames > minGamesCount,
   );
 
   return filteredStatistics;
 };
 
-export default getGlobalStatistics;
+export default calculateGlobalStatistics;

@@ -11,7 +11,7 @@ const addPlayerGameResultToWeekStatistics = (
 ): GlobalPlayerWeekStatistics[] => {
   const currentWeekStatistics = globalWeekStatistics.slice();
 
-  const parsedDate = new Date(date);
+  const parsedDate = date;
   const week = format(parsedDate, 'yyyy-ww', { weekStartsOn: 1 }) as GlobalPlayerWeekStatistics['week'];
 
   let currentStatisticsIndex = currentWeekStatistics.findIndex(

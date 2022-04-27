@@ -36,3 +36,13 @@ type GlobalSquadStatistics = {
   score: Score;
   players: Omit<GlobalPlayerStatistics, 'lastSquadPrefix' | 'byWeeks'>[];
 };
+
+type StatisticsByRotation = {
+  totalGames: number;
+  startDate: Date;
+  endDate: Date | null;
+  stats: {
+    global: GlobalPlayerStatistics[];
+    squad: GlobalSquadStatistics[];
+  }
+};
