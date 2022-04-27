@@ -6,7 +6,7 @@
   "license": "GPL-3.0-or-later",
   "scripts": {
     "start": "rimraf dist && rimraf output && tsc && node dist/index.js",
-    "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
+    "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node --files' src/index.ts",
     "lint": "eslint ./src/**/*.ts"
   },
   "author": "Afgan0r",
