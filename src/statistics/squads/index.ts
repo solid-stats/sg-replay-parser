@@ -11,6 +11,8 @@ type PlayersBySquadPrefix = Record<string, GlobalPlayerStatistics[]>;
 
 const calculateSquadStatistics = (
   globalStatistics: GlobalPlayerStatistics[],
+  // not used in calculations for global statistics
+  rotationEndDate?: Date,
 ): GlobalSquadStatistics[] => {
   const filteredStatistics = globalStatistics.filter((stats) => !isNull(stats.lastSquadPrefix));
   const playersBySquadPrefix: PlayersBySquadPrefix = groupBy(filteredStatistics, 'lastSquadPrefix');
@@ -19,7 +21,7 @@ const calculateSquadStatistics = (
   Object.keys(playersBySquadPrefix).forEach((prefix) => {
     const players = playersBySquadPrefix[prefix];
     const filteredPlayers = players.filter((player) => (
-      differenceInMonths(player.lastPlayedGameDate, new Date()) > -1
+      differenceInMonths(player.lastPlayedGameDate, rotationEndDate || new Date()) > -1
     ));
 
     if (isEmpty(filteredPlayers) || filteredPlayers.length <= 4) return;

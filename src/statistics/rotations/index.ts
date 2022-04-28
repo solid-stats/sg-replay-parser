@@ -9,7 +9,7 @@ const getStatsByRotations = (allReplays: PlayersGameResultWithDate[]): Statistic
     const [startDate, endDate] = getRotations()[index];
     const totalGames = replays.length;
     const globalStatistics = calculateGlobalStatistics(replays, totalGames);
-    const squadStatistics = calculateSquadStatistics(globalStatistics);
+    const squadStatistics = calculateSquadStatistics(globalStatistics, endDate || undefined);
 
     return {
       totalGames,
