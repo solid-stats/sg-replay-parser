@@ -47,7 +47,7 @@ type PlayerInfo = {
 };
 type PlayersList = Record<PlayerId, PlayerInfo>;
 
-type PlayersListWithDate = {
+type PlayersGameResultWithDate = {
   result: PlayersList,
   date: Replay['date'],
 };

@@ -1,75 +1,35 @@
-import { compareAsc } from 'date-fns';
-import pLimit from 'p-limit';
-
-import fetchData from './fetchData';
-import addPlayerGameResultToGlobalStatistics from './globalStatistics/add';
-import calculateSquadStatistics from './globalStatistics/squadStatistics';
 import generateOutput from './output';
-import parseReplayInfo from './parseReplay';
-import sortPlayerStatistics from './utils/sortStatistics';
-
-const processReplays = (replays: PlayersListWithDate[]): GlobalPlayerStatistics[] => {
-  let globalStatistics: GlobalPlayerStatistics[] = [];
-
-  replays.forEach((replayInfo) => {
-    Object.values(replayInfo.result).forEach((playerGameResult) => {
-      globalStatistics = addPlayerGameResultToGlobalStatistics(
-        globalStatistics,
-        playerGameResult,
-        replayInfo.date,
-      );
-    });
-  });
-
-  return globalStatistics;
-};
-
-const fetchReplayInfo = async (replay: Replay): Promise<PlayersListWithDate> => {
-  const replayInfo = await fetchData<ReplayInfo>(`https://replays.solidgames.ru/data/${replay.filename}.json`);
-  const parsedReplayInfo = parseReplayInfo(replayInfo);
-
-  console.log('——————————————————————————————');
-  console.log(`Parsed replay\nserver id: ${replay.serverId}\nmission name: ${replay.mission_name}\ndate: ${replay.date}\nfilename: ${replay.filename}`);
-  console.log('——————————————————————————————');
-
-  return {
-    result: parsedReplayInfo,
-    date: replay.date,
-  };
-};
+import getReplays from './replays/getReplays';
+import parseReplays from './replays/parseReplays';
+import calculateGlobalStatistics from './statistics/global';
+import getStatsByRotations from './statistics/rotations';
+import calculateSquadStatistics from './statistics/squads';
 
 (async () => {
-  const replays = await fetchData<Replay[]>('https://replays.solidgames.ru/Replays');
-  const sgReplays = replays.filter((replay) => (
-    replay.mission_name.includes('sg')
-    && !replay.mission_name.includes('mace')
-    && !replay.mission_name.includes('sgs')
-  ));
+  const replays = await getReplays();
+  const parsedReplays = await parseReplays(replays);
 
-  const limit = pLimit(20);
-  const parsedReplays = await Promise.all(
-    sgReplays.map((replay) => limit(() => fetchReplayInfo(replay))),
-  );
-  const orderedParsedReplaysByDate = parsedReplays.sort(
-    (first, second) => compareAsc(new Date(first.date), new Date(second.date)),
-  );
+  console.log('\nParsing replays completed, started collecting statistics:');
 
-  console.log('Parsing replays completed, started collecting statistics.');
+  const globalStatistics = calculateGlobalStatistics(parsedReplays);
 
-  const globalStatistics = processReplays(orderedParsedReplaysByDate);
-  const sortedStatisticsByScore = sortPlayerStatistics(globalStatistics);
-  const filteredStatistics = sortedStatisticsByScore.filter(
-    (statistics) => statistics.totalPlayedGames > 20,
-  );
+  console.log('- Global player statistics collected;');
 
-  const squadStatistics = calculateSquadStatistics(filteredStatistics);
+  const squadStatistics = calculateSquadStatistics(globalStatistics);
 
-  console.log('Statistics collected, start generating output files.');
+  console.log('- Squad statistics collected;');
+
+  const statisticsByRotation = getStatsByRotations(parsedReplays);
+
+  console.log('- Statistics by rotation collected;');
+
+  console.log('\nAll statistics collected, start generating output files.');
 
   generateOutput({
-    global: filteredStatistics,
+    global: globalStatistics,
     squad: squadStatistics,
+    byRotations: statisticsByRotation,
   });
 
-  console.log('Completed.');
+  console.log('\nCompleted.');
 })();

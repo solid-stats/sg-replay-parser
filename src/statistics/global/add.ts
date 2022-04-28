@@ -1,8 +1,8 @@
-import calculateKDRatio from '../utils/calculateKDRatio';
-import calculateScore from '../utils/calculateScore';
-import getPlayerName from '../utils/getPlayerName';
+import calculateKDRatio from '../../utils/calculateKDRatio';
+import calculateScore from '../../utils/calculateScore';
+import getPlayerName from '../../utils/getPlayerName';
+import { defaultStatistics } from '../consts';
 import addPlayerGameResultToWeekStatistics from './addToResultsByWeek';
-import { defaultStatistics } from './consts';
 
 const isSameNickName = (first: string, second: string) => (
   first.toLowerCase() === second.toLowerCase()
@@ -23,7 +23,7 @@ const addPlayerGameResultToGlobalStatistics = (
     const newArrLength = currentGlobalStatistics.push({
       playerName,
       lastSquadPrefix: squadPrefix,
-      lastPlayedGameDate: new Date(date),
+      lastPlayedGameDate: date,
       ...defaultStatistics,
     });
 
@@ -45,7 +45,7 @@ const addPlayerGameResultToGlobalStatistics = (
   currentGlobalStatistics[currentStatisticsIndex] = {
     ...playerStatistics,
     lastSquadPrefix: squadPrefix,
-    lastPlayedGameDate: new Date(date),
+    lastPlayedGameDate: date,
     totalPlayedGames,
     kills,
     teamkills,

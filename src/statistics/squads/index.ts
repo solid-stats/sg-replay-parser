@@ -2,7 +2,6 @@ import { differenceInMonths } from 'date-fns';
 import groupBy from 'lodash/groupBy';
 import isEmpty from 'lodash/isEmpty';
 import isNull from 'lodash/isNull';
-import omit from 'lodash/omit';
 import orderBy from 'lodash/orderBy';
 import round from 'lodash/round';
 import sumBy from 'lodash/sumBy';
@@ -11,6 +10,8 @@ type PlayersBySquadPrefix = Record<string, GlobalPlayerStatistics[]>;
 
 const calculateSquadStatistics = (
   globalStatistics: GlobalPlayerStatistics[],
+  // not used in calculations for global statistics
+  rotationEndDate?: Date,
 ): GlobalSquadStatistics[] => {
   const filteredStatistics = globalStatistics.filter((stats) => !isNull(stats.lastSquadPrefix));
   const playersBySquadPrefix: PlayersBySquadPrefix = groupBy(filteredStatistics, 'lastSquadPrefix');
@@ -19,7 +20,7 @@ const calculateSquadStatistics = (
   Object.keys(playersBySquadPrefix).forEach((prefix) => {
     const players = playersBySquadPrefix[prefix];
     const filteredPlayers = players.filter((player) => (
-      differenceInMonths(player.lastPlayedGameDate, new Date()) > -1
+      differenceInMonths(player.lastPlayedGameDate, rotationEndDate || new Date()) > -1
     ));
 
     if (isEmpty(filteredPlayers) || filteredPlayers.length <= 4) return;
@@ -29,21 +30,18 @@ const calculateSquadStatistics = (
 
   const squadStatistics: GlobalSquadStatistics[] = Object.keys(filteredPlayersBySquadPrefix).map(
     (prefix) => {
-      const players = filteredPlayersBySquadPrefix[prefix];
-      const omittedPlayers: GlobalSquadStatistics['players'] = players.map((player) => (
-        omit(player, ['lastSquadPrefix', 'byWeeks'])
-      ));
-      const kills = sumBy(players, 'kills');
-      const teamkills = sumBy(players, 'teamkills');
+      const playerStatistics = filteredPlayersBySquadPrefix[prefix];
+      const kills = sumBy(playerStatistics, 'kills');
+      const teamkills = sumBy(playerStatistics, 'teamkills');
 
-      const score = round(sumBy(players, 'totalScore') / players.length, 2);
+      const score = round(sumBy(playerStatistics, 'totalScore') / playerStatistics.length, 2);
 
       return {
         prefix,
         kills,
         teamkills,
         score,
-        players: omittedPlayers,
+        players: playerStatistics.map((stats) => stats.playerName),
       };
     },
   );

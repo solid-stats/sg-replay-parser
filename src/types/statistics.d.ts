@@ -4,7 +4,6 @@ type Deaths = number;
 type Score = number;
 
 type GlobalPlayerWeekStatistics = {
-  date: Date;
   week: `${number}${number}${number}${number}-${number}${number}`; // 2022-35
   totalPlayedGames: number;
   kills: Kills;
@@ -34,5 +33,15 @@ type GlobalSquadStatistics = {
   kills: Kills;
   teamkills: Teamkills;
   score: Score;
-  players: Omit<GlobalPlayerStatistics, 'lastSquadPrefix' | 'byWeeks'>[];
+  players: PlayerName[];
+};
+
+type StatisticsByRotation = {
+  totalGames: number;
+  startDate: Date;
+  endDate: Date | null;
+  stats: {
+    global: GlobalPlayerStatistics[];
+    squad: GlobalSquadStatistics[];
+  }
 };
