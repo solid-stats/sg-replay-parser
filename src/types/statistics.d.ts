@@ -34,7 +34,7 @@ type GlobalSquadStatistics = {
   kills: Kills;
   teamkills: Teamkills;
   score: Score;
-  players: Omit<GlobalPlayerStatistics, 'lastSquadPrefix' | 'byWeeks'>[];
+  players: PlayerName[];
 };
 
 type StatisticsByRotation = {

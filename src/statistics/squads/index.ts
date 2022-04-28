@@ -2,7 +2,6 @@ import { differenceInMonths } from 'date-fns';
 import groupBy from 'lodash/groupBy';
 import isEmpty from 'lodash/isEmpty';
 import isNull from 'lodash/isNull';
-import omit from 'lodash/omit';
 import orderBy from 'lodash/orderBy';
 import round from 'lodash/round';
 import sumBy from 'lodash/sumBy';
@@ -31,21 +30,18 @@ const calculateSquadStatistics = (
 
   const squadStatistics: GlobalSquadStatistics[] = Object.keys(filteredPlayersBySquadPrefix).map(
     (prefix) => {
-      const players = filteredPlayersBySquadPrefix[prefix];
-      const omittedPlayers: GlobalSquadStatistics['players'] = players.map((player) => (
-        omit(player, ['lastSquadPrefix', 'byWeeks'])
-      ));
-      const kills = sumBy(players, 'kills');
-      const teamkills = sumBy(players, 'teamkills');
+      const playerStatistics = filteredPlayersBySquadPrefix[prefix];
+      const kills = sumBy(playerStatistics, 'kills');
+      const teamkills = sumBy(playerStatistics, 'teamkills');
 
-      const score = round(sumBy(players, 'totalScore') / players.length, 2);
+      const score = round(sumBy(playerStatistics, 'totalScore') / playerStatistics.length, 2);
 
       return {
         prefix,
         kills,
         teamkills,
         score,
-        players: omittedPlayers,
+        players: playerStatistics.map((stats) => stats.playerName),
       };
     },
   );
