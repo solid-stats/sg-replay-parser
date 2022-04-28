@@ -2,11 +2,11 @@ import { sub } from 'date-fns';
 
 // the start date must be the beginning of the week
 const rotationsStartDates: Date[] = [
-  new Date(2020, 8, 15),
-  new Date(2021, 0, 12),
-  new Date(2021, 4, 32),
-  new Date(2021, 10, 2),
-  new Date(2022, 1, 29),
+  new Date(2020, 8, 14),
+  new Date(2021, 0, 11),
+  new Date(2021, 4, 31),
+  new Date(2021, 10, 1),
+  new Date(2022, 1, 28),
 ];
 
 const getRotations = (): Rotation[] => rotationsStartDates.map((startDate, i, arr) => {

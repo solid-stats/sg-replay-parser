@@ -4,7 +4,6 @@ type Deaths = number;
 type Score = number;
 
 type GlobalPlayerWeekStatistics = {
-  date: Date;
   week: `${number}${number}${number}${number}-${number}${number}`; // 2022-35
   totalPlayedGames: number;
   kills: Kills;

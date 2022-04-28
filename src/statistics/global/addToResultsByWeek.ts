@@ -1,5 +1,6 @@
-import { format, startOfWeek } from 'date-fns';
+import { format } from 'date-fns';
 
+import { dateFnsOptions, dateFnsOptionsWithFirstWeekDate } from '../../consts';
 import calculateKDRatio from '../../utils/calculateKDRatio';
 import calculateScore from '../../utils/calculateScore';
 import { defaultWeekStatistics } from '../consts';
@@ -11,8 +12,11 @@ const addPlayerGameResultToWeekStatistics = (
 ): GlobalPlayerWeekStatistics[] => {
   const currentWeekStatistics = globalWeekStatistics.slice();
 
-  const parsedDate = date;
-  const week = format(parsedDate, 'yyyy-ww', { weekStartsOn: 1 }) as GlobalPlayerWeekStatistics['week'];
+  const week = format(date, 'yyyy-ww', dateFnsOptionsWithFirstWeekDate) as GlobalPlayerWeekStatistics['week'];
+
+  // if (week === '2020-45') {
+  //   console.log(date, week, format(date, 'yyyy-ww', dateFnsOptions));
+  // }
 
   let currentStatisticsIndex = currentWeekStatistics.findIndex(
     (weekStatistics) => (weekStatistics.week === week),
@@ -21,7 +25,6 @@ const addPlayerGameResultToWeekStatistics = (
   if (currentStatisticsIndex === -1) {
     const newArrLength = currentWeekStatistics.push({
       week,
-      date: startOfWeek(parsedDate, { weekStartsOn: 1 }),
       ...defaultWeekStatistics,
     });
 

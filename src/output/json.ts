@@ -1,33 +1,49 @@
 import fs from 'fs';
 
-import { endOfWeek, startOfWeek } from 'date-fns';
-import omit from 'lodash/omit';
+import { endOfWeek } from 'date-fns';
 
+import { dateFnsOptions } from '../consts';
+import getWeekStartByWeekNumber from '../utils/getWeekStartByWeekNumber';
+import dateToUTC from '../utils/utc';
 import { statsFolder } from './consts';
 
-const generateJSONOutput = (statistics: StatisticsForOutput): void => {
-  const globalStatistics = statistics.global.map((stats) => ({
+const addDatesToByWeeks = (statistics: GlobalPlayerStatistics[]): GlobalPlayerStatistics[] => (
+  statistics.map((stats) => ({
     ...stats,
     byWeeks: stats.byWeeks.map((statsByWeek) => {
-      const startDate = startOfWeek(statsByWeek.date, { weekStartsOn: 1 }).toJSON();
-      const endDate = endOfWeek(statsByWeek.date, { weekStartsOn: 1 }).toJSON();
+      const startDate = getWeekStartByWeekNumber(statsByWeek.week);
+      const endDate = endOfWeek(startDate, dateFnsOptions);
 
       return {
-        startDate,
-        endDate,
-        ...omit(statsByWeek, 'date'),
+        startDate: dateToUTC(startDate).toJSON(),
+        endDate: dateToUTC(endDate).toJSON(),
+        ...statsByWeek,
       };
     }),
-  }));
+  }))
+);
 
-  const result = {
+const generateJSONOutput = (statistics: StatisticsForOutput): void => {
+  const globalStatistics = addDatesToByWeeks(statistics.global);
+
+  const stats = {
     globalStatistics,
     squadStatistics: statistics.squad,
   };
 
-  fs.writeFileSync(`${statsFolder}/stats.json`, JSON.stringify(result, null, '\t'));
+  fs.writeFileSync(`${statsFolder}/stats.json`, JSON.stringify(stats, null, '\t'));
 
-  fs.writeFileSync(`${statsFolder}/rotations_stats.json`, JSON.stringify(statistics.byRotations, null, '\t'));
+  const rotationStats = statistics.byRotations.map((statsByRotation) => ({
+    ...statsByRotation,
+    startDate: dateToUTC(statsByRotation.startDate).toJSON(),
+    endDate: statsByRotation.endDate && dateToUTC(statsByRotation.endDate).toJSON(),
+    stats: {
+      ...statsByRotation.stats,
+      global: addDatesToByWeeks(statsByRotation.stats.global),
+    },
+  }));
+
+  fs.writeFileSync(`${statsFolder}/rotations_stats.json`, JSON.stringify(rotationStats, null, '\t'));
 };
 
 export default generateJSONOutput;

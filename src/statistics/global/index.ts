@@ -1,6 +1,7 @@
 import { compareDesc } from 'date-fns';
 import orderBy from 'lodash/orderBy';
 
+import getWeekStartByWeekNumber from '../../utils/getWeekStartByWeekNumber';
 import addPlayerGameResultToGlobalStatistics from './add';
 
 const sortPlayerStatistics = (statistics: GlobalPlayerStatistics[]): GlobalPlayerStatistics[] => {
@@ -8,7 +9,10 @@ const sortPlayerStatistics = (statistics: GlobalPlayerStatistics[]): GlobalPlaye
   const sortedStatistics = sortedStatisticsByScore.map((playerStatistics) => ({
     ...playerStatistics,
     byWeeks: playerStatistics.byWeeks.sort(
-      (first, second) => compareDesc(first.date, second.date),
+      (first, second) => compareDesc(
+        getWeekStartByWeekNumber(first.week),
+        getWeekStartByWeekNumber(second.week),
+      ),
     ),
   }));
 
