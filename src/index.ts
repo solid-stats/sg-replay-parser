@@ -28,6 +28,7 @@ import calculateSquadStatistics from './statistics/squads';
   generateOutput({
     global: globalStatistics,
     squad: squadStatistics,
+    byRotations: statisticsByRotation,
   });
 
   console.log('\nCompleted.');

@@ -3,7 +3,7 @@ import fs from 'fs';
 import { endOfWeek, startOfWeek } from 'date-fns';
 import omit from 'lodash/omit';
 
-import { statsFolder } from '../consts';
+import { statsFolder } from './consts';
 
 const generateJSONOutput = (statistics: StatisticsForOutput): void => {
   const globalStatistics = statistics.global.map((stats) => ({
@@ -26,6 +26,8 @@ const generateJSONOutput = (statistics: StatisticsForOutput): void => {
   };
 
   fs.writeFileSync(`${statsFolder}/stats.json`, JSON.stringify(result, null, '\t'));
+
+  fs.writeFileSync(`${statsFolder}/rotations_stats.json`, JSON.stringify(statistics.byRotations, null, '\t'));
 };
 
 export default generateJSONOutput;
