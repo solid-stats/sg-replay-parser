@@ -6,12 +6,9 @@ This app gets all replays from https://replays.solidgames.ru/ and then calculate
 
 ## Output
 
-This application outputs 3 types of files:
-1) General statistics for all players
-2) General statistics for each squads
-3) A folder with players statistics by squads
-4) A folder with statistics by week for each player
-5) JSON file with all information
+This application outputs 2 JSON files:
+1) With global and by squad statistics
+2) Statistics by each rotation, each rotation has global and squad statistics
 
 ## Limitations
 
