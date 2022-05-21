@@ -39,7 +39,7 @@ const calculateGlobalStatistics = (
 
   const sortedStatisticsByScore = sortPlayerStatistics(globalStatistics);
   const minGamesCount = gamesCount
-    ? (20 * gamesCount) / 100 // 20%
+    ? (15 * gamesCount) / 100 // 15%
     : 20;
   const filteredStatistics = sortedStatisticsByScore.filter(
     (statistics) => statistics.totalPlayedGames > minGamesCount,
