@@ -17,6 +17,7 @@ const getKillsAndDeaths = (playersList: PlayersList, events: ReplayInfo['events'
       players[killedId] = {
         ...players[killedId],
         isDead: true,
+        isDeadByTeamkill: isSameSide,
       };
       players[killerId] = {
         ...players[killerId],

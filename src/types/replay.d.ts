@@ -43,7 +43,8 @@ type PlayerInfo = {
   side: PlayerSide;
   kills: number;
   teamkills: number;
-  isDead: Boolean;
+  isDead: boolean;
+  isDeadByTeamkill: boolean;
 };
 type PlayersList = Record<PlayerId, PlayerInfo>;
 

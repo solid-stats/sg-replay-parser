@@ -3,6 +3,7 @@ import calculateScore from '../../utils/calculateScore';
 import getPlayerName from '../../utils/getPlayerName';
 import { defaultStatistics } from '../consts';
 import addPlayerGameResultToWeekStatistics from './addToResultsByWeek';
+import { calculateDeaths } from './utils';
 
 const isSameNickName = (first: string, second: string) => (
   first.toLowerCase() === second.toLowerCase()
@@ -40,7 +41,17 @@ const addPlayerGameResultToGlobalStatistics = (
   const totalPlayedGames = playerStatistics.totalPlayedGames + 1;
   const kills = playerStatistics.kills + playerGameResult.kills;
   const teamkills = playerStatistics.teamkills + playerGameResult.teamkills;
-  const deaths = playerGameResult.isDead ? playerStatistics.deaths + 1 : playerStatistics.deaths;
+
+  const currentDeaths: Deaths = {
+    total: playerStatistics.deaths.total,
+    byTeamkills: playerStatistics.deaths.byTeamkills,
+  };
+
+  const deaths = calculateDeaths(
+    currentDeaths,
+    playerGameResult.isDead,
+    playerGameResult.isDeadByTeamkill,
+  );
 
   currentGlobalStatistics[currentStatisticsIndex] = {
     ...playerStatistics,

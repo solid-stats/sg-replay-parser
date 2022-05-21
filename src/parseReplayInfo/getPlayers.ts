@@ -4,6 +4,7 @@ const defaultPlayerInfo = {
   kills: 0,
   teamkills: 0,
   isDead: false,
+  isDeadByTeamkill: false,
 };
 
 const getPlayersInfo = ({ entities, events }: ReplayInfo): PlayersList => {

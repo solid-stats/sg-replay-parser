@@ -1,6 +1,9 @@
 type Kills = number;
 type Teamkills = number;
-type Deaths = number;
+type Deaths = {
+  total: number;
+  byTeamkills: number;
+};
 type Score = number;
 
 type GlobalPlayerWeekStatistics = {
@@ -26,7 +29,7 @@ type GlobalPlayerStatistics = {
   byWeeks: GlobalPlayerWeekStatistics[];
 };
 
-type PlayerGameResult = Pick<PlayerInfo, 'name' | 'kills' | 'teamkills' | 'isDead'>;
+type PlayerGameResult = Pick<PlayerInfo, 'name' | 'kills' | 'teamkills' | 'isDead' | 'isDeadByTeamkill'>;
 
 type GlobalSquadStatistics = {
   prefix: NonNullable<PlayerPrefix>;

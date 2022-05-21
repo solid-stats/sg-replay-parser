@@ -1,9 +1,10 @@
 import { format } from 'date-fns';
 
-import { dateFnsOptions, dateFnsOptionsWithFirstWeekDate } from '../../consts';
+import { dateFnsOptionsWithFirstWeekDate } from '../../consts';
 import calculateKDRatio from '../../utils/calculateKDRatio';
 import calculateScore from '../../utils/calculateScore';
 import { defaultWeekStatistics } from '../consts';
+import { calculateDeaths } from './utils';
 
 const addPlayerGameResultToWeekStatistics = (
   globalWeekStatistics: GlobalPlayerWeekStatistics[],
@@ -13,10 +14,6 @@ const addPlayerGameResultToWeekStatistics = (
   const currentWeekStatistics = globalWeekStatistics.slice();
 
   const week = format(date, 'yyyy-ww', dateFnsOptionsWithFirstWeekDate) as GlobalPlayerWeekStatistics['week'];
-
-  // if (week === '2020-45') {
-  //   console.log(date, week, format(date, 'yyyy-ww', dateFnsOptions));
-  // }
 
   let currentStatisticsIndex = currentWeekStatistics.findIndex(
     (weekStatistics) => (weekStatistics.week === week),
@@ -36,7 +33,16 @@ const addPlayerGameResultToWeekStatistics = (
   const totalPlayedGames = weekStatistics.totalPlayedGames + 1;
   const kills = weekStatistics.kills + playerGameResult.kills;
   const teamkills = weekStatistics.teamkills + playerGameResult.teamkills;
-  const deaths = playerGameResult.isDead ? weekStatistics.deaths + 1 : weekStatistics.deaths;
+  const currentDeaths: Deaths = {
+    total: weekStatistics.deaths.total,
+    byTeamkills: weekStatistics.deaths.byTeamkills,
+  };
+
+  const deaths = calculateDeaths(
+    currentDeaths,
+    playerGameResult.isDead,
+    playerGameResult.isDeadByTeamkill,
+  );
 
   currentWeekStatistics[currentStatisticsIndex] = {
     ...currentWeekStatistics[currentStatisticsIndex],
