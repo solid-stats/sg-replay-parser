@@ -12,6 +12,7 @@
   "author": "Afgan0r",
   "devDependencies": {
     "@types/archiver": "^5.3.1",
+    "@types/cli-progress": "^3.11.0",
     "@types/humps": "^2.0.1",
     "@types/lodash": "^4.14.181",
     "@types/node": "^17.0.24",
@@ -28,6 +29,7 @@
   },
   "dependencies": {
     "archiver": "^5.3.1",
+    "cli-progress": "^3.11.1",
     "date-fns": "^2.28.0",
     "lodash": "^4.17.21",
     "node-fetch": "2.x.x",
