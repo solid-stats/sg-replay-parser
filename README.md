@@ -4,6 +4,10 @@
 
 This app gets all replays from https://replays.solidgames.ru/ and then calculates the stats for each player and squad
 
+### Example of data usage (not my website):
+
+https://solid-stats.web.app/
+
 ## Output
 
 This application outputs 2 JSON files:
