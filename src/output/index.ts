@@ -6,7 +6,9 @@ import generateJSONOutput from './json';
 
 const generateOutput = (statistics: StatisticsForOutput): void => {
   fs.mkdirSync(statsFolder);
-  generateJSONOutput(statistics);
+  Object.keys(statistics).forEach((statsKey) => {
+    generateJSONOutput(statistics[statsKey], statsKey);
+  });
   archiveFiles();
 };
 

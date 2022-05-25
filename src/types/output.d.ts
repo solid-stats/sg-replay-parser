@@ -1,5 +1,10 @@
-type StatisticsForOutput = {
+type Statistics = {
   global: GlobalPlayerStatistics[],
   squad: GlobalSquadStatistics[],
-  byRotations: StatisticsByRotation[],
+  byRotations?: StatisticsByRotation[],
+};
+
+type StatisticsForOutput = {
+  sg: Statistics,
+  mace: Statistics,
 };

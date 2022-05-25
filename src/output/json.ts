@@ -23,7 +23,7 @@ const addDatesToByWeeks = (statistics: GlobalPlayerStatistics[]): GlobalPlayerSt
   }))
 );
 
-const generateJSONOutput = (statistics: StatisticsForOutput): void => {
+const generateJSONOutput = (statistics: Statistics, prefix: string): void => {
   const globalStatistics = addDatesToByWeeks(statistics.global);
 
   const stats = {
@@ -31,19 +31,21 @@ const generateJSONOutput = (statistics: StatisticsForOutput): void => {
     squadStatistics: statistics.squad,
   };
 
-  fs.writeFileSync(`${statsFolder}/stats.json`, JSON.stringify(stats, null, '\t'));
+  fs.writeFileSync(`${statsFolder}/${prefix}_stats.json`, JSON.stringify(stats, null, '\t'));
 
-  const rotationStats = statistics.byRotations.map((statsByRotation) => ({
-    ...statsByRotation,
-    startDate: dateToUTC(statsByRotation.startDate).toJSON(),
-    endDate: statsByRotation.endDate && dateToUTC(statsByRotation.endDate).toJSON(),
-    stats: {
-      ...statsByRotation.stats,
-      global: addDatesToByWeeks(statsByRotation.stats.global),
-    },
-  }));
+  if (statistics.byRotations) {
+    const rotationStats = statistics.byRotations.map((statsByRotation) => ({
+      ...statsByRotation,
+      startDate: dateToUTC(statsByRotation.startDate).toJSON(),
+      endDate: statsByRotation.endDate && dateToUTC(statsByRotation.endDate).toJSON(),
+      stats: {
+        ...statsByRotation.stats,
+        global: addDatesToByWeeks(statsByRotation.stats.global),
+      },
+    }));
 
-  fs.writeFileSync(`${statsFolder}/rotations_stats.json`, JSON.stringify(rotationStats, null, '\t'));
+    fs.writeFileSync(`${statsFolder}/${prefix}_rotations_stats.json`, JSON.stringify(rotationStats, null, '\t'));
+  }
 };
 
 export default generateJSONOutput;
