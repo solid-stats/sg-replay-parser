@@ -1,10 +1,12 @@
 # Stats generator for Solid Games
 
+![image](https://user-images.githubusercontent.com/46472464/170368201-75d53a23-cc63-4860-8692-2e888f443037.png)
+
 ## About
 
 This app gets all replays from https://replays.solidgames.ru/ and then calculates the stats for each player and squad
 
-### Example of data usage (not my website):
+## Example of data usage (not my website):
 
 https://solid-stats.web.app/
 
