@@ -50,7 +50,7 @@ const addPlayerGameResultToWeekStatistics = (
     kills,
     teamkills,
     deaths,
-    kdRatio: calculateKDRatio(kills, deaths),
+    kdRatio: calculateKDRatio(kills, teamkills, deaths),
     score: calculateScore(totalPlayedGames, kills, teamkills),
   };
 
