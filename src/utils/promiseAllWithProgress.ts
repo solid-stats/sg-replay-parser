@@ -1,6 +1,6 @@
 import cliProgress from 'cli-progress';
 
-const promiseAllWithProgress = <PromiseType>(
+const promiseAllWithProgress = async <PromiseType>(
   promises: Promise<PromiseType>[],
 ): Promise<Awaited<PromiseType>[]> => {
   const progress = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
@@ -17,7 +17,11 @@ const promiseAllWithProgress = <PromiseType>(
     });
   });
 
-  return Promise.all(promises);
+  const result = await Promise.all(promises);
+
+  progress.stop();
+
+  return result;
 };
 
 export default promiseAllWithProgress;
