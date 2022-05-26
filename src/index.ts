@@ -10,7 +10,7 @@ import { stopAllBarsProgress } from './utils/progressHandler';
 
 const getParsedReplays = async (gameType: GameType): Promise<PlayersGameResultWithDate[]> => {
   const replays = await getReplays(gameType);
-  const parsedReplays = await parseReplays(replays.slice(0, gameType === 'sg' ? 100 : 1000), gameType);
+  const parsedReplays = await parseReplays(replays, gameType);
 
   return parsedReplays;
 };
