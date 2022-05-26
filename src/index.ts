@@ -5,23 +5,13 @@ import calculateGlobalStatistics from './statistics/global';
 import getStatsByRotations from './statistics/rotations';
 import calculateSquadStatistics from './statistics/squads';
 
-const parseSGGames = async (): Promise<Statistics> => {
-  const replays = await getReplays();
+const countStatistics = async (gameType: GameType): Promise<Statistics> => {
+  const replays = await getReplays(gameType);
   const parsedReplays = await parseReplays(replays);
 
-  console.log('\nParsing SG replays completed, started collecting statistics:');
-
   const global = calculateGlobalStatistics(parsedReplays);
-
-  console.log('- Global player statistics collected;');
-
   const squad = calculateSquadStatistics(global);
-
-  console.log('- Squad statistics collected;');
-
-  const byRotations = getStatsByRotations(parsedReplays);
-
-  console.log('- Statistics by rotation collected;');
+  const byRotations = gameType === 'sg' ? getStatsByRotations(parsedReplays) : null;
 
   return {
     global,
@@ -31,13 +21,13 @@ const parseSGGames = async (): Promise<Statistics> => {
 };
 
 (async () => {
-  const sgStats = await parseSGGames();
+  const [sgStats, maceStats] = await Promise.all([countStatistics('sg'), countStatistics('mace')]);
 
   console.log('\nAll statistics collected, start generating output files.');
 
   generateOutput({
     sg: { ...sgStats },
-    mace: { global: [], squad: [] },
+    mace: { ...maceStats },
   });
 
   console.log('\nCompleted.');

@@ -52,3 +52,5 @@ type PlayersGameResultWithDate = {
   result: PlayersList,
   date: Replay['date'],
 };
+
+type GameType = 'sg' | 'mace';
