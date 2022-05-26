@@ -5,9 +5,13 @@ import { statsFolder } from './consts';
 import generateJSONOutput from './json';
 
 const generateOutput = (statistics: StatisticsForOutput): void => {
+  const folderNames = Object.keys(statistics);
+
   fs.mkdirSync(statsFolder);
-  generateJSONOutput(statistics);
-  archiveFiles();
+  folderNames.forEach((folderName) => {
+    generateJSONOutput(statistics[folderName], folderName);
+  });
+  archiveFiles(folderNames);
 };
 
 export default generateOutput;

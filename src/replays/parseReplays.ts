@@ -1,32 +1,45 @@
-import { compareAsc, format } from 'date-fns';
+import { compareAsc } from 'date-fns';
+import compact from 'lodash/compact';
 import pLimit from 'p-limit';
 
-import { dateFnsOptionsWithFirstWeekDate } from '../consts';
 import fetchData from '../fetchData';
 import parseReplayInfo from '../parseReplayInfo';
+import promiseAllWithProgress from '../utils/promiseAllWithProgress';
 
-const fetchReplayInfo = async (replay: Replay): Promise<PlayersGameResultWithDate> => {
-  const replayInfo = await fetchData<ReplayInfo>(`https://replays.solidgames.ru/data/${replay.filename}.json`);
-  const parsedReplayInfo = parseReplayInfo(replayInfo);
+const fetchReplayInfo = async (replay: Replay): Promise<PlayersGameResultWithDate | null> => {
+  try {
+    const replayInfo = await fetchData<ReplayInfo>(
+      `https://replays.solidgames.ru/data/${replay.filename}.json`,
+    );
+    const parsedReplayInfo = parseReplayInfo(replayInfo);
 
-  console.log('——————————————————————————————');
-  console.log(`Parsed replay\nserver id: ${replay.serverId}\nmission name: ${replay.mission_name}\ndate: ${format(replay.date, 'yyyy-MM-dd', dateFnsOptionsWithFirstWeekDate)}\nfilename: ${replay.filename}`);
-  console.log('——————————————————————————————');
+    if (Object.keys(parsedReplayInfo).length < 10) return null;
 
-  return {
-    result: parsedReplayInfo,
-    date: replay.date,
-  };
+    return {
+      result: parsedReplayInfo,
+      date: replay.date,
+    };
+  } catch (err) {
+    if (
+      !err.message.includes('unexpected character')
+      && !err.message.includes('invalid json response')
+      && !err.message.includes('connect ETIMEDOUT')
+    ) console.error(err.message);
+
+    return null;
+  }
 };
 
-const parseReplays = async (replays: Replay[]) => {
-  const limit = pLimit(20);
-  const parsedReplays = await Promise.all(
+const parseReplays = async (replays: Replay[], gameType: GameType) => {
+  const limit = pLimit(gameType === 'sg' ? 5 : 15);
+  const parsedReplays = await promiseAllWithProgress(
     replays.map((replay) => limit(() => fetchReplayInfo(replay))),
+    gameType,
   );
-  const orderedParsedReplaysByDate = parsedReplays.sort(
-    (first, second) => compareAsc(first.date, second.date),
-  );
+  // compact remove null vallues
+  const orderedParsedReplaysByDate = compact(parsedReplays).sort((first, second) => (
+    compareAsc(first.date, second.date)
+  ));
 
   return orderedParsedReplaysByDate;
 };

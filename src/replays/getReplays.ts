@@ -1,14 +1,13 @@
 import fetchData from '../fetchData';
 
-const getReplays = async (): Promise<Replay[]> => {
-  const replays = await fetchData<ReplayRaw[]>('https://replays.solidgames.ru/Replays');
-  const sgReplays = replays.filter((replay) => (
-    replay.mission_name.includes('sg')
-    && !replay.mission_name.includes('mace')
+const getReplays = async (gameType: GameType): Promise<Replay[]> => {
+  const allReplays = await fetchData<ReplayRaw[]>('https://replays.solidgames.ru/Replays');
+  const replays = allReplays.filter((replay) => (
+    replay.mission_name.includes(gameType)
     && !replay.mission_name.includes('sgs')
   ));
 
-  return sgReplays.map((replay) => ({
+  return replays.map((replay) => ({
     ...replay,
     date: new Date(replay.date),
   }));
