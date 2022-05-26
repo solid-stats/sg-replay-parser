@@ -19,3 +19,5 @@ export const dateFnsOptionsWithFirstWeekDate: DateFnsOptionsWithFirstWeekDate = 
   ...dateFnsOptions,
   firstWeekContainsDate: 4,
 };
+
+export const gameTypes: GameType[] = ['sg', 'mace'];

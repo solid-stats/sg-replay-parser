@@ -19,15 +19,22 @@ const fetchReplayInfo = async (replay: Replay): Promise<PlayersGameResultWithDat
       result: parsedReplayInfo,
       date: replay.date,
     };
-  } catch {
+  } catch (err) {
+    if (
+      !err.message.includes('unexpected character')
+      && !err.message.includes('invalid json response')
+      && !err.message.includes('connect ETIMEDOUT')
+    ) console.error(err.message);
+
     return null;
   }
 };
 
-const parseReplays = async (replays: Replay[]) => {
-  const limit = pLimit(20);
+const parseReplays = async (replays: Replay[], gameType: GameType) => {
+  const limit = pLimit(gameType === 'sg' ? 5 : 15);
   const parsedReplays = await promiseAllWithProgress(
     replays.map((replay) => limit(() => fetchReplayInfo(replay))),
+    gameType,
   );
   // compact remove null vallues
   const orderedParsedReplaysByDate = compact(parsedReplays).sort((first, second) => (

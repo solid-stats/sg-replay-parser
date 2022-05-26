@@ -54,3 +54,5 @@ type PlayersGameResultWithDate = {
 };
 
 type GameType = 'sg' | 'mace';
+
+type FormattedGameType = 'SG' | 'Mace';
