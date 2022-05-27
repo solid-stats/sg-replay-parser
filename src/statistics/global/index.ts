@@ -3,6 +3,7 @@ import orderBy from 'lodash/orderBy';
 
 import getWeekStartByWeekNumber from '../../utils/getWeekStartByWeekNumber';
 import addPlayerGameResultToGlobalStatistics from './add';
+import { combineGameResults } from './utils';
 
 const sortPlayerStatistics = (statistics: GlobalPlayerStatistics[]): GlobalPlayerStatistics[] => {
   const sortedStatisticsByScore = orderBy(statistics, 'totalScore', 'desc');
@@ -28,7 +29,9 @@ const calculateGlobalStatistics = (
   let globalStatistics: GlobalPlayerStatistics[] = [];
 
   replays.forEach((replayInfo) => {
-    Object.values(replayInfo.result).forEach((playerGameResult) => {
+    const playerGameResults = combineGameResults(Object.values(replayInfo.result));
+
+    playerGameResults.forEach((playerGameResult) => {
       globalStatistics = addPlayerGameResultToGlobalStatistics(
         globalStatistics,
         playerGameResult,
