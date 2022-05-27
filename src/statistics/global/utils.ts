@@ -22,11 +22,6 @@ export const calculateDeaths = (
 // and this leads to several additional total games played
 // in such situation we should combine those game results
 export const combineGameResults = (gameResults: PlayerInfo[]): PlayerInfo[] => {
-  console.log(gameResults.filter((val) => val.name.includes('Ferzb')));
-
-  if (gameResults.filter((val) => val.name.includes('Ferzb')).length > 1) {
-    console.log(gameResults.filter((val) => val.name.includes('Ferzb')));
-  }
   const newGameResults: PlayerInfo[] = [];
 
   gameResults.forEach((gameResult) => {
