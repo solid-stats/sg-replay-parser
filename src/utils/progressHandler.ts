@@ -1,4 +1,5 @@
 import cliProgress, { SingleBar } from 'cli-progress';
+import padEnd from 'lodash/padEnd';
 
 import { gameTypes } from '../consts';
 import formatGameType from './formatGameType';
@@ -21,13 +22,7 @@ const formatGameTypeLength = (formattedGameType: FormattedGameType) => {
 
   if (diff === 0) return label;
 
-  let resultString = label;
-
-  for (let i = 0; i < diff; i += 1) {
-    resultString += ' ';
-  }
-
-  return resultString;
+  return padEnd(label, diff);
 };
 
 const isInitialized = (gameType: GameType): boolean => {
