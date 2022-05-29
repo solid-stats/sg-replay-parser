@@ -1,7 +1,7 @@
 import cliProgress, { SingleBar } from 'cli-progress';
 import padEnd from 'lodash/padEnd';
 
-import { gameTypes } from '../consts';
+import { gameTypes } from '../0 - consts';
 import formatGameType from './formatGameType';
 
 const getLabel = (gameType: string) => `Parsing ${gameType} replays`;

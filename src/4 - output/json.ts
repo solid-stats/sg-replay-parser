@@ -2,9 +2,9 @@ import fs from 'fs';
 
 import { endOfWeek } from 'date-fns';
 
-import { dateFnsOptions } from '../consts';
-import getWeekStartByWeekNumber from '../utils/getWeekStartByWeekNumber';
-import dateToUTC from '../utils/utc';
+import { dateFnsOptions } from '../0 - consts';
+import getWeekStartByWeekNumber from '../0 - utils/getWeekStartByWeekNumber';
+import dateToUTC from '../0 - utils/utc';
 import { statsFolder } from './consts';
 
 const addDatesToByWeeks = (statistics: GlobalPlayerStatistics[]): GlobalPlayerStatistics[] => (

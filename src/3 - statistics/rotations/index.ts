@@ -1,4 +1,4 @@
-import getRotations from '../../utils/rotations';
+import getRotations from '../../0 - utils/rotations';
 import calculateGlobalStatistics from '../global';
 import calculateSquadStatistics from '../squads';
 import getReplaysGroupByRotation from './getReplaysGroupByRotation';

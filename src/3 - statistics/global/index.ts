@@ -1,7 +1,7 @@
 import { compareDesc } from 'date-fns';
 import orderBy from 'lodash/orderBy';
 
-import getWeekStartByWeekNumber from '../../utils/getWeekStartByWeekNumber';
+import getWeekStartByWeekNumber from '../../0 - utils/getWeekStartByWeekNumber';
 import addPlayerGameResultToGlobalStatistics from './add';
 import { combineGameResults } from './utils';
 

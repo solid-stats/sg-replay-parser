@@ -1,8 +1,8 @@
 import { format } from 'date-fns';
 
-import { dateFnsOptionsWithFirstWeekDate } from '../../consts';
-import calculateKDRatio from '../../utils/calculateKDRatio';
-import calculateScore from '../../utils/calculateScore';
+import { dateFnsOptionsWithFirstWeekDate } from '../../0 - consts';
+import calculateKDRatio from '../../0 - utils/calculateKDRatio';
+import calculateScore from '../../0 - utils/calculateScore';
 import { defaultWeekStatistics } from '../consts';
 import { calculateDeaths } from './utils';
 

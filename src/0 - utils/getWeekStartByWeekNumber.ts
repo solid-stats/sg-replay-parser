@@ -1,6 +1,6 @@
 import { addWeeks, getWeek, startOfWeek } from 'date-fns';
 
-import { dateFnsOptions, dateFnsOptionsWithFirstWeekDate } from '../consts';
+import { dateFnsOptions, dateFnsOptionsWithFirstWeekDate } from '../0 - consts';
 
 // example of input:
 // 2022-35

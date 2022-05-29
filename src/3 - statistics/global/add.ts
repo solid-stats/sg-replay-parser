@@ -1,6 +1,6 @@
-import calculateKDRatio from '../../utils/calculateKDRatio';
-import calculateScore from '../../utils/calculateScore';
-import getPlayerName from '../../utils/getPlayerName';
+import calculateKDRatio from '../../0 - utils/calculateKDRatio';
+import calculateScore from '../../0 - utils/calculateScore';
+import getPlayerName from '../../0 - utils/getPlayerName';
 import { defaultStatistics } from '../consts';
 import addPlayerGameResultToWeekStatistics from './addToResultsByWeek';
 import { calculateDeaths } from './utils';

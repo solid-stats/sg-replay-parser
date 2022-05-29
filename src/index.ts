@@ -1,12 +1,12 @@
-import { gameTypes } from './consts';
-import generateOutput from './output';
-import getReplays from './replays/getReplays';
-import parseReplays from './replays/parseReplays';
-import calculateGlobalStatistics from './statistics/global';
-import getStatsByRotations from './statistics/rotations';
-import calculateSquadStatistics from './statistics/squads';
-import formatGameType from './utils/formatGameType';
-import { stopAllBarsProgress } from './utils/progressHandler';
+import { gameTypes } from './0 - consts';
+import formatGameType from './0 - utils/formatGameType';
+import { stopAllBarsProgress } from './0 - utils/progressHandler';
+import getReplays from './1 - replays/getReplays';
+import parseReplays from './1 - replays/parseReplays';
+import calculateGlobalStatistics from './3 - statistics/global';
+import getStatsByRotations from './3 - statistics/rotations';
+import calculateSquadStatistics from './3 - statistics/squads';
+import generateOutput from './4 - output';
 
 const getParsedReplays = async (gameType: GameType): Promise<PlayersGameResultWithDate[]> => {
   const replays = await getReplays(gameType);

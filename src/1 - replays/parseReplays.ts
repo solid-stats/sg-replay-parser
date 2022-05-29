@@ -2,9 +2,9 @@ import { compareAsc } from 'date-fns';
 import compact from 'lodash/compact';
 import pLimit from 'p-limit';
 
-import fetchData from '../fetchData';
-import parseReplayInfo from '../parseReplayInfo';
-import promiseAllWithProgress from '../utils/promiseAllWithProgress';
+import fetchData from '../0 - utils/fetchData';
+import promiseAllWithProgress from '../0 - utils/promiseAllWithProgress';
+import parseReplayInfo from '../2 - parseReplayInfo';
 
 const fetchReplayInfo = async (replay: Replay): Promise<PlayersGameResultWithDate | null> => {
   try {
