@@ -1,3 +1,5 @@
+import { addWeaponStatistic, filterWeaponStatistics } from '../0 - utils/weaponsStatistic';
+
 const getKillsAndDeaths = (playersList: PlayersList, events: ReplayInfo['events']): PlayersList => {
   const players = { ...playersList };
 
@@ -5,7 +7,12 @@ const getKillsAndDeaths = (playersList: PlayersList, events: ReplayInfo['events'
     const eventType = event[1];
 
     if (eventType === 'killed') {
-      const [, , killedId, [killerId]] = event;
+      const [
+        , ,
+        killedId,
+        [killerId, weapon],
+        distance,
+      ] = event;
 
       const killed = players[killedId];
       const killer = players[killerId];
@@ -13,6 +20,8 @@ const getKillsAndDeaths = (playersList: PlayersList, events: ReplayInfo['events'
       if (!(killed && killer)) return;
 
       const isSameSide = killer.side === killed.side;
+      const weaponsStatistics = addWeaponStatistic(killer.weapons, weapon, distance);
+      const weapons = filterWeaponStatistics(weaponsStatistics);
 
       players[killedId] = {
         ...players[killedId],
@@ -23,6 +32,7 @@ const getKillsAndDeaths = (playersList: PlayersList, events: ReplayInfo['events'
         ...players[killerId],
         kills: isSameSide ? killer.kills : killer.kills + 1,
         teamkills: isSameSide ? killer.teamkills + 1 : killer.teamkills,
+        weapons,
       };
     }
   });

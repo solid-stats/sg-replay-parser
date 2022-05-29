@@ -45,6 +45,7 @@ type PlayerInfo = {
   teamkills: number;
   isDead: boolean;
   isDeadByTeamkill: boolean;
+  weapons: WeaponStatistic[];
 };
 type PlayersList = Record<PlayerId, PlayerInfo>;
 

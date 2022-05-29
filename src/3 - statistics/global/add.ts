@@ -1,6 +1,7 @@
 import calculateKDRatio from '../../0 - utils/calculateKDRatio';
 import calculateScore from '../../0 - utils/calculateScore';
 import getPlayerName from '../../0 - utils/getPlayerName';
+import { unionWeaponsStatistic } from '../../0 - utils/weaponsStatistic';
 import { defaultStatistics } from '../consts';
 import addPlayerGameResultToWeekStatistics from './addToResultsByWeek';
 import { calculateDeaths } from './utils';
@@ -63,6 +64,7 @@ const addPlayerGameResultToGlobalStatistics = (
     deaths,
     kdRatio: calculateKDRatio(kills, teamkills, deaths),
     totalScore: calculateScore(totalPlayedGames, kills, teamkills),
+    weapons: unionWeaponsStatistic(playerStatistics.weapons, playerGameResult.weapons),
     byWeeks: statisticsByWeek,
   };
 

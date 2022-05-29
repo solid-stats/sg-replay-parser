@@ -1,3 +1,5 @@
+import { unionWeaponsStatistic } from '../../0 - utils/weaponsStatistic';
+
 export const calculateDeaths = (
   deaths: Deaths,
   isDead: boolean,
@@ -40,6 +42,7 @@ export const combineGameResults = (gameResults: PlayerInfo[]): PlayerInfo[] => {
         teamkills: gameResult.teamkills + currentResults.teamkills,
         isDead: gameResult.isDead || currentResults.isDead,
         isDeadByTeamkill: gameResult.isDeadByTeamkill || currentResults.isDeadByTeamkill,
+        weapons: unionWeaponsStatistic(gameResult.weapons, currentResults.weapons),
       };
     } else {
       newGameResults.push(gameResult);
