@@ -9,6 +9,7 @@ export const defaultStatistics: Omit<GlobalPlayerStatistics, 'playerName' | 'las
   kdRatio: 0,
   totalScore: 0,
   byWeeks: [],
+  weapons: [],
 };
 
 export const defaultWeekStatistics: Omit<GlobalPlayerWeekStatistics, 'week' | 'date'> = {

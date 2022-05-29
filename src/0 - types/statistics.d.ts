@@ -27,9 +27,10 @@ type GlobalPlayerStatistics = {
   totalScore: Score;
   lastPlayedGameDate: Date;
   byWeeks: GlobalPlayerWeekStatistics[];
+  weapons: WeaponStatistic[];
 };
 
-type PlayerGameResult = Pick<PlayerInfo, 'name' | 'kills' | 'teamkills' | 'isDead' | 'isDeadByTeamkill'>;
+type PlayerGameResult = Omit<PlayerInfo, 'id' | 'side'>;
 
 type GlobalSquadStatistics = {
   prefix: NonNullable<PlayerPrefix>;
