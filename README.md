@@ -31,7 +31,7 @@ yarn install
 ```
 2. Start parsing replays
 ```sh
-yarn start
+yarn build
 ```
 3) Get statistics from folder `output`
 
@@ -59,11 +59,7 @@ If you find bugs in the app or want to suggest new features, you should open the
 
 If you want to change the code, you can fork this repository or open a pull request
 
-In order to start development, you should install NodeJS and yarn, and then start app in dev mode:
-
-```sh
-yarn dev
-```
+In order to start development, you should install NodeJS and yarn, and then start parsing by using [those steps](#how-to-get-statistics).
 
 ## Contacts
 
