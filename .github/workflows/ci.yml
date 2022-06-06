@@ -15,7 +15,7 @@ jobs:
     - uses: c-hive/gha-yarn-cache@v2
     - run: yarn install
     - run: yarn lint
-    
+
   tests:
     runs-on: ubuntu-latest
     name: Tests
