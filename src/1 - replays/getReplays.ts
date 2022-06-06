@@ -12,8 +12,6 @@ const getReplays = async (gameType: GameType): Promise<Replay[]> => {
     ),
   );
 
-  
-
   return replays.map((replay) => ({
     ...replay,
     date: new Date(replay.date),
