@@ -2,10 +2,10 @@ import fs from 'fs';
 
 import { endOfWeek } from 'date-fns';
 
-import { dateFnsOptions } from '../0 - consts';
+import { dateFnsOptions, outputFolder } from '../0 - consts';
+import createFolder from '../0 - utils/createFolder';
 import getWeekStartByWeekNumber from '../0 - utils/getWeekStartByWeekNumber';
 import dateToUTC from '../0 - utils/utc';
-import { statsFolder } from './consts';
 
 const addDatesToByWeeks = (statistics: GlobalPlayerStatistics[]): GlobalPlayerStatistics[] => (
   statistics.map((stats) => ({
@@ -24,9 +24,9 @@ const addDatesToByWeeks = (statistics: GlobalPlayerStatistics[]): GlobalPlayerSt
 );
 
 const generateJSONOutput = (statistics: Statistics, folderName: string): void => {
-  const folderPath = `${statsFolder}/${folderName}`;
+  const folderPath = `${outputFolder}/${folderName}`;
 
-  fs.mkdirSync(folderPath);
+  createFolder(folderPath);
 
   const globalStatistics = addDatesToByWeeks(statistics.global);
 

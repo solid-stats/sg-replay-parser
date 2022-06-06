@@ -21,3 +21,11 @@ export const dateFnsOptionsWithFirstWeekDate: DateFnsOptionsWithFirstWeekDate = 
 };
 
 export const gameTypes: GameType[] = ['sg', 'mace'];
+
+export const outputFolder = 'output';
+
+export const parsedReplaysFileName = 'parsed_missions.json';
+
+export const getParsedReplaysPath = (gameType: GameType): string => (
+  `${outputFolder}/${gameType}/${parsedReplaysFileName}`
+);

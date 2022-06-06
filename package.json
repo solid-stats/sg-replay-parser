@@ -5,7 +5,7 @@
   "main": "index.js",
   "license": "GPL-3.0-or-later",
   "scripts": {
-    "build": "rimraf dist && rimraf output && tsc --project tsconfig.build.json && node dist/index.js",
+    "build": "rimraf dist && tsc --project tsconfig.build.json && node dist/index.js",
     "lint": "eslint ./src/**/*.ts",
     "test": "jest --coverage",
     "test:watch": "jest --watch"

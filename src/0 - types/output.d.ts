@@ -4,7 +4,6 @@ type Statistics = {
   byRotations: StatisticsByRotation[] | null,
 };
 
-type StatisticsForOutput = {
-  sg: Statistics,
-  mace: Statistics,
-};
+type StatisticsForOutput = Record<GameType, Statistics>;
+
+type ParsedReplays = Record<GameType, AlreadyParsedReplays>;

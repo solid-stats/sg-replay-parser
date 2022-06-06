@@ -18,6 +18,7 @@ const fetchReplayInfo = async (replay: Replay): Promise<PlayersGameResultWithDat
     return {
       result: parsedReplayInfo,
       date: replay.date,
+      id: replay.id,
     };
   } catch (err) {
     if (
@@ -31,7 +32,7 @@ const fetchReplayInfo = async (replay: Replay): Promise<PlayersGameResultWithDat
 };
 
 const parseReplays = async (replays: Replay[], gameType: GameType) => {
-  const limit = pLimit(gameType === 'sg' ? 10 : 20);
+  const limit = pLimit(gameType === 'sg' ? 10 : 30);
   const parsedReplays = await promiseAllWithProgress(
     replays.map((replay) => limit(() => fetchReplayInfo(replay))),
     gameType,

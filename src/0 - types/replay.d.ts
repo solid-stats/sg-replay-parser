@@ -52,8 +52,11 @@ type PlayersList = Record<PlayerId, PlayerInfo>;
 type PlayersGameResultWithDate = {
   result: PlayersList,
   date: Replay['date'],
+  id: Replay['id'],
 };
 
 type GameType = 'sg' | 'mace';
 
 type FormattedGameType = 'SG' | 'Mace';
+
+type AlreadyParsedReplays = Array<Replay['id']>;
