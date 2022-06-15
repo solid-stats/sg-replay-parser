@@ -20,7 +20,11 @@ const getKillsAndDeaths = (playersList: PlayersList, events: ReplayInfo['events'
       if (!(killed && killer)) return;
 
       const isSameSide = killer.side === killed.side;
-      const weaponsStatistics = addWeaponStatistic(killer.weapons, weapon, distance);
+      const isSuicide = killedId === killerId;
+
+      const weaponsStatistics = isSameSide || isSuicide
+        ? killer.weapons
+        : addWeaponStatistic(killer.weapons, weapon, distance);
       const weapons = filterWeaponStatistics(weaponsStatistics);
 
       players[killedId] = {
