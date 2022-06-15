@@ -13,7 +13,13 @@ const fetchReplayInfo = async (replay: Replay): Promise<PlayersGameResultWithDat
     );
     const parsedReplayInfo = parseReplayInfo(replayInfo);
 
-    if (Object.keys(parsedReplayInfo).length < 10) return null;
+    if (Object.keys(parsedReplayInfo).length < 10) {
+      return {
+        result: [],
+        date: replay.date,
+        id: replay.id,
+      };
+    }
 
     return {
       result: parsedReplayInfo,
@@ -32,7 +38,7 @@ const fetchReplayInfo = async (replay: Replay): Promise<PlayersGameResultWithDat
 };
 
 const parseReplays = async (replays: Replay[], gameType: GameType) => {
-  const limit = pLimit(gameType === 'sg' ? 10 : 30);
+  const limit = pLimit(gameType === 'sg' ? 5 : 15);
   const parsedReplays = await promiseAllWithProgress(
     replays.map((replay) => limit(() => fetchReplayInfo(replay))),
     gameType,
