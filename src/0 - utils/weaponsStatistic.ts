@@ -1,4 +1,4 @@
-const forbiddenWeapons = ['throw', 'binoculars'];
+const forbiddenWeapons = ['throw', 'binoculars', 'бинокль'];
 
 export const filterWeaponStatistics = (stats: WeaponStatistic[]): WeaponStatistic[] => (
   stats.filter(
