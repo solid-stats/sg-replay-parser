@@ -32,7 +32,7 @@ const limitWeaponsStatisticsCount = (
 
 const calculateGlobalStatistics = (
   replays: PlayersGameResultWithDate[],
-  // user only in statistics by rotations
+  // used only in statistics by rotations
   // to reduce the number of games needed to be in the statistics
   gamesCount?: number,
 ): GlobalPlayerStatistics[] => {
@@ -59,6 +59,8 @@ const calculateGlobalStatistics = (
       );
     });
   });
+
+  console.log(globalStatistics.find((stats) => stats.playerName.toLowerCase().includes('anis')));
 
   const resultStatistics = pipe(
     sortPlayerStatistics,
