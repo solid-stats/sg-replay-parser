@@ -29,3 +29,7 @@ export const parsedReplaysFileName = 'parsed_missions.json';
 export const getParsedReplaysPath = (gameType: GameType): string => (
   `${outputFolder}/${gameType}/${parsedReplaysFileName}`
 );
+
+export const statsFileName = 'stats.json';
+
+export const rotationsStatsFileName = 'rotations_stats.json';

@@ -10,6 +10,7 @@ import parseReplays from './1 - replays/parseReplays';
 import calculateGlobalStatistics from './3 - statistics/global';
 import getStatsByRotations from './3 - statistics/rotations';
 import calculateSquadStatistics from './3 - statistics/squads';
+import getAlreadyParsedStats from './3.1 - getAlreadyParsedStats';
 import generateOutput from './4 - output';
 
 const readAlreadyParsedReplaysFile = (gameType: GameType): AlreadyParsedReplays | null => {
@@ -77,6 +78,8 @@ const countStatistics = (
   stopAllBarsProgress();
 
   console.log('\nAll replays parsed, start collecting statistics:');
+
+  getAlreadyParsedStats();
 
   const parsedReplays: Record<GameType, PlayersGameResultWithDate[]> = {
     sg: sgParsedReplays,
