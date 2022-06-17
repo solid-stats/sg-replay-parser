@@ -60,8 +60,6 @@ const calculateGlobalStatistics = (
     });
   });
 
-  console.log(globalStatistics.find((stats) => stats.playerName.toLowerCase().includes('anis')));
-
   const resultStatistics = pipe(
     sortPlayerStatistics,
     filterPlayersByTotalPlayedGames,
