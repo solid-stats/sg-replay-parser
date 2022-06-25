@@ -4,11 +4,12 @@ const calculateScore = (
   totalPlayedGames: GlobalPlayerStatistics['totalPlayedGames'],
   kills: GlobalPlayerStatistics['kills'],
   teamkills: GlobalPlayerStatistics['teamkills'],
+  deaths: Deaths,
 ): GlobalPlayerStatistics['totalScore'] => {
   const totalScore = kills - teamkills;
-  const scoreDividedByTotalPlayedGames = totalScore / totalPlayedGames;
+  const gamesCount = totalPlayedGames - deaths.byTeamkills;
 
-  return round(scoreDividedByTotalPlayedGames, 2);
+  return round(totalScore / gamesCount, 2);
 };
 
 export default calculateScore;

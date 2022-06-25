@@ -63,7 +63,7 @@ const addPlayerGameResultToGlobalStatistics = (
     teamkills,
     deaths,
     kdRatio: calculateKDRatio(kills, teamkills, deaths),
-    totalScore: calculateScore(totalPlayedGames, kills, teamkills),
+    totalScore: calculateScore(totalPlayedGames, kills, teamkills, deaths),
     weapons: unionWeaponsStatistic(playerStatistics.weapons, playerGameResult.weapons),
     byWeeks: statisticsByWeek,
   };
