@@ -7,6 +7,7 @@ const rotationsStartDates: Date[] = [
   new Date(2021, 4, 31),
   new Date(2021, 10, 1),
   new Date(2022, 1, 28),
+  new Date(2022, 6, 4),
 ];
 
 const getRotations = (): Rotation[] => rotationsStartDates.map((startDate, i, arr) => {
