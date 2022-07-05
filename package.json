@@ -25,7 +25,6 @@
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-plugin-import": "^2.25.2",
     "jest": "^28.1.0",
-    "nodemon": "^2.0.15",
     "rimraf": "^3.0.2",
     "ts-jest": "^28.0.4",
     "ts-node": "^10.7.0",
