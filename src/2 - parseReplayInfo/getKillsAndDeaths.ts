@@ -30,12 +30,12 @@ const getKillsAndDeaths = (playersList: PlayersList, events: ReplayInfo['events'
       players[killedId] = {
         ...players[killedId],
         isDead: true,
-        isDeadByTeamkill: isSameSide,
+        isDeadByTeamkill: isSuicide ? false : isSameSide,
       };
       players[killerId] = {
         ...players[killerId],
-        kills: isSameSide ? killer.kills : killer.kills + 1,
-        teamkills: isSameSide ? killer.teamkills + 1 : killer.teamkills,
+        kills: isSameSide || isSuicide ? killer.kills : killer.kills + 1,
+        teamkills: isSameSide && !isSuicide ? killer.teamkills + 1 : killer.teamkills,
         weapons,
       };
     }
