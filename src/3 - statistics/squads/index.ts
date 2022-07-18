@@ -3,8 +3,9 @@ import groupBy from 'lodash/groupBy';
 import isEmpty from 'lodash/isEmpty';
 import isNull from 'lodash/isNull';
 import orderBy from 'lodash/orderBy';
-import round from 'lodash/round';
 import sumBy from 'lodash/sumBy';
+
+import calculateSquadScore from '../../0 - utils/calculateSquadScore';
 
 type PlayersBySquadPrefix = Record<string, GlobalPlayerStatistics[]>;
 
@@ -34,7 +35,7 @@ const calculateSquadStatistics = (
       const kills = sumBy(playerStatistics, 'kills');
       const teamkills = sumBy(playerStatistics, 'teamkills');
 
-      const score = round(sumBy(playerStatistics, 'totalScore') / playerStatistics.length, 2);
+      const score = calculateSquadScore(playerStatistics);
 
       return {
         prefix,
