@@ -43,6 +43,26 @@ const tests: TestData[] = [
     },
     result: 2.63,
   },
+  {
+    playedGames: 2,
+    kills: 0,
+    teamkills: 0,
+    deaths: {
+      byTeamkills: 2,
+      total: 0,
+    },
+    result: 0,
+  },
+  {
+    playedGames: 2,
+    kills: 4,
+    teamkills: 0,
+    deaths: {
+      byTeamkills: 2,
+      total: 0,
+    },
+    result: 4,
+  },
 ];
 
 tests.map(({

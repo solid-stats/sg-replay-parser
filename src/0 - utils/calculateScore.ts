@@ -9,6 +9,8 @@ const calculateScore = (
   const totalScore = kills - teamkills;
   const gamesCount = totalPlayedGames - deaths.byTeamkills;
 
+  if (gamesCount <= 0) return totalScore;
+
   return round(totalScore / gamesCount, 2);
 };
 
