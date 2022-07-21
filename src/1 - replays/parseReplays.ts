@@ -9,7 +9,7 @@ import parseReplayInfo from '../2 - parseReplayInfo';
 const fetchReplayInfo = async (replay: Replay): Promise<PlayersGameResultWithDate | null> => {
   try {
     const replayInfo = await fetchData<ReplayInfo>(
-      `https://replays.solidgames.ru/data/${replay.filename}.json`,
+      `https://solidgames.ru/data/${replay.filename}.json`,
     );
     const parsedReplayInfo = parseReplayInfo(replayInfo);
 

@@ -21,3 +21,5 @@ export const dateFnsOptionsWithFirstWeekDate: DateFnsOptionsWithFirstWeekDate = 
 };
 
 export const gameTypes: GameType[] = ['sg', 'mace'];
+
+export const replaysListFileName = 'replaysList.json';

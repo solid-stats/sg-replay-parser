@@ -3,13 +3,11 @@ type PlayerPrefix = string | null;
 type Weapon = string;
 
 type ReplayRaw = {
-  id: string;
-  world_name: string;
   mission_name: string;
-  mission_duration: number;
-  filename: string;
-  date: string;
+  world_name: string;
   serverId: number;
+  date: string;
+  filename: string;
 };
 
 type Replay = Omit<ReplayRaw, 'date'> & { date: Date };

@@ -1,9 +1,18 @@
+import fs from 'fs';
+
 import uniqBy from 'lodash/uniqBy';
 
-import fetchData from '../0 - utils/fetchData';
+import { replaysListFileName } from '../0 - consts';
 
 const getReplays = async (gameType: GameType): Promise<Replay[]> => {
-  const allReplays = await fetchData<ReplayRaw[]>('https://replays.solidgames.ru/Replays');
+  let allReplays: ReplayRaw[] = [];
+
+  try {
+    allReplays = JSON.parse(fs.readFileSync(replaysListFileName, 'utf8'));
+  } catch {
+    throw new Error(`${replaysListFileName} not found, start prepare-replays job first.`);
+  }
+
   const uniqueReplays = uniqBy(allReplays, 'filename');
   const replays = uniqueReplays.filter(
     (replay) => (

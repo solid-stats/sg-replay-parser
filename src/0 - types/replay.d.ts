@@ -33,8 +33,8 @@ type ReplayInfo = {
   EditorMarkers: any[];
   Markers: any[];
   missionAuthor: string;
-  missionName: string;
-  worldName: string;
+  mission_name: string;
+  world_name: string;
 };
 
 type PlayerInfo = {

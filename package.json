@@ -5,7 +5,9 @@
   "main": "index.js",
   "license": "GPL-3.0-or-later",
   "scripts": {
-    "build": "rimraf dist && rimraf output && tsc --project tsconfig.build.json && node dist/index.js",
+    "build-dist": "rimraf dist && tsc --project tsconfig.build.json",
+    "build": "yarn build-dist && rimraf output && node dist/index.js",
+    "prepare-replays": "yarn build-dist && node dist/!prepareReplaysList/index.js",
     "lint": "eslint ./src/**/*.ts",
     "test": "jest --coverage",
     "test:watch": "jest --watch"
@@ -16,6 +18,7 @@
     "@types/cli-progress": "^3.11.0",
     "@types/humps": "^2.0.1",
     "@types/jest": "^28.1.1",
+    "@types/jsdom": "^16.2.13",
     "@types/lodash": "^4.14.181",
     "@types/node": "^17.0.24",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
@@ -34,6 +37,7 @@
     "archiver": "^5.3.1",
     "cli-progress": "^3.11.1",
     "date-fns": "^2.28.0",
+    "jsdom": "17.0.0",
     "lodash": "^4.17.21",
     "node-fetch": "2.x.x",
     "p-limit": "3.1.0"
