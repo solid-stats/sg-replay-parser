@@ -10,7 +10,8 @@ export const calculateDeaths = (
 
   if (isDead) {
     if (isDeadByTeamkill) deathsByTeamkills += 1;
-    else totalDeaths += 1;
+
+    totalDeaths += 1;
   }
 
   return {
