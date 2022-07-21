@@ -1,13 +1,13 @@
 import calculateKDRatio from '../../../0 - utils/calculateKDRatio';
 
-type Tests = {
+type TestData = {
   kills: Kills;
   teamkills: Teamkills;
   deaths: Deaths;
   result: number;
 };
 
-const tests: Tests[] = [
+const tests: TestData[] = [
   {
     kills: 0,
     teamkills: 0,

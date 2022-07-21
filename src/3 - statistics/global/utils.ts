@@ -1,10 +1,16 @@
 import { unionWeaponsStatistic } from '../../0 - utils/weaponsStatistic';
 
-export const calculateDeaths = (
+type Params = {
   deaths: Deaths,
   isDead: boolean,
   isDeadByTeamkill: boolean,
-): Deaths => {
+};
+
+export const calculateDeaths = ({
+  deaths,
+  isDead,
+  isDeadByTeamkill,
+}: Params): Deaths => {
   let totalDeaths = deaths.total;
   let deathsByTeamkills = deaths.byTeamkills;
 
