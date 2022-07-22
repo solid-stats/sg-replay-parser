@@ -8,6 +8,7 @@ type ReplayRaw = {
   serverId: number;
   date: string;
   filename: string;
+  replayLink: string;
 };
 
 type Replay = Omit<ReplayRaw, 'date'> & { date: Date };

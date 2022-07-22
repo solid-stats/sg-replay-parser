@@ -24,12 +24,14 @@ const decodeMissionGameType = (encodedMissionGameType: string) => {
   return result;
 };
 
-const parseTableRowInfo = async (el: Element): Promise<ReplayRaw | null> => {
+const parseTableRowInfo = async (el: Element, alreadyParsedReplays: Output['parsedReplays']): Promise<ReplayRaw | null> => {
   const tableCells = el.getElementsByTagName('td');
   const linkElement = el.querySelector('a');
   const replayLink = linkElement?.getAttribute('href');
 
   if (!(linkElement && linkElement.textContent) || !replayLink) return null;
+
+  if (alreadyParsedReplays.includes(replayLink)) return null;
 
   const encodedMissionsGameType = linkElement.querySelector('span')?.getAttribute('data-cfemail');
 
@@ -53,18 +55,25 @@ const parseTableRowInfo = async (el: Element): Promise<ReplayRaw | null> => {
     date,
     serverId: parseInt(tableCells[2].textContent || '', 10) || 0,
     world_name: tableCells[1].textContent || 'unknown',
+    replayLink,
   };
 };
 
-const parseReplaysOnPage = async (dom: Document): Promise<ReplayRaw[]> => {
+const parseReplaysOnPage = async (dom: Document, alreadyParsedReplays: Output['parsedReplays']): Promise<Output> => {
   const replaysList = Array.from(dom.querySelectorAll('.common-table > tbody > tr'));
 
-  const limit = pLimit(10);
-  const result: Array<ReplayRaw | null> = await Promise.all(
-    replaysList.map((replay) => limit(() => parseTableRowInfo(replay))),
+  const limit = pLimit(15);
+  const rawReplays = await Promise.all(
+    replaysList.map((replay) => limit(() => parseTableRowInfo(replay, alreadyParsedReplays))),
   );
+  const replays = compact(rawReplays);
+  const parsedReplays = replays.map((val) => val.replayLink);
 
-  return compact(result);
+  return {
+    parsedReplays,
+    replays,
+    problematicReplays: [],
+  };
 };
 
 export default parseReplaysOnPage;

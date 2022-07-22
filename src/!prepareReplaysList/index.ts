@@ -3,14 +3,29 @@
 import fs from 'fs';
 
 import cliProgress from 'cli-progress';
+import union from 'lodash/union';
 
 import { replaysListFileName } from '../0 - consts';
 import parseReplaysOnPage from './parseReplaysOnPage';
+import checks from './utils/checks';
 import fetchReplaysPage from './utils/fetchReplaysPage';
 import parseDOM from './utils/parseDOM';
+import processProblematicReplays from './utils/problematicReplays';
+import unionReplaysInfo from './utils/unionReplaysInfo';
+
+const readReplaysListFile = (): Output => JSON.parse(fs.readFileSync(replaysListFileName, 'utf8'));
 
 (async () => {
-  let result: ReplayRaw[] = [];
+  const replaysList = readReplaysListFile();
+
+  console.log(`Found ${replaysList.parsedReplays.length} parsed replays and ${replaysList.problematicReplays.length} problematic replays. Start preparing new replays list`);
+  console.log('');
+
+  let result: Output = {
+    parsedReplays: [],
+    replays: [],
+    problematicReplays: [],
+  };
   const bar = new cliProgress.SingleBar({
     format: 'Pages parsed | {bar} {percentage}% | ETA: {eta}s | {value}/{total} pages',
   });
@@ -26,14 +41,29 @@ import parseDOM from './utils/parseDOM';
       ? dom
       : parseDOM(await fetchReplaysPage(page));
 
-    const newReplays = await parseReplaysOnPage(pageDom);
+    const newReplays = await parseReplaysOnPage(pageDom, replaysList.parsedReplays);
 
-    result = [...result, ...newReplays];
+    result = {
+      ...result,
+      parsedReplays: union(result.parsedReplays, newReplays.parsedReplays),
+      replays: union(result.replays, newReplays.replays),
+    };
 
-    if (page <= totalPages) bar.increment();
+    if (page < totalPages) bar.increment();
   }
 
   bar.stop();
+
+  result = processProblematicReplays(result);
+
+  console.log('');
+  console.log(`Found: ${result.parsedReplays.length} new replays and ${result.problematicReplays.length} problematic replays.`);
+
+  result = unionReplaysInfo(replaysList, result);
+
+  checks(result);
+
+  console.log(`Total replays: ${result.parsedReplays.length}.`);
 
   fs.writeFileSync(replaysListFileName, JSON.stringify(result, null, '\t'));
 })();

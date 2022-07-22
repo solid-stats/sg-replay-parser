@@ -8,7 +8,9 @@ const getReplays = async (gameType: GameType): Promise<Replay[]> => {
   let allReplays: ReplayRaw[] = [];
 
   try {
-    allReplays = JSON.parse(fs.readFileSync(replaysListFileName, 'utf8'));
+    const fileContents = JSON.parse(fs.readFileSync(replaysListFileName, 'utf8')) as Output;
+
+    allReplays = fileContents.replays;
   } catch {
     throw new Error(`${replaysListFileName} not found, start prepare-replays job first.`);
   }
