@@ -38,11 +38,11 @@ const addPlayerGameResultToWeekStatistics = (
     byTeamkills: weekStatistics.deaths.byTeamkills,
   };
 
-  const deaths = calculateDeaths(
-    currentDeaths,
-    playerGameResult.isDead,
-    playerGameResult.isDeadByTeamkill,
-  );
+  const deaths = calculateDeaths({
+    deaths: currentDeaths,
+    isDead: playerGameResult.isDead,
+    isDeadByTeamkill: playerGameResult.isDeadByTeamkill,
+  });
 
   currentWeekStatistics[currentStatisticsIndex] = {
     ...currentWeekStatistics[currentStatisticsIndex],
