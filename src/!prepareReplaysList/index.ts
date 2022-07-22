@@ -13,7 +13,19 @@ import parseDOM from './utils/parseDOM';
 import processProblematicReplays from './utils/problematicReplays';
 import unionReplaysInfo from './utils/unionReplaysInfo';
 
-const readReplaysListFile = (): Output => JSON.parse(fs.readFileSync(replaysListFileName, 'utf8'));
+const defaultEmptyOutput: Output = {
+  parsedReplays: [],
+  replays: [],
+  problematicReplays: [],
+};
+
+const readReplaysListFile = (): Output => {
+  try {
+    return JSON.parse(fs.readFileSync(replaysListFileName, 'utf8'));
+  } catch {
+    return { ...defaultEmptyOutput };
+  }
+};
 
 (async () => {
   const replaysList = readReplaysListFile();
@@ -21,11 +33,7 @@ const readReplaysListFile = (): Output => JSON.parse(fs.readFileSync(replaysList
   console.log(`Found ${replaysList.parsedReplays.length} already parsed replays and ${replaysList.problematicReplays.length} problematic replays. Start preparing new replays list`);
   console.log('');
 
-  let result: Output = {
-    parsedReplays: [],
-    replays: [],
-    problematicReplays: [],
-  };
+  let result: Output = { ...defaultEmptyOutput };
   const bar = new cliProgress.SingleBar({
     format: 'Pages parsed | {bar} {percentage}% | ETA: {eta}s | {value}/{total} pages',
   });
