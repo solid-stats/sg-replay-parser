@@ -18,7 +18,7 @@ const readReplaysListFile = (): Output => JSON.parse(fs.readFileSync(replaysList
 (async () => {
   const replaysList = readReplaysListFile();
 
-  console.log(`Found ${replaysList.parsedReplays.length} parsed replays and ${replaysList.problematicReplays.length} problematic replays. Start preparing new replays list`);
+  console.log(`Found ${replaysList.parsedReplays.length} already parsed replays and ${replaysList.problematicReplays.length} problematic replays. Start preparing new replays list`);
   console.log('');
 
   let result: Output = {
@@ -58,6 +58,7 @@ const readReplaysListFile = (): Output => JSON.parse(fs.readFileSync(replaysList
 
   console.log('');
   console.log(`Found: ${result.parsedReplays.length} new replays and ${result.problematicReplays.length} problematic replays.`);
+  console.log('');
 
   result = unionReplaysInfo(replaysList, result);
 

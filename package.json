@@ -5,9 +5,10 @@
   "main": "index.js",
   "license": "GPL-3.0-or-later",
   "scripts": {
-    "build-dist": "rimraf dist && tsc --project tsconfig.build.json",
-    "build": "yarn build-dist && rimraf output && node dist/index.js",
+    "build-dist": "rimraf dist && rimraf output && tsc --project tsconfig.build.json",
+    "build": "yarn build-dist && node dist/index.js",
     "prepare-replays": "yarn build-dist && node dist/!prepareReplaysList/index.js",
+    "build-with-prepare": "yarn build-dist && node dist/!prepareReplaysList/index.js && node dist/index.js",
     "lint": "eslint ./src/**/*.ts",
     "test": "jest --coverage",
     "test:watch": "jest --watch"
