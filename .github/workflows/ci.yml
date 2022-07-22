@@ -16,6 +16,15 @@ jobs:
     - run: yarn install
     - run: yarn lint
 
+  tsc:
+    runs-on: ubuntu-latest
+    name: Types check
+    steps:
+    - uses: actions/checkout@v3
+    - uses: c-hive/gha-yarn-cache@v2
+    - run: yarn install
+    - run: yarn tsc
+
   tests:
     runs-on: ubuntu-latest
     name: Tests
