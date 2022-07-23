@@ -46,6 +46,7 @@ export const combineGameResults = (gameResults: PlayerInfo[]): PlayerInfo[] => {
         name: gameResult.name,
         side: gameResult.side,
         kills: gameResult.kills + currentResults.kills,
+        vehicleKills: gameResult.vehicleKills + currentResults.vehicleKills,
         teamkills: gameResult.teamkills + currentResults.teamkills,
         isDead: gameResult.isDead || currentResults.isDead,
         isDeadByTeamkill: gameResult.isDeadByTeamkill || currentResults.isDeadByTeamkill,

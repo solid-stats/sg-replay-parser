@@ -32,6 +32,7 @@ const addPlayerGameResultToWeekStatistics = (
 
   const totalPlayedGames = weekStatistics.totalPlayedGames + 1;
   const kills = weekStatistics.kills + playerGameResult.kills;
+  const vehicleKills = weekStatistics.vehicleKills + playerGameResult.vehicleKills;
   const teamkills = weekStatistics.teamkills + playerGameResult.teamkills;
   const currentDeaths: Deaths = {
     total: weekStatistics.deaths.total,
@@ -48,6 +49,7 @@ const addPlayerGameResultToWeekStatistics = (
     ...currentWeekStatistics[currentStatisticsIndex],
     totalPlayedGames,
     kills,
+    vehicleKills,
     teamkills,
     deaths,
     kdRatio: calculateKDRatio(kills, teamkills, deaths),

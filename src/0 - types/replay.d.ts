@@ -1,26 +1,31 @@
 type Frame = number;
 
-type PlayerId = number;
-type PlayerSide = 'EAST' | 'WEST' | 'GUER' | 'CIV';
+type EntityId = number;
+type EntitySide = 'EAST' | 'WEST' | 'GUER' | 'CIV' | 'UNKNWON';
 
 type KillerWeaponName = string;
 type Distance = number;
-type KilledPlayerId = PlayerId;
-type KillerPlayerId = PlayerId;
+type KilledEntityId = EntityId;
+type KillerEntityId = EntityId;
 
-type ConnectEvent = [Frame, 'connected' | 'disconnected', PlayerName, PlayerId | undefined];
-type KillEvent = [Frame, 'killed', KilledPlayerId, [KillerPlayerId, KillerWeaponName], Distance];
+type ConnectEvent = [Frame, 'connected' | 'disconnected', PlayerName, EntityId | undefined];
+type KillEvent = [Frame, 'killed', KilledEntityId, [KillerEntityId, KillerWeaponName], Distance];
+
+type RawVehicleClass = 'parachute' | 'car' | 'truck' | 'plane' | 'sea' | 'apc' | 'heli' | 'tank' | 'static-weapon';
+type VehicleClass = Omit<RawVehicleClass, 'parachute' | 'static-weapon' | 'sea'>;
+type VehiclePositions = [unkwn: unknown[], unkwn: unknown, unkwn: unknown, playersInside: number[]];
 
 type Entity = {
   description: string;
   framesFires: any[];
   isPlayer: 0 | 1;
   type: 'unit' | 'vehicle';
+  class: RawVehicleClass;
   startFrameNum: number;
-  positions: any[];
-  side: PlayerSide;
-  id: PlayerId;
-  name: PlayerName;
+  positions: VehiclePositions[];
+  side: EntitySide;
+  id: EntityId;
+  name: EntityName;
   group: string;
 };
 
@@ -38,16 +43,30 @@ type ReplayInfo = {
 };
 
 type PlayerInfo = {
-  id: PlayerId;
+  id: EntityId;
   name: PlayerName;
-  side: PlayerSide;
+  side: EntitySide;
   kills: number;
+  vehicleKills: number;
   teamkills: number;
   isDead: boolean;
   isDeadByTeamkill: boolean;
   weapons: WeaponStatistic[];
 };
-type PlayersList = Record<PlayerId, PlayerInfo>;
+type PlayersList = Record<EntityId, PlayerInfo>;
+
+type VehicleInfo = {
+  id: EntityId;
+  name: EntityName;
+  vehicleClass: VehicleClass;
+};
+
+type VehicleList = Record<EntityId, VehicleInfo>;
+
+type VehiclesWithPlayersList = {
+  vehicles: VehicleList;
+  players: PlayersList;
+};
 
 type PlayersGameResultWithDate = {
   result: PlayersList,

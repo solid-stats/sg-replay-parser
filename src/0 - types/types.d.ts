@@ -1,4 +1,5 @@
 type PlayerName = string;
+type EntityName = string;
 type PlayerPrefix = string | null;
 type Weapon = string;
 

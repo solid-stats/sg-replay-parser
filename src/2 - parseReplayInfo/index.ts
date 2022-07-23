@@ -1,9 +1,9 @@
+import getEntities from './getEntities';
 import getKillsAndDeaths from './getKillsAndDeaths';
-import getPlayersInfo from './getPlayers';
 
 const parseReplayInfo = (replay: ReplayInfo): PlayersList => {
-  const players = getPlayersInfo(replay);
-  const playersWithKillsInfo = getKillsAndDeaths(players, replay.events);
+  const entities = getEntities(replay);
+  const playersWithKillsInfo = getKillsAndDeaths(entities, replay.events);
 
   return playersWithKillsInfo;
 };

@@ -41,6 +41,9 @@ const addPlayerGameResultToGlobalStatistics = (
 
   const totalPlayedGames = playerStatistics.totalPlayedGames + 1;
   const kills = playerStatistics.kills + playerGameResult.kills;
+
+  if (playerGameResult.vehicleKills > 0) console.log(playerStatistics);
+  const vehicleKills = playerStatistics.vehicleKills + playerGameResult.vehicleKills;
   const teamkills = playerStatistics.teamkills + playerGameResult.teamkills;
 
   const currentDeaths: Deaths = {
@@ -60,6 +63,7 @@ const addPlayerGameResultToGlobalStatistics = (
     lastPlayedGameDate: date,
     totalPlayedGames,
     kills,
+    vehicleKills,
     teamkills,
     deaths,
     kdRatio: calculateKDRatio(kills, teamkills, deaths),

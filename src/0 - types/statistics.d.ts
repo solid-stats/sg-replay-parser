@@ -10,6 +10,7 @@ type GlobalPlayerWeekStatistics = {
   week: `${number}${number}${number}${number}-${number}${number}`; // 2022-35
   totalPlayedGames: number;
   kills: Kills;
+  vehicleKills: Kills;
   teamkills: Teamkills;
   deaths: Deaths;
   kdRatio: Score;
@@ -21,6 +22,7 @@ type GlobalPlayerStatistics = {
   lastSquadPrefix: PlayerPrefix;
   totalPlayedGames: number;
   kills: Kills;
+  vehicleKills: Kills;
   teamkills: Teamkills;
   deaths: Deaths;
   kdRatio: Score;
