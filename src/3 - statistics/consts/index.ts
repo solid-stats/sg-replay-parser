@@ -1,6 +1,7 @@
 export const defaultStatistics: Omit<GlobalPlayerStatistics, 'playerName' | 'lastSquadPrefix' | 'lastPlayedGameDate'> = {
   totalPlayedGames: 0,
   kills: 0,
+  vehicleKills: 0,
   teamkills: 0,
   deaths: {
     total: 0,
@@ -15,6 +16,7 @@ export const defaultStatistics: Omit<GlobalPlayerStatistics, 'playerName' | 'las
 export const defaultWeekStatistics: Omit<GlobalPlayerWeekStatistics, 'week' | 'date'> = {
   totalPlayedGames: 0,
   kills: 0,
+  vehicleKills: 0,
   teamkills: 0,
   deaths: {
     total: 0,

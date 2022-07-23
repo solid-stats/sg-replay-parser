@@ -10,7 +10,7 @@ import generateOutput from './4 - output';
 
 const getParsedReplays = async (gameType: GameType): Promise<PlayersGameResultWithDate[]> => {
   const replays = await getReplays(gameType);
-  const parsedReplays = await parseReplays(replays, gameType);
+  const parsedReplays = await parseReplays(replays.slice(0, 100), gameType);
 
   return parsedReplays;
 };
