@@ -6,6 +6,7 @@ const checks = (result: Output): void => {
   );
 
   if (replaysWithoutsFilename.length > 0) {
+  // eslint-disable-next-line no-console
     console.error(`
       Found replays without filename.
       Suggest find those replays in ${replaysListFileName} file in problematicReplays array and if its really don't have filename, then open ticket in a bugtracker https://solidgames.ru/bugtracker.
@@ -14,6 +15,7 @@ const checks = (result: Output): void => {
   }
 
   if (result.replays.length !== result.parsedReplays.length) {
+  // eslint-disable-next-line no-console
     console.error('Length of the replays and parsedReplays not the same.');
   }
 };

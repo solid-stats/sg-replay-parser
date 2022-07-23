@@ -24,6 +24,7 @@ const fetchReplayInfo = async (replay: Replay): Promise<PlayersGameResultWithDat
       !err.message.includes('unexpected character')
       && !err.message.includes('invalid json response')
       && !err.message.includes('connect ETIMEDOUT')
+    // eslint-disable-next-line no-console
     ) console.error(err.message);
 
     return null;

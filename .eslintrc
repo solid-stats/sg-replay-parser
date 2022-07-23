@@ -8,7 +8,6 @@
   },
   "parser": "@typescript-eslint/parser",
   "rules": {
-    "no-console": "off",
     "no-unreachable-loop": "error",
     "no-unsafe-optional-chaining": ["error", { "disallowArithmeticOperators": true }],
     "no-useless-backreference": "error",

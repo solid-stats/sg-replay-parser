@@ -30,7 +30,9 @@ const readReplaysListFile = (): Output => {
 (async () => {
   const replaysList = readReplaysListFile();
 
+  // eslint-disable-next-line no-console
   console.log(`Found ${replaysList.parsedReplays.length} already parsed replays and ${replaysList.problematicReplays.length} problematic replays. Start preparing new replays list`);
+  // eslint-disable-next-line no-console
   console.log('');
 
   let result: Output = { ...defaultEmptyOutput };
@@ -64,14 +66,18 @@ const readReplaysListFile = (): Output => {
 
   result = processProblematicReplays(result);
 
+  // eslint-disable-next-line no-console
   console.log('');
+  // eslint-disable-next-line no-console
   console.log(`Found: ${result.parsedReplays.length} new replays and ${result.problematicReplays.length} problematic replays.`);
+  // eslint-disable-next-line no-console
   console.log('');
 
   result = unionReplaysInfo(replaysList, result);
 
   checks(result);
 
+  // eslint-disable-next-line no-console
   console.log(`Total replays: ${result.parsedReplays.length}.`);
 
   fs.writeFileSync(replaysListFileName, JSON.stringify(result, null, '\t'));
