@@ -1,7 +1,7 @@
 type Frame = number;
 
 type EntityId = number;
-type EntitySide = 'EAST' | 'WEST' | 'GUER' | 'CIV' | 'UNKNWON';
+type EntitySide = 'EAST' | 'WEST' | 'GUER' | 'CIV' | 'UNKNOWN';
 
 type KillerWeaponName = string;
 type Distance = number;
