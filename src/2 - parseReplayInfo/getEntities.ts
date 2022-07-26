@@ -17,9 +17,9 @@ const getEntities = ({ entities, events }: ReplayInfo): VehiclesWithPlayersList 
   const vehicles: VehicleList = {};
 
   entities.forEach(({
-    name, side, id, class: vehicleClass, type,
+    name, side, id, class: vehicleClass, type, isPlayer,
   }) => {
-    if (type === 'unit') {
+    if (type === 'unit' && isPlayer) {
       players[id] = {
         ...defaultPlayerInfo,
         id,
