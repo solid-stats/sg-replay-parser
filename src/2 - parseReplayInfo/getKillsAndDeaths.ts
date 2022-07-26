@@ -3,12 +3,12 @@ import { addWeaponStatistic, filterWeaponStatistics } from '../0 - utils/weapons
 type CommonParams = {
   killer: PlayerInfo;
   players: PlayersList;
-  weapon: Weapon;
-  distance: Distance;
 };
 
 type PlayerKilledParams = CommonParams & {
   killed: PlayerInfo;
+  weapon: Weapon;
+  distance: Distance;
 };
 type VehicleKilledParams = CommonParams & {
   vehicle: VehicleInfo;
@@ -59,19 +59,14 @@ const processVehicleKilled = ({
   killer,
   vehicle,
   players,
-  distance,
-  weapon,
 }: VehicleKilledParams): PlayersList => {
   if (killer.id === vehicle.id) return players;
 
   const newPlayers = { ...players };
 
-  const weapons = calculateWeaponStatistics(weapon, distance, killer.weapons);
-
   newPlayers[killer.id] = {
     ...newPlayers[killer.id],
     vehicleKills: killer.vehicleKills + 1,
-    weapons,
   };
 
   return newPlayers;
@@ -104,9 +99,7 @@ const getKillsAndDeaths = (entities: VehiclesWithPlayersList, events: ReplayInfo
       }
 
       if (killer && killedVehicle) {
-        players = processVehicleKilled({
-          killer, vehicle: killedVehicle, players, distance, weapon,
-        });
+        players = processVehicleKilled({ killer, vehicle: killedVehicle, players });
       }
     }
   });
