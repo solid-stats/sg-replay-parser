@@ -14,8 +14,6 @@ type ReplayRaw = {
 
 type Replay = Omit<ReplayRaw, 'date'> & { date: Date };
 
-type Rotation = [startDate: Date, endDate: Date | null];
-
 type WeaponStatistic = {
   name: Weapon,
   kills: number,

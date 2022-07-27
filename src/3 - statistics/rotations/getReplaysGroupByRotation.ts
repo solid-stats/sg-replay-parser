@@ -3,7 +3,7 @@ import remove from 'lodash/remove';
 
 import getRotations from '../../0 - utils/rotations';
 
-const getReplaysGroupByRotation = (replays: PlayersGameResultWithDate[]) => {
+const getReplaysGroupByRotation = (replays: PlayersGameResult[]) => {
   const rotations = getRotations();
   const replaysCopy = replays.slice();
   const replaysGroupedByRotation = rotations.map((rotationDates) => {

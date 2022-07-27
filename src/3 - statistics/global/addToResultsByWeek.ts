@@ -1,10 +1,11 @@
-import { format } from 'date-fns';
+import { endOfWeek, format, startOfWeek } from 'date-fns';
 
 import { dateFnsOptionsWithFirstWeekDate } from '../../0 - consts';
 import calculateKDRatio from '../../0 - utils/calculateKDRatio';
 import calculateScore from '../../0 - utils/calculateScore';
+import dateToUTC from '../../0 - utils/utc';
 import { defaultWeekStatistics } from '../consts';
-import { calculateDeaths } from './utils';
+import calculateDeaths from './utils/calculateDeaths';
 
 const addPlayerGameResultToWeekStatistics = (
   globalWeekStatistics: GlobalPlayerWeekStatistics[],
@@ -20,8 +21,13 @@ const addPlayerGameResultToWeekStatistics = (
   );
 
   if (currentStatisticsIndex === -1) {
+    const startDate = dateToUTC(startOfWeek(date, dateFnsOptionsWithFirstWeekDate)).toJSON();
+    const endDate = dateToUTC(endOfWeek(date, dateFnsOptionsWithFirstWeekDate)).toJSON();
+
     const newArrLength = currentWeekStatistics.push({
       week,
+      startDate,
+      endDate,
       ...defaultWeekStatistics,
     });
 
