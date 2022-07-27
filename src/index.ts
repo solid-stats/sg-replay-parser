@@ -1,4 +1,5 @@
 import { gameTypes } from './0 - consts';
+import filterPlayersByTotalPlayedGames from './0 - utils/filterPlayersByTotalPlayedGames';
 import formatGameType from './0 - utils/formatGameType';
 import { stopAllBarsProgress } from './0 - utils/progressHandler';
 import getReplays from './1 - replays/getReplays';
@@ -8,26 +9,32 @@ import getStatsByRotations from './3 - statistics/rotations';
 import calculateSquadStatistics from './3 - statistics/squads';
 import generateOutput from './4 - output';
 
-const getParsedReplays = async (gameType: GameType): Promise<PlayersGameResultWithDate[]> => {
+const getParsedReplays = async (gameType: GameType): Promise<PlayersGameResult[]> => {
   const replays = await getReplays(gameType);
   const parsedReplays = await parseReplays(replays, gameType);
+
+  // used only in development
+  // const parsedReplays = await parseReplays(
+  //   gameType === 'sg' ? replays : [],
+  //   gameType,
+  // );
 
   return parsedReplays;
 };
 
 const countStatistics = (
-  parsedReplays: PlayersGameResultWithDate[],
+  parsedReplays: PlayersGameResult[],
   gameType: GameType,
 ): Statistics => {
   const global = calculateGlobalStatistics(parsedReplays);
-  const squad = calculateSquadStatistics(global);
+  const squad = calculateSquadStatistics(global, parsedReplays);
   const byRotations = gameType === 'sg' ? getStatsByRotations(parsedReplays) : null;
 
   // eslint-disable-next-line no-console
   console.log(`- ${formatGameType(gameType)} statistics collected.`);
 
   return {
-    global,
+    global: filterPlayersByTotalPlayedGames(global),
     squad,
     byRotations,
   };
@@ -43,7 +50,7 @@ const countStatistics = (
   // eslint-disable-next-line no-console
   console.log('\nAll replays parsed, start collecting statistics:');
 
-  const parsedReplays: Record<GameType, PlayersGameResultWithDate[]> = {
+  const parsedReplays: Record<GameType, PlayersGameResult[]> = {
     sg: sgParsedReplays,
     mace: maceParsedReplays,
   };

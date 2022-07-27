@@ -5,19 +5,23 @@ import pLimit from 'p-limit';
 import fetchData from '../0 - utils/fetchData';
 import promiseAllWithProgress from '../0 - utils/promiseAllWithProgress';
 import parseReplayInfo from '../2 - parseReplayInfo';
+import combineGameResults from './combineGameResults';
 
-const fetchReplayInfo = async (replay: Replay): Promise<PlayersGameResultWithDate | null> => {
+const fetchReplayInfo = async (replay: Replay): Promise<PlayersGameResult | null> => {
   try {
     const replayInfo = await fetchData<ReplayInfo>(
       `https://solidgames.ru/data/${replay.filename}.json`,
     );
+
     const parsedReplayInfo = parseReplayInfo(replayInfo);
+    const combinedResults = combineGameResults(Object.values(parsedReplayInfo));
 
     if (Object.keys(parsedReplayInfo).length < 10) return null;
 
     return {
-      result: parsedReplayInfo,
+      result: combinedResults,
       date: replay.date,
+      missionName: replay.mission_name,
     };
   } catch (err) {
     if (

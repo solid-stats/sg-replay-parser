@@ -1,10 +1,8 @@
 import { compareDesc } from 'date-fns';
 import orderBy from 'lodash/orderBy';
 
-import getWeekStartByWeekNumber from '../../0 - utils/getWeekStartByWeekNumber';
 import pipe from '../../0 - utils/pipe';
 import addPlayerGameResultToGlobalStatistics from './add';
-import { combineGameResults } from './utils';
 
 const sortPlayerStatistics = (statistics: GlobalPlayerStatistics[]): GlobalPlayerStatistics[] => {
   const sortedStatisticsByScore = orderBy(statistics, 'totalScore', 'desc');
@@ -12,8 +10,8 @@ const sortPlayerStatistics = (statistics: GlobalPlayerStatistics[]): GlobalPlaye
     ...playerStatistics,
     byWeeks: playerStatistics.byWeeks.sort(
       (first, second) => compareDesc(
-        getWeekStartByWeekNumber(first.week),
-        getWeekStartByWeekNumber(second.week),
+        new Date(first.startDate),
+        new Date(second.startDate),
       ),
     ),
   }));
@@ -31,38 +29,22 @@ const limitWeaponsStatisticsCount = (
 );
 
 const calculateGlobalStatistics = (
-  replays: PlayersGameResultWithDate[],
-  // used only in statistics by rotations
-  // to reduce the number of games needed to be in the statistics
-  gamesCount?: number,
+  replays: PlayersGameResult[],
 ): GlobalPlayerStatistics[] => {
-  const filterPlayersByTotalPlayedGames = (statistics: GlobalPlayerStatistics[]) => {
-    const minGamesCount = gamesCount
-      ? (15 * gamesCount) / 100 // 15%
-      : 20;
-
-    return statistics.filter(
-      (stats) => stats.totalPlayedGames > minGamesCount,
-    );
-  };
-
   let globalStatistics: GlobalPlayerStatistics[] = [];
 
-  replays.forEach((replayInfo) => {
-    const playerGameResults = combineGameResults(Object.values(replayInfo.result));
-
-    playerGameResults.forEach((playerGameResult) => {
+  replays.forEach((replayInfo) => (
+    replayInfo.result.forEach((playerGameResult) => {
       globalStatistics = addPlayerGameResultToGlobalStatistics(
         globalStatistics,
         playerGameResult,
         replayInfo.date,
       );
-    });
-  });
+    })
+  ));
 
   const resultStatistics = pipe(
     sortPlayerStatistics,
-    filterPlayersByTotalPlayedGames,
     limitWeaponsStatisticsCount,
   )(globalStatistics);
 

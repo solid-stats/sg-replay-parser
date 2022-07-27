@@ -1,9 +1,7 @@
-import { parse } from 'date-fns';
+import { fromUnixTime } from 'date-fns';
 import compact from 'lodash/compact';
 import pLimit from 'p-limit';
 
-import { dateFnsOptionsWithFirstWeekDate } from '../0 - consts';
-import dateToUTC from '../0 - utils/utc';
 import parseReplay from './parseReplay';
 
 // mission game type protected by CloudFlare email obfuscation because contains '@' sign
@@ -40,13 +38,7 @@ const parseTableRowInfo = async (el: Element, alreadyParsedReplays: Output['pars
   const missionGameType = decodeMissionGameType(encodedMissionsGameType);
   const filename = await parseReplay(replayLink);
 
-  // date example: '17.07.2022 04:05'
-  const date = dateToUTC(parse(
-    tableCells[3].textContent || '',
-    'dd.MM.yyyy HH:mm',
-    new Date(),
-    dateFnsOptionsWithFirstWeekDate,
-  )).toJSON();
+  const date = fromUnixTime(parseInt(replayLink.split('/')[2], 10)).toJSON();
 
   return {
     // regexp removes [email protected] from string

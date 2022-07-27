@@ -4,7 +4,7 @@ import getPlayerName from '../../0 - utils/getPlayerName';
 import { unionWeaponsStatistic } from '../../0 - utils/weaponsStatistic';
 import { defaultStatistics } from '../consts';
 import addPlayerGameResultToWeekStatistics from './addToResultsByWeek';
-import { calculateDeaths } from './utils';
+import calculateDeaths from './utils/calculateDeaths';
 
 const isSameNickName = (first: string, second: string) => (
   first.toLowerCase() === second.toLowerCase()
@@ -13,17 +13,17 @@ const isSameNickName = (first: string, second: string) => (
 const addPlayerGameResultToGlobalStatistics = (
   globalStatistics: GlobalPlayerStatistics[],
   playerGameResult: PlayerGameResult,
-  date: Replay['date'],
+  date: PlayersGameResult['date'],
 ): GlobalPlayerStatistics[] => {
   const currentGlobalStatistics = globalStatistics.slice();
-  const [playerName, squadPrefix] = getPlayerName(playerGameResult.name);
+  const [name, squadPrefix] = getPlayerName(playerGameResult.name);
   let currentStatisticsIndex = globalStatistics.findIndex(
-    (playerStatistics) => (isSameNickName(playerStatistics.playerName, playerName)),
+    (playerStatistics) => (isSameNickName(playerStatistics.name, name)),
   );
 
   if (currentStatisticsIndex === -1) {
     const newArrLength = currentGlobalStatistics.push({
-      playerName,
+      name,
       lastSquadPrefix: squadPrefix,
       lastPlayedGameDate: date,
       ...defaultStatistics,

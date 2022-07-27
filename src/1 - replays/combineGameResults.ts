@@ -1,36 +1,10 @@
-import { unionWeaponsStatistic } from '../../0 - utils/weaponsStatistic';
-
-type Params = {
-  deaths: Deaths,
-  isDead: boolean,
-  isDeadByTeamkill: boolean,
-};
-
-export const calculateDeaths = ({
-  deaths,
-  isDead,
-  isDeadByTeamkill,
-}: Params): Deaths => {
-  let totalDeaths = deaths.total;
-  let deathsByTeamkills = deaths.byTeamkills;
-
-  if (isDead) {
-    if (isDeadByTeamkill) deathsByTeamkills += 1;
-
-    totalDeaths += 1;
-  }
-
-  return {
-    total: totalDeaths,
-    byTeamkills: deathsByTeamkills,
-  };
-};
+import { unionWeaponsStatistic } from '../0 - utils/weaponsStatistic';
 
 // in some situations (when the player changes the current game slot)
 // there may be a situation when 2 entities are attached to one player
 // and this leads to several additional total games played
 // in such situation we should combine those game results
-export const combineGameResults = (gameResults: PlayerInfo[]): PlayerInfo[] => {
+const combineGameResults = (gameResults: PlayerInfo[]): PlayerInfo[] => {
   const newGameResults: PlayerInfo[] = [];
 
   gameResults.forEach((gameResult) => {
@@ -59,3 +33,5 @@ export const combineGameResults = (gameResults: PlayerInfo[]): PlayerInfo[] => {
 
   return newGameResults;
 };
+
+export default combineGameResults;

@@ -8,6 +8,8 @@ type Score = number;
 
 type GlobalPlayerWeekStatistics = {
   week: `${number}${number}${number}${number}-${number}${number}`; // 2022-35
+  startDate: string;
+  endDate: string;
   totalPlayedGames: number;
   kills: Kills;
   vehicleKills: Kills;
@@ -18,7 +20,7 @@ type GlobalPlayerWeekStatistics = {
 };
 
 type GlobalPlayerStatistics = {
-  playerName: PlayerName;
+  name: PlayerName;
   lastSquadPrefix: PlayerPrefix;
   totalPlayedGames: number;
   kills: Kills;
@@ -36,8 +38,11 @@ type PlayerGameResult = Omit<PlayerInfo, 'id' | 'side'>;
 
 type GlobalSquadStatistics = {
   prefix: NonNullable<PlayerPrefix>;
+  averagePlayersCount: number;
   kills: Kills;
+  averageKills: number;
   teamkills: Teamkills;
+  averageTeamkills: number;
   score: Score;
   players: PlayerName[];
 };

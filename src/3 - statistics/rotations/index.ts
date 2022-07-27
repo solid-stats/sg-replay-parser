@@ -1,22 +1,40 @@
+import filterPlayersByTotalPlayedGames from '../../0 - utils/filterPlayersByTotalPlayedGames';
 import getRotations from '../../0 - utils/rotations';
 import calculateGlobalStatistics from '../global';
 import calculateSquadStatistics from '../squads';
 import getReplaysGroupByRotation from './getReplaysGroupByRotation';
 
-const getStatsByRotations = (allReplays: PlayersGameResultWithDate[]): StatisticsByRotation[] => {
+const getStatsByRotations = (allReplays: PlayersGameResult[]): StatisticsByRotation[] => {
   const replaysGroupedByRotation = getReplaysGroupByRotation(allReplays);
   const statistics: StatisticsByRotation[] = replaysGroupedByRotation.map((replays, index) => {
     const [startDate, endDate] = getRotations()[index];
     const totalGames = replays.length;
-    const globalStatistics = calculateGlobalStatistics(replays, totalGames);
-    const squadStatistics = calculateSquadStatistics(globalStatistics, endDate || undefined);
+
+    if (totalGames === 0) {
+      return {
+        totalGames,
+        startDate,
+        endDate,
+        stats: {
+          global: [],
+          squad: [],
+        },
+      };
+    }
+
+    const globalStatistics = calculateGlobalStatistics(replays);
+    const squadStatistics = calculateSquadStatistics(
+      globalStatistics,
+      replays,
+      endDate || undefined,
+    );
 
     return {
       totalGames,
       startDate,
       endDate,
       stats: {
-        global: globalStatistics,
+        global: filterPlayersByTotalPlayedGames(globalStatistics, totalGames),
         squad: squadStatistics,
       },
     };
