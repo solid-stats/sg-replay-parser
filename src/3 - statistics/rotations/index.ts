@@ -1,5 +1,9 @@
+import { endOfWeek } from 'date-fns';
+
+import { dateFnsOptionsWithFirstWeekDate } from '../../0 - consts';
 import filterPlayersByTotalPlayedGames from '../../0 - utils/filterPlayersByTotalPlayedGames';
 import getRotations from '../../0 - utils/rotations';
+import dateToUTC from '../../0 - utils/utc';
 import calculateGlobalStatistics from '../global';
 import calculateSquadStatistics from '../squads';
 import getReplaysGroupByRotation from './getReplaysGroupByRotation';
@@ -26,7 +30,7 @@ const getStatsByRotations = (allReplays: PlayersGameResult[]): StatisticsByRotat
     const squadStatistics = calculateSquadStatistics(
       globalStatistics,
       replays,
-      endDate || undefined,
+      endDate || dateToUTC(endOfWeek(new Date('2022-07-31T20:00:00.000Z'), dateFnsOptionsWithFirstWeekDate)),
     );
 
     return {
