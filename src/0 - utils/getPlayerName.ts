@@ -11,7 +11,7 @@ const getPlayerName = (playerName: PlayerName): [PlayerName, PlayerPrefix] => {
   const squadPrefix = matchResult[0];
   const name = playerName.replace(squadPrefixRegex, '');
 
-  return [name, squadPrefix];
+  return [name.trim(), squadPrefix.trim()];
 };
 
 export default getPlayerName;
