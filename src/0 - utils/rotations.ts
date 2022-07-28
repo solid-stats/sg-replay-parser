@@ -1,9 +1,8 @@
-import { endOfWeek, startOfWeek, sub } from 'date-fns';
+import { Dayjs } from 'dayjs';
 
-import { dateFnsOptionsWithFirstWeekDate } from '../0 - consts';
-import dateToUTC from './utc';
+import { dayjsUTC } from './dayjs';
 
-type ReturnType = [startDate: Date, endDate: Date | null];
+type ReturnType = [startDate: Dayjs, endDate: Dayjs | null];
 
 const startDates: string[] = [
   '2020-09-14T00:00:00.000Z',
@@ -14,13 +13,8 @@ const startDates: string[] = [
   '2022-07-04T00:00:00.000Z',
 ];
 
-const rotationsStartDates: Date[] = startDates.map((startDate) => (
-  dateToUTC(
-    startOfWeek(
-      new Date(startDate),
-      dateFnsOptionsWithFirstWeekDate,
-    ),
-  )
+const rotationsStartDates: Dayjs[] = startDates.map((startDate) => (
+  dayjsUTC(startDate).startOf('isoWeek')
 ));
 
 const getRotations = (): ReturnType[] => rotationsStartDates.map((startDate, i, arr) => {
@@ -28,10 +22,7 @@ const getRotations = (): ReturnType[] => rotationsStartDates.map((startDate, i, 
 
   if (!nextStartDate) return [startDate, null];
 
-  const endDate = dateToUTC(endOfWeek(
-    sub(nextStartDate, { weeks: 1 }),
-    dateFnsOptionsWithFirstWeekDate,
-  ));
+  const endDate = nextStartDate.subtract(1, 'day').endOf('day');
 
   return [startDate, endDate];
 });

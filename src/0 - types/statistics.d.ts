@@ -29,7 +29,7 @@ type GlobalPlayerStatistics = {
   deaths: Deaths;
   kdRatio: Score;
   totalScore: Score;
-  lastPlayedGameDate: Date;
+  lastPlayedGameDate: string;
   byWeeks: GlobalPlayerWeekStatistics[];
   weapons: WeaponStatistic[];
 };
@@ -49,8 +49,8 @@ type GlobalSquadStatistics = {
 
 type StatisticsByRotation = {
   totalGames: number;
-  startDate: Date;
-  endDate: Date | null;
+  startDate: string;
+  endDate: string | null;
   stats: {
     global: GlobalPlayerStatistics[];
     squad: GlobalSquadStatistics[];

@@ -37,7 +37,7 @@
   "dependencies": {
     "archiver": "^5.3.1",
     "cli-progress": "^3.11.1",
-    "date-fns": "^2.28.0",
+    "dayjs": "^1.11.4",
     "jsdom": "17.0.0",
     "lodash": "^4.17.21",
     "node-fetch": "2.x.x",

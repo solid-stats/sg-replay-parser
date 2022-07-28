@@ -12,10 +12,10 @@ type ReplayRaw = {
   replayLink: string;
 };
 
-type Replay = Omit<ReplayRaw, 'date'> & { date: Date };
+type Replay = Omit<ReplayRaw, 'date'> & { date: string };
 
 type WeaponStatistic = {
-  name: Weapon,
-  kills: number,
-  maxDistance: number,
+  name: Weapon;
+  kills: number;
+  maxDistance: number;
 };

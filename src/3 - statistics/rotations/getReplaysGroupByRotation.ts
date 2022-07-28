@@ -1,6 +1,6 @@
-import { isAfter, isBefore, isEqual } from 'date-fns';
 import remove from 'lodash/remove';
 
+import { dayjsUTC } from '../../0 - utils/dayjs';
 import getRotations from '../../0 - utils/rotations';
 
 const getReplaysGroupByRotation = (replays: PlayersGameResult[]) => {
@@ -10,14 +10,13 @@ const getReplaysGroupByRotation = (replays: PlayersGameResult[]) => {
     const [startDate, endDate] = rotationDates;
 
     const rotationReplays = remove(replaysCopy, (replay) => {
+      const replayDate = dayjsUTC(replay.date);
+
       if (!endDate) {
-        return isAfter(replay.date, startDate) || isEqual(startDate, replay.date);
+        return replayDate.isSameOrAfter(startDate);
       }
 
-      return (
-        (isAfter(replay.date, startDate) || isEqual(startDate, replay.date))
-        && (isBefore(replay.date, endDate) || isEqual(endDate, replay.date))
-      );
+      return replayDate.isSameOrAfter(startDate) || replayDate.isSameOrBefore(endDate);
     });
 
     return rotationReplays;

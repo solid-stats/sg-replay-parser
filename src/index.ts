@@ -15,7 +15,7 @@ const getParsedReplays = async (gameType: GameType): Promise<PlayersGameResult[]
 
   // used only in development
   // const parsedReplays = await parseReplays(
-  //   gameType === 'sg' ? replays : [],
+  //   gameType === 'sg' ? replays.slice(0, 50) : [],
   //   gameType,
   // );
 

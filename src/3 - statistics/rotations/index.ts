@@ -1,9 +1,6 @@
-import { endOfWeek } from 'date-fns';
-
-import { dateFnsOptionsWithFirstWeekDate } from '../../0 - consts';
+import { dayjsUTC } from '../../0 - utils/dayjs';
 import filterPlayersByTotalPlayedGames from '../../0 - utils/filterPlayersByTotalPlayedGames';
 import getRotations from '../../0 - utils/rotations';
-import dateToUTC from '../../0 - utils/utc';
 import calculateGlobalStatistics from '../global';
 import calculateSquadStatistics from '../squads';
 import getReplaysGroupByRotation from './getReplaysGroupByRotation';
@@ -11,8 +8,11 @@ import getReplaysGroupByRotation from './getReplaysGroupByRotation';
 const getStatsByRotations = (allReplays: PlayersGameResult[]): StatisticsByRotation[] => {
   const replaysGroupedByRotation = getReplaysGroupByRotation(allReplays);
   const statistics: StatisticsByRotation[] = replaysGroupedByRotation.map((replays, index) => {
-    const [startDate, endDate] = getRotations()[index];
+    const [rotationStartDate, rotationEndDate] = getRotations()[index];
     const totalGames = replays.length;
+
+    const startDate = rotationStartDate.toJSON();
+    const endDate = rotationEndDate && rotationEndDate.toJSON();
 
     if (totalGames === 0) {
       return {
@@ -30,7 +30,7 @@ const getStatsByRotations = (allReplays: PlayersGameResult[]): StatisticsByRotat
     const squadStatistics = calculateSquadStatistics(
       globalStatistics,
       replays,
-      endDate || dateToUTC(endOfWeek(new Date('2022-07-31T20:00:00.000Z'), dateFnsOptionsWithFirstWeekDate)),
+      rotationEndDate || dayjsUTC().endOf('isoWeek'),
     );
 
     return {

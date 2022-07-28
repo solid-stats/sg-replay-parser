@@ -1,5 +1,5 @@
-import { compareAsc } from 'date-fns';
 import compact from 'lodash/compact';
+import orderBy from 'lodash/orderBy';
 import pLimit from 'p-limit';
 
 import fetchData from '../0 - utils/fetchData';
@@ -42,9 +42,7 @@ const parseReplays = async (replays: Replay[], gameType: GameType) => {
     gameType,
   );
   // compact remove null vallues
-  const orderedParsedReplaysByDate = compact(parsedReplays).sort((first, second) => (
-    compareAsc(first.date, second.date)
-  ));
+  const orderedParsedReplaysByDate = orderBy(compact(parsedReplays), 'date', 'asc');
 
   return orderedParsedReplaysByDate;
 };

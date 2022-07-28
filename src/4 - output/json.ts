@@ -15,13 +15,7 @@ const generateJSONOutput = (statistics: Statistics, folderName: string): void =>
   fs.writeFileSync(`${folderPath}/stats.json`, JSON.stringify(stats, null, '\t'));
 
   if (statistics.byRotations) {
-    const rotationStats = statistics.byRotations.map((statsByRotation) => ({
-      ...statsByRotation,
-      startDate: statsByRotation.startDate.toJSON(),
-      endDate: statsByRotation.endDate && statsByRotation.endDate.toJSON(),
-    }));
-
-    fs.writeFileSync(`${folderPath}/rotations_stats.json`, JSON.stringify(rotationStats, null, '\t'));
+    fs.writeFileSync(`${folderPath}/rotations_stats.json`, JSON.stringify(statistics.byRotations, null, '\t'));
   }
 };
 

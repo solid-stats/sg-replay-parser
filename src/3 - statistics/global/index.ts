@@ -1,6 +1,6 @@
-import { compareDesc } from 'date-fns';
 import orderBy from 'lodash/orderBy';
 
+import { dayjsUTC } from '../../0 - utils/dayjs';
 import pipe from '../../0 - utils/pipe';
 import addPlayerGameResultToGlobalStatistics from './add';
 
@@ -8,12 +8,7 @@ const sortPlayerStatistics = (statistics: GlobalPlayerStatistics[]): GlobalPlaye
   const sortedStatisticsByScore = orderBy(statistics, 'totalScore', 'desc');
   const sortedStatistics = sortedStatisticsByScore.map((playerStatistics) => ({
     ...playerStatistics,
-    byWeeks: playerStatistics.byWeeks.sort(
-      (first, second) => compareDesc(
-        new Date(first.startDate),
-        new Date(second.startDate),
-      ),
-    ),
+    byWeeks: orderBy(playerStatistics.byWeeks, 'startDate', 'desc'),
   }));
 
   return sortedStatistics;
@@ -38,7 +33,7 @@ const calculateGlobalStatistics = (
       globalStatistics = addPlayerGameResultToGlobalStatistics(
         globalStatistics,
         playerGameResult,
-        replayInfo.date,
+        dayjsUTC(replayInfo.date),
       );
     })
   ));

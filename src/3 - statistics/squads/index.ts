@@ -1,23 +1,21 @@
-import {
-  differenceInWeeks,
-  endOfWeek, Interval, isWithinInterval, startOfDay, sub,
-} from 'date-fns';
+import { Dayjs } from 'dayjs';
 import groupBy from 'lodash/groupBy';
 import isEmpty from 'lodash/isEmpty';
 import isNull from 'lodash/isNull';
 import orderBy from 'lodash/orderBy';
 import sumBy from 'lodash/sumBy';
 
-import { dateFnsOptionsWithFirstWeekDate } from '../../0 - consts';
+import { dayjsUTC } from '../../0 - utils/dayjs';
 import filterPlayersByTotalPlayedGames from '../../0 - utils/filterPlayersByTotalPlayedGames';
-import dateToUTC from '../../0 - utils/utc';
 import getSquadsInfo from './getSquadInfo';
+import { DayjsInterval, PlayersBySquadPrefix } from './types';
+import { isInInterval } from './utils';
 
 const calculateSquadStatistics = (
   globalStatistics: GlobalPlayerStatistics[],
   replays: PlayersGameResult[],
   // not used in calculations for global statistics
-  rotationEndDate?: Date,
+  rotationEndDate?: Dayjs,
 ): GlobalSquadStatistics[] => {
   if (replays.length === 0) return [];
 
@@ -25,24 +23,19 @@ const calculateSquadStatistics = (
   const playersBySquadPrefix: PlayersBySquadPrefix = groupBy(filteredStatistics, 'lastSquadPrefix');
   const filteredPlayersBySquadPrefix: PlayersBySquadPrefix = {};
 
-  const endDate = rotationEndDate || dateToUTC(
-    endOfWeek(new Date(), dateFnsOptionsWithFirstWeekDate),
-  );
+  const endDate = rotationEndDate || dayjsUTC().endOf('isoWeek');
 
-  const isNoGamesThisWeek = differenceInWeeks(endDate, replays[replays.length - 1].date) >= 1;
-  const last4WeeksInterval: Interval = {
-    start: dateToUTC(
-      startOfDay(
-        sub(endDate, { weeks: isNoGamesThisWeek ? 5 : 4 }),
-      ),
-    ),
-    end: endDate,
-  };
+  const lastReplayDate = dayjsUTC(replays[replays.length - 1].date);
+  const isNoGamesThisWeek = endDate.isoWeekYear() > lastReplayDate.isoWeekYear();
+  const last4WeeksInterval: DayjsInterval = [
+    endDate.subtract(isNoGamesThisWeek ? 5 : 4, 'weeks'),
+    endDate,
+  ];
 
   Object.keys(playersBySquadPrefix).forEach((prefix) => {
     const players = playersBySquadPrefix[prefix];
     const filteredPlayers = players.filter((player) => (
-      isWithinInterval(player.lastPlayedGameDate, last4WeeksInterval)
+      isInInterval(player.lastPlayedGameDate, last4WeeksInterval)
     ));
 
     if (isEmpty(filteredPlayers) || filteredPlayers.length < 5) return;
@@ -70,7 +63,7 @@ const calculateSquadStatistics = (
 
       const players = filterPlayersByTotalPlayedGames(
         playerStatistics,
-        rotationEndDate ? replays.length : undefined,
+        rotationEndDate && replays.length,
       );
 
       return {

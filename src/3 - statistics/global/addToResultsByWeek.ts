@@ -1,28 +1,26 @@
-import { endOfWeek, format, startOfWeek } from 'date-fns';
+import { Dayjs } from 'dayjs';
 
-import { dateFnsOptionsWithFirstWeekDate } from '../../0 - consts';
 import calculateKDRatio from '../../0 - utils/calculateKDRatio';
 import calculateScore from '../../0 - utils/calculateScore';
-import dateToUTC from '../../0 - utils/utc';
 import { defaultWeekStatistics } from '../consts';
 import calculateDeaths from './utils/calculateDeaths';
 
 const addPlayerGameResultToWeekStatistics = (
   globalWeekStatistics: GlobalPlayerWeekStatistics[],
   playerGameResult: PlayerGameResult,
-  date: Replay['date'],
+  date: Dayjs,
 ): GlobalPlayerWeekStatistics[] => {
   const currentWeekStatistics = globalWeekStatistics.slice();
 
-  const week = format(date, 'yyyy-ww', dateFnsOptionsWithFirstWeekDate) as GlobalPlayerWeekStatistics['week'];
+  const week = date.format('YYYY-WW') as GlobalPlayerWeekStatistics['week'];
 
   let currentStatisticsIndex = currentWeekStatistics.findIndex(
     (weekStatistics) => (weekStatistics.week === week),
   );
 
   if (currentStatisticsIndex === -1) {
-    const startDate = dateToUTC(startOfWeek(date, dateFnsOptionsWithFirstWeekDate)).toJSON();
-    const endDate = dateToUTC(endOfWeek(date, dateFnsOptionsWithFirstWeekDate)).toJSON();
+    const startDate = date.startOf('isoWeek').toJSON();
+    const endDate = date.endOf('isoWeek').toJSON();
 
     const newArrLength = currentWeekStatistics.push({
       week,

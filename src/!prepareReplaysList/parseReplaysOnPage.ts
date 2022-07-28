@@ -1,7 +1,7 @@
-import { fromUnixTime } from 'date-fns';
 import compact from 'lodash/compact';
 import pLimit from 'p-limit';
 
+import { dayjsUnix } from '../0 - utils/dayjs';
 import parseReplay from './parseReplay';
 
 // mission game type protected by CloudFlare email obfuscation because contains '@' sign
@@ -38,7 +38,7 @@ const parseTableRowInfo = async (el: Element, alreadyParsedReplays: Output['pars
   const missionGameType = decodeMissionGameType(encodedMissionsGameType);
   const filename = await parseReplay(replayLink);
 
-  const date = fromUnixTime(parseInt(replayLink.split('/')[2], 10)).toJSON();
+  const date = dayjsUnix(parseInt(replayLink.split('/')[2], 10)).toJSON();
 
   return {
     // regexp removes [email protected] from string

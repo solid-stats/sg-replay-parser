@@ -1,3 +1,5 @@
+import { Dayjs } from 'dayjs';
+
 import calculateKDRatio from '../../0 - utils/calculateKDRatio';
 import calculateScore from '../../0 - utils/calculateScore';
 import getPlayerName from '../../0 - utils/getPlayerName';
@@ -13,19 +15,20 @@ const isSameNickName = (first: string, second: string) => (
 const addPlayerGameResultToGlobalStatistics = (
   globalStatistics: GlobalPlayerStatistics[],
   playerGameResult: PlayerGameResult,
-  date: PlayersGameResult['date'],
+  date: Dayjs,
 ): GlobalPlayerStatistics[] => {
   const currentGlobalStatistics = globalStatistics.slice();
   const [name, squadPrefix] = getPlayerName(playerGameResult.name);
   let currentStatisticsIndex = globalStatistics.findIndex(
     (playerStatistics) => (isSameNickName(playerStatistics.name, name)),
   );
+  const stringDate = date.toJSON();
 
   if (currentStatisticsIndex === -1) {
     const newArrLength = currentGlobalStatistics.push({
       name,
       lastSquadPrefix: squadPrefix,
-      lastPlayedGameDate: date,
+      lastPlayedGameDate: stringDate,
       ...defaultStatistics,
     });
 
@@ -59,7 +62,7 @@ const addPlayerGameResultToGlobalStatistics = (
   currentGlobalStatistics[currentStatisticsIndex] = {
     ...playerStatistics,
     lastSquadPrefix: squadPrefix,
-    lastPlayedGameDate: date,
+    lastPlayedGameDate: stringDate,
     totalPlayedGames,
     kills,
     vehicleKills,

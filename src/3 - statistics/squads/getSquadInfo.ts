@@ -1,14 +1,18 @@
-import { isWithinInterval } from 'date-fns';
 import round from 'lodash/round';
 import sumBy from 'lodash/sumBy';
 
+import {
+  AverageSquadsInfoByPrefix, DayjsInterval, PlayersBySquadPrefix, SquadInfo,
+} from './types';
+import { isInInterval } from './utils';
+
 const getSquadsInfo = (
   playersBySquadPrefix: PlayersBySquadPrefix,
-  last4WeeksInterval: Interval,
+  last4WeeksInterval: DayjsInterval,
   replays: PlayersGameResult[],
 ): AverageSquadsInfoByPrefix => {
   const replaysForTheLast4Weeks = replays.filter((replay) => (
-    isWithinInterval(replay.date, last4WeeksInterval)
+    isInInterval(replay.date, last4WeeksInterval)
   ));
 
   const squadsInfo: AverageSquadsInfoByPrefix = {};
