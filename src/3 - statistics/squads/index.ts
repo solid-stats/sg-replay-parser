@@ -68,7 +68,10 @@ const calculateSquadStatistics = (
       const kills = sumBy(playerStatistics, 'kills');
       const teamkills = sumBy(playerStatistics, 'teamkills');
 
-      const players = filterPlayersByTotalPlayedGames(playerStatistics, replays.length);
+      const players = filterPlayersByTotalPlayedGames(
+        playerStatistics,
+        rotationEndDate ? replays.length : undefined,
+      );
 
       return {
         prefix,
