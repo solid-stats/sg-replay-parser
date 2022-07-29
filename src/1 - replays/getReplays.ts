@@ -5,7 +5,7 @@ import uniqBy from 'lodash/uniqBy';
 import { replaysListFileName } from '../0 - consts';
 
 const getReplays = async (gameType: GameType): Promise<Replay[]> => {
-  let allReplays: ReplayRaw[] = [];
+  let allReplays: Replay[] = [];
 
   try {
     const fileContents = JSON.parse(fs.readFileSync(replaysListFileName, 'utf8')) as Output;
@@ -18,8 +18,8 @@ const getReplays = async (gameType: GameType): Promise<Replay[]> => {
   const uniqueReplays = uniqBy(allReplays, 'filename');
   const replays = uniqueReplays.filter(
     (replay) => (
-      replay.mission_name.startsWith(gameType)
-      && !replay.mission_name.startsWith('sgs')
+      replay.missionName.startsWith(gameType)
+      && !replay.missionName.startsWith('sgs')
     ),
   );
 

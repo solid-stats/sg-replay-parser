@@ -22,7 +22,7 @@ const decodeMissionGameType = (encodedMissionGameType: string) => {
   return result;
 };
 
-const parseTableRowInfo = async (el: Element, alreadyParsedReplays: Output['parsedReplays']): Promise<ReplayRaw | null> => {
+const parseTableRowInfo = async (el: Element, alreadyParsedReplays: Output['parsedReplays']): Promise<Replay | null> => {
   const tableCells = el.getElementsByTagName('td');
   const linkElement = el.querySelector('a');
   const replayLink = linkElement?.getAttribute('href');
@@ -42,11 +42,11 @@ const parseTableRowInfo = async (el: Element, alreadyParsedReplays: Output['pars
 
   return {
     // regexp removes [email protected] from string
-    mission_name: missionGameType + linkElement.textContent.replace(/\[[^\]]*\]*/g, ''),
+    missionName: missionGameType + linkElement.textContent.replace(/\[[^\]]*\]*/g, ''),
     filename,
     date,
     serverId: parseInt(tableCells[2].textContent || '', 10) || 0,
-    world_name: tableCells[1].textContent || 'unknown',
+    worldName: tableCells[1].textContent || 'unknown',
     replayLink,
   };
 };

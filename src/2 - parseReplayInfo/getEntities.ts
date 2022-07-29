@@ -30,7 +30,7 @@ const getEntities = ({ entities, events }: ReplayInfo): VehiclesWithPlayersList 
       return;
     }
 
-    if (type === 'vehicle') {
+    if (type === 'vehicle' && vehicleClass) {
       vehicles[id] = {
         id,
         name,

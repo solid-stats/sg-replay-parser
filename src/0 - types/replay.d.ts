@@ -8,7 +8,7 @@ type Distance = number;
 type KilledEntityId = EntityId;
 type KillerEntityId = EntityId;
 
-type ConnectEvent = [Frame, 'connected' | 'disconnected', PlayerName, EntityId | undefined];
+type ConnectEvent = [Frame, 'connected' | 'disconnected', PlayerName, EntityId];
 type KillEvent = [Frame, 'killed', KilledEntityId, [KillerEntityId, KillerWeaponName], Distance];
 
 type RawVehicleClass = 'parachute' | 'car' | 'truck' | 'plane' | 'sea' | 'apc' | 'heli' | 'tank' | 'static-weapon';
@@ -20,7 +20,7 @@ type Entity = {
   framesFires: any[];
   isPlayer: 0 | 1;
   type: 'unit' | 'vehicle';
-  class: RawVehicleClass;
+  class?: RawVehicleClass;
   startFrameNum: number;
   positions: VehiclePositions[];
   side: EntitySide;
@@ -38,8 +38,8 @@ type ReplayInfo = {
   EditorMarkers: any[];
   Markers: any[];
   missionAuthor: string;
-  mission_name: string;
-  world_name: string;
+  missionName: string;
+  worldName: string;
 };
 
 type PlayerInfo = {
@@ -71,9 +71,10 @@ type VehiclesWithPlayersList = {
 type PlayersGameResult = {
   result: PlayerInfo[];
   date: Replay['date'];
-  missionName: Replay['mission_name'];
+  missionName: Replay['missionName'];
 };
 
 type GameType = 'sg' | 'mace';
+type SkippedGameTypes = 'sgs';
 
 type FormattedGameType = 'SG' | 'Mace';

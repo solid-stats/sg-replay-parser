@@ -7,7 +7,10 @@ import promiseAllWithProgress from '../0 - utils/promiseAllWithProgress';
 import parseReplayInfo from '../2 - parseReplayInfo';
 import combineGameResults from './combineGameResults';
 
-const fetchReplayInfo = async (replay: Replay): Promise<PlayersGameResult | null> => {
+const fetchReplayInfo = async (
+  replay: Replay,
+  gameType: GameType,
+): Promise<PlayersGameResult | null> => {
   try {
     const replayInfo = await fetchData<ReplayInfo>(
       `https://solidgames.ru/data/${replay.filename}.json`,
@@ -16,12 +19,12 @@ const fetchReplayInfo = async (replay: Replay): Promise<PlayersGameResult | null
     const parsedReplayInfo = parseReplayInfo(replayInfo);
     const combinedResults = combineGameResults(Object.values(parsedReplayInfo));
 
-    if (Object.keys(parsedReplayInfo).length < 10) return null;
+    if (gameType === 'mace' && Object.keys(parsedReplayInfo).length < 10) return null;
 
     return {
       result: combinedResults,
       date: replay.date,
-      missionName: replay.mission_name,
+      missionName: replay.missionName,
     };
   } catch (err) {
     if (
@@ -38,7 +41,7 @@ const fetchReplayInfo = async (replay: Replay): Promise<PlayersGameResult | null
 const parseReplays = async (replays: Replay[], gameType: GameType) => {
   const limit = pLimit(gameType === 'sg' ? 10 : 20);
   const parsedReplays = await promiseAllWithProgress(
-    replays.map((replay) => limit(() => fetchReplayInfo(replay))),
+    replays.map((replay) => limit(() => fetchReplayInfo(replay, gameType))),
     gameType,
   );
   // compact remove null vallues
