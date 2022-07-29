@@ -35,9 +35,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: c-hive/gha-yarn-cache@v2
-    - uses: codecov/sg-replay-parser@v3
-      with:
-        files: ./coverage
     - name: Install dependencies
       run: yarn install
     - name: Run the tests
