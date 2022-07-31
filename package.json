@@ -10,8 +10,8 @@
     "prepare-replays": "yarn build-dist && node dist/!prepareReplaysList/index.js",
     "build-with-prepare": "yarn build-dist && node dist/!prepareReplaysList/index.js && node dist/index.js",
     "lint": "eslint ./src/**/*.ts",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "test": "jest src/!tests",
+    "test:watch": "jest src/!tests --watch"
   },
   "author": "Afgan0r",
   "devDependencies": {

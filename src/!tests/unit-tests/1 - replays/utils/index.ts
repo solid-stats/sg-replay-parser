@@ -1,4 +1,8 @@
+type Side = Exclude<EntitySide, 'WEST' | 'CIV' | 'UNKNOWN'>;
+
 export const defaultName = 'some_name';
+
+export const getDefaultMissionName = (gameType?: GameType) => `${gameType || 'sg'}@${defaultName}`;
 
 const defaultWeapon = 'M4A1';
 
@@ -36,12 +40,12 @@ export const generateReplayInfo = (
 });
 
 type GenerateEntity = {
-  isPlayer: Entity['isPlayer'],
-  type: Entity['type'],
-  side: Entity['side'],
-  id: Entity['id'],
-  name?: Entity['name'],
-  vehicleClass?: Entity['class'],
+  isPlayer: Entity['isPlayer'];
+  type: Entity['type'];
+  side: Side;
+  id: Entity['id'];
+  name?: Entity['name'];
+  vehicleClass?: Entity['class'];
 };
 
 export const generateEntity = ({
@@ -61,7 +65,7 @@ export const generateEntity = ({
   positions: [],
   side,
   id,
-  name: name || defaultName,
+  name: name || getNameById(id),
   group: defaultName,
 });
 
@@ -99,4 +103,38 @@ export const generateDefaultWeapons = (kills: WeaponStatistic['kills']): WeaponS
   name: defaultWeapon,
   kills,
   maxDistance: defaultDistance,
-}])
+}]);
+
+type GeneratePlayerInfo = {
+  id: PlayerInfo['id'];
+  name?: PlayerInfo['name'];
+  side: Side;
+  kills?: PlayerInfo['kills'];
+  vehicleKills?: PlayerInfo['vehicleKills'];
+  teamkills?: PlayerInfo['teamkills'];
+  isDead?: PlayerInfo['isDead'];
+  isDeadByTeamkill?: PlayerInfo['isDeadByTeamkill'];
+  weapons?: PlayerInfo['weapons'];
+};
+
+export const generatePlayerInfo = ({
+  id,
+  name,
+  side,
+  kills,
+  vehicleKills,
+  teamkills,
+  isDead,
+  isDeadByTeamkill,
+  weapons,
+}: GeneratePlayerInfo): PlayerInfo => ({
+  id,
+  name: name || getNameById(id),
+  side,
+  kills: kills || 0,
+  vehicleKills: vehicleKills || 0,
+  teamkills: teamkills || 0,
+  isDead: isDead || false,
+  isDeadByTeamkill: isDeadByTeamkill || false,
+  weapons: weapons || [],
+});

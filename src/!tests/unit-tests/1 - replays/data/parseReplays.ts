@@ -4,9 +4,10 @@ import {
   generateReplay,
   generateReplayInfo,
   generateKillEvent,
-  defaultName,
   getNameById,
   generateDefaultWeapons,
+  getDefaultMissionName,
+  generatePlayerInfo,
 } from '../utils';
 
 type TestData = {
@@ -24,7 +25,7 @@ const testData: TestData = {
   replays: [
     // generateReplay('sg', 'file_3', dates[2]),
     generateReplay('sg', 'file_1', dates[0]),
-    // generateReplay('sg', 'file_2', dates[1]),
+    generateReplay('sg', 'file_2', dates[1]),
   ],
   replayInfo: {
     // default behaviour with players connected later than start
@@ -33,6 +34,7 @@ const testData: TestData = {
         generateConnectEvent(3, getNameById(3)),
         generateConnectEvent(0, getNameById(0)),
         generateKillEvent({ killerId: 0, killedId: 3 }),
+        generateKillEvent({ killerId: 0, killedId: 6 }),
         generateKillEvent({ killerId: 5, killedId: 1 }),
         generateKillEvent({ killerId: 4, killedId: 5 }),
         generateKillEvent({ killerId: 0, killedId: 4 }),
@@ -79,13 +81,62 @@ const testData: TestData = {
           side: 'GUER',
           name: getNameById(5),
         }),
+        generateEntity({
+          isPlayer: 0,
+          id: 6,
+          type: 'unit',
+          side: 'GUER',
+        }),
+      ],
+    ),
+    // behaviour when player changes the game slot after start
+    file_2: generateReplayInfo(
+      [
+        generateConnectEvent(1, getNameById(0)),
+        generateConnectEvent(2, getNameById(0)),
+        generateKillEvent({ killedId: 0, killerId: 3 }),
+        generateKillEvent({ killedId: 1, killerId: 4 }),
+      ],
+      [
+        generateEntity({
+          isPlayer: 1,
+          id: 0,
+          type: 'unit',
+          side: 'EAST',
+        }),
+        generateEntity({
+          isPlayer: 1,
+          id: 1,
+          type: 'unit',
+          side: 'EAST',
+          name: '',
+        }),
+        generateEntity({
+          isPlayer: 1,
+          id: 2,
+          type: 'unit',
+          side: 'EAST',
+          name: '',
+        }),
+        generateEntity({
+          isPlayer: 1,
+          id: 3,
+          type: 'unit',
+          side: 'EAST',
+        }),
+        generateEntity({
+          isPlayer: 1,
+          id: 4,
+          type: 'unit',
+          side: 'GUER',
+        }),
       ],
     ),
   },
   result: [
     // file_1
     {
-      missionName: `sg@${defaultName}`,
+      missionName: getDefaultMissionName(),
       date: dates[0],
       result: [
         {
@@ -154,6 +205,26 @@ const testData: TestData = {
           isDeadByTeamkill: true,
           weapons: generateDefaultWeapons(1),
         },
+      ],
+    },
+    // file_2
+    {
+      date: dates[1],
+      missionName: getDefaultMissionName(),
+      result: [
+        generatePlayerInfo({
+          id: 2,
+          side: 'EAST',
+          name: getNameById(0),
+        }),
+        generatePlayerInfo({
+          id: 3,
+          side: 'EAST',
+        }),
+        generatePlayerInfo({
+          id: 4,
+          side: 'GUER',
+        }),
       ],
     },
   ],

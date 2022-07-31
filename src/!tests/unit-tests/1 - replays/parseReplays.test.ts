@@ -17,8 +17,10 @@ test('SG replays should be parsed correctly', async () => {
   const { replays, replayInfo, result } = testData;
 
   replays.forEach(({ filename }) => (
-    fetchMock.getOnce(`https://solidgames.ru/data/${filename}.json`, replayInfo[filename])
+    fetchMock.get(`https://solidgames.ru/data/${filename}.json`, replayInfo[filename])
   ));
 
   expect(await parseReplays(replays, 'sg')).toMatchObject(result);
 });
+
+// test('Errors during fetching should be ignored', () => { });

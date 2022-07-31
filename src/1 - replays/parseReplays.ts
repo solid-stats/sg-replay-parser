@@ -5,7 +5,6 @@ import pLimit from 'p-limit';
 import fetchData from '../0 - utils/fetchData';
 import promiseAllWithProgress from '../0 - utils/promiseAllWithProgress';
 import parseReplayInfo from '../2 - parseReplayInfo';
-import combineGameResults from './combineGameResults';
 
 const fetchReplayInfo = async (
   replay: Replay,
@@ -17,7 +16,7 @@ const fetchReplayInfo = async (
     );
 
     const parsedReplayInfo = parseReplayInfo(replayInfo);
-    const combinedResults = combineGameResults(Object.values(parsedReplayInfo));
+    const combinedResults = Object.values(parsedReplayInfo);
 
     if (gameType === 'mace' && Object.keys(parsedReplayInfo).length < 10) return null;
 
@@ -38,7 +37,10 @@ const fetchReplayInfo = async (
   }
 };
 
-const parseReplays = async (replays: Replay[], gameType: GameType) => {
+const parseReplays = async (
+  replays: Replay[],
+  gameType: GameType,
+): Promise<PlayersGameResult[]> => {
   const limit = pLimit(gameType === 'sg' ? 10 : 20);
   const parsedReplays = await promiseAllWithProgress(
     replays.map((replay) => limit(() => fetchReplayInfo(replay, gameType))),
