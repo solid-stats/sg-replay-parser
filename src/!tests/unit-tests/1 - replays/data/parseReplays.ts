@@ -23,7 +23,7 @@ const dates: Replay['date'][] = [
 ];
 const testData: TestData = {
   replays: [
-    // generateReplay('sg', 'file_3', dates[2]),
+    generateReplay('sg', 'file_3', dates[2]),
     generateReplay('sg', 'file_1', dates[0]),
     generateReplay('sg', 'file_2', dates[1]),
   ],
@@ -132,6 +132,92 @@ const testData: TestData = {
         }),
       ],
     ),
+    // behaviour with vehicle kills
+    file_3: generateReplayInfo(
+      [
+        generateKillEvent({
+          killedId: 4,
+          killerId: 2,
+          killerWeapon: 'BTR-82',
+          distance: 100,
+        }),
+        generateKillEvent({
+          killedId: 0,
+          killerId: 6,
+          killerWeapon: 'BTR-80A',
+          distance: 100,
+        }),
+        generateKillEvent({
+          killedId: 1,
+          killerId: 6,
+          killerWeapon: 'BTR-80A',
+          distance: 150,
+        }),
+        generateKillEvent({
+          killedId: 2,
+          killerId: 6,
+          killerWeapon: 'BTR-80A',
+          distance: 150,
+        }),
+        generateKillEvent({
+          killedId: 3,
+          killerId: 6,
+          killerWeapon: 'BTR-80A',
+          distance: 150,
+        }),
+      ],
+      [
+        generateEntity({
+          id: 0,
+          isPlayer: 1,
+          side: 'EAST',
+          type: 'unit',
+        }),
+        generateEntity({
+          id: 1,
+          isPlayer: 1,
+          side: 'EAST',
+          type: 'unit',
+        }),
+        generateEntity({
+          id: 2,
+          isPlayer: 1,
+          side: 'EAST',
+          type: 'unit',
+        }),
+        generateEntity({
+          id: 3,
+          type: 'vehicle',
+          name: 'BTR-82',
+          vehicleClass: 'apc',
+        }),
+
+        generateEntity({
+          id: 4,
+          isPlayer: 1,
+          side: 'GUER',
+          type: 'unit',
+        }),
+        generateEntity({
+          id: 5,
+          isPlayer: 1,
+          side: 'GUER',
+          type: 'unit',
+        }),
+        generateEntity({
+          id: 6,
+          isPlayer: 1,
+          side: 'GUER',
+          type: 'unit',
+        }),
+        generateEntity({
+          id: 7,
+          type: 'vehicle',
+          name: 'BTR-80A',
+          vehicleClass: 'apc',
+        }),
+      ],
+    ),
   },
   result: [
     // file_1
@@ -192,6 +278,46 @@ const testData: TestData = {
         generatePlayerInfo({
           id: 4,
           side: 'GUER',
+        }),
+      ],
+    },
+    // file_3
+    {
+      date: dates[2],
+      missionName: getDefaultMissionName(),
+      result: [
+        generatePlayerInfo({
+          id: 0,
+          side: 'EAST',
+          isDead: true,
+        }),
+        generatePlayerInfo({
+          id: 1,
+          side: 'EAST',
+          isDead: true,
+        }),
+        generatePlayerInfo({
+          id: 2,
+          side: 'EAST',
+          kills: 1,
+          isDead: true,
+          weapons: [{ name: 'BTR-82', kills: 1, maxDistance: 100 }],
+        }),
+        generatePlayerInfo({
+          id: 4,
+          side: 'GUER',
+          isDead: true,
+        }),
+        generatePlayerInfo({
+          id: 5,
+          side: 'GUER',
+        }),
+        generatePlayerInfo({
+          id: 6,
+          side: 'GUER',
+          kills: 3,
+          vehicleKills: 1,
+          weapons: [{ kills: 3, maxDistance: 150, name: 'BTR-80A' }],
         }),
       ],
     },

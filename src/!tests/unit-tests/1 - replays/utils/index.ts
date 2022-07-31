@@ -1,6 +1,6 @@
 type Side = Exclude<EntitySide, 'WEST' | 'CIV' | 'UNKNOWN'>;
 
-export const defaultName = 'some_name';
+const defaultName = 'some_name';
 
 export const getDefaultMissionName = (gameType?: GameType) => `${gameType || 'sg'}@${defaultName}`;
 
@@ -40,9 +40,9 @@ export const generateReplayInfo = (
 });
 
 type GenerateEntity = {
-  isPlayer: Entity['isPlayer'];
+  isPlayer?: Entity['isPlayer'];
   type: Entity['type'];
-  side: Side;
+  side?: Side;
   id: Entity['id'];
   name?: Entity['name'];
   vehicleClass?: Entity['class'];

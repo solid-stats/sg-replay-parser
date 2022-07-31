@@ -16,17 +16,17 @@ type VehicleClass = Omit<RawVehicleClass, 'parachute' | 'static-weapon' | 'sea'>
 type VehiclePositions = [unkwn: unknown[], unkwn: unknown, unkwn: unknown, playersInside: number[]];
 
 type Entity = {
-  description: string;
+  description?: string;
   framesFires: any[];
-  isPlayer: 0 | 1;
+  isPlayer?: 0 | 1;
   type: 'unit' | 'vehicle';
   class?: RawVehicleClass;
   startFrameNum: number;
   positions: VehiclePositions[];
-  side: EntitySide;
+  side?: EntitySide;
   id: EntityId;
   name: EntityName;
-  group: string;
+  group?: string;
 };
 
 type ReplayInfo = {
