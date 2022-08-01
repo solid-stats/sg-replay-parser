@@ -1,6 +1,5 @@
 import {
   generateConnectEvent,
-  generateEntity,
   generateReplay,
   generateReplayInfo,
   generateKillEvent,
@@ -8,6 +7,8 @@ import {
   generateDefaultWeapons,
   getDefaultMissionName,
   generatePlayerInfo,
+  generatePlayerEntity,
+  generateVehicleEntity,
 } from '../utils';
 
 type TestData = {
@@ -40,51 +41,34 @@ const testData: TestData = {
         generateKillEvent({ killerId: 0, killedId: 4 }),
       ],
       [
-        generateEntity({
-          isPlayer: 1,
+        generatePlayerEntity({
           id: 0,
-          type: 'unit',
           side: 'EAST',
         }),
-        generateEntity({
-          isPlayer: 1,
+        generatePlayerEntity({
           id: 1,
-          type: 'unit',
           side: 'EAST',
-          name: getNameById(1),
         }),
-        generateEntity({
-          isPlayer: 1,
+        generatePlayerEntity({
           id: 2,
-          type: 'unit',
           side: 'EAST',
-          name: getNameById(2),
         }),
 
-        generateEntity({
-          isPlayer: 1,
+        generatePlayerEntity({
           id: 3,
-          type: 'unit',
           side: 'GUER',
         }),
-        generateEntity({
-          isPlayer: 1,
+        generatePlayerEntity({
           id: 4,
-          type: 'unit',
           side: 'GUER',
-          name: getNameById(4),
         }),
-        generateEntity({
-          isPlayer: 1,
+        generatePlayerEntity({
           id: 5,
-          type: 'unit',
           side: 'GUER',
-          name: getNameById(5),
         }),
-        generateEntity({
+        generatePlayerEntity({
           isPlayer: 0,
           id: 6,
-          type: 'unit',
           side: 'GUER',
         }),
       ],
@@ -98,36 +82,26 @@ const testData: TestData = {
         generateKillEvent({ killedId: 1, killerId: 4 }),
       ],
       [
-        generateEntity({
-          isPlayer: 1,
+        generatePlayerEntity({
           id: 0,
-          type: 'unit',
           side: 'EAST',
         }),
-        generateEntity({
-          isPlayer: 1,
+        generatePlayerEntity({
           id: 1,
-          type: 'unit',
           side: 'EAST',
           name: '',
         }),
-        generateEntity({
-          isPlayer: 1,
+        generatePlayerEntity({
           id: 2,
-          type: 'unit',
           side: 'EAST',
           name: '',
         }),
-        generateEntity({
-          isPlayer: 1,
+        generatePlayerEntity({
           id: 3,
-          type: 'unit',
           side: 'EAST',
         }),
-        generateEntity({
-          isPlayer: 1,
+        generatePlayerEntity({
           id: 4,
-          type: 'unit',
           side: 'GUER',
         }),
       ],
@@ -167,52 +141,38 @@ const testData: TestData = {
         }),
       ],
       [
-        generateEntity({
+        generatePlayerEntity({
           id: 0,
-          isPlayer: 1,
           side: 'EAST',
-          type: 'unit',
         }),
-        generateEntity({
+        generatePlayerEntity({
           id: 1,
-          isPlayer: 1,
           side: 'EAST',
-          type: 'unit',
         }),
-        generateEntity({
+        generatePlayerEntity({
           id: 2,
-          isPlayer: 1,
           side: 'EAST',
-          type: 'unit',
         }),
-        generateEntity({
+        generateVehicleEntity({
           id: 3,
-          type: 'vehicle',
           name: 'BTR-82',
           vehicleClass: 'apc',
         }),
 
-        generateEntity({
+        generatePlayerEntity({
           id: 4,
-          isPlayer: 1,
           side: 'GUER',
-          type: 'unit',
         }),
-        generateEntity({
+        generatePlayerEntity({
           id: 5,
-          isPlayer: 1,
           side: 'GUER',
-          type: 'unit',
         }),
-        generateEntity({
+        generatePlayerEntity({
           id: 6,
-          isPlayer: 1,
           side: 'GUER',
-          type: 'unit',
         }),
-        generateEntity({
+        generateVehicleEntity({
           id: 7,
-          type: 'vehicle',
           name: 'BTR-80A',
           vehicleClass: 'apc',
         }),

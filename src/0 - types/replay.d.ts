@@ -15,18 +15,25 @@ type RawVehicleClass = 'parachute' | 'car' | 'truck' | 'plane' | 'sea' | 'apc' |
 type VehicleClass = Omit<RawVehicleClass, 'parachute' | 'static-weapon' | 'sea'>;
 type VehiclePositions = [unkwn: unknown[], unkwn: unknown, unkwn: unknown, playersInside: number[]];
 
-type Entity = {
-  description?: string;
-  framesFires: any[];
-  isPlayer?: 0 | 1;
-  type: 'unit' | 'vehicle';
-  class?: RawVehicleClass;
-  startFrameNum: number;
-  positions: VehiclePositions[];
-  side?: EntitySide;
+type CommonEntity = {
   id: EntityId;
   name: EntityName;
-  group?: string;
+  framesFires: any[];
+  startFrameNum: number;
+  positions: VehiclePositions[];
+};
+
+type PlayerEntity = CommonEntity & {
+  type: 'unit';
+  description: string;
+  isPlayer: 0 | 1;
+  side: EntitySide;
+  group: string;
+};
+
+type VehicleEntity = CommonEntity & {
+  type: 'vehicle';
+  vehicleClass: RawVehicleClass;
 };
 
 type ReplayInfo = {
@@ -34,7 +41,7 @@ type ReplayInfo = {
   endFrame: number;
   captureDelay: number;
   events: (ConnectEvent | KillEvent)[];
-  entities: Entity[];
+  entities: Array<PlayerEntity | VehicleEntity>;
   EditorMarkers: any[];
   Markers: any[];
   missionAuthor: string;

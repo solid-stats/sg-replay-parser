@@ -8,7 +8,7 @@ const defaultWeapon = 'M4A1';
 
 const defaultDistance = 100;
 
-export const getNameById = (id: Entity['id']) => `some_name_${id + 1}`;
+export const getNameById = (id: EntityId) => `some_name_${id + 1}`;
 
 export const generateReplay = (
   gameType: GameType | SkippedGameTypes,
@@ -39,34 +39,49 @@ export const generateReplayInfo = (
   worldName: 'unknown',
 });
 
-type GenerateEntity = {
-  isPlayer?: Entity['isPlayer'];
-  type: Entity['type'];
-  side?: Side;
-  id: Entity['id'];
-  name?: Entity['name'];
-  vehicleClass?: Entity['class'];
+type GeneratePlayerEntity = {
+  id: PlayerEntity['id'];
+  side: PlayerEntity['side'];
+  isPlayer?: PlayerEntity['isPlayer'];
+  name?: PlayerEntity['name'];
 };
 
-export const generateEntity = ({
+export const generatePlayerEntity = ({
   isPlayer,
-  type,
   side,
   id,
   name,
-  vehicleClass,
-}: GenerateEntity): Entity => ({
+}: GeneratePlayerEntity): PlayerEntity => ({
   description: defaultName,
   framesFires: [],
-  isPlayer,
-  type,
-  class: vehicleClass,
+  isPlayer: isPlayer === undefined ? 1 : 0,
   startFrameNum: 0,
   positions: [],
   side,
   id,
   name: name || getNameById(id),
   group: defaultName,
+  type: 'unit',
+});
+
+type GenerateVehicleEntity = {
+  id: VehicleEntity['id'];
+  vehicleClass: VehicleEntity['vehicleClass'];
+  name?: VehicleEntity['name'];
+};
+
+export const generateVehicleEntity = ({
+  id,
+  vehicleClass,
+  name,
+}: GenerateVehicleEntity): VehicleEntity => ({
+  framesFires: [],
+  type: 'vehicle',
+  vehicleClass,
+  startFrameNum: 0,
+  positions: [],
+  id,
+  name: name || getNameById(id),
 });
 
 export const generateConnectEvent = (

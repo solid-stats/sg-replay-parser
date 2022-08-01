@@ -16,12 +16,12 @@ const fetchReplayInfo = async (
     );
 
     const parsedReplayInfo = parseReplayInfo(replayInfo);
-    const combinedResults = Object.values(parsedReplayInfo);
+    const result = Object.values(parsedReplayInfo);
 
-    if (gameType === 'mace' && Object.keys(parsedReplayInfo).length < 10) return null;
+    if (gameType === 'mace' && result.length < 10) return null;
 
     return {
-      result: combinedResults,
+      result,
       date: replay.date,
       missionName: replay.missionName,
     };
