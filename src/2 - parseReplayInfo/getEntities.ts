@@ -47,8 +47,6 @@ const getEntities = ({ entities, events }: ReplayInfo): VehiclesWithPlayersList 
     if (eventType === 'connected') {
       const [, , name, id] = event;
 
-      if (isUndefined(id)) return;
-
       const entityInfo = entities.find((entity) => entity.id === id);
 
       if (isUndefined(entityInfo) || entityInfo.type === 'vehicle') return;

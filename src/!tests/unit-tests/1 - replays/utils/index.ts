@@ -90,7 +90,7 @@ export const generateConnectEvent = (
 ): ConnectEvent => ([
   0,
   'connected',
-  name || defaultName,
+  name || getNameById(id),
   id,
 ]);
 

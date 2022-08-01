@@ -21,19 +21,22 @@ const dates: Replay['date'][] = [
   '2022-07-25T00:00:00.000Z',
   '2022-07-29T00:00:00.000Z',
   '2022-07-29T00:00:00.001Z',
+  '2022-07-29T00:00:00.002Z',
 ];
 const testData: TestData = {
   replays: [
     generateReplay('sg', 'file_3', dates[2]),
     generateReplay('sg', 'file_1', dates[0]),
     generateReplay('sg', 'file_2', dates[1]),
+    generateReplay('sg', 'file_4', dates[3]),
   ],
   replayInfo: {
     // default behaviour with players connected later than start
     file_1: generateReplayInfo(
       [
-        generateConnectEvent(3, getNameById(3)),
-        generateConnectEvent(0, getNameById(0)),
+        generateConnectEvent(3),
+        generateConnectEvent(0),
+        generateConnectEvent(952),
         generateKillEvent({ killerId: 0, killedId: 3 }),
         generateKillEvent({ killerId: 0, killedId: 6 }),
         generateKillEvent({ killerId: 5, killedId: 1 }),
@@ -44,6 +47,7 @@ const testData: TestData = {
         generatePlayerEntity({
           id: 0,
           side: 'EAST',
+          name: '',
         }),
         generatePlayerEntity({
           id: 1,
@@ -57,6 +61,7 @@ const testData: TestData = {
         generatePlayerEntity({
           id: 3,
           side: 'GUER',
+          name: '',
         }),
         generatePlayerEntity({
           id: 4,
@@ -178,6 +183,29 @@ const testData: TestData = {
         }),
       ],
     ),
+    // behaviour when player or vehicle are killing themselves
+    file_4: generateReplayInfo(
+      [
+        generateKillEvent({ killedId: 0, killerId: 0 }),
+        generateKillEvent({ killedId: 1, killerId: 1 }),
+        generateKillEvent({ killedId: 2, killerId: 2 }),
+      ],
+      [
+        generatePlayerEntity({
+          id: 0,
+          side: 'EAST',
+        }),
+        generatePlayerEntity({
+          id: 1,
+          side: 'EAST',
+        }),
+        generateVehicleEntity({
+          id: 2,
+          name: 'BTR-80',
+          vehicleClass: 'apc',
+        }),
+      ],
+    ),
   },
   result: [
     // file_1
@@ -279,6 +307,15 @@ const testData: TestData = {
           vehicleKills: 1,
           weapons: [{ kills: 3, maxDistance: 150, name: 'BTR-80A' }],
         }),
+      ],
+    },
+    // file_4
+    {
+      date: dates[3],
+      missionName: getDefaultMissionName(),
+      result: [
+        generatePlayerInfo({ id: 0, isDead: true, side: 'EAST' }),
+        generatePlayerInfo({ id: 1, isDead: true, side: 'EAST' }),
       ],
     },
   ],
