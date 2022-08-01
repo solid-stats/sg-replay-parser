@@ -19,7 +19,7 @@ const getEntities = ({ entities, events }: ReplayInfo): VehiclesWithPlayersList 
   entities.forEach(({
     name, side, id, class: vehicleClass, type, isPlayer,
   }) => {
-    if (type === 'unit' && isPlayer) {
+    if (type === 'unit' && isPlayer && side) {
       players[id] = {
         ...defaultPlayerInfo,
         id,
@@ -49,7 +49,7 @@ const getEntities = ({ entities, events }: ReplayInfo): VehiclesWithPlayersList 
 
       const entityInfo = entities.find((entity) => entity.id === id);
 
-      if (isUndefined(entityInfo)) return;
+      if (isUndefined(entityInfo) || !entityInfo.side) return;
 
       players[id] = {
         ...defaultPlayerInfo,
