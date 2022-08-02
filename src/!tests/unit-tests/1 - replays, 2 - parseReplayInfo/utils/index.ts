@@ -114,11 +114,11 @@ export const generateKillEvent = ({
   distance || defaultDistance,
 ]);
 
-export const generateDefaultWeapons = (kills: WeaponStatistic['kills']): WeaponStatistic[] => ([{
+export const generateDefaultWeapons = (kills: WeaponStatistic['kills']): WeaponStatistic[] => (kills ? [{
   name: defaultWeapon,
   kills,
   maxDistance: defaultDistance,
-}]);
+}] : []);
 
 type GeneratePlayerInfo = {
   id: PlayerInfo['id'];
@@ -151,5 +151,5 @@ export const generatePlayerInfo = ({
   teamkills: teamkills || 0,
   isDead: isDead || false,
   isDeadByTeamkill: isDeadByTeamkill || false,
-  weapons: weapons || [],
+  weapons: weapons || generateDefaultWeapons(kills || 0),
 });
