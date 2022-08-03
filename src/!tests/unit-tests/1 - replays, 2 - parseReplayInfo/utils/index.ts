@@ -1,4 +1,4 @@
-type Side = Exclude<EntitySide, 'WEST' | 'CIV' | 'UNKNOWN'>;
+export type GeneratorSide = Exclude<EntitySide, 'WEST' | 'CIV' | 'UNKNOWN'>;
 
 const defaultName = 'some_name';
 
@@ -123,7 +123,7 @@ export const generateDefaultWeapons = (kills: WeaponStatistic['kills']): WeaponS
 type GeneratePlayerInfo = {
   id: PlayerInfo['id'];
   name?: PlayerInfo['name'];
-  side: Side;
+  side: GeneratorSide;
   kills?: PlayerInfo['kills'];
   vehicleKills?: PlayerInfo['vehicleKills'];
   teamkills?: PlayerInfo['teamkills'];
