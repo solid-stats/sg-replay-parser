@@ -23,7 +23,7 @@ const generateWeekStats = (
       : weekInfo.deaths.byTeamkills,
   };
   const utcDate = dayjsUTC(date);
-  const week = weekInfo.week || utcDate.format('YYYY-WW') as WeekNumber;
+  const week = weekInfo.week || utcDate.format('GGGG-WW') as WeekNumber;
   const startDate = weekInfo.startDate || utcDate.startOf('isoWeek').toJSON();
   const endDate = weekInfo.endDate || utcDate.endOf('isoWeek').toJSON();
 

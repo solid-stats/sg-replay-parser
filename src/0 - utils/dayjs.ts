@@ -17,4 +17,4 @@ vanillaDayjs.extend(weekOfYear);
 
 export const dayjsUTC = (date?: string) => vanillaDayjs.utc(date);
 
-export const dayjsUnix = (date: number) => vanillaDayjs.unix(date);
+export const dayjsUnix = (date: number) => vanillaDayjs.unix(date).utc();
