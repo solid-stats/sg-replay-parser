@@ -26,7 +26,7 @@ const calculateSquadStatistics = (
   const endDate = rotationEndDate || dayjsUTC().endOf('isoWeek');
 
   const lastReplayDate = dayjsUTC(replays[replays.length - 1].date);
-  const isNoGamesThisWeek = endDate.isoWeekYear() > lastReplayDate.isoWeekYear();
+  const isNoGamesThisWeek = endDate.isoWeek() > lastReplayDate.isoWeek();
   const last4WeeksInterval: DayjsInterval = [
     endDate.subtract(isNoGamesThisWeek ? 5 : 4, 'weeks'),
     endDate,
