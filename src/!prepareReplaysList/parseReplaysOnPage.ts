@@ -42,11 +42,11 @@ const parseTableRowInfo = async (el: Element, alreadyParsedReplays: Output['pars
 
   return {
     // regexp removes [email protected] from string
-    missionName: missionGameType + linkElement.textContent.replace(/\[[^\]]*\]*/g, ''),
+    mission_name: missionGameType + linkElement.textContent.replace(/\[[^\]]*\]*/g, ''),
     filename,
     date,
     serverId: parseInt(tableCells[2].textContent || '', 10) || 0,
-    worldName: tableCells[1].textContent || 'unknown',
+    world_name: tableCells[1].textContent || 'unknown',
     replayLink,
   };
 };

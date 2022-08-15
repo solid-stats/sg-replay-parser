@@ -10,8 +10,10 @@ import calculateSquadStatistics from './3 - statistics/squads';
 import generateOutput from './4 - output';
 
 const getParsedReplays = async (gameType: GameType): Promise<PlayersGameResult[]> => {
+  if (gameType === 'mace') return [];
+
   const replays = await getReplays(gameType);
-  const parsedReplays = await parseReplays(replays, gameType);
+  const parsedReplays = await parseReplays(replays.slice(0, 10), gameType);
 
   // used only in development
   // const parsedReplays = await parseReplays(

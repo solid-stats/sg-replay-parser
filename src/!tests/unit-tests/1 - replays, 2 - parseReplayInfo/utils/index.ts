@@ -1,4 +1,4 @@
-export type GeneratorSide = Exclude<EntitySide, 'WEST' | 'CIV' | 'UNKNOWN'>;
+type GeneratorSide = Exclude<EntitySide, 'WEST' | 'CIV' | 'UNKNOWN'>;
 
 const defaultName = 'some_name';
 
@@ -15,12 +15,12 @@ export const generateReplay = (
   filename: Replay['filename'],
   date?: Replay['date'],
 ): Replay => ({
-  missionName: `${gameType}@${defaultName}`,
+  mission_name: `${gameType}@${defaultName}`,
   date: date || 'some_date',
   filename,
   replayLink: '/replays/123',
   serverId: 1,
-  worldName: 'unknown',
+  world_name: 'unknown',
 });
 
 export const generateReplayInfo = (

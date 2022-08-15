@@ -18,8 +18,8 @@ const getReplays = async (gameType: GameType): Promise<Replay[]> => {
   const uniqueReplays = uniqBy(allReplays, 'filename');
   const replays = uniqueReplays.filter(
     (replay) => (
-      replay.missionName.startsWith(gameType)
-      && !replay.missionName.startsWith('sgs')
+      replay.mission_name.startsWith(gameType)
+      && !replay.mission_name.startsWith('sgs')
     ),
   );
 

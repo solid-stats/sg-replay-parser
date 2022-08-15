@@ -78,7 +78,7 @@ type VehiclesWithPlayersList = {
 type PlayersGameResult = {
   result: PlayerInfo[];
   date: Replay['date'];
-  missionName: Replay['missionName'];
+  missionName: Replay['mission_name'];
 };
 
 type GameType = 'sg' | 'mace';
