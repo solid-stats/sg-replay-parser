@@ -123,7 +123,7 @@ export const generateDefaultWeapons = (kills: WeaponStatistic['kills']): WeaponS
 type GeneratePlayerInfo = {
   id: PlayerInfo['id'];
   name?: PlayerInfo['name'];
-  side: GeneratorSide;
+  side?: GeneratorSide;
   kills?: PlayerInfo['kills'];
   vehicleKills?: PlayerInfo['vehicleKills'];
   teamkills?: PlayerInfo['teamkills'];
@@ -145,7 +145,7 @@ export const generatePlayerInfo = ({
 }: GeneratePlayerInfo): PlayerInfo => ({
   id,
   name: name || getNameById(id),
-  side,
+  side: side || 'EAST',
   kills: kills || 0,
   vehicleKills: vehicleKills || 0,
   teamkills: teamkills || 0,

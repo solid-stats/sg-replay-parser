@@ -23,12 +23,10 @@ const calculateSquadStatistics = (
   const playersBySquadPrefix: PlayersBySquadPrefix = groupBy(filteredStatistics, 'lastSquadPrefix');
   const filteredPlayersBySquadPrefix: PlayersBySquadPrefix = {};
 
-  const endDate = rotationEndDate || dayjsUTC().endOf('isoWeek');
+  const endDate = rotationEndDate || dayjsUTC().endOf('day');
 
-  const lastReplayDate = dayjsUTC(replays[replays.length - 1].date);
-  const isNoGamesThisWeek = endDate.isoWeek() > lastReplayDate.isoWeek();
   const last4WeeksInterval: DayjsInterval = [
-    endDate.subtract(isNoGamesThisWeek ? 5 : 4, 'weeks'),
+    endDate.subtract(4, 'weeks'),
     endDate,
   ];
 
