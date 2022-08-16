@@ -11,6 +11,7 @@ import parsedReplays, {
   squadStatisticsAfterFirstDay,
   parsedReplaysOnLastSaturday,
   squadStatisticsAfterGameWeekend,
+  squadStatisticsWithAllPlayers,
 } from './data/forSquadStatistics';
 
 describe('Calculation of squad statistics on any non-weekend day should return correct and same results', () => {
@@ -121,4 +122,21 @@ test('Squads with less than 5 members should not account', () => {
   const squadStatistics = calculateSquadStatistics(globalStatistics, replays);
 
   expect(squadStatistics).toHaveLength(1);
+});
+
+test('Calculation of squad statistics with rotationEndDate parameter should return correct value', () => {
+  const date = dayjs.dayjsUTC('2023-08-15');
+  const rotationEndDate = dayjs.dayjsUTC('2022-08-14').endOf('day');
+
+  const globalStatistics = calculateGlobalStatistics(parsedReplays);
+
+  jest.spyOn(dayjs, 'dayjsUTC').mockImplementationOnce(() => date);
+
+  const squadStatistics = calculateSquadStatistics(
+    globalStatistics,
+    parsedReplays,
+    rotationEndDate,
+  );
+
+  expect(squadStatistics).toMatchObject(squadStatisticsWithAllPlayers);
 });

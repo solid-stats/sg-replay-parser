@@ -1193,4 +1193,15 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
   },
 ];
 
+const allPlayers = {
+  '[FNX]': ['Skywalker', 'Flashback', 'Mecheniy', 'Puma', 'LOXDOR', 'T1m', 'Afgan0r', 'Brom'],
+  '[CU]': ['Eeshka', 'Nucis', 'Grow', 'HaskiLove', 'Savel', 'Koshmar', 'Syargik'],
+  '[W8]': ['Mercenary', 'Piligrim', 'Svyat', 'Advocat', 'Parker', 'kvadrat', 'Gre4a', 'Major', 'callisto1', 'Honest', 'Eleven', 'Neon'],
+};
+
+export const squadStatisticsWithAllPlayers: GlobalSquadStatistics[] = squadStatisticsOnNonWeekend.map((stats) => ({
+  ...stats,
+  players: allPlayers[stats.prefix],
+}));
+
 export default parsedReplays;
