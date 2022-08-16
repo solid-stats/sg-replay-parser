@@ -79,3 +79,11 @@ test('isBetween should work correct', () => {
     datesToTest.filter((date) => isInInterval(date.toISOString(), interval)),
   ).toStrictEqual(correctDays);
 });
+
+test('weekday should set and return correct day of the week', () => {
+  expect(dayjsUTC('2022-08-15').weekday()).toEqual(0);
+  expect(dayjsUTC('2022-08-21').weekday()).toEqual(6);
+
+  expect(dayjsUTC('2022-08-17').weekday(0).format(testFormat)).toEqual('2022-08-15T00:00:00 +0000');
+  expect(dayjsUTC('2022-08-17').weekday(6).format(testFormat)).toEqual('2022-08-21T00:00:00 +0000');
+});
