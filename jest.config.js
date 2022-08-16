@@ -9,6 +9,7 @@ module.exports = {
     './src/**/*.ts',
     '!./src/**/*.d.ts',
     '!./src/index.ts',
+    '!./src/0\\ -\\ utils/progressHandler.ts',
     '!./src/!prepareReplaysList/**/*.ts',
     '!./src/!tests/**/*.ts',
   ],
