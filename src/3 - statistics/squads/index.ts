@@ -37,8 +37,6 @@ const calculateSquadStatistics = (
     endDate,
   ];
 
-  // console.log(endDate.toISOString(), endDate.subtract(4, 'weeks').toISOString(), lastReplayDate.toISOString());
-
   Object.keys(playersBySquadPrefix).forEach((prefix) => {
     const players = playersBySquadPrefix[prefix];
     const filteredPlayers = players.filter((player) => (

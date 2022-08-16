@@ -986,7 +986,7 @@ export const parsedReplaysOnLastSaturday = [
       generatePlayerInfo({ id: 5, name: '[FNX]LOXDOR' }),
       generatePlayerInfo({ id: 6, name: '[FNX]T1m' }),
 
-      generatePlayerInfo({ id: 8, name: '[W8]Piligrim', kills: 8, teamkills: 2 }),
+      generatePlayerInfo({ id: 8, name: '[W8]Piligrim', kills: 2, teamkills: 2 }),
       generatePlayerInfo({ id: 9, name: '[W8]Parker', kills: 2 }),
       generatePlayerInfo({ id: 10, name: '[W8]Svyat', kills: 3 }),
       generatePlayerInfo({ id: 11, name: '[W8]callisto1', kills: 1 }),
@@ -1000,7 +1000,7 @@ export const parsedReplaysOnLastSaturday = [
       generatePlayerInfo({ id: 19, name: '[W8]Eleven', teamkills: 1 }),
 
       generatePlayerInfo({ id: 20, name: '[CU]HaskiLove', kills: 2 }),
-      generatePlayerInfo({ id: 21, name: '[CU]Nucis', kills: 5 }),
+      generatePlayerInfo({ id: 21, name: '[CU]Nucis', kills: 8 }),
       generatePlayerInfo({ id: 23, name: '[CU]Eeshka', kills: 3 }),
       generatePlayerInfo({ id: 24, name: '[CU]Savel' }),
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar' }),
@@ -1022,9 +1022,9 @@ export const parsedReplaysOnLastSaturday = [
       generatePlayerInfo({ id: 10, name: '[W8]Svyat' }),
       generatePlayerInfo({ id: 11, name: '[W8]callisto1' }),
       generatePlayerInfo({ id: 12, name: '[W8]Mercenary' }),
-      generatePlayerInfo({ id: 14, name: '[W8]kvadrat', kills: 1 }),
+      generatePlayerInfo({ id: 14, name: '[W8]kvadrat', kills: 3 }),
       generatePlayerInfo({ id: 15, name: '[W8]Gre4a' }),
-      generatePlayerInfo({ id: 16, name: '[W8]Major', kills: 2 }),
+      generatePlayerInfo({ id: 16, name: '[W8]Major', kills: 2, teamkills: 1 }),
       generatePlayerInfo({ id: 18, name: '[W8]Honest' }),
       generatePlayerInfo({ id: 19, name: '[W8]Eleven' }),
 
@@ -1037,6 +1037,11 @@ export const parsedReplaysOnLastSaturday = [
   },
 ];
 
+// FNX
+// players: 116
+// kills: 123
+// teamkills: 26
+
 // W8
 // players: 170
 // kills: 176
@@ -1046,11 +1051,6 @@ export const parsedReplaysOnLastSaturday = [
 // players: 101
 // kills: 126
 // teamkills: 7
-
-// FNX
-// players: 116
-// kills: 123
-// teamkills: 26
 
 export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
   {
@@ -1085,6 +1085,13 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
   },
 ];
 
+// FNX
+// players: 116 / -8 -7 +6 +7 = 114
+// kills: 123 / -11 -5 +8 +4 = 119
+// teamkills: 26 / -1 -1 +0 +1 = 25
+// totalKills: 208 / +8 +4 = 220
+// totalTeamkills: 48 / +1 = 49
+
 // W8
 // players: 170 / -11 -10 +8 +11 = 168
 // kills: 176 / -17 -5 +7 +5 = 166
@@ -1098,13 +1105,6 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
 // teamkills: 7 / -2 -0 +1 +0 = 6
 // totalKills: 222 / +8 +6 = 236
 // totalTeamkills: 13 / +1 = 14
-
-// FNX
-// players: 116 / -8 -7 +6 +7 = 114
-// kills: 123 / -11 -5 +8 +4 = 119
-// teamkills: 26 / -1 -1 +0 +1 = 25
-// totalKills: 208 / +8 +4 = 220
-// totalTeamkills: 48 / +1 = 49
 
 export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
   {
@@ -1136,6 +1136,60 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
     averageTeamkills: 0.13,
     score: 0.99,
     players: ['Mercenary', 'Piligrim', 'Svyat', 'Parker', 'Gre4a', 'kvadrat', 'Major', 'callisto1', 'Honest', 'Eleven'],
+  },
+];
+
+// FNX
+// players: 116 / -8 -7 +6 +7 = 114 / -8 -7 +5 +6 = 110
+// kills: 123 / -11 -5 +8 +4 = 119 / -10 -5 +10 +4 = 118
+// teamkills: 26 / -1 -1 +0 +1 = 25 / -4 -0 +3 +2 = 26
+// totalKills: 208 / +8 +4 = 220 / +10 +4 = 234
+// totalTeamkills: 48 / +1 = 49 / +3 +2 = 54
+
+// W8
+// players: 170 / -11 -10 +8 +11 = 168 / -11 -10 +12 +10 = 169
+// kills: 176 / -17 -5 +7 +5 = 166 / -18 -4 +12 +6 = 162
+// teamkills: 23 / -3 -0 +1 +0 = 21 / -3 -0 +3 +1 = 22
+// totalKills: 306 / +7 +5 = 318 / +12 +6 = 336
+// totalTeamkills: 45 / +1 = 46 / +3 +1 = 50
+
+// CU
+// players: 101 / -7 -7 +6 +5 = 98 / -7 -7 +5 +5 = 94
+// kills: 126 / -9 -6 +8 +6 = 125 / -10 -7 +13 +1 = 122
+// teamkills: 7 / -2 -0 +1 +0 = 6 / -0 -0 +0 +0 = 6
+// totalKills: 222 / +8 +6 = 236 / +13 +1 = 250
+// totalTeamkills: 13 / +1 = 14 / +0 +0 = 14
+
+export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
+  {
+    prefix: '[CU]',
+    averagePlayersCount: 5.88,
+    kills: 250,
+    averageKills: 7.63,
+    teamkills: 14,
+    averageTeamkills: 0.05,
+    score: 1.3,
+    players: ['Eeshka', 'Nucis', 'Grow', 'HaskiLove', 'Savel', 'Koshmar', 'Syargik'],
+  },
+  {
+    prefix: '[FNX]',
+    averagePlayersCount: 6.88,
+    kills: 234,
+    averageKills: 7.38,
+    teamkills: 54,
+    averageTeamkills: 0.22,
+    score: 1.07,
+    players: ['Skywalker', 'Flashback', 'Mecheniy', 'Puma', 'LOXDOR', 'Afgan0r', 'T1m'],
+  },
+  {
+    prefix: '[W8]',
+    averagePlayersCount: 10.56,
+    kills: 336,
+    averageKills: 10.13,
+    teamkills: 50,
+    averageTeamkills: 0.14,
+    score: 0.96,
+    players: ['Mercenary', 'Piligrim', 'Svyat', 'Parker', 'kvadrat', 'Gre4a', 'Major', 'callisto1', 'Honest', 'Eleven'],
   },
 ];
 

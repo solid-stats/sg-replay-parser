@@ -3,10 +3,14 @@
 import * as dayjs from '../../../0 - utils/dayjs';
 import calculateGlobalStatistics from '../../../3 - statistics/global';
 import calculateSquadStatistics from '../../../3 - statistics/squads';
+import { generatePlayerInfo } from '../1 - replays, 2 - parseReplayInfo/utils';
+import data from './data/forGlobalStatistics';
 import parsedReplays, {
   squadStatisticsOnNonWeekend,
   parsedReplaysOnLastFriday,
   squadStatisticsAfterFirstDay,
+  parsedReplaysOnLastSaturday,
+  squadStatisticsAfterGameWeekend,
 } from './data/forSquadStatistics';
 
 describe('Calculation of squad statistics on any non-weekend day should return correct and same results', () => {
@@ -53,4 +57,68 @@ describe('Calculation of squad statistics on Friday, after the game, and on Satu
       expect(squadStatistics).toMatchObject(statisticsToCompare);
     });
   });
+});
+
+describe('Calculation of squad statistics on Saturday, after the game, on Sunday morning and evening should return correct and same results', () => {
+  const dates = [dayjs.dayjsUTC('2022-08-20 20:04:23'), dayjs.dayjsUTC('2022-08-21 10:00'), dayjs.dayjsUTC('2022-08-21').endOf('day')];
+  const replays = [...parsedReplays, ...parsedReplaysOnLastFriday, ...parsedReplaysOnLastSaturday];
+  let statisticsToCompare: GlobalSquadStatistics[] = [];
+
+  dates.forEach((date, index) => {
+    let dayText = 'Saturday, after the game,';
+
+    switch (index) {
+      case 1: dayText = 'Sunday morning';
+        break;
+      case 2: dayText = 'Sunday evening';
+        break;
+      default:
+        dayText = 'Saturday, after the game,';
+        break;
+    }
+
+    it(`Calculations on ${dayText} should be correct`, () => {
+      const globalStatistics = calculateGlobalStatistics(replays);
+
+      expect(globalStatistics).toMatchSnapshot();
+
+      jest.spyOn(dayjs, 'dayjsUTC').mockImplementationOnce(() => date);
+
+      const squadStatistics = calculateSquadStatistics(globalStatistics, replays);
+
+      if (index === 0) statisticsToCompare = squadStatistics;
+
+      expect(squadStatistics).toMatchObject(squadStatisticsAfterGameWeekend);
+      expect(squadStatistics).toMatchObject(statisticsToCompare);
+    });
+  });
+});
+
+test('Calculation with empty replays should return nothing', () => {
+  const squadStatistics = calculateSquadStatistics(data.globalStatistics, []);
+
+  expect(squadStatistics).toHaveLength(0);
+});
+
+test('Squads with less than 5 members should not account', () => {
+  const replays: PlayersGameResult[] = [{
+    date: dayjs.dayjsUTC().startOf('day').toISOString(),
+    missionName: '',
+    result: [
+      generatePlayerInfo({ id: 0, name: '[HH]smth1' }),
+      generatePlayerInfo({ id: 1, name: '[FNX]smth2' }),
+      generatePlayerInfo({ id: 2, name: '[FNX]smth3' }),
+      generatePlayerInfo({ id: 3, name: '[FNX]smth4' }),
+      generatePlayerInfo({ id: 4, name: '[FNX]smth5' }),
+      generatePlayerInfo({ id: 5, name: '[FNX]smth6' }),
+    ],
+  }];
+
+  const globalStatistics = calculateGlobalStatistics(replays);
+
+  expect(globalStatistics).toMatchSnapshot();
+
+  const squadStatistics = calculateSquadStatistics(globalStatistics, replays);
+
+  expect(squadStatistics).toHaveLength(1);
 });
