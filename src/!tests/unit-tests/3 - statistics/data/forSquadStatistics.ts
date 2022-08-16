@@ -920,7 +920,6 @@ export const parsedReplaysOnLastFriday = [
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 2 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback' }),
-      generatePlayerInfo({ id: 2, name: '[FNX]Skywalker', kills: 3, teamkills: 1 }),
       generatePlayerInfo({ id: 3, name: '[FNX]Brom', kills: 1 }),
       generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy' }),
       generatePlayerInfo({ id: 5, name: '[FNX]LOXDOR', kills: 2 }),
@@ -930,8 +929,6 @@ export const parsedReplaysOnLastFriday = [
       generatePlayerInfo({ id: 9, name: '[W8]Parker' }),
       generatePlayerInfo({ id: 10, name: '[W8]Svyat', kills: 1 }),
       generatePlayerInfo({ id: 11, name: '[W8]callisto1' }),
-      generatePlayerInfo({ id: 12, name: '[W8]Mercenary', kills: 10 }),
-      generatePlayerInfo({ id: 13, name: '[W8]Advocat', teamkills: 2 }),
       generatePlayerInfo({ id: 14, name: '[W8]kvadrat', kills: 1 }),
       generatePlayerInfo({ id: 15, name: '[W8]Gre4a', kills: 2 }),
       generatePlayerInfo({ id: 18, name: '[W8]Honest' }),
@@ -1085,6 +1082,60 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
     averageTeamkills: 0.13,
     score: 1.04,
     players: ['Mercenary', 'Piligrim', 'Svyat', 'Parker', 'kvadrat', 'Gre4a', 'Major', 'callisto1', 'Honest', 'Eleven'],
+  },
+];
+
+// W8
+// players: 170 / -11 -10 +8 +11 = 168
+// kills: 176 / -17 -5 +7 +5 = 166
+// teamkills: 23 / -3 -0 +1 +0 = 21
+// totalKills: 306 / +7 +5 = 318
+// totalTeamkills: 45 / +1 = 46
+
+// CU
+// players: 101 / -7 -7 +6 +5 = 98
+// kills: 126 / -9 -6 +8 +6 = 125
+// teamkills: 7 / -2 -0 +1 +0 = 6
+// totalKills: 222 / +8 +6 = 236
+// totalTeamkills: 13 / +1 = 14
+
+// FNX
+// players: 116 / -8 -7 +6 +7 = 114
+// kills: 123 / -11 -5 +8 +4 = 119
+// teamkills: 26 / -1 -1 +0 +1 = 25
+// totalKills: 208 / +8 +4 = 220
+// totalTeamkills: 48 / +1 = 49
+
+export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
+  {
+    prefix: '[CU]',
+    averagePlayersCount: 6.13,
+    kills: 236,
+    averageKills: 7.81,
+    teamkills: 14,
+    averageTeamkills: 0.05,
+    score: 1.28,
+    players: ['Eeshka', 'Nucis', 'Grow', 'HaskiLove', 'Savel', 'Koshmar', 'Syargik'],
+  },
+  {
+    prefix: '[FNX]',
+    averagePlayersCount: 7.13,
+    kills: 220,
+    averageKills: 7.44,
+    teamkills: 49,
+    averageTeamkills: 0.21,
+    score: 1.04,
+    players: ['Skywalker', 'Flashback', 'Mecheniy', 'Puma', 'LOXDOR', 'Afgan0r', 'T1m'],
+  },
+  {
+    prefix: '[W8]',
+    averagePlayersCount: 10.5,
+    kills: 318,
+    averageKills: 10.38,
+    teamkills: 46,
+    averageTeamkills: 0.13,
+    score: 0.99,
+    players: ['Mercenary', 'Piligrim', 'Svyat', 'Parker', 'Gre4a', 'kvadrat', 'Major', 'callisto1', 'Honest', 'Eleven'],
   },
 ];
 
