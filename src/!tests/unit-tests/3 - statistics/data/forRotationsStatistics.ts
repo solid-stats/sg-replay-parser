@@ -1,6 +1,5 @@
 /* eslint-disable object-curly-newline */
 import { Dayjs } from 'dayjs';
-import { orderBy } from 'lodash';
 
 import { generateDefaultWeapons, generatePlayerInfo } from '../../1 - replays, 2 - parseReplayInfo/utils';
 
@@ -107,38 +106,38 @@ export const getReplays = (startDate: Dayjs): PlayersGameResult[] => ([
   },
 ]);
 
-export const globalStatistics = orderBy([
+export const globalStatistics = [
   {
-    name: 'Afgan0r',
+    name: 'Skywalker',
     lastSquadPrefix: '[FNX]',
     totalPlayedGames: 8,
-    kills: 6,
+    kills: 18,
     vehicleKills: 0,
-    teamkills: 2,
+    teamkills: 4,
     deaths: { total: 0, byTeamkills: 0 },
-    kdRatio: 4,
-    totalScore: 0.5,
+    kdRatio: 14,
+    totalScore: 1.75,
     byWeeks: [
       {
         totalPlayedGames: 4,
-        kills: 3,
+        kills: 9,
         vehicleKills: 0,
-        teamkills: 1,
+        teamkills: 2,
         deaths: { total: 0, byTeamkills: 0 },
-        kdRatio: 2,
-        score: 0.5,
+        kdRatio: 7,
+        score: 1.75,
       },
       {
         totalPlayedGames: 4,
-        kills: 3,
+        kills: 9,
         vehicleKills: 0,
-        teamkills: 1,
+        teamkills: 2,
         deaths: { total: 0, byTeamkills: 0 },
-        kdRatio: 2,
-        score: 0.5,
+        kdRatio: 7,
+        score: 1.75,
       },
     ],
-    weapons: generateDefaultWeapons(6),
+    weapons: generateDefaultWeapons(18),
   },
   {
     name: 'Flashback',
@@ -173,38 +172,6 @@ export const globalStatistics = orderBy([
     weapons: generateDefaultWeapons(13),
   },
   {
-    name: 'Skywalker',
-    lastSquadPrefix: '[FNX]',
-    totalPlayedGames: 8,
-    kills: 18,
-    vehicleKills: 0,
-    teamkills: 4,
-    deaths: { total: 0, byTeamkills: 0 },
-    kdRatio: 14,
-    totalScore: 1.75,
-    byWeeks: [
-      {
-        totalPlayedGames: 4,
-        kills: 9,
-        vehicleKills: 0,
-        teamkills: 2,
-        deaths: { total: 0, byTeamkills: 0 },
-        kdRatio: 7,
-        score: 1.75,
-      },
-      {
-        totalPlayedGames: 4,
-        kills: 9,
-        vehicleKills: 0,
-        teamkills: 2,
-        deaths: { total: 0, byTeamkills: 0 },
-        kdRatio: 7,
-        score: 1.75,
-      },
-    ],
-    weapons: generateDefaultWeapons(18),
-  },
-  {
     name: 'Mecheniy',
     lastSquadPrefix: '[FNX]',
     totalPlayedGames: 8,
@@ -235,6 +202,38 @@ export const globalStatistics = orderBy([
       },
     ],
     weapons: generateDefaultWeapons(10),
+  },
+  {
+    name: 'Puma',
+    lastSquadPrefix: '[FNX]',
+    totalPlayedGames: 6,
+    kills: 6,
+    vehicleKills: 0,
+    teamkills: 0,
+    deaths: { total: 0, byTeamkills: 0 },
+    kdRatio: 6,
+    totalScore: 1,
+    byWeeks: [
+      {
+        totalPlayedGames: 3,
+        kills: 3,
+        vehicleKills: 0,
+        teamkills: 0,
+        deaths: { total: 0, byTeamkills: 0 },
+        kdRatio: 3,
+        score: 1,
+      },
+      {
+        totalPlayedGames: 3,
+        kills: 3,
+        vehicleKills: 0,
+        teamkills: 0,
+        deaths: { total: 0, byTeamkills: 0 },
+        kdRatio: 3,
+        score: 1,
+      },
+    ],
+    weapons: generateDefaultWeapons(6),
   },
   {
     name: 'LOXDOR',
@@ -269,38 +268,38 @@ export const globalStatistics = orderBy([
     weapons: generateDefaultWeapons(2),
   },
   {
-    name: 'Puma',
+    name: 'Afgan0r',
     lastSquadPrefix: '[FNX]',
-    totalPlayedGames: 6,
+    totalPlayedGames: 8,
     kills: 6,
     vehicleKills: 0,
-    teamkills: 0,
+    teamkills: 2,
     deaths: { total: 0, byTeamkills: 0 },
-    kdRatio: 6,
-    totalScore: 1,
+    kdRatio: 4,
+    totalScore: 0.5,
     byWeeks: [
       {
-        totalPlayedGames: 3,
+        totalPlayedGames: 4,
         kills: 3,
         vehicleKills: 0,
-        teamkills: 0,
+        teamkills: 1,
         deaths: { total: 0, byTeamkills: 0 },
-        kdRatio: 3,
-        score: 1,
+        kdRatio: 2,
+        score: 0.5,
       },
       {
-        totalPlayedGames: 3,
+        totalPlayedGames: 4,
         kills: 3,
         vehicleKills: 0,
-        teamkills: 0,
+        teamkills: 1,
         deaths: { total: 0, byTeamkills: 0 },
-        kdRatio: 3,
-        score: 1,
+        kdRatio: 2,
+        score: 0.5,
       },
     ],
     weapons: generateDefaultWeapons(6),
   },
-], ['totalScore', 'totalPlayedGames', 'kills'], ['desc', 'desc', 'desc']);
+];
 
 // players: 8 8 8 8 2 6 1 = 41
 // kills: 6 13 18 10 2 6 1 = 56

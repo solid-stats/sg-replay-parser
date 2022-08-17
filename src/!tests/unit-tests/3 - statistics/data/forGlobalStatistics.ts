@@ -1,5 +1,3 @@
-import { orderBy } from 'lodash';
-
 import { generateDefaultWeapons, generatePlayerInfo } from '../../1 - replays, 2 - parseReplayInfo/utils';
 
 type TestData = {
@@ -61,7 +59,34 @@ const data: TestData = {
       ],
     },
   ],
-  globalStatistics: orderBy([
+  globalStatistics: [
+    {
+      name: 'Loxdor',
+      lastSquadPrefix: '[FNX]',
+      totalPlayedGames: 2,
+      kills: 11,
+      vehicleKills: 3,
+      teamkills: 0,
+      deaths: { total: 1, byTeamkills: 0 },
+      kdRatio: 11,
+      totalScore: 5.5,
+      lastPlayedGameDate: '2022-08-05T20:00:00.000Z',
+      byWeeks: [
+        {
+          week: '2022-31',
+          startDate: '2022-08-01T00:00:00.000Z',
+          endDate: '2022-08-07T23:59:59.999Z',
+          totalPlayedGames: 2,
+          kills: 11,
+          vehicleKills: 3,
+          teamkills: 0,
+          deaths: { total: 1, byTeamkills: 0 },
+          kdRatio: 11,
+          score: 5.5,
+        },
+      ],
+      weapons: generateDefaultWeapons(11),
+    },
     {
       name: 'Afgan0r',
       lastSquadPrefix: '[FNX]',
@@ -140,34 +165,7 @@ const data: TestData = {
       ],
       weapons: generateDefaultWeapons(1),
     },
-    {
-      name: 'Loxdor',
-      lastSquadPrefix: '[FNX]',
-      totalPlayedGames: 2,
-      kills: 11,
-      vehicleKills: 3,
-      teamkills: 0,
-      deaths: { total: 1, byTeamkills: 0 },
-      kdRatio: 11,
-      totalScore: 5.5,
-      lastPlayedGameDate: '2022-08-05T20:00:00.000Z',
-      byWeeks: [
-        {
-          week: '2022-31',
-          startDate: '2022-08-01T00:00:00.000Z',
-          endDate: '2022-08-07T23:59:59.999Z',
-          totalPlayedGames: 2,
-          kills: 11,
-          vehicleKills: 3,
-          teamkills: 0,
-          deaths: { total: 1, byTeamkills: 0 },
-          kdRatio: 11,
-          score: 5.5,
-        },
-      ],
-      weapons: generateDefaultWeapons(11),
-    },
-  ], ['totalScore', 'totalPlayedGames', 'kills'], ['desc', 'desc', 'desc']),
+  ],
 };
 
 export default data;
