@@ -1,5 +1,4 @@
-import compact from 'lodash/compact';
-import orderBy from 'lodash/orderBy';
+import { compact, orderBy } from 'lodash';
 import pLimit from 'p-limit';
 
 import fetchData from '../0 - utils/fetchData';

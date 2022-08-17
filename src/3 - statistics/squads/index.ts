@@ -1,9 +1,7 @@
 import { Dayjs } from 'dayjs';
-import groupBy from 'lodash/groupBy';
-import isEmpty from 'lodash/isEmpty';
-import isNull from 'lodash/isNull';
-import orderBy from 'lodash/orderBy';
-import sumBy from 'lodash/sumBy';
+import {
+  groupBy, isEmpty, isNull, orderBy, sumBy,
+} from 'lodash';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
 import filterPlayersByTotalPlayedGames from '../../0 - utils/filterPlayersByTotalPlayedGames';

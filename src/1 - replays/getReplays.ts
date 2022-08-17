@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import uniqBy from 'lodash/uniqBy';
+import { uniqBy } from 'lodash';
 
 import { replaysListFileName } from '../0 - consts';
 

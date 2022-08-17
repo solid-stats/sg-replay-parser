@@ -3,7 +3,7 @@
 import fs from 'fs';
 
 import cliProgress from 'cli-progress';
-import union from 'lodash/union';
+import { union } from 'lodash';
 
 import { replaysListFileName } from '../0 - consts';
 import parseReplaysOnPage from './parseReplaysOnPage';

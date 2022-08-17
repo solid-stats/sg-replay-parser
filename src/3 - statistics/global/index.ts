@@ -1,4 +1,4 @@
-import orderBy from 'lodash/orderBy';
+import { orderBy } from 'lodash';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
 import pipe from '../../0 - utils/pipe';

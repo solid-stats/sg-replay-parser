@@ -1,4 +1,4 @@
-import compact from 'lodash/compact';
+import { compact } from 'lodash';
 import pLimit from 'p-limit';
 
 import { dayjsUnix } from '../0 - utils/dayjs';

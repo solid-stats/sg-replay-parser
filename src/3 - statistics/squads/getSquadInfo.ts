@@ -1,5 +1,4 @@
-import round from 'lodash/round';
-import sumBy from 'lodash/sumBy';
+import { round, sumBy } from 'lodash';
 
 import {
   AverageSquadsInfoByPrefix, DayjsInterval, PlayersBySquadPrefix, SquadInfo,
