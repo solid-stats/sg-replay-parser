@@ -16,7 +16,7 @@ const getReplaysGroupByRotation = (replays: PlayersGameResult[]) => {
         return replayDate.isSameOrAfter(startDate);
       }
 
-      return replayDate.isSameOrAfter(startDate) || replayDate.isSameOrBefore(endDate);
+      return replayDate.isSameOrAfter(startDate) && replayDate.isSameOrBefore(endDate);
     });
 
     return rotationReplays;

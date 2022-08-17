@@ -16,9 +16,9 @@ module.exports = {
   "automock": false,
   "resetMocks": false,
   "coverageReporters": ["clover", "json", "lcov"],
-  // "coverageThreshold": {
-  //   "global": {
-  //     "lines": 60,
-  //   },
-  // },
+  "coverageThreshold": {
+    "global": {
+      "lines": 90,
+    },
+  },
 }

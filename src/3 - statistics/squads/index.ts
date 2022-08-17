@@ -84,7 +84,7 @@ const calculateSquadStatistics = (
     },
   );
 
-  const sortedSquadStatistics = orderBy(squadStatistics, 'score', 'desc');
+  const sortedSquadStatistics = orderBy(squadStatistics, ['score', 'averagePlayersCount', 'averageKills'], ['desc', 'desc', 'desc']);
 
   return sortedSquadStatistics;
 };
