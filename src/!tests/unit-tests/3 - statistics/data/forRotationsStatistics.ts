@@ -24,6 +24,7 @@ export const getReplays = (startDate: Dayjs): PlayersGameResult[] => ([
       generatePlayerInfo({ id: 2, name: '[FNX]Skywalker', kills: 3, teamkills: 1 }),
       generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy' }),
       generatePlayerInfo({ id: 7, name: '[FNX]Puma', kills: 3 }),
+      generatePlayerInfo({ id: 8, name: 'cursed', kills: 3 }),
     ],
   },
   {
@@ -36,6 +37,7 @@ export const getReplays = (startDate: Dayjs): PlayersGameResult[] => ([
       generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy', kills: 2 }),
       generatePlayerInfo({ id: 5, name: '[FNX]LOXDOR', kills: 1 }),
       generatePlayerInfo({ id: 6, name: '[FNX]T1m', kills: 1 }),
+      generatePlayerInfo({ id: 8, name: 'cursed', kills: 2, teamkills: 1 }),
     ],
   },
   {
@@ -107,6 +109,29 @@ export const getReplays = (startDate: Dayjs): PlayersGameResult[] => ([
 ]);
 
 export const globalStatistics = [
+  {
+    name: 'cursed',
+    lastSquadPrefix: null,
+    totalPlayedGames: 2,
+    kills: 5,
+    vehicleKills: 0,
+    teamkills: 1,
+    deaths: { total: 0, byTeamkills: 0 },
+    kdRatio: 4,
+    totalScore: 2,
+    byWeeks: [
+      {
+        totalPlayedGames: 2,
+        kills: 5,
+        vehicleKills: 0,
+        teamkills: 1,
+        deaths: { total: 0, byTeamkills: 0 },
+        kdRatio: 4,
+        score: 2,
+      },
+    ],
+    weapons: generateDefaultWeapons(5),
+  },
   {
     name: 'Skywalker',
     lastSquadPrefix: '[FNX]',
