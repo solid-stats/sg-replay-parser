@@ -103,7 +103,7 @@ test('Calculation with empty replays should return nothing', () => {
 
 test('Squads with less than 5 members should not account', () => {
   const replays: PlayersGameResult[] = [{
-    date: dayjs.dayjsUTC().startOf('day').toISOString(),
+    date: dayjs.dayjsUTC('2022-08-16').startOf('day').toISOString(),
     missionName: '',
     result: [
       generatePlayerInfo({ id: 0, name: '[HH]smth1' }),
