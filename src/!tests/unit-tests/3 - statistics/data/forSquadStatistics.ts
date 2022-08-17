@@ -1071,7 +1071,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
     teamkills: 48,
     averageTeamkills: 0.21,
     score: 1.06,
-    players: ['Skywalker', 'Flashback', 'Mecheniy', 'Puma', 'LOXDOR', 'T1m', 'Afgan0r'],
+    players: ['Skywalker', 'Mecheniy', 'Flashback', 'Puma', 'LOXDOR', 'T1m', 'Afgan0r'],
   },
   {
     prefix: '[W8]',
@@ -1194,7 +1194,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
 ];
 
 const allPlayers = {
-  '[FNX]': ['Skywalker', 'Flashback', 'Mecheniy', 'Puma', 'LOXDOR', 'T1m', 'Afgan0r', 'Brom'],
+  '[FNX]': ['Skywalker', 'Mecheniy', 'Flashback', 'Puma', 'LOXDOR', 'T1m', 'Afgan0r', 'Brom'],
   '[CU]': ['Eeshka', 'Nucis', 'Grow', 'HaskiLove', 'Savel', 'Koshmar', 'Syargik'],
   '[W8]': ['Mercenary', 'Piligrim', 'Svyat', 'Advocat', 'Parker', 'kvadrat', 'Gre4a', 'Major', 'callisto1', 'Honest', 'Eleven', 'Neon'],
 };

@@ -134,7 +134,7 @@ const data: TestData = {
           vehicleKills: 0,
           teamkills: 1,
           deaths: { total: 0, byTeamkills: 0 },
-          kdRatio: 0,
+          kdRatio: -1,
           score: -1,
         },
       ],
@@ -167,7 +167,7 @@ const data: TestData = {
       ],
       weapons: generateDefaultWeapons(11),
     },
-  ], 'totalScore', 'desc'),
+  ], ['totalScore', 'totalPlayedGames', 'kills'], ['desc', 'desc', 'desc']),
 };
 
 export default data;

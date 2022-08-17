@@ -7,7 +7,7 @@ const calculateKDRatio = (
 ): GlobalPlayerStatistics['kdRatio'] => {
   const deathsWithoutByTeamkills = Math.abs(deaths.total - deaths.byTeamkills);
 
-  if (!deathsWithoutByTeamkills) return kills;
+  if (!deathsWithoutByTeamkills) return kills - teamkills;
 
   return round((kills - teamkills) / deathsWithoutByTeamkills, 2);
 };
