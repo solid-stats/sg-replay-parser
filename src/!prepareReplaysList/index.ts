@@ -38,6 +38,7 @@ const readReplaysListFile = (): Output => {
   let result: Output = { ...defaultEmptyOutput };
   const bar = new cliProgress.SingleBar({
     format: 'Pages parsed | {bar} {percentage}% | ETA: {eta}s | {value}/{total} pages',
+    gracefulExit: true,
   });
   const response: string = await fetchReplaysPage(1);
   const dom = parseDOM(response);

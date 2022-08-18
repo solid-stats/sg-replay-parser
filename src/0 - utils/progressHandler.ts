@@ -11,6 +11,7 @@ const progress = new cliProgress.MultiBar({
   fps: 30,
   etaBuffer: 50,
   hideCursor: true,
+  gracefulExit: true,
 }, cliProgress.Presets.shades_classic);
 
 const bars: Record<GameType, SingleBar | null> = { sg: null, mace: null };
