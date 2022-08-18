@@ -47,7 +47,7 @@ const testData: TestData = {
         generatePlayerEntity({
           id: 0,
           side: 'EAST',
-          name: '',
+          name: getNameById(3),
         }),
         generatePlayerEntity({
           id: 1,
@@ -61,7 +61,7 @@ const testData: TestData = {
         generatePlayerEntity({
           id: 3,
           side: 'GUER',
-          name: '',
+          name: getNameById(3),
         }),
         generatePlayerEntity({
           id: 4,
@@ -83,23 +83,25 @@ const testData: TestData = {
       [
         generateConnectEvent(1, getNameById(0)),
         generateConnectEvent(2, getNameById(0)),
-        generateKillEvent({ killedId: 0, killerId: 3 }),
-        generateKillEvent({ killedId: 1, killerId: 4 }),
+        generateConnectEvent(1, getNameById(10)),
+        generateKillEvent({ killerId: 3, killedId: 0 }),
+        generateKillEvent({ killerId: 1, killedId: 5 }),
       ],
       [
         generatePlayerEntity({
           id: 0,
           side: 'EAST',
+          name: getNameById(0),
         }),
         generatePlayerEntity({
           id: 1,
           side: 'EAST',
-          name: '',
+          name: getNameById(10),
         }),
         generatePlayerEntity({
           id: 2,
           side: 'EAST',
-          name: '',
+          name: getNameById(0),
         }),
         generatePlayerEntity({
           id: 3,
@@ -108,6 +110,12 @@ const testData: TestData = {
         generatePlayerEntity({
           id: 4,
           side: 'GUER',
+        }),
+        generatePlayerEntity({
+          id: 5,
+          side: 'GUER',
+          name: getNameById(4),
+          description: '',
         }),
       ],
     ),
@@ -255,13 +263,21 @@ const testData: TestData = {
       missionName: getDefaultMissionName(),
       result: [
         generatePlayerInfo({
+          id: 1,
+          side: 'EAST',
+          name: getNameById(10),
+        }),
+        generatePlayerInfo({
           id: 2,
           side: 'EAST',
           name: getNameById(0),
+          isDead: true,
+          isDeadByTeamkill: true,
         }),
         generatePlayerInfo({
           id: 3,
           side: 'EAST',
+          teamkills: 1,
         }),
         generatePlayerInfo({
           id: 4,

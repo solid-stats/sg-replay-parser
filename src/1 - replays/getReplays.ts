@@ -23,6 +23,8 @@ const getReplays = async (gameType: GameType): Promise<Replay[]> => {
     ),
   );
 
+  // used only for debug
+  // return replays.filter((rep) => rep.filename === '2021_01_09__22_52_20_ocap');
   return replays;
 };
 
