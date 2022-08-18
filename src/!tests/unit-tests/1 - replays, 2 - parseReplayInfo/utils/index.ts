@@ -42,6 +42,7 @@ export const generateReplayInfo = (
 type GeneratePlayerEntity = {
   id: PlayerEntity['id'];
   side: PlayerEntity['side'];
+  description?: PlayerEntity['description'];
   isPlayer?: PlayerEntity['isPlayer'];
   name?: PlayerEntity['name'];
 };
@@ -51,8 +52,9 @@ export const generatePlayerEntity = ({
   side,
   id,
   name,
+  description,
 }: GeneratePlayerEntity): PlayerEntity => ({
-  description: defaultName,
+  description: description === undefined ? defaultName : description,
   framesFires: [],
   isPlayer: isPlayer === undefined ? 1 : 0,
   startFrameNum: 0,
