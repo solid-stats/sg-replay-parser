@@ -2,6 +2,8 @@
 
 ![image](https://user-images.githubusercontent.com/46472464/170368201-75d53a23-cc63-4860-8692-2e888f443037.png)
 
+[![codecov](https://codecov.io/gh/Afgan0r/sg-replay-parser/branch/master/graph/badge.svg?token=GP4996N1SK)](https://codecov.io/gh/Afgan0r/sg-replay-parser)
+
 ## About
 
 This app gets all replays from https://replays.solidgames.ru/ and then calculates the stats for each player and squad
