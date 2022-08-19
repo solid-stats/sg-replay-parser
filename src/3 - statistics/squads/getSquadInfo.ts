@@ -32,6 +32,8 @@ const getSquadsInfo = (
     ));
 
     filteredReplays.forEach((results) => {
+      if (results.length === 0) return;
+
       gamesPlayed += 1;
       info = {
         playersCount: info.playersCount + results.length,

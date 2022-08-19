@@ -38,6 +38,11 @@ const parsedReplays: PlayersGameResult[] = [
     ],
   },
   {
+    date: '2022-07-01T18:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
+  },
+  {
     date: '2022-07-01T20:00:00.000Z',
     missionName: '',
     result: [
@@ -68,6 +73,11 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar' }),
       generatePlayerInfo({ id: 26, name: '[CU]Syargik' }),
     ],
+  },
+  {
+    date: '2022-07-01T20:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-02T18:00:00.000Z',
@@ -103,6 +113,11 @@ const parsedReplays: PlayersGameResult[] = [
     ],
   },
   {
+    date: '2022-07-02T18:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
+  },
+  {
     date: '2022-07-02T20:00:00.000Z',
     missionName: '',
     result: [
@@ -134,6 +149,11 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
       generatePlayerInfo({ id: 26, name: 'cursed', kills: 2 }),
     ],
+  },
+  {
+    date: '2022-07-02T20:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-08T18:00:00.000Z',
@@ -170,6 +190,11 @@ const parsedReplays: PlayersGameResult[] = [
     ],
   },
   {
+    date: '2022-07-08T18:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
+  },
+  {
     date: '2022-07-08T20:00:00.000Z',
     missionName: '',
     result: [
@@ -200,6 +225,11 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar' }),
       generatePlayerInfo({ id: 26, name: '[CU]Syargik' }),
     ],
+  },
+  {
+    date: '2022-07-08T20:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-09T18:00:00.000Z',
@@ -234,6 +264,11 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar' }),
       generatePlayerInfo({ id: 26, name: '[CU]Syargik' }),
     ],
+  },
+  {
+    date: '2022-07-09T18:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-09T20:00:00.000Z',
@@ -271,6 +306,11 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
       generatePlayerInfo({ id: 26, name: 'cursed', kills: 2 }),
     ],
+  },
+  {
+    date: '2022-07-09T20:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-15T18:00:00.000Z',
@@ -311,6 +351,11 @@ const parsedReplays: PlayersGameResult[] = [
     ],
   },
   {
+    date: '2022-07-15T18:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
+  },
+  {
     date: '2022-07-15T20:00:00.000Z',
     missionName: '',
     result: [
@@ -343,6 +388,11 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar' }),
       generatePlayerInfo({ id: 26, name: '[CU]Syargik' }),
     ],
+  },
+  {
+    date: '2022-07-15T20:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-16T18:00:00.000Z',
@@ -382,6 +432,11 @@ const parsedReplays: PlayersGameResult[] = [
     ],
   },
   {
+    date: '2022-07-16T18:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
+  },
+  {
     date: '2022-07-16T20:00:00.000Z',
     missionName: '',
     result: [
@@ -413,6 +468,11 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar', kills: 1 }),
       generatePlayerInfo({ id: 26, name: '[CU]Syargik' }),
     ],
+  },
+  {
+    date: '2022-07-16T20:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-22T18:00:00.000Z',
@@ -451,6 +511,11 @@ const parsedReplays: PlayersGameResult[] = [
     ],
   },
   {
+    date: '2022-07-22T18:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
+  },
+  {
     date: '2022-07-22T20:00:00.000Z',
     missionName: '',
     result: [
@@ -484,6 +549,11 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
       generatePlayerInfo({ id: 26, name: 'cursed', kills: 2 }),
     ],
+  },
+  {
+    date: '2022-07-22T20:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-23T18:00:00.000Z',
@@ -523,6 +593,11 @@ const parsedReplays: PlayersGameResult[] = [
     ],
   },
   {
+    date: '2022-07-23T18:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
+  },
+  {
     date: '2022-07-23T20:00:00.000Z',
     missionName: '',
     result: [
@@ -556,6 +631,11 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
       generatePlayerInfo({ id: 26, name: 'cursed', kills: 2 }),
     ],
+  },
+  {
+    date: '2022-07-23T20:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-29T18:00:00.000Z',
@@ -592,6 +672,11 @@ const parsedReplays: PlayersGameResult[] = [
     ],
   },
   {
+    date: '2022-07-29T18:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
+  },
+  {
     date: '2022-07-29T20:00:00.000Z',
     missionName: '',
     result: [
@@ -624,6 +709,11 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
       generatePlayerInfo({ id: 26, name: 'cursed', kills: 2 }),
     ],
+  },
+  {
+    date: '2022-07-29T20:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-30T18:00:00.000Z',
@@ -663,6 +753,11 @@ const parsedReplays: PlayersGameResult[] = [
     ],
   },
   {
+    date: '2022-07-30T18:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
+  },
+  {
     date: '2022-07-30T20:00:00.000Z',
     missionName: '',
     result: [
@@ -694,6 +789,11 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar', kills: 1 }),
       generatePlayerInfo({ id: 26, name: '[CU]Syargik' }),
     ],
+  },
+  {
+    date: '2022-07-30T20:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-08-05T18:00:00.000Z',
@@ -730,6 +830,11 @@ const parsedReplays: PlayersGameResult[] = [
     ],
   },
   {
+    date: '2022-08-05T18:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
+  },
+  {
     date: '2022-08-05T20:00:00.000Z',
     missionName: '',
     result: [
@@ -760,6 +865,11 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
       generatePlayerInfo({ id: 26, name: 'cursed', kills: 2 }),
     ],
+  },
+  {
+    date: '2022-08-05T20:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-08-06T18:00:00.000Z',
@@ -798,6 +908,11 @@ const parsedReplays: PlayersGameResult[] = [
     ],
   },
   {
+    date: '2022-08-06T18:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
+  },
+  {
     date: '2022-08-06T20:00:00.000Z',
     missionName: '',
     result: [
@@ -828,6 +943,11 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar', kills: 1 }),
       generatePlayerInfo({ id: 26, name: '[CU]Syargik' }),
     ],
+  },
+  {
+    date: '2022-08-06T20:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-08-12T18:00:00.000Z',
@@ -861,6 +981,11 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
       generatePlayerInfo({ id: 26, name: 'cursed', kills: 2 }),
     ],
+  },
+  {
+    date: '2022-08-12T18:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-08-12T20:00:00.000Z',
@@ -899,6 +1024,11 @@ const parsedReplays: PlayersGameResult[] = [
     ],
   },
   {
+    date: '2022-08-12T20:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
+  },
+  {
     date: '2022-08-13T18:00:00.000Z',
     missionName: '',
     result: [
@@ -930,6 +1060,11 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar' }),
       generatePlayerInfo({ id: 26, name: '[CU]Syargik' }),
     ],
+  },
+  {
+    date: '2022-08-13T18:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-08-13T20:00:00.000Z',
@@ -964,6 +1099,11 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 26, name: 'cursed', kills: 2 }),
     ],
   },
+  {
+    date: '2022-08-13T20:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
+  },
 ];
 
 export const parsedReplaysOnLastFriday = [
@@ -994,6 +1134,11 @@ export const parsedReplaysOnLastFriday = [
       generatePlayerInfo({ id: 24, name: '[CU]Savel', kills: 3 }),
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar', kills: 1 }),
     ],
+  },
+  {
+    date: '2022-08-19T18:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-08-19T20:00:00.000Z',
@@ -1029,6 +1174,11 @@ export const parsedReplaysOnLastFriday = [
       generatePlayerInfo({ id: 26, name: 'cursed', kills: 2 }),
     ],
   },
+  {
+    date: '2022-08-19T20:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
+  },
 ];
 
 export const parsedReplaysOnLastSaturday = [
@@ -1063,6 +1213,11 @@ export const parsedReplaysOnLastSaturday = [
     ],
   },
   {
+    date: '2022-08-20T18:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
+  },
+  {
     date: '2022-08-20T20:00:00.000Z',
     missionName: '',
     result: [
@@ -1093,6 +1248,11 @@ export const parsedReplaysOnLastSaturday = [
       generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
       generatePlayerInfo({ id: 26, name: 'cursed', kills: 2 }),
     ],
+  },
+  {
+    date: '2022-08-20T20:00:00.000Z',
+    missionName: '',
+    result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
 ];
 
