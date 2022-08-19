@@ -1,9 +1,7 @@
 import { Dayjs } from 'dayjs';
-import groupBy from 'lodash/groupBy';
-import isEmpty from 'lodash/isEmpty';
-import isNull from 'lodash/isNull';
-import orderBy from 'lodash/orderBy';
-import sumBy from 'lodash/sumBy';
+import {
+  groupBy, isEmpty, isNull, orderBy, sumBy,
+} from 'lodash';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
 import filterPlayersByTotalPlayedGames from '../../0 - utils/filterPlayersByTotalPlayedGames';
@@ -17,18 +15,23 @@ const calculateSquadStatistics = (
   // not used in calculations for global statistics
   rotationEndDate?: Dayjs,
 ): GlobalSquadStatistics[] => {
-  if (replays.length === 0) return [];
+  if (!replays.length) return [];
 
   const filteredStatistics = globalStatistics.filter((stats) => !isNull(stats.lastSquadPrefix));
   const playersBySquadPrefix: PlayersBySquadPrefix = groupBy(filteredStatistics, 'lastSquadPrefix');
   const filteredPlayersBySquadPrefix: PlayersBySquadPrefix = {};
 
-  const endDate = rotationEndDate || dayjsUTC().endOf('isoWeek');
-
+  let currentDate = dayjsUTC();
   const lastReplayDate = dayjsUTC(replays[replays.length - 1].date);
-  const isNoGamesThisWeek = endDate.isoWeekYear() > lastReplayDate.isoWeekYear();
+  const isLastReplayOnThisDay = lastReplayDate.isoWeek() === currentDate.isoWeek()
+    && lastReplayDate.weekday() === currentDate.weekday();
+
+  if (!isLastReplayOnThisDay) currentDate = currentDate.startOf('day');
+
+  const endDate = rotationEndDate || currentDate;
+
   const last4WeeksInterval: DayjsInterval = [
-    endDate.subtract(isNoGamesThisWeek ? 5 : 4, 'weeks'),
+    endDate.subtract(4, 'weeks'),
     endDate,
   ];
 
@@ -79,7 +82,7 @@ const calculateSquadStatistics = (
     },
   );
 
-  const sortedSquadStatistics = orderBy(squadStatistics, 'score', 'desc');
+  const sortedSquadStatistics = orderBy(squadStatistics, ['score', 'averagePlayersCount', 'averageKills'], ['desc', 'desc', 'desc']);
 
   return sortedSquadStatistics;
 };

@@ -1,4 +1,4 @@
-import round from 'lodash/round';
+import { round } from 'lodash';
 
 const calculateKDRatio = (
   kills: GlobalPlayerStatistics['kills'],
@@ -7,7 +7,7 @@ const calculateKDRatio = (
 ): GlobalPlayerStatistics['kdRatio'] => {
   const deathsWithoutByTeamkills = Math.abs(deaths.total - deaths.byTeamkills);
 
-  if (!deathsWithoutByTeamkills) return kills;
+  if (!deathsWithoutByTeamkills) return kills - teamkills;
 
   return round((kills - teamkills) / deathsWithoutByTeamkills, 2);
 };

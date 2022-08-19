@@ -1,4 +1,4 @@
-import compact from 'lodash/compact';
+import { compact } from 'lodash';
 import pLimit from 'p-limit';
 
 import { dayjsUnix } from '../0 - utils/dayjs';
@@ -22,7 +22,7 @@ const decodeMissionGameType = (encodedMissionGameType: string) => {
   return result;
 };
 
-const parseTableRowInfo = async (el: Element, alreadyParsedReplays: Output['parsedReplays']): Promise<ReplayRaw | null> => {
+const parseTableRowInfo = async (el: Element, alreadyParsedReplays: Output['parsedReplays']): Promise<Replay | null> => {
   const tableCells = el.getElementsByTagName('td');
   const linkElement = el.querySelector('a');
   const replayLink = linkElement?.getAttribute('href');

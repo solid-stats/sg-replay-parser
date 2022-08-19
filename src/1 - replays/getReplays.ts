@@ -1,11 +1,11 @@
 import fs from 'fs';
 
-import uniqBy from 'lodash/uniqBy';
+import { uniqBy } from 'lodash';
 
 import { replaysListFileName } from '../0 - consts';
 
 const getReplays = async (gameType: GameType): Promise<Replay[]> => {
-  let allReplays: ReplayRaw[] = [];
+  let allReplays: Replay[] = [];
 
   try {
     const fileContents = JSON.parse(fs.readFileSync(replaysListFileName, 'utf8')) as Output;
@@ -23,6 +23,8 @@ const getReplays = async (gameType: GameType): Promise<Replay[]> => {
     ),
   );
 
+  // used only for debug
+  // return replays.filter((rep) => rep.filename === '2021_01_09__22_52_20_ocap');
   return replays;
 };
 

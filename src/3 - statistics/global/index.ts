@@ -1,11 +1,11 @@
-import orderBy from 'lodash/orderBy';
+import { orderBy } from 'lodash';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
 import pipe from '../../0 - utils/pipe';
 import addPlayerGameResultToGlobalStatistics from './add';
 
 const sortPlayerStatistics = (statistics: GlobalPlayerStatistics[]): GlobalPlayerStatistics[] => {
-  const sortedStatisticsByScore = orderBy(statistics, 'totalScore', 'desc');
+  const sortedStatisticsByScore = orderBy(statistics, ['totalScore', 'totalPlayedGames', 'kills'], ['desc', 'desc', 'desc']);
   const sortedStatistics = sortedStatisticsByScore.map((playerStatistics) => ({
     ...playerStatistics,
     byWeeks: orderBy(playerStatistics.byWeeks, 'startDate', 'desc'),

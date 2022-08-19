@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { gameTypes } from './0 - consts';
 import filterPlayersByTotalPlayedGames from './0 - utils/filterPlayersByTotalPlayedGames';
 import formatGameType from './0 - utils/formatGameType';
@@ -30,7 +31,6 @@ const countStatistics = (
   const squad = calculateSquadStatistics(global, parsedReplays);
   const byRotations = gameType === 'sg' ? getStatsByRotations(parsedReplays) : null;
 
-  // eslint-disable-next-line no-console
   console.log(`- ${formatGameType(gameType)} statistics collected.`);
 
   return {
@@ -47,7 +47,6 @@ const countStatistics = (
 
   stopAllBarsProgress();
 
-  // eslint-disable-next-line no-console
   console.log('\nAll replays parsed, start collecting statistics:');
 
   const parsedReplays: Record<GameType, PlayersGameResult[]> = {
@@ -58,7 +57,6 @@ const countStatistics = (
     gameTypes.map((gameType) => countStatistics(parsedReplays[gameType], gameType)),
   );
 
-  // eslint-disable-next-line no-console
   console.log('\nAll statistics collected, start generating output files.');
 
   generateOutput({
@@ -66,6 +64,5 @@ const countStatistics = (
     mace: { ...maceStats },
   });
 
-  // eslint-disable-next-line no-console
   console.log('\nCompleted.');
 })();

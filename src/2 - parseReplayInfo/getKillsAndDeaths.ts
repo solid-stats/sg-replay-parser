@@ -57,11 +57,8 @@ const processPlayerKilled = ({
 
 const processVehicleKilled = ({
   killer,
-  vehicle,
   players,
 }: VehicleKilledParams): PlayersList => {
-  if (killer.id === vehicle.id) return players;
-
   const newPlayers = { ...players };
 
   newPlayers[killer.id] = {
@@ -74,6 +71,7 @@ const processVehicleKilled = ({
 
 const getKillsAndDeaths = (entities: VehiclesWithPlayersList, events: ReplayInfo['events']): PlayersList => {
   let players = { ...entities.players };
+  const { vehicles } = entities;
 
   events.forEach((event) => {
     const eventType = event[1];
@@ -88,7 +86,7 @@ const getKillsAndDeaths = (entities: VehiclesWithPlayersList, events: ReplayInfo
 
       const killer = players[killerId];
       const killedPlayer = players[killedId];
-      const killedVehicle = entities.vehicles[killedId];
+      const killedVehicle = vehicles[killedId];
 
       if (killer && killedPlayer) {
         players = processPlayerKilled({

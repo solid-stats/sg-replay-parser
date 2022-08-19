@@ -1,4 +1,4 @@
-import isUndefined from 'lodash/isUndefined';
+import { isUndefined } from 'lodash';
 
 const defaultPlayerInfo: PlayerInfo = {
   id: -1,
@@ -16,10 +16,10 @@ const getEntities = ({ entities, events }: ReplayInfo): VehiclesWithPlayersList 
   const players: PlayersList = {};
   const vehicles: VehicleList = {};
 
-  entities.forEach(({
-    name, side, id, class: vehicleClass, type, isPlayer,
-  }) => {
-    if (type === 'unit' && isPlayer) {
+  entities.forEach((entity) => {
+    if (entity.type === 'unit' && entity.isPlayer && entity.description.length) {
+      const { id, name, side } = entity;
+
       players[id] = {
         ...defaultPlayerInfo,
         id,
@@ -30,7 +30,9 @@ const getEntities = ({ entities, events }: ReplayInfo): VehiclesWithPlayersList 
       return;
     }
 
-    if (type === 'vehicle') {
+    if (entity.type === 'vehicle') {
+      const { id, name, vehicleClass } = entity;
+
       vehicles[id] = {
         id,
         name,
@@ -45,11 +47,9 @@ const getEntities = ({ entities, events }: ReplayInfo): VehiclesWithPlayersList 
     if (eventType === 'connected') {
       const [, , name, id] = event;
 
-      if (isUndefined(id)) return;
-
       const entityInfo = entities.find((entity) => entity.id === id);
 
-      if (isUndefined(entityInfo)) return;
+      if (isUndefined(entityInfo) || entityInfo.type === 'vehicle') return;
 
       players[id] = {
         ...defaultPlayerInfo,

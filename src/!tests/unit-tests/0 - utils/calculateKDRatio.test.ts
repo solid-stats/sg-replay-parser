@@ -98,6 +98,24 @@ const tests: TestData[] = [
     },
     result: -2,
   },
+  {
+    kills: 7,
+    teamkills: 2,
+    deaths: {
+      total: 0,
+      byTeamkills: 0,
+    },
+    result: 5,
+  },
+  {
+    kills: 7,
+    teamkills: 2,
+    deaths: {
+      total: 0,
+      byTeamkills: 1,
+    },
+    result: 5,
+  },
 ];
 
 tests.map(({

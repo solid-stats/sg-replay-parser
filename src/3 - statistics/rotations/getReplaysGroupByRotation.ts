@@ -1,4 +1,4 @@
-import remove from 'lodash/remove';
+import { remove } from 'lodash';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
 import getRotations from '../../0 - utils/rotations';
@@ -16,7 +16,7 @@ const getReplaysGroupByRotation = (replays: PlayersGameResult[]) => {
         return replayDate.isSameOrAfter(startDate);
       }
 
-      return replayDate.isSameOrAfter(startDate) || replayDate.isSameOrBefore(endDate);
+      return replayDate.isSameOrAfter(startDate) && replayDate.isSameOrBefore(endDate);
     });
 
     return rotationReplays;

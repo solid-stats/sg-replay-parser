@@ -1,8 +1,8 @@
 import cliProgress, { SingleBar } from 'cli-progress';
-import padEnd from 'lodash/padEnd';
 
-import { gameTypes } from '../0 - consts';
 import formatGameType from './formatGameType';
+
+let isDisabled = false;
 
 const getLabel = (gameType: string) => `Parsing ${gameType} replays`;
 
@@ -11,36 +11,29 @@ const progress = new cliProgress.MultiBar({
   fps: 30,
   etaBuffer: 50,
   hideCursor: true,
+  gracefulExit: true,
 }, cliProgress.Presets.shades_classic);
 
 const bars: Record<GameType, SingleBar | null> = { sg: null, mace: null };
 
-const formatGameTypeLength = (formattedGameType: FormattedGameType) => {
-  const label = getLabel(formattedGameType);
-  const maxLength = Math.max(...gameTypes.map((gameType) => getLabel(gameType).length));
-  const diff = maxLength - label.length;
-
-  if (diff === 0) return label;
-
-  return padEnd(label, diff);
-};
-
 const isInitialized = (gameType: GameType): boolean => {
   const isNotInitialized = bars[gameType] === null;
 
-  if (isNotInitialized) throw new Error('Progress bar is not initialized');
+  if (isNotInitialized) return false;
 
   return true;
 };
 
 export const initializeProgressBar = (gameType: GameType, totalGamesCount: number): void => {
+  if (isDisabled) return;
+
   bars[gameType] = progress.create(totalGamesCount, 0, {
-    gameTypeLabel: formatGameTypeLength(formatGameType(gameType)),
+    gameTypeLabel: getLabel(formatGameType(gameType)),
   });
 };
 
 export const incrementBarValue = (gameType: GameType): void => {
-  if (!isInitialized(gameType)) return;
+  if (!isInitialized(gameType) || isDisabled) return;
 
   bars[gameType]?.increment();
 };
@@ -48,3 +41,5 @@ export const incrementBarValue = (gameType: GameType): void => {
 export const stopAllBarsProgress = (): void => {
   progress.stop();
 };
+
+export const disableBarsProgress = (): void => { isDisabled = true; };

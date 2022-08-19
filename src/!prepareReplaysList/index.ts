@@ -3,7 +3,7 @@
 import fs from 'fs';
 
 import cliProgress from 'cli-progress';
-import union from 'lodash/union';
+import { union } from 'lodash';
 
 import { replaysListFileName } from '../0 - consts';
 import parseReplaysOnPage from './parseReplaysOnPage';
@@ -38,6 +38,7 @@ const readReplaysListFile = (): Output => {
   let result: Output = { ...defaultEmptyOutput };
   const bar = new cliProgress.SingleBar({
     format: 'Pages parsed | {bar} {percentage}% | ETA: {eta}s | {value}/{total} pages',
+    gracefulExit: true,
   });
   const response: string = await fetchReplaysPage(1);
   const dom = parseDOM(response);

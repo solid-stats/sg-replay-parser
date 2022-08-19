@@ -3,16 +3,14 @@ type EntityName = string;
 type PlayerPrefix = string | null;
 type Weapon = string;
 
-type ReplayRaw = {
+type Replay = {
   mission_name: string;
-  world_name: string;
+  world_name: string | 'unknown';
   serverId: number;
   date: string;
   filename: string;
   replayLink: string;
 };
-
-type Replay = Omit<ReplayRaw, 'date'> & { date: string };
 
 type WeaponStatistic = {
   name: Weapon;

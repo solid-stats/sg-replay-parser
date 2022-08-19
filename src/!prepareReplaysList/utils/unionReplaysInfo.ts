@@ -1,5 +1,4 @@
-import orderBy from 'lodash/orderBy';
-import union from 'lodash/union';
+import { orderBy, union } from 'lodash';
 
 const sortByDate = (replays: Output['replays']): Output['replays'] => orderBy(replays, 'date', 'desc');
 
