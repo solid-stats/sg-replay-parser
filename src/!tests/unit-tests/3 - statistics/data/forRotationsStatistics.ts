@@ -108,7 +108,7 @@ export const getReplays = (startDate: Dayjs): PlayersGameResult[] => ([
   },
 ]);
 
-export const globalStatistics = [
+export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
   {
     name: 'cursed',
     lastSquadPrefix: null,

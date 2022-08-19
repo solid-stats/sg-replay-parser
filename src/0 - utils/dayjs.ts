@@ -26,3 +26,5 @@ vanillaDayjs.updateLocale('en', {
 export const dayjsUTC = (date?: string) => vanillaDayjs.utc(date);
 
 export const dayjsUnix = (date: number) => vanillaDayjs.unix(date).utc();
+
+export const dayjsUTCISO = (date?: string) => dayjsUTC(date).toISOString();

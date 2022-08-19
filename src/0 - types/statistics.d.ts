@@ -35,6 +35,11 @@ type GlobalPlayerStatistics = {
   weapons: WeaponStatistic[];
 };
 
+type GlobalPlayerWeekStatisticsWithoutDates = Omit<GlobalPlayerWeekStatistics, 'week' | 'startDate' | 'endDate'>;
+type GlobalPlayerStatisticsWithoutDates = Omit<GlobalPlayerStatistics, 'lastPlayedGameDate' | 'byWeeks'> & {
+  byWeeks: GlobalPlayerWeekStatisticsWithoutDates[];
+};
+
 type PlayerGameResult = Omit<PlayerInfo, 'id' | 'side'>;
 
 type GlobalSquadStatistics = {

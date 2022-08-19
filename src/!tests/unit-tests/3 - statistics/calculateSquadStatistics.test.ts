@@ -3,6 +3,7 @@
 import * as dayjs from '../../../0 - utils/dayjs';
 import calculateGlobalStatistics from '../../../3 - statistics/global';
 import calculateSquadStatistics from '../../../3 - statistics/squads';
+import getDefaultTestDescription from '../../utils/getDefaultTestDescription';
 import { generatePlayerInfo } from '../1 - replays, 2 - parseReplayInfo/utils';
 import data from './data/forGlobalStatistics';
 import parsedReplays, {
@@ -124,7 +125,7 @@ test('Squads with less than 5 members should not account', () => {
   expect(squadStatistics).toHaveLength(1);
 });
 
-test('Calculation of squad statistics with rotationEndDate parameter should return correct value', () => {
+test(getDefaultTestDescription('Calculation of squad statistics with rotationEndDate parameter'), () => {
   const date = dayjs.dayjsUTC('2023-08-15');
   const rotationEndDate = dayjs.dayjsUTC('2022-08-14').endOf('day');
 

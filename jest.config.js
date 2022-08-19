@@ -9,8 +9,11 @@ module.exports = {
     './src/**/*.ts',
     '!./src/**/*.d.ts',
     '!./src/index.ts',
-    '!./src/????utils/progressHandler.ts',
-    '!./src/????output/**/*.ts',
+    '!./src/*utils/progressHandler.ts',
+    '!./src/*utils/formatGameType.ts',
+    '!./src/*utils/pipe.ts',
+    '!./src/*utils/promiseAllWithProgress.ts',
+    '!./src/*output/**/*.ts',
     '!./src/!prepareReplaysList/**/*.ts',
     '!./src/!tests/**/*.ts',
   ],
@@ -19,7 +22,7 @@ module.exports = {
   "coverageReporters": ["clover", "json", "lcov"],
   "coverageThreshold": {
     "global": {
-      "lines": 90,
+      "lines": 100,
     },
   },
 }
