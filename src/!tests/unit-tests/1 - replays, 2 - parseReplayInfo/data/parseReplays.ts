@@ -1,15 +1,13 @@
-import {
-  generateConnectEvent,
-  generateReplay,
-  generateReplayInfo,
-  generateKillEvent,
-  getNameById,
-  generateDefaultWeapons,
-  getDefaultMissionName,
-  generatePlayerInfo,
-  generatePlayerEntity,
-  generateVehicleEntity,
-} from '../utils';
+import generateConnectEvent from '../../../utils/generators/generateConnectEvent';
+import generateDefaultWeapons from '../../../utils/generators/generateDefaultWeapons';
+import generateKillEvent from '../../../utils/generators/generateKillEvent';
+import generatePlayerEntity from '../../../utils/generators/generatePlayerEntity';
+import generatePlayerInfo from '../../../utils/generators/generatePlayerInfo';
+import generateReplay from '../../../utils/generators/generateReplay';
+import generateReplayInfo from '../../../utils/generators/generateReplayInfo';
+import generateVehicleEntity from '../../../utils/generators/generateVehicleEntity';
+import getDefaultMissionName from '../../../utils/getDefaultMissionName';
+import getNameById from '../../../utils/getNameById';
 
 type TestData = {
   replays: Replay[];

@@ -1,7 +1,8 @@
 /* eslint-disable object-curly-newline */
 import { Dayjs } from 'dayjs';
 
-import { generateDefaultWeapons, generatePlayerInfo } from '../../1 - replays, 2 - parseReplayInfo/utils';
+import generateDefaultWeapons from '../../../utils/generators/generateDefaultWeapons';
+import generatePlayerInfo from '../../../utils/generators/generatePlayerInfo';
 
 const getDate = (date: Dayjs, weeks: number, weekday: number, hour: number) => (
   date

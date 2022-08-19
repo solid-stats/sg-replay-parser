@@ -1,7 +1,7 @@
 import fs from 'fs';
 
 import getReplays from '../../../1 - replays/getReplays';
-import { generateReplay } from './utils';
+import generateReplay from '../../utils/generators/generateReplay';
 
 const data: Output = {
   parsedReplays: [],

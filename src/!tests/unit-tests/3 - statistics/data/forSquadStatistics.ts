@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable object-curly-newline */
-import { generatePlayerInfo } from '../../1 - replays, 2 - parseReplayInfo/utils';
+
+import generatePlayerInfo from '../../../utils/generators/generatePlayerInfo';
 
 const parsedReplays: PlayersGameResult[] = [
   {

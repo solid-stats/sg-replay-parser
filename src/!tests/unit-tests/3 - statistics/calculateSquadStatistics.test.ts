@@ -3,8 +3,8 @@
 import * as dayjs from '../../../0 - utils/dayjs';
 import calculateGlobalStatistics from '../../../3 - statistics/global';
 import calculateSquadStatistics from '../../../3 - statistics/squads';
+import generatePlayerInfo from '../../utils/generators/generatePlayerInfo';
 import getDefaultTestDescription from '../../utils/getDefaultTestDescription';
-import { generatePlayerInfo } from '../1 - replays, 2 - parseReplayInfo/utils';
 import data from './data/forGlobalStatistics';
 import parsedReplays, {
   squadStatisticsOnNonWeekend,

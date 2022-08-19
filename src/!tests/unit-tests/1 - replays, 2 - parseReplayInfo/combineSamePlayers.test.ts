@@ -1,6 +1,6 @@
 import combineSamePlayersInfo from '../../../2 - parseReplayInfo/combineSamePlayersInfo';
+import generatePlayerInfo from '../../utils/generators/generatePlayerInfo';
 import getDefaultTestDescription from '../../utils/getDefaultTestDescription';
-import { generatePlayerInfo } from './utils';
 
 type TestData = {
   entities: PlayersList;

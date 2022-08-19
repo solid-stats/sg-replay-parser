@@ -2,8 +2,10 @@
 import { disableBarsProgress } from '../../../0 - utils/progressHandler';
 import parseReplays from '../../../1 - replays/parseReplays';
 import * as parse from '../../../2 - parseReplayInfo';
+import generatePlayerEntity from '../../utils/generators/generatePlayerEntity';
+import generateReplay from '../../utils/generators/generateReplay';
+import generateReplayInfo from '../../utils/generators/generateReplayInfo';
 import testData from './data/parseReplays';
-import { generatePlayerEntity, generateReplay, generateReplayInfo } from './utils';
 
 jest.mock('console');
 

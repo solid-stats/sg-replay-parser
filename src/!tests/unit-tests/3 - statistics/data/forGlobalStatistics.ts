@@ -1,5 +1,6 @@
 /* eslint-disable object-curly-newline */
-import { generateDefaultWeapons, generatePlayerInfo } from '../../1 - replays, 2 - parseReplayInfo/utils';
+import generateDefaultWeapons from '../../../utils/generators/generateDefaultWeapons';
+import generatePlayerInfo from '../../../utils/generators/generatePlayerInfo';
 
 type TestData = {
   playersGameResult: PlayersGameResult[];
