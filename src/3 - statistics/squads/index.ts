@@ -1,6 +1,6 @@
 import { Dayjs } from 'dayjs';
 import {
-  groupBy, isEmpty, isNull, orderBy, sumBy,
+  groupBy, isEmpty, isNull, omit, orderBy, sumBy,
 } from 'lodash';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
@@ -77,7 +77,7 @@ const calculateSquadStatistics = (
         teamkills,
         averageTeamkills,
         score,
-        players: players.map((stats) => stats.name),
+        players: players.map((stats) => omit(stats, ['byWeeks', 'weapons', 'lastPlayedGameDate'])),
       };
     },
   );

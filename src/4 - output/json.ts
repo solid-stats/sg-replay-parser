@@ -1,21 +1,45 @@
 import fs from 'fs';
 
-import { statsFolder } from './consts';
+import { omit, toPairs } from 'lodash';
 
-const generateJSONOutput = (statistics: Statistics, folderName: string): void => {
-  const folderPath = `${statsFolder}/${folderName}`;
+import {
+  globalStatsFileName, squadStatsFileName, weaponsStatisticsFolder, weeksStatisticsFolder,
+} from './consts';
 
-  fs.mkdirSync(folderPath);
+type Stats = Omit<Statistics, 'byRotations'>;
 
-  const stats = {
-    globalStatistics: statistics.global,
-    squadStatistics: statistics.squad,
-  };
+const generateJSONOutput = (statistics: Stats, folderPath: string): void => {
+  const outputGlobalStats: OutputGlobalStatistics[] = statistics.global.map((stats) => omit(stats, ['byWeeks', 'weapons']));
 
-  fs.writeFileSync(`${folderPath}/stats.json`, JSON.stringify(stats, null, '\t'));
+  const weaponsStatistics: Record<PlayerName, WeaponStatistic[]> = {};
+  const weeksStatistics: Record<PlayerName, GlobalPlayerWeekStatistics[]> = {};
 
-  if (statistics.byRotations) {
-    fs.writeFileSync(`${folderPath}/rotations_stats.json`, JSON.stringify(statistics.byRotations, null, '\t'));
+  statistics.global.forEach(({ name, weapons, byWeeks }) => {
+    weaponsStatistics[name] = weapons;
+    weeksStatistics[name] = byWeeks;
+  });
+
+  fs.writeFileSync(`${folderPath}/${globalStatsFileName}`, JSON.stringify(outputGlobalStats, null, '\t'));
+  fs.writeFileSync(`${folderPath}/${squadStatsFileName}`, JSON.stringify(statistics.squad, null, '\t'));
+
+  if (Object.values(weaponsStatistics).length > 0) {
+    const weaponsStatisticsFolderPath = `${folderPath}/${weaponsStatisticsFolder}`;
+
+    fs.mkdirSync(weaponsStatisticsFolderPath);
+
+    toPairs(weaponsStatistics).forEach(([playerName, stats]) => (
+      fs.writeFileSync(`${weaponsStatisticsFolderPath}/${playerName}.json`, JSON.stringify(stats, null, '\t'))
+    ));
+  }
+
+  if (Object.values(weeksStatistics).length > 0) {
+    const weeksStatisticsFolderPath = `${folderPath}/${weeksStatisticsFolder}`;
+
+    fs.mkdirSync(weeksStatisticsFolderPath);
+
+    toPairs(weeksStatistics).forEach(([playerName, stats]) => (
+      fs.writeFileSync(`${weeksStatisticsFolderPath}/${playerName}.json`, JSON.stringify(stats, null, '\t'))
+    ));
   }
 };
 

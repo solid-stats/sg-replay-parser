@@ -40,6 +40,8 @@ type GlobalPlayerStatisticsWithoutDates = Omit<GlobalPlayerStatistics, 'lastPlay
   byWeeks: GlobalPlayerWeekStatisticsWithoutDates[];
 };
 
+type SimplifiedGlobalPlayerStatistics = Omit<GlobalPlayerStatistics, 'byWeeks' | 'weapons' | 'lastPlayedGameDate'>;
+
 type PlayerGameResult = Omit<PlayerInfo, 'id' | 'side'>;
 
 type GlobalSquadStatistics = {
@@ -50,7 +52,7 @@ type GlobalSquadStatistics = {
   teamkills: Teamkills;
   averageTeamkills: number;
   score: Score;
-  players: PlayerName[];
+  players: SimplifiedGlobalPlayerStatistics[];
 };
 
 type StatisticsByRotation = {
