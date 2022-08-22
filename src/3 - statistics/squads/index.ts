@@ -4,7 +4,6 @@ import {
 } from 'lodash';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
-import filterPlayersByTotalPlayedGames from '../../0 - utils/filterPlayersByTotalPlayedGames';
 import getSquadsInfo from './getSquadInfo';
 import { DayjsInterval, PlayersBySquadPrefix } from './types';
 import { isInInterval } from './utils';
@@ -53,7 +52,7 @@ const calculateSquadStatistics = (
   );
   const squadStatistics: GlobalSquadStatistics[] = Object.keys(filteredPlayersBySquadPrefix).map(
     (prefix) => {
-      const playerStatistics = filteredPlayersBySquadPrefix[prefix];
+      const players = filteredPlayersBySquadPrefix[prefix];
       const {
         playersCount: averagePlayersCount,
         kills: averageKills,
@@ -61,13 +60,8 @@ const calculateSquadStatistics = (
         score,
       } = averageSquadsInfo[prefix];
 
-      const kills = sumBy(playerStatistics, 'kills');
-      const teamkills = sumBy(playerStatistics, 'teamkills');
-
-      const players = filterPlayersByTotalPlayedGames(
-        playerStatistics,
-        rotationEndDate && replays.length,
-      );
+      const kills = sumBy(players, 'kills');
+      const teamkills = sumBy(players, 'teamkills');
 
       return {
         prefix,

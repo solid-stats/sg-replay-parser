@@ -12,7 +12,6 @@ import parsedReplays, {
   squadStatisticsAfterFirstDay,
   parsedReplaysOnLastSaturday,
   squadStatisticsAfterGameWeekend,
-  squadStatisticsWithAllPlayers,
 } from './data/forSquadStatistics';
 
 describe('Calculation of squad statistics on any non-weekend day should return correct and same results', () => {
@@ -139,5 +138,5 @@ test(getDefaultTestDescription('Calculation of squad statistics with rotationEnd
     rotationEndDate,
   );
 
-  expect(squadStatistics).toMatchObject(squadStatisticsWithAllPlayers);
+  expect(squadStatistics).toMatchObject(squadStatisticsOnNonWeekend);
 });
