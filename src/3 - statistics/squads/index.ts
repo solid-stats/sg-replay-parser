@@ -40,7 +40,7 @@ const calculateSquadStatistics = (
       isInInterval(player.lastPlayedGameDate, last4WeeksInterval)
     ));
 
-    if (isEmpty(filteredPlayers) || filteredPlayers.length < 5) return;
+    if (isEmpty(filteredPlayers) || filteredPlayers.length < 4) return;
 
     filteredPlayersBySquadPrefix[prefix] = filteredPlayers;
   });
