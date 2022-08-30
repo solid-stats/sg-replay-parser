@@ -22,11 +22,13 @@ const combineSamePlayersInfo = (entities: PlayersList): PlayerInfo[] => {
         name: player.name,
         side: player.side,
         kills: prevEntity.kills + player.kills,
+        killsFromVehicle: prevEntity.killsFromVehicle + player.killsFromVehicle,
         vehicleKills: prevEntity.vehicleKills + player.vehicleKills,
         teamkills: prevEntity.teamkills + player.teamkills,
         isDead: prevEntity.isDead || player.isDead,
         isDeadByTeamkill: prevEntity.isDeadByTeamkill || player.isDeadByTeamkill,
         weapons: unionWeaponsStatistic(prevEntity.weapons, player.weapons),
+        vehicles: unionWeaponsStatistic(prevEntity.vehicles, player.vehicles),
       });
 
       return;

@@ -8,8 +8,8 @@ type GenerateKillEvent = {
 };
 
 const generateKillEvent = ({
-  killedId,
   killerId,
+  killedId,
   killerWeapon,
   distance,
 }: GenerateKillEvent): KillEvent => ([

@@ -121,32 +121,38 @@ const testData: TestData = {
     file_3: generateReplayInfo(
       [
         generateKillEvent({
-          killedId: 4,
           killerId: 2,
+          killedId: 4,
           killerWeapon: 'BTR-82',
           distance: 100,
         }),
         generateKillEvent({
-          killedId: 0,
           killerId: 6,
+          killedId: 0,
           killerWeapon: 'BTR-80A',
           distance: 100,
         }),
         generateKillEvent({
+          killerId: 6,
           killedId: 1,
-          killerId: 6,
           killerWeapon: 'BTR-80A',
           distance: 150,
         }),
         generateKillEvent({
+          killerId: 6,
           killedId: 2,
-          killerId: 6,
           killerWeapon: 'BTR-80A',
           distance: 150,
         }),
         generateKillEvent({
-          killedId: 3,
           killerId: 6,
+          killedId: 3,
+          killerWeapon: 'BTR-80A',
+          distance: 150,
+        }),
+        generateKillEvent({
+          killerId: 6,
+          killedId: 5,
           killerWeapon: 'BTR-80A',
           distance: 150,
         }),
@@ -302,8 +308,9 @@ const testData: TestData = {
           id: 2,
           side: 'EAST',
           kills: 1,
+          killsFromVehicle: 1,
           isDead: true,
-          weapons: [{ name: 'BTR-82', kills: 1, maxDistance: 100 }],
+          vehicles: [{ name: 'BTR-82', kills: 1, maxDistance: 100 }],
         }),
         generatePlayerInfo({
           id: 4,
@@ -313,13 +320,17 @@ const testData: TestData = {
         generatePlayerInfo({
           id: 5,
           side: 'GUER',
+          isDead: true,
+          isDeadByTeamkill: true,
         }),
         generatePlayerInfo({
           id: 6,
           side: 'GUER',
           kills: 3,
+          killsFromVehicle: 3,
+          teamkills: 1,
           vehicleKills: 1,
-          weapons: [{ kills: 3, maxDistance: 150, name: 'BTR-80A' }],
+          vehicles: [{ kills: 3, maxDistance: 150, name: 'BTR-80A' }],
         }),
       ],
     },

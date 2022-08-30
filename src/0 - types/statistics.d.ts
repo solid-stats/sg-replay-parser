@@ -5,6 +5,7 @@ type Deaths = {
   byTeamkills: number;
 };
 type Score = number;
+type Coefficient = number;
 
 type WeekNumber = `${number}${number}${number}${number}-${number}${number}`; // 2022-35
 type GlobalPlayerWeekStatistics = {
@@ -13,10 +14,12 @@ type GlobalPlayerWeekStatistics = {
   endDate: string;
   totalPlayedGames: number;
   kills: Kills;
+  killsFromVehicle: Kills;
   vehicleKills: Kills;
   teamkills: Teamkills;
   deaths: Deaths;
   kdRatio: Score;
+  killsFromVehicleCoef: Coefficient;
   score: Score;
 };
 
@@ -25,14 +28,17 @@ type GlobalPlayerStatistics = {
   lastSquadPrefix: PlayerPrefix;
   totalPlayedGames: number;
   kills: Kills;
+  killsFromVehicle: Kills;
   vehicleKills: Kills;
   teamkills: Teamkills;
   deaths: Deaths;
   kdRatio: Score;
+  killsFromVehicleCoef: Coefficient;
   totalScore: Score;
   lastPlayedGameDate: string;
   byWeeks: GlobalPlayerWeekStatistics[];
   weapons: WeaponStatistic[];
+  vehicles: WeaponStatistic[];
 };
 
 type GlobalPlayerWeekStatisticsWithoutDates = Omit<GlobalPlayerWeekStatistics, 'week' | 'startDate' | 'endDate'>;
@@ -40,7 +46,7 @@ type GlobalPlayerStatisticsWithoutDates = Omit<GlobalPlayerStatistics, 'lastPlay
   byWeeks: GlobalPlayerWeekStatisticsWithoutDates[];
 };
 
-type SimplifiedGlobalPlayerStatistics = Omit<GlobalPlayerStatistics, 'byWeeks' | 'weapons' | 'lastPlayedGameDate'>;
+type SimplifiedGlobalPlayerStatistics = Omit<GlobalPlayerStatistics, 'byWeeks' | 'weapons' | 'vehicles' | 'lastPlayedGameDate'>;
 
 type PlayerGameResult = Omit<PlayerInfo, 'id' | 'side'>;
 

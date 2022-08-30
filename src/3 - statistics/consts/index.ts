@@ -1,6 +1,7 @@
 export const defaultStatistics: Omit<GlobalPlayerStatistics, 'name' | 'lastSquadPrefix' | 'lastPlayedGameDate'> = {
   totalPlayedGames: 0,
   kills: 0,
+  killsFromVehicle: 0,
   vehicleKills: 0,
   teamkills: 0,
   deaths: {
@@ -8,14 +9,17 @@ export const defaultStatistics: Omit<GlobalPlayerStatistics, 'name' | 'lastSquad
     byTeamkills: 0,
   },
   kdRatio: 0,
+  killsFromVehicleCoef: 0,
   totalScore: 0,
   byWeeks: [],
   weapons: [],
+  vehicles: [],
 };
 
 export const defaultWeekStatistics: Omit<GlobalPlayerWeekStatistics, 'week' | 'date' | 'startDate' | 'endDate'> = {
   totalPlayedGames: 0,
   kills: 0,
+  killsFromVehicle: 0,
   vehicleKills: 0,
   teamkills: 0,
   deaths: {
@@ -23,5 +27,6 @@ export const defaultWeekStatistics: Omit<GlobalPlayerWeekStatistics, 'week' | 'd
     byTeamkills: 0,
   },
   kdRatio: 0,
+  killsFromVehicleCoef: 0,
   score: 0,
 };

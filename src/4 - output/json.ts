@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import { omit, toPairs } from 'lodash';
+import { isEmpty, omit, toPairs } from 'lodash';
 
 import {
   globalStatsFileName, squadStatsFileName, weaponsStatisticsFolder, weeksStatisticsFolder,
@@ -8,39 +8,39 @@ import {
 
 type Stats = Omit<Statistics, 'byRotations'>;
 
-const generateJSONOutput = (statistics: Stats, folderPath: string): void => {
-  const outputGlobalStats: OutputGlobalStatistics[] = statistics.global.map((stats) => omit(stats, ['byWeeks', 'weapons']));
+const createFileForEach = (path: string, data: Record<string, any>) => {
+  if (isEmpty(data)) return;
 
-  const weaponsStatistics: Record<PlayerName, WeaponStatistic[]> = {};
+  fs.mkdirSync(path);
+
+  toPairs(data).forEach(([key, value]) => (
+    fs.writeFileSync(`${path}/${key}.json`, JSON.stringify(value, null, '\t'))
+  ));
+};
+
+type WeaponsStatistics = {
+  firearms: WeaponStatistic[];
+  vehicles: WeaponStatistic[];
+};
+
+const generateJSONOutput = (statistics: Stats, folderPath: string): void => {
+  const outputGlobalStats: OutputGlobalStatistics[] = statistics.global.map((stats) => omit(stats, ['byWeeks', 'weapons', 'vehicles']));
+
+  const weaponsStatistics: Record<PlayerName, WeaponsStatistics> = {};
   const weeksStatistics: Record<PlayerName, GlobalPlayerWeekStatistics[]> = {};
 
-  statistics.global.forEach(({ name, weapons, byWeeks }) => {
-    weaponsStatistics[name] = weapons;
+  statistics.global.forEach(({
+    name, weapons, vehicles, byWeeks,
+  }) => {
+    weaponsStatistics[name] = { firearms: weapons, vehicles };
     weeksStatistics[name] = byWeeks;
   });
 
   fs.writeFileSync(`${folderPath}/${globalStatsFileName}`, JSON.stringify(outputGlobalStats, null, '\t'));
   fs.writeFileSync(`${folderPath}/${squadStatsFileName}`, JSON.stringify(statistics.squad, null, '\t'));
 
-  if (Object.values(weaponsStatistics).length > 0) {
-    const weaponsStatisticsFolderPath = `${folderPath}/${weaponsStatisticsFolder}`;
-
-    fs.mkdirSync(weaponsStatisticsFolderPath);
-
-    toPairs(weaponsStatistics).forEach(([playerName, stats]) => (
-      fs.writeFileSync(`${weaponsStatisticsFolderPath}/${playerName}.json`, JSON.stringify(stats, null, '\t'))
-    ));
-  }
-
-  if (Object.values(weeksStatistics).length > 0) {
-    const weeksStatisticsFolderPath = `${folderPath}/${weeksStatisticsFolder}`;
-
-    fs.mkdirSync(weeksStatisticsFolderPath);
-
-    toPairs(weeksStatistics).forEach(([playerName, stats]) => (
-      fs.writeFileSync(`${weeksStatisticsFolderPath}/${playerName}.json`, JSON.stringify(stats, null, '\t'))
-    ));
-  }
+  createFileForEach(`${folderPath}/${weaponsStatisticsFolder}`, weaponsStatistics);
+  createFileForEach(`${folderPath}/${weeksStatisticsFolder}`, weaponsStatistics);
 };
 
 export default generateJSONOutput;

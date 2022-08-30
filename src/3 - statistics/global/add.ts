@@ -1,4 +1,5 @@
 import { Dayjs } from 'dayjs';
+import { round } from 'lodash';
 
 import calculateKDRatio from '../../0 - utils/calculateKDRatio';
 import calculateScore from '../../0 - utils/calculateScore';
@@ -44,6 +45,7 @@ const addPlayerGameResultToGlobalStatistics = (
 
   const totalPlayedGames = playerStatistics.totalPlayedGames + 1;
   const kills = playerStatistics.kills + playerGameResult.kills;
+  const killsFromVehicle = playerStatistics.killsFromVehicle + playerGameResult.killsFromVehicle;
 
   const vehicleKills = playerStatistics.vehicleKills + playerGameResult.vehicleKills;
   const teamkills = playerStatistics.teamkills + playerGameResult.teamkills;
@@ -65,12 +67,15 @@ const addPlayerGameResultToGlobalStatistics = (
     lastPlayedGameDate: stringDate,
     totalPlayedGames,
     kills,
+    killsFromVehicle,
     vehicleKills,
     teamkills,
     deaths,
     kdRatio: calculateKDRatio(kills, teamkills, deaths),
+    killsFromVehicleCoef: kills ? round(killsFromVehicle / kills, 2) : 0,
     totalScore: calculateScore(totalPlayedGames, kills, teamkills, deaths),
     weapons: unionWeaponsStatistic(playerStatistics.weapons, playerGameResult.weapons),
+    vehicles: unionWeaponsStatistic(playerStatistics.vehicles, playerGameResult.vehicles),
     byWeeks: statisticsByWeek,
   };
 

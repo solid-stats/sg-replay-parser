@@ -5,11 +5,13 @@ const defaultPlayerInfo: PlayerInfo = {
   name: '',
   side: 'CIV',
   kills: 0,
+  killsFromVehicle: 0,
   vehicleKills: 0,
   teamkills: 0,
   isDead: false,
   isDeadByTeamkill: false,
   weapons: [],
+  vehicles: [],
 };
 
 const getEntities = ({ entities, events }: ReplayInfo): VehiclesWithPlayersList => {

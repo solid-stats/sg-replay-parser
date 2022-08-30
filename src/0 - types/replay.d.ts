@@ -54,11 +54,13 @@ type PlayerInfo = {
   name: PlayerName;
   side: EntitySide;
   kills: number;
+  killsFromVehicle: number;
   vehicleKills: number;
   teamkills: number;
   isDead: boolean;
   isDeadByTeamkill: boolean;
   weapons: WeaponStatistic[];
+  vehicles: WeaponStatistic[];
 };
 type PlayersList = Record<EntityId, PlayerInfo>;
 

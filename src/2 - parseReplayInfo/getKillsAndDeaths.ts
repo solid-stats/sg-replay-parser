@@ -1,3 +1,5 @@
+import { keyBy } from 'lodash';
+
 import { addWeaponStatistic, filterWeaponStatistics } from '../0 - utils/weaponsStatistic';
 
 type CommonParams = {
@@ -9,6 +11,7 @@ type PlayerKilledParams = CommonParams & {
   killed: PlayerInfo;
   weapon: Weapon;
   distance: Distance;
+  entities: VehicleList;
 };
 type VehicleKilledParams = CommonParams & {
   vehicle: VehicleInfo;
@@ -31,14 +34,29 @@ const processPlayerKilled = ({
   players,
   distance,
   weapon,
+  entities,
 }: PlayerKilledParams): PlayersList => {
   const newPlayers = { ...players };
   const isSameSide = killer.side === killed.side;
   const isSuicide = killer.id === killed.id;
 
-  const weapons = isSameSide || isSuicide
-    ? killer.weapons
-    : calculateWeaponStatistics(weapon, distance, killer.weapons);
+  const vehiclesList = Object.values(entities);
+  const vehiclesByName = keyBy(vehiclesList, 'name');
+
+  const isKillFromVehicle = vehiclesByName[weapon] !== undefined;
+
+  let {
+    kills, killsFromVehicle, weapons, vehicles,
+  } = killer;
+
+  if (!(isSameSide || isSuicide)) {
+    if (isKillFromVehicle) {
+      vehicles = calculateWeaponStatistics(weapon, distance, killer.vehicles);
+      killsFromVehicle += 1;
+    } else weapons = calculateWeaponStatistics(weapon, distance, killer.weapons);
+
+    kills += 1;
+  }
 
   newPlayers[killed.id] = {
     ...newPlayers[killed.id],
@@ -47,9 +65,11 @@ const processPlayerKilled = ({
   };
   newPlayers[killer.id] = {
     ...newPlayers[killer.id],
-    kills: isSameSide || isSuicide ? killer.kills : killer.kills + 1,
+    kills,
+    killsFromVehicle,
     teamkills: isSameSide && !isSuicide ? killer.teamkills + 1 : killer.teamkills,
     weapons,
+    vehicles,
   };
 
   return newPlayers;
@@ -90,7 +110,7 @@ const getKillsAndDeaths = (entities: VehiclesWithPlayersList, events: ReplayInfo
 
       if (killer && killedPlayer) {
         players = processPlayerKilled({
-          killer, killed: killedPlayer, players, distance, weapon,
+          killer, killed: killedPlayer, players, distance, weapon, entities: vehicles,
         });
 
         return;

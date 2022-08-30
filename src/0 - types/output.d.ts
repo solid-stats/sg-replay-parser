@@ -10,4 +10,4 @@ type StatisticsForOutput = Record<FolderName, Statistics>;
 
 type GeneralRotationInfo = Omit<StatisticsByRotation, 'stats'>;
 
-type OutputGlobalStatistics = Omit<GlobalPlayerStatistics, 'byWeeks' | 'weapons'>;
+type OutputGlobalStatistics = Omit<GlobalPlayerStatistics, 'byWeeks' | 'weapons' | 'vehicles'>;

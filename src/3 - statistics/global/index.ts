@@ -20,6 +20,7 @@ const limitWeaponsStatisticsCount = (
   statistics.map((playerStatistics) => ({
     ...playerStatistics,
     weapons: orderBy(playerStatistics.weapons, 'kills', 'desc').slice(0, 25),
+    vehicles: orderBy(playerStatistics.vehicles, 'kills', 'desc').slice(0, 25),
   }))
 );
 

@@ -38,7 +38,7 @@ export const getReplays = (startDate: Dayjs): PlayersGameResult[] => ([
       generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy', kills: 2 }),
       generatePlayerInfo({ id: 5, name: '[FNX]LOXDOR', kills: 1 }),
       generatePlayerInfo({ id: 6, name: '[FNX]T1m', kills: 1 }),
-      generatePlayerInfo({ id: 8, name: 'cursed', kills: 2, teamkills: 1 }),
+      generatePlayerInfo({ id: 8, name: 'cursed', kills: 2, killsFromVehicle: 2, teamkills: 1 }),
     ],
   },
   {
@@ -69,7 +69,7 @@ export const getReplays = (startDate: Dayjs): PlayersGameResult[] => ([
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 2 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback' }),
-      generatePlayerInfo({ id: 2, name: '[FNX]Skywalker', kills: 3, teamkills: 1 }),
+      generatePlayerInfo({ id: 2, name: '[FNX]Skywalker', kills: 3, killsFromVehicle: 3, teamkills: 1 }),
       generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy' }),
       generatePlayerInfo({ id: 7, name: '[FNX]Puma', kills: 3 }),
     ],
@@ -91,7 +91,7 @@ export const getReplays = (startDate: Dayjs): PlayersGameResult[] => ([
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', teamkills: 1 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 4, teamkills: 2 }),
-      generatePlayerInfo({ id: 2, name: '[FNX]Skywalker', kills: 6 }),
+      generatePlayerInfo({ id: 2, name: '[FNX]Skywalker', kills: 6, killsFromVehicle: 6 }),
       generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy', teamkills: 1 }),
       generatePlayerInfo({ id: 7, name: '[FNX]Puma' }),
     ],
@@ -115,55 +115,67 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
     lastSquadPrefix: null,
     totalPlayedGames: 2,
     kills: 5,
+    killsFromVehicle: 2,
     vehicleKills: 0,
     teamkills: 1,
     deaths: { total: 0, byTeamkills: 0 },
     kdRatio: 4,
+    killsFromVehicleCoef: 0.4,
     totalScore: 2,
     byWeeks: [
       {
         totalPlayedGames: 2,
         kills: 5,
+        killsFromVehicle: 2,
         vehicleKills: 0,
         teamkills: 1,
         deaths: { total: 0, byTeamkills: 0 },
         kdRatio: 4,
+        killsFromVehicleCoef: 0.4,
         score: 2,
       },
     ],
-    weapons: generateDefaultWeapons(5),
+    weapons: generateDefaultWeapons(3),
+    vehicles: generateDefaultWeapons(2, 'vehicle'),
   },
   {
     name: 'Skywalker',
     lastSquadPrefix: '[FNX]',
     totalPlayedGames: 8,
     kills: 18,
+    killsFromVehicle: 9,
     vehicleKills: 0,
     teamkills: 4,
     deaths: { total: 0, byTeamkills: 0 },
     kdRatio: 14,
+    killsFromVehicleCoef: 0.5,
     totalScore: 1.75,
     byWeeks: [
       {
         totalPlayedGames: 4,
         kills: 9,
+        killsFromVehicle: 9,
         vehicleKills: 0,
         teamkills: 2,
         deaths: { total: 0, byTeamkills: 0 },
         kdRatio: 7,
+        killsFromVehicleCoef: 1,
         score: 1.75,
       },
       {
         totalPlayedGames: 4,
         kills: 9,
+        killsFromVehicle: 0,
         vehicleKills: 0,
         teamkills: 2,
         deaths: { total: 0, byTeamkills: 0 },
         kdRatio: 7,
+        killsFromVehicleCoef: 0,
         score: 1.75,
       },
     ],
-    weapons: generateDefaultWeapons(18),
+    weapons: generateDefaultWeapons(9),
+    vehicles: generateDefaultWeapons(9, 'vehicle'),
   },
   {
     name: 'Flashback',
@@ -175,6 +187,8 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
     deaths: { total: 0, byTeamkills: 0 },
     kdRatio: 9,
     totalScore: 1.13,
+    killsFromVehicleCoef: 0,
+    killsFromVehicle: 0,
     byWeeks: [
       {
         totalPlayedGames: 4,
@@ -184,6 +198,8 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
         deaths: { total: 0, byTeamkills: 0 },
         kdRatio: 4,
         score: 1,
+        killsFromVehicleCoef: 0,
+        killsFromVehicle: 0,
       },
       {
         totalPlayedGames: 4,
@@ -193,9 +209,12 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
         deaths: { total: 0, byTeamkills: 0 },
         kdRatio: 5,
         score: 1.25,
+        killsFromVehicleCoef: 0,
+        killsFromVehicle: 0,
       },
     ],
     weapons: generateDefaultWeapons(13),
+    vehicles: [],
   },
   {
     name: 'Mecheniy',
@@ -207,6 +226,8 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
     deaths: { total: 0, byTeamkills: 0 },
     kdRatio: 8,
     totalScore: 1,
+    killsFromVehicleCoef: 0,
+    killsFromVehicle: 0,
     byWeeks: [
       {
         totalPlayedGames: 4,
@@ -216,6 +237,8 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
         deaths: { total: 0, byTeamkills: 0 },
         kdRatio: 4,
         score: 1,
+        killsFromVehicleCoef: 0,
+        killsFromVehicle: 0,
       },
       {
         totalPlayedGames: 4,
@@ -225,9 +248,12 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
         deaths: { total: 0, byTeamkills: 0 },
         kdRatio: 4,
         score: 1,
+        killsFromVehicleCoef: 0,
+        killsFromVehicle: 0,
       },
     ],
     weapons: generateDefaultWeapons(10),
+    vehicles: [],
   },
   {
     name: 'Puma',
@@ -239,6 +265,8 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
     deaths: { total: 0, byTeamkills: 0 },
     kdRatio: 6,
     totalScore: 1,
+    killsFromVehicleCoef: 0,
+    killsFromVehicle: 0,
     byWeeks: [
       {
         totalPlayedGames: 3,
@@ -248,6 +276,8 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
         deaths: { total: 0, byTeamkills: 0 },
         kdRatio: 3,
         score: 1,
+        killsFromVehicleCoef: 0,
+        killsFromVehicle: 0,
       },
       {
         totalPlayedGames: 3,
@@ -257,9 +287,12 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
         deaths: { total: 0, byTeamkills: 0 },
         kdRatio: 3,
         score: 1,
+        killsFromVehicleCoef: 0,
+        killsFromVehicle: 0,
       },
     ],
     weapons: generateDefaultWeapons(6),
+    vehicles: [],
   },
   {
     name: 'LOXDOR',
@@ -271,6 +304,8 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
     deaths: { total: 0, byTeamkills: 0 },
     kdRatio: 2,
     totalScore: 1,
+    killsFromVehicleCoef: 0,
+    killsFromVehicle: 0,
     byWeeks: [
       {
         totalPlayedGames: 1,
@@ -280,6 +315,8 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
         deaths: { total: 0, byTeamkills: 0 },
         kdRatio: 1,
         score: 1,
+        killsFromVehicleCoef: 0,
+        killsFromVehicle: 0,
       },
       {
         totalPlayedGames: 1,
@@ -289,9 +326,12 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
         deaths: { total: 0, byTeamkills: 0 },
         kdRatio: 1,
         score: 1,
+        killsFromVehicleCoef: 0,
+        killsFromVehicle: 0,
       },
     ],
     weapons: generateDefaultWeapons(2),
+    vehicles: [],
   },
   {
     name: 'Afgan0r',
@@ -303,6 +343,8 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
     deaths: { total: 0, byTeamkills: 0 },
     kdRatio: 4,
     totalScore: 0.5,
+    killsFromVehicleCoef: 0,
+    killsFromVehicle: 0,
     byWeeks: [
       {
         totalPlayedGames: 4,
@@ -312,6 +354,8 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
         deaths: { total: 0, byTeamkills: 0 },
         kdRatio: 2,
         score: 0.5,
+        killsFromVehicleCoef: 0,
+        killsFromVehicle: 0,
       },
       {
         totalPlayedGames: 4,
@@ -321,9 +365,12 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
         deaths: { total: 0, byTeamkills: 0 },
         kdRatio: 2,
         score: 0.5,
+        killsFromVehicleCoef: 0,
+        killsFromVehicle: 0,
       },
     ],
     weapons: generateDefaultWeapons(6),
+    vehicles: [],
   },
 ];
 
@@ -353,6 +400,8 @@ export const squadStatistics: GlobalSquadStatistics[] = [{
       totalPlayedGames: 8,
       totalScore: 1.75,
       vehicleKills: 0,
+      killsFromVehicle: 9,
+      killsFromVehicleCoef: 0.5,
     },
     {
       deaths: {
@@ -367,6 +416,8 @@ export const squadStatistics: GlobalSquadStatistics[] = [{
       totalPlayedGames: 8,
       totalScore: 1.13,
       vehicleKills: 0,
+      killsFromVehicleCoef: 0,
+      killsFromVehicle: 0,
     },
     {
       deaths: {
@@ -381,6 +432,8 @@ export const squadStatistics: GlobalSquadStatistics[] = [{
       totalPlayedGames: 8,
       totalScore: 1,
       vehicleKills: 0,
+      killsFromVehicleCoef: 0,
+      killsFromVehicle: 0,
     },
     {
       deaths: {
@@ -395,6 +448,8 @@ export const squadStatistics: GlobalSquadStatistics[] = [{
       totalPlayedGames: 6,
       totalScore: 1,
       vehicleKills: 0,
+      killsFromVehicleCoef: 0,
+      killsFromVehicle: 0,
     },
     {
       deaths: {
@@ -409,6 +464,8 @@ export const squadStatistics: GlobalSquadStatistics[] = [{
       totalPlayedGames: 2,
       totalScore: 1,
       vehicleKills: 0,
+      killsFromVehicleCoef: 0,
+      killsFromVehicle: 0,
     },
     {
       deaths: {
@@ -423,6 +480,8 @@ export const squadStatistics: GlobalSquadStatistics[] = [{
       totalPlayedGames: 1,
       totalScore: 1,
       vehicleKills: 0,
+      killsFromVehicleCoef: 0,
+      killsFromVehicle: 0,
     },
     {
       deaths: {
@@ -437,6 +496,8 @@ export const squadStatistics: GlobalSquadStatistics[] = [{
       totalPlayedGames: 8,
       totalScore: 0.5,
       vehicleKills: 0,
+      killsFromVehicleCoef: 0,
+      killsFromVehicle: 0,
     },
   ],
 }];

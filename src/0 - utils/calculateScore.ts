@@ -11,6 +11,8 @@ const calculateScore = (
 
   if (gamesCount <= 0) return totalScore;
 
+  if (gamesCount === 0) return totalScore;
+
   return round(totalScore / gamesCount, 2);
 };
 
