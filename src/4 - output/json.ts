@@ -40,7 +40,7 @@ const generateJSONOutput = (statistics: Stats, folderPath: string): void => {
   fs.writeFileSync(`${folderPath}/${squadStatsFileName}`, JSON.stringify(statistics.squad, null, '\t'));
 
   createFileForEach(`${folderPath}/${weaponsStatisticsFolder}`, weaponsStatistics);
-  createFileForEach(`${folderPath}/${weeksStatisticsFolder}`, weaponsStatistics);
+  createFileForEach(`${folderPath}/${weeksStatisticsFolder}`, weeksStatistics);
 };
 
 export default generateJSONOutput;
