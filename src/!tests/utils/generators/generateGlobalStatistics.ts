@@ -1,11 +1,11 @@
-import { dayjsUTCISO } from '../../../0 - utils/dayjs';
 import { defaultStatistics } from '../../../3 - statistics/consts';
 
-const generateGlobalStatistics = (name: PlayerName, totalPlayedGames: GlobalPlayerStatistics['totalPlayedGames']) => ({
+const generateGlobalStatistics = (name: PlayerName, totalPlayedGames: GlobalPlayerStatistics['totalPlayedGames'], date: string, isShow?: boolean) => ({
   ...defaultStatistics,
+  isShow: isShow === undefined ? true : isShow,
   name,
   lastSquadPrefix: null,
-  lastPlayedGameDate: dayjsUTCISO(),
+  lastPlayedGameDate: date,
   totalPlayedGames,
 });
 

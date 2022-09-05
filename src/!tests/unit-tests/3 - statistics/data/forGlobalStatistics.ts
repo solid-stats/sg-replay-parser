@@ -49,6 +49,7 @@ const data: TestData = {
   globalStatistics: [
     {
       name: 'Loxdor',
+      isShow: true,
       lastSquadPrefix: '[FNX]',
       totalPlayedGames: 2,
       kills: 11,
@@ -81,6 +82,7 @@ const data: TestData = {
     },
     {
       name: 'Something',
+      isShow: true,
       lastSquadPrefix: null,
       totalPlayedGames: 3,
       kills: 6,
@@ -127,6 +129,7 @@ const data: TestData = {
     },
     {
       name: 'Afgan0r',
+      isShow: true,
       lastSquadPrefix: '[FNX]',
       totalPlayedGames: 4,
       kills: 5,
@@ -173,6 +176,7 @@ const data: TestData = {
     },
     {
       name: 'Skywalker',
+      isShow: true,
       lastSquadPrefix: '[FNX]',
       totalPlayedGames: 3,
       kills: 4,

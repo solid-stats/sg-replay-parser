@@ -112,6 +112,7 @@ export const getReplays = (startDate: Dayjs): PlayersGameResult[] => ([
 export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
   {
     name: 'cursed',
+    isShow: true,
     lastSquadPrefix: null,
     totalPlayedGames: 2,
     kills: 5,
@@ -140,6 +141,7 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
   },
   {
     name: 'Skywalker',
+    isShow: true,
     lastSquadPrefix: '[FNX]',
     totalPlayedGames: 8,
     kills: 18,
@@ -179,6 +181,7 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
   },
   {
     name: 'Flashback',
+    isShow: true,
     lastSquadPrefix: '[FNX]',
     totalPlayedGames: 8,
     kills: 13,
@@ -218,6 +221,7 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
   },
   {
     name: 'Mecheniy',
+    isShow: true,
     lastSquadPrefix: '[FNX]',
     totalPlayedGames: 8,
     kills: 10,
@@ -257,6 +261,7 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
   },
   {
     name: 'Puma',
+    isShow: true,
     lastSquadPrefix: '[FNX]',
     totalPlayedGames: 6,
     kills: 6,
@@ -296,6 +301,7 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
   },
   {
     name: 'LOXDOR',
+    isShow: true,
     lastSquadPrefix: '[FNX]',
     totalPlayedGames: 2,
     kills: 2,
@@ -334,7 +340,37 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
     vehicles: [],
   },
   {
+    name: 'T1m',
+    isShow: false,
+    lastSquadPrefix: '[FNX]',
+    totalPlayedGames: 1,
+    kills: 1,
+    vehicleKills: 0,
+    teamkills: 0,
+    deaths: { total: 0, byTeamkills: 0 },
+    kdRatio: 1,
+    totalScore: 1,
+    killsFromVehicleCoef: 0,
+    killsFromVehicle: 0,
+    byWeeks: [
+      {
+        totalPlayedGames: 1,
+        kills: 1,
+        vehicleKills: 0,
+        teamkills: 0,
+        deaths: { total: 0, byTeamkills: 0 },
+        kdRatio: 1,
+        score: 1,
+        killsFromVehicleCoef: 0,
+        killsFromVehicle: 0,
+      },
+    ],
+    weapons: generateDefaultWeapons(1),
+    vehicles: [],
+  },
+  {
     name: 'Afgan0r',
+    isShow: true,
     lastSquadPrefix: '[FNX]',
     totalPlayedGames: 8,
     kills: 6,

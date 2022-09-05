@@ -34,7 +34,7 @@ const countStatistics = (
   console.log(`- ${formatGameType(gameType)} statistics collected.`);
 
   return {
-    global: filterPlayersByTotalPlayedGames(global),
+    global: filterPlayersByTotalPlayedGames({ statistics: global, type: 'not show' }),
     squad,
     byRotations,
   };

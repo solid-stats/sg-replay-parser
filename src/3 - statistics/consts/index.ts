@@ -1,4 +1,5 @@
 export const defaultStatistics: Omit<GlobalPlayerStatistics, 'name' | 'lastSquadPrefix' | 'lastPlayedGameDate'> = {
+  isShow: true,
   totalPlayedGames: 0,
   kills: 0,
   killsFromVehicle: 0,

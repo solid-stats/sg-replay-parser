@@ -25,6 +25,7 @@ type GlobalPlayerWeekStatistics = {
 
 type GlobalPlayerStatistics = {
   name: PlayerName;
+  isShow: boolean;
   lastSquadPrefix: PlayerPrefix;
   totalPlayedGames: number;
   kills: Kills;
@@ -46,7 +47,7 @@ type GlobalPlayerStatisticsWithoutDates = Omit<GlobalPlayerStatistics, 'lastPlay
   byWeeks: GlobalPlayerWeekStatisticsWithoutDates[];
 };
 
-type SimplifiedGlobalPlayerStatistics = Omit<GlobalPlayerStatistics, 'byWeeks' | 'weapons' | 'vehicles' | 'lastPlayedGameDate'>;
+type SimplifiedGlobalPlayerStatistics = Pick<GlobalPlayerStatistics, 'name' | 'deaths' | 'kdRatio' | 'kills' | 'lastSquadPrefix' | 'teamkills' | 'totalPlayedGames' | 'totalScore' | 'vehicleKills' | 'killsFromVehicle' | 'killsFromVehicleCoef'>;
 
 type PlayerGameResult = Omit<PlayerInfo, 'id' | 'side'>;
 

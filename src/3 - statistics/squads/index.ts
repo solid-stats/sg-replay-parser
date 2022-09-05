@@ -75,7 +75,7 @@ const calculateSquadStatistics = (
         teamkills,
         averageTeamkills,
         score,
-        players: players.map((stats) => omit(stats, ['byWeeks', 'weapons', 'vehicles', 'lastPlayedGameDate'])),
+        players: players.map((stats) => omit(stats, ['byWeeks', 'weapons', 'vehicles', 'lastPlayedGameDate', 'isShow'])),
       };
     },
   );

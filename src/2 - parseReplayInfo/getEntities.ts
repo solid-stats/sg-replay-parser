@@ -19,7 +19,7 @@ const getEntities = ({ entities, events }: ReplayInfo): VehiclesWithPlayersList 
   const vehicles: VehicleList = {};
 
   entities.forEach((entity) => {
-    if (entity.type === 'unit' && entity.isPlayer && entity.description.length) {
+    if (entity.type === 'unit' && entity.isPlayer && entity.description.length && entity.name) {
       const { id, name, side } = entity;
 
       players[id] = {
@@ -51,7 +51,7 @@ const getEntities = ({ entities, events }: ReplayInfo): VehiclesWithPlayersList 
 
       const entityInfo = entities.find((entity) => entity.id === id);
 
-      if (isUndefined(entityInfo) || entityInfo.type === 'vehicle') return;
+      if (isUndefined(entityInfo) || entityInfo.type === 'vehicle' || !name) return;
 
       players[id] = {
         ...defaultPlayerInfo,

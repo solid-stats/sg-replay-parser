@@ -4,6 +4,7 @@ import getDefaultTestDescription from '../../utils/getDefaultTestDescription';
 
 const globalStatistics: GlobalPlayerStatistics[] = [{
   name: '',
+  isShow: true,
   lastSquadPrefix: null,
   lastPlayedGameDate: dayjsUTCISO(),
   totalPlayedGames: 0,
@@ -35,6 +36,7 @@ const globalStatistics: GlobalPlayerStatistics[] = [{
 
 const result: GlobalPlayerStatisticsWithoutDates[] = [{
   name: '',
+  isShow: true,
   lastSquadPrefix: null,
   totalPlayedGames: 0,
   kills: 0,

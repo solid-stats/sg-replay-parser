@@ -38,7 +38,11 @@ const getStatsByRotations = (allReplays: PlayersGameResult[]): StatisticsByRotat
       startDate,
       endDate,
       stats: {
-        global: filterPlayersByTotalPlayedGames(globalStatistics, totalGames),
+        global: filterPlayersByTotalPlayedGames({
+          statistics: globalStatistics,
+          gamesCount: totalGames,
+          type: 'not show',
+        }),
         squad: squadStatistics,
       },
     };
