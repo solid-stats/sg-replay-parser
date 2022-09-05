@@ -26,13 +26,20 @@ describe('Calculation of squad statistics on any non-weekend day should return c
       expect(globalStatistics).toMatchSnapshot();
 
       jest.spyOn(dayjs, 'dayjsUTC').mockImplementationOnce(() => date);
-
       const squadStatistics = calculateSquadStatistics(globalStatistics, parsedReplays);
+
+      jest.spyOn(dayjs, 'dayjsUTC').mockImplementationOnce(() => date);
+      const squadStatisticsWithRotationEndDate = calculateSquadStatistics(
+        globalStatistics,
+        parsedReplays,
+        date,
+      );
 
       if (dayNumber === 0) mondayResults = squadStatistics;
 
       expect(squadStatistics).toMatchObject(squadStatisticsOnNonWeekend);
       expect(squadStatistics).toMatchObject(mondayResults);
+      expect(squadStatistics).toMatchObject(squadStatisticsWithRotationEndDate);
     });
   }
 });
@@ -49,13 +56,20 @@ describe('Calculation of squad statistics on Friday, after the game, and on Satu
       expect(globalStatistics).toMatchSnapshot();
 
       jest.spyOn(dayjs, 'dayjsUTC').mockImplementationOnce(() => date);
-
       const squadStatistics = calculateSquadStatistics(globalStatistics, replays);
+
+      jest.spyOn(dayjs, 'dayjsUTC').mockImplementationOnce(() => date);
+      const squadStatisticsWithRotationEndDate = calculateSquadStatistics(
+        globalStatistics,
+        replays,
+        date,
+      );
 
       if (index === 0) statisticsToCompare = squadStatistics;
 
       expect(squadStatistics).toMatchObject(squadStatisticsAfterFirstDay);
       expect(squadStatistics).toMatchObject(statisticsToCompare);
+      expect(squadStatistics).toMatchObject(squadStatisticsWithRotationEndDate);
     });
   });
 });
@@ -84,13 +98,20 @@ describe('Calculation of squad statistics on Saturday, after the game, on Sunday
       expect(globalStatistics).toMatchSnapshot();
 
       jest.spyOn(dayjs, 'dayjsUTC').mockImplementationOnce(() => date);
-
       const squadStatistics = calculateSquadStatistics(globalStatistics, replays);
+
+      jest.spyOn(dayjs, 'dayjsUTC').mockImplementationOnce(() => date);
+      const squadStatisticsWithRotationEndDate = calculateSquadStatistics(
+        globalStatistics,
+        replays,
+        date,
+      );
 
       if (index === 0) statisticsToCompare = squadStatistics;
 
       expect(squadStatistics).toMatchObject(squadStatisticsAfterGameWeekend);
       expect(squadStatistics).toMatchObject(statisticsToCompare);
+      expect(squadStatistics).toMatchObject(squadStatisticsWithRotationEndDate);
     });
   });
 });

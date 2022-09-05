@@ -12,7 +12,7 @@ const calculateSquadStatistics = (
   globalStatistics: GlobalPlayerStatistics[],
   replays: PlayersGameResult[],
   // not used in calculations for global statistics
-  rotationEndDate?: Dayjs,
+  rotationLastDate?: Dayjs,
 ): GlobalSquadStatistics[] => {
   if (!replays.length) return [];
 
@@ -21,11 +21,15 @@ const calculateSquadStatistics = (
   const filteredPlayersBySquadPrefix: PlayersBySquadPrefix = {};
 
   let currentDate = dayjsUTC();
+  let rotationEndDate = rotationLastDate;
   const lastReplayDate = dayjsUTC(replays[replays.length - 1].date);
   const isLastReplayOnThisDay = lastReplayDate.isoWeek() === currentDate.isoWeek()
     && lastReplayDate.weekday() === currentDate.weekday();
 
-  if (!isLastReplayOnThisDay) currentDate = currentDate.startOf('day');
+  if (!isLastReplayOnThisDay) {
+    currentDate = currentDate.startOf('day');
+    rotationEndDate = rotationEndDate?.startOf('day');
+  }
 
   const endDate = rotationEndDate || currentDate;
 
