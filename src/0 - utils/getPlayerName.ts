@@ -3,13 +3,15 @@ import { isNull } from 'lodash';
 const getPlayerName = (playerName: PlayerName): [PlayerName, PlayerPrefix] => {
   if (!playerName.includes('[')) return [playerName.trim(), null];
 
-  const squadPrefixRegex = /\[.*\]/;
-  const removeBracketsRegex = /[\])}[{(]/g;
-  const matchResult = playerName.match(squadPrefixRegex);
+  const squadPrefixRegex = /\[.*?\]/;
+  const removeBracketsRegex = /\[.*?\]/g;
+  const matchResult = playerName.trim().match(squadPrefixRegex);
 
   const name = playerName
-    .replace(squadPrefixRegex, '') // remove prefix
-    .replace(removeBracketsRegex, ''); // remove brackets if prefix isn't correct
+    .trim()
+    .replace(removeBracketsRegex, '')
+    .replace('[', '')
+    .replace(']', '');
 
   if (isNull(matchResult)) return [name.trim(), null];
 
