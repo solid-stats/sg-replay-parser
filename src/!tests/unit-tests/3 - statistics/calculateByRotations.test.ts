@@ -25,7 +25,7 @@ describe('Rotation statistics should return correct values', () => {
   const rotationDates = getRotations();
 
   let replays: PlayersGameResult[] = flatten(rotationDates.map(([, rotationEndDate]) => (
-    getReplays(rotationEndDate ? rotationEndDate.subtract(1, 'w') : dayjsUTC().subtract(1, 'w'))
+    getReplays(rotationEndDate ? rotationEndDate.subtract(2, 'w') : dayjsUTC().subtract(2, 'w'))
   )));
 
   const lastRotationStartDate = rotationDates[rotationDates.length - 1][0];
