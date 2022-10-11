@@ -1,10 +1,17 @@
+import fs from 'fs';
+
 import { dropRight, flatten, maxBy } from 'lodash';
 
 import { dayjsUTC } from '../../../0 - utils/dayjs';
 import removeDatesFromGlobalStatistics from '../../../0 - utils/removeDatesFromGlobalStatistics';
 import getRotations from '../../../0 - utils/rotations';
 import getStatsByRotations from '../../../3 - statistics/rotations';
-import { getReplays, globalStatistics, squadStatistics } from './data/forRotationsStatistics';
+import {
+  getReplays,
+  globalStatistics as longGlobalStatistics,
+  squadStatistics as longSquadStatistics,
+} from './data/forRotationsStatistics';
+import { shortGlobalStatistics, shortSquadStatistics } from './data/forRotationsStatisticsShort';
 
 const removeDates = (rotation: StatisticsByRotation) => ({
   ...rotation,
@@ -16,13 +23,30 @@ const removeDates = (rotation: StatisticsByRotation) => ({
 
 describe('Rotation statistics should return correct values', () => {
   const rotationDates = getRotations();
-  const replays: PlayersGameResult[][] = rotationDates.map(([, rotationEndDate]) => (
+
+  let replays: PlayersGameResult[] = flatten(rotationDates.map(([, rotationEndDate]) => (
     getReplays(rotationEndDate ? rotationEndDate.subtract(1, 'w') : dayjsUTC().subtract(1, 'w'))
-  ));
-  const flattenReplays = flatten(replays);
-  const rotations = getStatsByRotations(flattenReplays);
+  )));
+
+  const lastRotationStartDate = rotationDates[rotationDates.length - 1][0];
+  const isRotationStartedLessThanTwoWeeksAgo = lastRotationStartDate.diff(dayjsUTC(), 'w') < 2;
+
+  let globalStatistics = longGlobalStatistics;
+  let squadStatistics = longSquadStatistics;
+
+  if (isRotationStartedLessThanTwoWeeksAgo) {
+    globalStatistics = shortGlobalStatistics;
+    squadStatistics = shortSquadStatistics;
+    replays = flatten(rotationDates.map(([, rotationEndDate]) => (
+      getReplays(rotationEndDate || dayjsUTC(), true)
+    )));
+  }
+
+  const rotations = getStatsByRotations(replays);
   const rotationsCount = rotationDates.length;
   const statisticsToCompare = removeDates(rotations[0]).stats;
+
+  fs.writeFileSync('debug.json', JSON.stringify(rotations[0].stats.squad, null, '\t'));
 
   it('Rotations count should be correct', () => {
     expect(rotations.length).toEqual(rotationsCount);
@@ -56,8 +80,11 @@ describe('Rotation statistics should return correct values', () => {
     ));
   });
 
-  it('No replay should be handled correctly', () => {
-    const replaysWithoutLastRotation = dropRight(flattenReplays, 8);
+  it('No replays should be handled correctly', () => {
+    const replaysWithoutLastRotation = dropRight(
+      replays,
+      isRotationStartedLessThanTwoWeeksAgo ? 2 : 8,
+    );
     const rotationsWithLastWithoutInfo = getStatsByRotations(replaysWithoutLastRotation);
 
     expect(rotationsWithLastWithoutInfo.length).toEqual(rotationsCount);

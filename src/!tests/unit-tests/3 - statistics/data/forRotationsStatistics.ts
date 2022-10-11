@@ -3,6 +3,7 @@ import { Dayjs } from 'dayjs';
 
 import generateDefaultWeapons from '../../../utils/generators/generateDefaultWeapons';
 import generatePlayerInfo from '../../../utils/generators/generatePlayerInfo';
+import { getReplays as getReplaysShort } from './forRotationsStatisticsShort';
 
 const getDate = (date: Dayjs, weeks: number, weekday: number, hour: number) => (
   date
@@ -15,99 +16,100 @@ const getDate = (date: Dayjs, weeks: number, weekday: number, hour: number) => (
     .toISOString()
 );
 
-export const getReplays = (startDate: Dayjs): PlayersGameResult[] => ([
-  {
-    date: getDate(startDate, 0, 4, 18),
-    missionName: '',
-    result: [
-      generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 2 }),
-      generatePlayerInfo({ id: 1, name: '[FNX]Flashback' }),
-      generatePlayerInfo({ id: 2, name: '[FNX]Skywalker', kills: 3, teamkills: 1 }),
-      generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy' }),
-      generatePlayerInfo({ id: 7, name: '[FNX]Puma', kills: 3 }),
-      generatePlayerInfo({ id: 8, name: 'cursed', kills: 3 }),
-    ],
-  },
-  {
-    date: getDate(startDate, 0, 4, 20),
-    missionName: '',
-    result: [
-      generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 1 }),
-      generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 2 }),
-      generatePlayerInfo({ id: 2, name: '[FNX]Skywalker', teamkills: 1 }),
-      generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy', kills: 2 }),
-      generatePlayerInfo({ id: 5, name: '[FNX]LOXDOR', kills: 1 }),
-      generatePlayerInfo({ id: 6, name: '[FNX]T1m', kills: 1 }),
-      generatePlayerInfo({ id: 8, name: 'cursed', kills: 2, killsFromVehicle: 2, teamkills: 1 }),
-    ],
-  },
-  {
-    date: getDate(startDate, 0, 5, 18),
-    missionName: '',
-    result: [
-      generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', teamkills: 1 }),
-      generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 4, teamkills: 2 }),
-      generatePlayerInfo({ id: 2, name: '[FNX]Skywalker', kills: 6 }),
-      generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy', teamkills: 1 }),
-      generatePlayerInfo({ id: 7, name: '[FNX]Puma' }),
-    ],
-  },
-  {
-    date: getDate(startDate, 0, 5, 20),
-    missionName: '',
-    result: [
-      generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r' }),
-      generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
-      generatePlayerInfo({ id: 2, name: '[FNX]Skywalker' }),
-      generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy', kills: 3 }),
-      generatePlayerInfo({ id: 7, name: '[FNX]Puma' }),
-    ],
-  },
-  {
-    date: getDate(startDate, 1, 4, 18),
-    missionName: '',
-    result: [
-      generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 2 }),
-      generatePlayerInfo({ id: 1, name: '[FNX]Flashback' }),
-      generatePlayerInfo({ id: 2, name: '[FNX]Skywalker', kills: 3, killsFromVehicle: 3, teamkills: 1 }),
-      generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy' }),
-      generatePlayerInfo({ id: 7, name: '[FNX]Puma', kills: 3 }),
-    ],
-  },
-  {
-    date: getDate(startDate, 1, 4, 20),
-    missionName: '',
-    result: [
-      generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 1 }),
-      generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
-      generatePlayerInfo({ id: 2, name: '[FNX]Skywalker', teamkills: 1 }),
-      generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy', kills: 2 }),
-      generatePlayerInfo({ id: 5, name: '[FNX]LOXDOR', kills: 1 }),
-    ],
-  },
-  {
-    date: getDate(startDate, 1, 5, 18),
-    missionName: '',
-    result: [
-      generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', teamkills: 1 }),
-      generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 4, teamkills: 2 }),
-      generatePlayerInfo({ id: 2, name: '[FNX]Skywalker', kills: 6, killsFromVehicle: 6 }),
-      generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy', teamkills: 1 }),
-      generatePlayerInfo({ id: 7, name: '[FNX]Puma' }),
-    ],
-  },
-  {
-    date: getDate(startDate, 1, 5, 20),
-    missionName: '',
-    result: [
-      generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r' }),
-      generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
-      generatePlayerInfo({ id: 2, name: '[FNX]Skywalker' }),
-      generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy', kills: 3 }),
-      generatePlayerInfo({ id: 7, name: '[FNX]Puma' }),
-    ],
-  },
-]);
+export const getReplays = (startDate: Dayjs, short?: boolean): PlayersGameResult[] => (
+  short ? getReplaysShort(startDate) : [
+    {
+      date: getDate(startDate, 0, 4, 18),
+      missionName: '',
+      result: [
+        generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 2 }),
+        generatePlayerInfo({ id: 1, name: '[FNX]Flashback' }),
+        generatePlayerInfo({ id: 2, name: '[FNX]Skywalker', kills: 3, teamkills: 1 }),
+        generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy' }),
+        generatePlayerInfo({ id: 7, name: '[FNX]Puma', kills: 3 }),
+        generatePlayerInfo({ id: 8, name: 'cursed', kills: 3 }),
+      ],
+    },
+    {
+      date: getDate(startDate, 0, 4, 20),
+      missionName: '',
+      result: [
+        generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 1 }),
+        generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 2 }),
+        generatePlayerInfo({ id: 2, name: '[FNX]Skywalker', teamkills: 1 }),
+        generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy', kills: 2 }),
+        generatePlayerInfo({ id: 5, name: '[FNX]LOXDOR', kills: 1 }),
+        generatePlayerInfo({ id: 6, name: '[FNX]T1m', kills: 1 }),
+        generatePlayerInfo({ id: 8, name: 'cursed', kills: 2, killsFromVehicle: 2, teamkills: 1 }),
+      ],
+    },
+    {
+      date: getDate(startDate, 0, 5, 18),
+      missionName: '',
+      result: [
+        generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', teamkills: 1 }),
+        generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 4, teamkills: 2 }),
+        generatePlayerInfo({ id: 2, name: '[FNX]Skywalker', kills: 6 }),
+        generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy', teamkills: 1 }),
+        generatePlayerInfo({ id: 7, name: '[FNX]Puma' }),
+      ],
+    },
+    {
+      date: getDate(startDate, 0, 5, 20),
+      missionName: '',
+      result: [
+        generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r' }),
+        generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
+        generatePlayerInfo({ id: 2, name: '[FNX]Skywalker' }),
+        generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy', kills: 3 }),
+        generatePlayerInfo({ id: 7, name: '[FNX]Puma' }),
+      ],
+    },
+    {
+      date: getDate(startDate, 1, 4, 18),
+      missionName: '',
+      result: [
+        generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 2 }),
+        generatePlayerInfo({ id: 1, name: '[FNX]Flashback' }),
+        generatePlayerInfo({ id: 2, name: '[FNX]Skywalker', kills: 3, killsFromVehicle: 3, teamkills: 1 }),
+        generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy' }),
+        generatePlayerInfo({ id: 7, name: '[FNX]Puma', kills: 3 }),
+      ],
+    },
+    {
+      date: getDate(startDate, 1, 4, 20),
+      missionName: '',
+      result: [
+        generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 1 }),
+        generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
+        generatePlayerInfo({ id: 2, name: '[FNX]Skywalker', teamkills: 1 }),
+        generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy', kills: 2 }),
+        generatePlayerInfo({ id: 5, name: '[FNX]LOXDOR', kills: 1 }),
+      ],
+    },
+    {
+      date: getDate(startDate, 1, 5, 18),
+      missionName: '',
+      result: [
+        generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', teamkills: 1 }),
+        generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 4, teamkills: 2 }),
+        generatePlayerInfo({ id: 2, name: '[FNX]Skywalker', kills: 6, killsFromVehicle: 6 }),
+        generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy', teamkills: 1 }),
+        generatePlayerInfo({ id: 7, name: '[FNX]Puma' }),
+      ],
+    },
+    {
+      date: getDate(startDate, 1, 5, 20),
+      missionName: '',
+      result: [
+        generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r' }),
+        generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
+        generatePlayerInfo({ id: 2, name: '[FNX]Skywalker' }),
+        generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy', kills: 3 }),
+        generatePlayerInfo({ id: 7, name: '[FNX]Puma' }),
+      ],
+    },
+  ]);
 
 export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
   {

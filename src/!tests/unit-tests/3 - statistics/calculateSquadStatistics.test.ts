@@ -140,7 +140,7 @@ test('Squads with less than 5 members should not account', () => {
 
   expect(globalStatistics).toMatchSnapshot();
 
-  const squadStatistics = calculateSquadStatistics(globalStatistics, replays);
+  const squadStatistics = calculateSquadStatistics(globalStatistics, replays, dayjs.dayjsUTC('2022-08-20'));
 
   expect(squadStatistics).toHaveLength(1);
 });
