@@ -1,11 +1,11 @@
-import { remove } from 'lodash';
+import { cloneDeep, remove } from 'lodash';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
 import getRotations from '../../0 - utils/rotations';
 
 const getReplaysGroupByRotation = (replays: PlayersGameResult[]) => {
   const rotations = getRotations();
-  const replaysCopy = replays.slice();
+  const replaysCopy = cloneDeep(replays);
   const replaysGroupedByRotation = rotations.map((rotationDates) => {
     const [startDate, endDate] = rotationDates;
 
