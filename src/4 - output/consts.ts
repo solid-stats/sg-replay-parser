@@ -13,3 +13,5 @@ export const allTimeFolder = 'all_time';
 export const weaponsStatisticsFolder = 'weapons_statistics';
 
 export const weeksStatisticsFolder = 'weeks_statistics';
+
+export const otherPlayersStatisticsFolder = 'other_players_statistics';
