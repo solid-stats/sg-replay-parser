@@ -1,4 +1,5 @@
 /* eslint-disable object-curly-newline */
+import { defaultKilledName, defaultKillerName, defaultTeamkilledName, defaultTeamkillerName } from '../../../utils/consts';
 import generateDefaultWeapons from '../../../utils/generators/generateDefaultWeapons';
 import generatePlayerInfo from '../../../utils/generators/generatePlayerInfo';
 
@@ -6,6 +7,11 @@ type TestData = {
   playersGameResult: PlayersGameResult[];
   globalStatistics: GlobalPlayerStatistics[];
 };
+
+// killed: [{ name: defaultKilledName, count: 1 }],
+// killers: [{ name: defaultKillerName, count: 1 }],
+// teamkilled: [{ name: defaultTeamkilledName, count: 1 }],
+// teamkillers: [{ name: defaultTeamkillerName, count: 1 }],
 
 const data: TestData = {
   playersGameResult: [
@@ -79,6 +85,10 @@ const data: TestData = {
       ],
       weapons: generateDefaultWeapons(11),
       vehicles: [],
+      killed: [{ name: defaultKilledName, count: 11 }],
+      killers: [{ name: defaultKillerName, count: 1 }],
+      teamkilled: [],
+      teamkillers: [],
     },
     {
       name: 'Something',
@@ -126,6 +136,10 @@ const data: TestData = {
       ],
       weapons: generateDefaultWeapons(6),
       vehicles: [],
+      killed: [{ name: defaultKilledName, count: 6 }],
+      killers: [{ name: defaultKillerName, count: 2 }],
+      teamkilled: [{ name: defaultTeamkilledName, count: 1 }],
+      teamkillers: [{ name: defaultTeamkillerName, count: 1 }],
     },
     {
       name: 'Afgan0r',
@@ -173,6 +187,10 @@ const data: TestData = {
       ],
       weapons: generateDefaultWeapons(3),
       vehicles: generateDefaultWeapons(2, 'vehicle'),
+      killed: [{ name: defaultKilledName, count: 5 }],
+      killers: [{ name: defaultKillerName, count: 2 }],
+      teamkilled: [{ name: defaultTeamkilledName, count: 1 }],
+      teamkillers: [{ name: defaultTeamkillerName, count: 1 }],
     },
     {
       name: 'Skywalker',
@@ -220,6 +238,10 @@ const data: TestData = {
       ],
       weapons: generateDefaultWeapons(1),
       vehicles: generateDefaultWeapons(3, 'vehicle'),
+      killed: [{ name: defaultKilledName, count: 4 }],
+      killers: [{ name: defaultKillerName, count: 1 }],
+      teamkilled: [{ name: defaultTeamkilledName, count: 3 }],
+      teamkillers: [],
     },
   ],
 };
