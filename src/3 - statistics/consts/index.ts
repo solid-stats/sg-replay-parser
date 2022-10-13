@@ -15,6 +15,10 @@ export const defaultStatistics: Omit<GlobalPlayerStatistics, 'name' | 'lastSquad
   byWeeks: [],
   weapons: [],
   vehicles: [],
+  killed: [],
+  killers: [],
+  teamkilled: [],
+  teamkillers: [],
 };
 
 export const defaultWeekStatistics: Omit<GlobalPlayerWeekStatistics, 'week' | 'date' | 'startDate' | 'endDate'> = {

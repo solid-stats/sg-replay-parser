@@ -1,6 +1,7 @@
 /* eslint-disable object-curly-newline */
 import { Dayjs } from 'dayjs';
 
+import { defaultKilledName, defaultTeamkilledName } from '../../../utils/consts';
 import generateDefaultWeapons from '../../../utils/generators/generateDefaultWeapons';
 import generatePlayerInfo from '../../../utils/generators/generatePlayerInfo';
 
@@ -58,6 +59,10 @@ export const shortGlobalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
     ],
     weapons: generateDefaultWeapons(3),
     vehicles: generateDefaultWeapons(1, 'vehicle'),
+    killed: [{ name: defaultKilledName, count: 4 }],
+    killers: [],
+    teamkilled: [],
+    teamkillers: [],
   },
   {
     name: 'cursed',
@@ -87,6 +92,10 @@ export const shortGlobalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
     ],
     weapons: generateDefaultWeapons(3),
     vehicles: [],
+    killed: [{ name: defaultKilledName, count: 3 }],
+    killers: [],
+    teamkilled: [],
+    teamkillers: [],
   },
   {
     name: 'Afgan0r',
@@ -116,6 +125,10 @@ export const shortGlobalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
     ],
     weapons: generateDefaultWeapons(3),
     vehicles: [],
+    killed: [{ name: defaultKilledName, count: 3 }],
+    killers: [],
+    teamkilled: [],
+    teamkillers: [],
   },
   {
     name: 'Mecheniy',
@@ -145,6 +158,10 @@ export const shortGlobalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
     ],
     weapons: generateDefaultWeapons(2),
     vehicles: [],
+    killed: [{ name: defaultKilledName, count: 2 }],
+    killers: [],
+    teamkilled: [],
+    teamkillers: [],
   },
   {
     name: 'Skywalker',
@@ -174,6 +191,10 @@ export const shortGlobalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
     ],
     weapons: generateDefaultWeapons(3),
     vehicles: [],
+    killed: [{ name: defaultKilledName, count: 3 }],
+    killers: [],
+    teamkilled: [{ name: defaultTeamkilledName, count: 2 }],
+    teamkillers: [],
   },
   {
     name: 'Flashback',
@@ -203,6 +224,10 @@ export const shortGlobalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
     ],
     weapons: generateDefaultWeapons(2),
     vehicles: [],
+    killed: [{ name: defaultKilledName, count: 2 }],
+    killers: [],
+    teamkilled: [{ name: defaultTeamkilledName, count: 1 }],
+    teamkillers: [],
   },
 ];
 

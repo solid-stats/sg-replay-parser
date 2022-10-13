@@ -2,6 +2,7 @@
 // there may be a situation when 2 entities are attached to one player
 // and this leads to several additional total games played
 
+import mergeOtherPlayers from '../0 - utils/mergeOtherPlayers';
 import { unionWeaponsStatistic } from '../0 - utils/weaponsStatistic';
 
 // in such situation we should left only one entity
@@ -29,6 +30,10 @@ const combineSamePlayersInfo = (entities: PlayersList): PlayerInfo[] => {
         isDeadByTeamkill: prevEntity.isDeadByTeamkill || player.isDeadByTeamkill,
         weapons: unionWeaponsStatistic(prevEntity.weapons, player.weapons),
         vehicles: unionWeaponsStatistic(prevEntity.vehicles, player.vehicles),
+        killers: mergeOtherPlayers(prevEntity.killers, player.killers),
+        killed: mergeOtherPlayers(prevEntity.killed, player.killed),
+        teamkillers: mergeOtherPlayers(prevEntity.teamkillers, player.teamkillers),
+        teamkilled: mergeOtherPlayers(prevEntity.teamkilled, player.teamkilled),
       });
 
       return;

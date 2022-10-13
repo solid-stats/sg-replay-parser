@@ -40,6 +40,10 @@ type GlobalPlayerStatistics = {
   byWeeks: GlobalPlayerWeekStatistics[];
   weapons: WeaponStatistic[];
   vehicles: WeaponStatistic[];
+  killers: OtherPlayer[];
+  killed: OtherPlayer[];
+  teamkillers: OtherPlayer[];
+  teamkilled: OtherPlayer[];
 };
 
 type GlobalPlayerWeekStatisticsWithoutDates = Omit<GlobalPlayerWeekStatistics, 'week' | 'startDate' | 'endDate'>;

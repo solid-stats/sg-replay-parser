@@ -1,5 +1,6 @@
 import { keyBy } from 'lodash';
 
+import mergeOtherPlayers from '../0 - utils/mergeOtherPlayers';
 import { addWeaponStatistic, filterWeaponStatistics } from '../0 - utils/weaponsStatistic';
 
 type CommonParams = {
@@ -30,15 +31,15 @@ const calculateWeaponStatistics = (
 
 const processPlayerKilled = ({
   killer,
-  killed,
+  killed: killedPlayer,
   players,
   distance,
   weapon,
   entities,
 }: PlayerKilledParams): PlayersList => {
   const newPlayers = { ...players };
-  const isSameSide = killer.side === killed.side;
-  const isSuicide = killer.id === killed.id;
+  const isSameSide = killer.side === killedPlayer.side;
+  const isSuicide = killer.id === killedPlayer.id;
 
   const vehiclesList = Object.values(entities);
   const vehiclesByName = keyBy(vehiclesList, 'name');
@@ -46,8 +47,11 @@ const processPlayerKilled = ({
   const isKillFromVehicle = vehiclesByName[weapon] !== undefined;
 
   let {
-    kills, killsFromVehicle, weapons, vehicles,
+    kills, teamkills, killsFromVehicle, weapons, vehicles, killed, teamkilled,
   } = killer;
+  let {
+    killers, teamkillers,
+  } = killedPlayer;
 
   if (!(isSameSide || isSuicide)) {
     if (isKillFromVehicle) {
@@ -56,20 +60,34 @@ const processPlayerKilled = ({
     } else weapons = calculateWeaponStatistics(weapon, distance, killer.weapons);
 
     kills += 1;
+
+    killed = mergeOtherPlayers(killed, [{ name: killedPlayer.name, count: 1 }]);
+    killers = mergeOtherPlayers(killers, [{ name: killer.name, count: 1 }]);
   }
 
-  newPlayers[killed.id] = {
-    ...newPlayers[killed.id],
+  if (isSameSide && !isSuicide) {
+    teamkills += 1;
+
+    teamkilled = mergeOtherPlayers(teamkilled, [{ name: killedPlayer.name, count: 1 }]);
+    teamkillers = mergeOtherPlayers(killers, [{ name: killer.name, count: 1 }]);
+  }
+
+  newPlayers[killedPlayer.id] = {
+    ...newPlayers[killedPlayer.id],
     isDead: true,
     isDeadByTeamkill: isSuicide ? false : isSameSide,
+    killers,
+    teamkillers,
   };
   newPlayers[killer.id] = {
     ...newPlayers[killer.id],
     kills,
     killsFromVehicle,
-    teamkills: isSameSide && !isSuicide ? killer.teamkills + 1 : killer.teamkills,
+    teamkills,
     weapons,
     vehicles,
+    killed,
+    teamkilled,
   };
 
   return newPlayers;

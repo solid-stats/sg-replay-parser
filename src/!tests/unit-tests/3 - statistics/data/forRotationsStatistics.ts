@@ -1,6 +1,7 @@
 /* eslint-disable object-curly-newline */
 import { Dayjs } from 'dayjs';
 
+import { defaultKilledName, defaultTeamkilledName } from '../../../utils/consts';
 import generateDefaultWeapons from '../../../utils/generators/generateDefaultWeapons';
 import generatePlayerInfo from '../../../utils/generators/generatePlayerInfo';
 import { getReplays as getReplaysShort } from './forRotationsStatisticsShort';
@@ -140,6 +141,10 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
     ],
     weapons: generateDefaultWeapons(3),
     vehicles: generateDefaultWeapons(2, 'vehicle'),
+    killed: [{ name: defaultKilledName, count: 5 }],
+    killers: [],
+    teamkilled: [{ name: defaultTeamkilledName, count: 1 }],
+    teamkillers: [],
   },
   {
     name: 'Skywalker',
@@ -180,6 +185,10 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
     ],
     weapons: generateDefaultWeapons(9),
     vehicles: generateDefaultWeapons(9, 'vehicle'),
+    killed: [{ name: defaultKilledName, count: 18 }],
+    killers: [],
+    teamkilled: [{ name: defaultTeamkilledName, count: 4 }],
+    teamkillers: [],
   },
   {
     name: 'Flashback',
@@ -220,6 +229,10 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
     ],
     weapons: generateDefaultWeapons(13),
     vehicles: [],
+    killed: [{ name: defaultKilledName, count: 13 }],
+    killers: [],
+    teamkilled: [{ name: defaultTeamkilledName, count: 4 }],
+    teamkillers: [],
   },
   {
     name: 'Mecheniy',
@@ -260,6 +273,10 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
     ],
     weapons: generateDefaultWeapons(10),
     vehicles: [],
+    killed: [{ name: defaultKilledName, count: 10 }],
+    killers: [],
+    teamkilled: [{ name: defaultTeamkilledName, count: 2 }],
+    teamkillers: [],
   },
   {
     name: 'Puma',
@@ -300,6 +317,10 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
     ],
     weapons: generateDefaultWeapons(6),
     vehicles: [],
+    killed: [{ name: defaultKilledName, count: 7 }],
+    killers: [],
+    teamkilled: [],
+    teamkillers: [],
   },
   {
     name: 'LOXDOR',
@@ -340,6 +361,10 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
     ],
     weapons: generateDefaultWeapons(2),
     vehicles: [],
+    killed: [{ name: defaultKilledName, count: 2 }],
+    killers: [],
+    teamkilled: [],
+    teamkillers: [],
   },
   {
     name: 'T1m',
@@ -369,6 +394,10 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
     ],
     weapons: generateDefaultWeapons(1),
     vehicles: [],
+    killed: [{ name: defaultKilledName, count: 1 }],
+    killers: [],
+    teamkilled: [],
+    teamkillers: [],
   },
   {
     name: 'Afgan0r',
@@ -409,6 +438,10 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
     ],
     weapons: generateDefaultWeapons(6),
     vehicles: [],
+    killed: [{ name: defaultKilledName, count: 6 }],
+    killers: [],
+    teamkilled: [{ name: defaultTeamkilledName, count: 2 }],
+    teamkillers: [],
   },
 ];
 

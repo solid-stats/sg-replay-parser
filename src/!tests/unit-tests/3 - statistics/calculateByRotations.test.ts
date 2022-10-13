@@ -1,5 +1,3 @@
-import fs from 'fs';
-
 import { dropRight, flatten, maxBy } from 'lodash';
 
 import { dayjsUTC } from '../../../0 - utils/dayjs';
@@ -45,8 +43,6 @@ describe('Rotation statistics should return correct values', () => {
   const rotations = getStatsByRotations(replays);
   const rotationsCount = rotationDates.length;
   const statisticsToCompare = removeDates(rotations[0]).stats;
-
-  fs.writeFileSync('debug.json', JSON.stringify(rotations[0].stats.squad, null, '\t'));
 
   it('Rotations count should be correct', () => {
     expect(rotations.length).toEqual(rotationsCount);

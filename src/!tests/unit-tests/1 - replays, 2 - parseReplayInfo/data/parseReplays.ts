@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 import generateConnectEvent from '../../../utils/generators/generateConnectEvent';
 import generateDefaultWeapons from '../../../utils/generators/generateDefaultWeapons';
 import generateKillEvent from '../../../utils/generators/generateKillEvent';
@@ -230,11 +231,16 @@ const testData: TestData = {
           side: 'EAST',
           kills: 2,
           weapons: generateDefaultWeapons(2),
+          killed: [
+            { name: getNameById(3), count: 1 },
+            { name: getNameById(4), count: 1 },
+          ],
         }),
         generatePlayerInfo({
           id: 1,
           side: 'EAST',
           isDead: true,
+          killers: [{ name: getNameById(5), count: 1 }],
         }),
         generatePlayerInfo({
           id: 2,
@@ -244,12 +250,15 @@ const testData: TestData = {
           id: 3,
           side: 'GUER',
           isDead: true,
+          killers: [{ name: getNameById(0), count: 1 }],
         }),
         generatePlayerInfo({
           id: 4,
           side: 'GUER',
           teamkills: 1,
           isDead: true,
+          killers: [{ name: getNameById(0), count: 1 }],
+          teamkilled: [{ name: getNameById(5), count: 1 }],
         }),
         generatePlayerInfo({
           id: 5,
@@ -258,6 +267,8 @@ const testData: TestData = {
           isDead: true,
           isDeadByTeamkill: true,
           weapons: generateDefaultWeapons(1),
+          killed: [{ name: getNameById(1), count: 1 }],
+          teamkillers: [{ name: getNameById(4), count: 1 }],
         }),
       ],
     },
@@ -277,11 +288,13 @@ const testData: TestData = {
           name: getNameById(0),
           isDead: true,
           isDeadByTeamkill: true,
+          teamkillers: [{ name: getNameById(3), count: 1 }],
         }),
         generatePlayerInfo({
           id: 3,
           side: 'EAST',
           teamkills: 1,
+          teamkilled: [{ name: getNameById(0), count: 1 }],
         }),
         generatePlayerInfo({
           id: 4,
@@ -298,11 +311,13 @@ const testData: TestData = {
           id: 0,
           side: 'EAST',
           isDead: true,
+          killers: [{ name: getNameById(6), count: 1 }],
         }),
         generatePlayerInfo({
           id: 1,
           side: 'EAST',
           isDead: true,
+          killers: [{ name: getNameById(6), count: 1 }],
         }),
         generatePlayerInfo({
           id: 2,
@@ -311,17 +326,21 @@ const testData: TestData = {
           killsFromVehicle: 1,
           isDead: true,
           vehicles: [{ name: 'BTR-82', kills: 1, maxDistance: 100 }],
+          killers: [{ name: getNameById(6), count: 1 }],
+          killed: [{ name: getNameById(4), count: 1 }],
         }),
         generatePlayerInfo({
           id: 4,
           side: 'GUER',
           isDead: true,
+          killers: [{ name: getNameById(2), count: 1 }],
         }),
         generatePlayerInfo({
           id: 5,
           side: 'GUER',
           isDead: true,
           isDeadByTeamkill: true,
+          teamkillers: [{ name: getNameById(6), count: 1 }],
         }),
         generatePlayerInfo({
           id: 6,
@@ -331,6 +350,12 @@ const testData: TestData = {
           teamkills: 1,
           vehicleKills: 1,
           vehicles: [{ kills: 3, maxDistance: 150, name: 'BTR-80A' }],
+          killed: [
+            { name: getNameById(0), count: 1 },
+            { name: getNameById(1), count: 1 },
+            { name: getNameById(2), count: 1 },
+          ],
+          teamkilled: [{ name: getNameById(5), count: 1 }],
         }),
       ],
     },
@@ -339,8 +364,8 @@ const testData: TestData = {
       date: dates[3],
       missionName: getDefaultMissionName(),
       result: [
-        generatePlayerInfo({ id: 0, isDead: true, side: 'EAST' }),
-        generatePlayerInfo({ id: 1, isDead: true, side: 'EAST' }),
+        generatePlayerInfo({ id: 0, isDead: true, side: 'EAST', killers: [] }),
+        generatePlayerInfo({ id: 1, isDead: true, side: 'EAST', killers: [] }),
       ],
     },
   ],

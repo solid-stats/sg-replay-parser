@@ -12,6 +12,10 @@ const defaultPlayerInfo: PlayerInfo = {
   isDeadByTeamkill: false,
   weapons: [],
   vehicles: [],
+  killed: [],
+  killers: [],
+  teamkilled: [],
+  teamkillers: [],
 };
 
 const getEntities = ({ entities, events }: ReplayInfo): VehiclesWithPlayersList => {

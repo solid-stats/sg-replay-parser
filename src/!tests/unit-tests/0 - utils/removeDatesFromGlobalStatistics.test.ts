@@ -18,6 +18,10 @@ const globalStatistics: GlobalPlayerStatistics[] = [{
   totalScore: 0,
   weapons: [],
   vehicles: [],
+  killed: [],
+  killers: [],
+  teamkilled: [],
+  teamkillers: [],
   byWeeks: [{
     week: dayjsUTC().format('GGGG-WW') as WeekNumber,
     startDate: dayjsUTC().startOf('isoWeek').toISOString(),
@@ -49,6 +53,10 @@ const result: GlobalPlayerStatisticsWithoutDates[] = [{
   totalScore: 0,
   weapons: [],
   vehicles: [],
+  killed: [],
+  killers: [],
+  teamkilled: [],
+  teamkillers: [],
   byWeeks: [{
     totalPlayedGames: 0,
     kills: 0,
