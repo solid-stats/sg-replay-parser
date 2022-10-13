@@ -4,6 +4,7 @@ import { round } from 'lodash';
 import calculateKDRatio from '../../0 - utils/calculateKDRatio';
 import calculateScore from '../../0 - utils/calculateScore';
 import getPlayerName from '../../0 - utils/getPlayerName';
+import mergeOtherPlayers from '../../0 - utils/mergeOtherPlayers';
 import { unionWeaponsStatistic } from '../../0 - utils/weaponsStatistic';
 import { defaultStatistics } from '../consts';
 import addPlayerGameResultToWeekStatistics from './addToResultsByWeek';
@@ -77,6 +78,10 @@ const addPlayerGameResultToGlobalStatistics = (
     weapons: unionWeaponsStatistic(playerStatistics.weapons, playerGameResult.weapons),
     vehicles: unionWeaponsStatistic(playerStatistics.vehicles, playerGameResult.vehicles),
     byWeeks: statisticsByWeek,
+    killed: mergeOtherPlayers(playerStatistics.killed, playerGameResult.killed),
+    killers: mergeOtherPlayers(playerStatistics.killers, playerGameResult.killers),
+    teamkilled: mergeOtherPlayers(playerStatistics.teamkilled, playerGameResult.teamkilled),
+    teamkillers: mergeOtherPlayers(playerStatistics.teamkillers, playerGameResult.teamkillers),
   };
 
   return currentGlobalStatistics;
