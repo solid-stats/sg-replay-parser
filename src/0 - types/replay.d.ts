@@ -7,6 +7,10 @@ type KillerWeaponName = string;
 type Distance = number;
 type KilledEntityId = EntityId;
 type KillerEntityId = EntityId;
+type OtherPlayer = {
+  name: EntityName;
+  count: number;
+};
 
 type ConnectEvent = [Frame, 'connected' | 'disconnected', PlayerName, EntityId];
 type KillEvent = [Frame, 'killed', KilledEntityId, [KillerEntityId, KillerWeaponName], Distance];
@@ -61,6 +65,10 @@ type PlayerInfo = {
   isDeadByTeamkill: boolean;
   weapons: WeaponStatistic[];
   vehicles: WeaponStatistic[];
+  killers: OtherPlayer[];
+  killed: OtherPlayer[];
+  teamkillers: OtherPlayer[];
+  teamkilled: OtherPlayer[];
 };
 type PlayersList = Record<EntityId, PlayerInfo>;
 
