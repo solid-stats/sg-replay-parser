@@ -14,7 +14,7 @@ const sortPlayerStatistics = (statistics: GlobalPlayerStatistics[]): GlobalPlaye
   return sortedStatistics;
 };
 
-const limitWeaponsStatisticsCount = (
+const sortAndLimitWeaponsStatisticsCount = (
   statistics: GlobalPlayerStatistics[],
 ): GlobalPlayerStatistics[] => (
   statistics.map((playerStatistics) => ({
@@ -24,17 +24,45 @@ const limitWeaponsStatisticsCount = (
   }))
 );
 
-const limitOtherPlayersStatsCount = (
+const sortAndLimitOtherPlayersStatsCount = (
   statistics: GlobalPlayerStatistics[],
 ): GlobalPlayerStatistics[] => (
   statistics.map((playerStatistics) => ({
     ...playerStatistics,
-    killed: orderBy(playerStatistics.killed, 'count', 'desc').slice(0, 25),
-    killers: orderBy(playerStatistics.killers, 'count', 'desc').slice(0, 25),
-    teamkilled: orderBy(playerStatistics.teamkilled, 'count', 'desc').slice(0, 25),
-    teamkillers: orderBy(playerStatistics.teamkillers, 'count', 'desc').slice(0, 25),
+    killed: orderBy(playerStatistics.killed, 'count', 'desc').slice(0, 10),
+    killers: orderBy(playerStatistics.killers, 'count', 'desc').slice(0, 10),
+    teamkilled: orderBy(playerStatistics.teamkilled, 'count', 'desc').slice(0, 10),
+    teamkillers: orderBy(playerStatistics.teamkillers, 'count', 'desc').slice(0, 10),
   }))
 );
+
+type NamesWithPrefix = Array<[PlayerName, PlayerPrefix]>;
+
+const addPrefix = (playersList: OtherPlayer[], namesWithPrefix: NamesWithPrefix) => (
+  playersList.map(({ name, count }) => {
+    const player = namesWithPrefix.find(([playerName]) => name === playerName);
+
+    if (player && player[1]) return { name: `${player[1]}${name}`, count };
+
+    return { name, count };
+  })
+);
+
+const addPrefixToNames = (
+  statistics: GlobalPlayerStatistics[],
+): GlobalPlayerStatistics[] => {
+  const namesWithPrefix: NamesWithPrefix = statistics.map(
+    (stats) => [stats.name, stats.lastSquadPrefix],
+  );
+
+  return statistics.map((stats) => ({
+    ...stats,
+    killed: addPrefix(stats.killed, namesWithPrefix),
+    killers: addPrefix(stats.killers, namesWithPrefix),
+    teamkilled: addPrefix(stats.teamkilled, namesWithPrefix),
+    teamkillers: addPrefix(stats.teamkillers, namesWithPrefix),
+  }));
+};
 
 const calculateGlobalStatistics = (
   replays: PlayersGameResult[],
@@ -53,8 +81,9 @@ const calculateGlobalStatistics = (
 
   const resultStatistics = pipe(
     sortPlayerStatistics,
-    limitWeaponsStatisticsCount,
-    limitOtherPlayersStatsCount,
+    sortAndLimitWeaponsStatisticsCount,
+    sortAndLimitOtherPlayersStatsCount,
+    addPrefixToNames,
   )(globalStatistics);
 
   return resultStatistics;

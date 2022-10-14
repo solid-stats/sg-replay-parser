@@ -1,5 +1,6 @@
 import { keyBy } from 'lodash';
 
+import getPlayerName from '../0 - utils/getPlayerName';
 import mergeOtherPlayers from '../0 - utils/mergeOtherPlayers';
 import { addWeaponStatistic, filterWeaponStatistics } from '../0 - utils/weaponsStatistic';
 
@@ -53,6 +54,9 @@ const processPlayerKilled = ({
     killers, teamkillers,
   } = killedPlayer;
 
+  const killerName = getPlayerName(killer.name)[0];
+  const killedName = getPlayerName(killedPlayer.name)[0];
+
   if (!(isSameSide || isSuicide)) {
     if (isKillFromVehicle) {
       vehicles = calculateWeaponStatistics(weapon, distance, killer.vehicles);
@@ -61,15 +65,15 @@ const processPlayerKilled = ({
 
     kills += 1;
 
-    killed = mergeOtherPlayers(killed, [{ name: killedPlayer.name, count: 1 }]);
-    killers = mergeOtherPlayers(killers, [{ name: killer.name, count: 1 }]);
+    killed = mergeOtherPlayers(killed, [{ name: killedName, count: 1 }]);
+    killers = mergeOtherPlayers(killers, [{ name: killerName, count: 1 }]);
   }
 
   if (isSameSide && !isSuicide) {
     teamkills += 1;
 
-    teamkilled = mergeOtherPlayers(teamkilled, [{ name: killedPlayer.name, count: 1 }]);
-    teamkillers = mergeOtherPlayers(killers, [{ name: killer.name, count: 1 }]);
+    teamkilled = mergeOtherPlayers(teamkilled, [{ name: killedName, count: 1 }]);
+    teamkillers = mergeOtherPlayers(killers, [{ name: killerName, count: 1 }]);
   }
 
   newPlayers[killedPlayer.id] = {
