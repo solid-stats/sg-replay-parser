@@ -6,18 +6,13 @@ import cliProgress from 'cli-progress';
 import { union } from 'lodash';
 
 import { replaysListFileName } from '../0 - consts';
+import { defaultEmptyOutput, excludeReplaysPath, includeReplaysPath } from './consts';
 import parseReplaysOnPage from './parseReplaysOnPage';
 import checks from './utils/checks';
 import fetchReplaysPage from './utils/fetchReplaysPage';
 import parseDOM from './utils/parseDOM';
 import processProblematicReplays from './utils/problematicReplays';
 import unionReplaysInfo from './utils/unionReplaysInfo';
-
-const defaultEmptyOutput: Output = {
-  parsedReplays: [],
-  replays: [],
-  problematicReplays: [],
-};
 
 const readReplaysListFile = (): Output => {
   try {
@@ -27,8 +22,31 @@ const readReplaysListFile = (): Output => {
   }
 };
 
+const readIncludeReplays = (): ConfigIncludeReplays => {
+  try {
+    return JSON.parse(fs.readFileSync(includeReplaysPath, 'utf8'));
+  } catch {
+    // eslint-disable-next-line no-console
+    console.log(`${includeReplaysPath} file doesn't exist or has the wrong format`);
+
+    return [];
+  }
+};
+const readExcludeReplays = (): ConfigExcludeReplays => {
+  try {
+    return JSON.parse(fs.readFileSync(excludeReplaysPath, 'utf8'));
+  } catch {
+    // eslint-disable-next-line no-console
+    console.log(`${excludeReplaysPath} file doesn't exist or has the wrong format`);
+
+    return [];
+  }
+};
+
 (async () => {
   const replaysList = readReplaysListFile();
+  const includeReplays = readIncludeReplays();
+  const excludeReplays = readExcludeReplays();
 
   // eslint-disable-next-line no-console
   console.log(`Found ${replaysList.parsedReplays.length} already parsed replays and ${replaysList.problematicReplays.length} problematic replays. Start preparing new replays list`);
@@ -52,7 +70,12 @@ const readReplaysListFile = (): Output => {
       ? dom
       : parseDOM(await fetchReplaysPage(page));
 
-    const newReplays = await parseReplaysOnPage(pageDom, replaysList.parsedReplays);
+    const newReplays = await parseReplaysOnPage(
+      pageDom,
+      replaysList.parsedReplays,
+      includeReplays,
+      excludeReplays,
+    );
 
     result = {
       ...result,
