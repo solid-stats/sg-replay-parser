@@ -1,14 +1,31 @@
+import fs from 'fs';
+
 import { Dayjs } from 'dayjs';
 import { round } from 'lodash';
 
+import { excludePlayersPath } from '../../0 - consts';
 import calculateKDRatio from '../../0 - utils/calculateKDRatio';
 import calculateScore from '../../0 - utils/calculateScore';
+import { dayjsUTC } from '../../0 - utils/dayjs';
 import getPlayerName from '../../0 - utils/getPlayerName';
 import mergeOtherPlayers from '../../0 - utils/mergeOtherPlayers';
 import { unionWeaponsStatistic } from '../../0 - utils/weaponsStatistic';
 import { defaultStatistics } from '../consts';
+import { DayjsInterval } from '../squads/types';
+import { isInInterval } from '../squads/utils';
 import addPlayerGameResultToWeekStatistics from './addToResultsByWeek';
 import calculateDeaths from './utils/calculateDeaths';
+
+const readExcludePlayer = (): ConfigExcludePlayers => {
+  try {
+    return JSON.parse(fs.readFileSync(excludePlayersPath, 'utf8'));
+  } catch {
+    // eslint-disable-next-line no-console
+    console.log(`${excludePlayersPath} file doesn't exist or has the wrong format`);
+
+    return [];
+  }
+};
 
 const isSameNickName = (first: string, second: string) => (
   first.toLowerCase() === second.toLowerCase()
@@ -25,6 +42,18 @@ const addPlayerGameResultToGlobalStatistics = (
     (playerStatistics) => (isSameNickName(playerStatistics.name, name)),
   );
   const stringDate = date.toJSON();
+
+  const playersToExclude = readExcludePlayer();
+  const foundPlayer = playersToExclude.find((player) => player.name === name);
+
+  if (foundPlayer) {
+    const dateIntervalToExclude: DayjsInterval = [
+      dayjsUTC(foundPlayer.minDate || '1970-01-01T00:00:00.000Z'),
+      foundPlayer.maxDate ? dayjsUTC(foundPlayer.maxDate) : dayjsUTC(),
+    ];
+
+    if (isInInterval(stringDate, dateIntervalToExclude)) return currentGlobalStatistics;
+  }
 
   if (currentStatisticsIndex === -1) {
     const newArrLength = currentGlobalStatistics.push({

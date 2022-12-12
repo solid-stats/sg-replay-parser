@@ -17,3 +17,11 @@ type WeaponStatistic = {
   kills: number;
   maxDistance: number;
 };
+
+type ConfigExcludePlayer = {
+  name: PlayerName;
+  minDate: string | null;
+  maxDate: string | null;
+};
+
+type ConfigExcludePlayers = ConfigExcludePlayer[];
