@@ -23,5 +23,3 @@ type ConfigExcludePlayer = {
   minDate: string | null;
   maxDate: string | null;
 };
-
-type ConfigExcludePlayers = ConfigExcludePlayer[];

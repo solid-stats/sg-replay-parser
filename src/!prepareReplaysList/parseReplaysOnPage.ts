@@ -25,7 +25,7 @@ const decodeMissionGameType = (encodedMissionGameType: string) => {
 const parseTableRowInfo = async (
   el: Element,
   alreadyParsedReplays: Output['parsedReplays'],
-  includeReplays: ConfigIncludeReplays,
+  includeReplays: ConfigIncludeReplay[],
   excludeReplays: ConfigExcludeReplays,
 ): Promise<Replay | null> => {
   const tableCells = el.getElementsByTagName('td');
@@ -65,7 +65,7 @@ const parseTableRowInfo = async (
 const parseReplaysOnPage = async (
   dom: Document,
   alreadyParsedReplays: Output['parsedReplays'],
-  includeReplays: ConfigIncludeReplays,
+  includeReplays: ConfigIncludeReplay[],
   excludeReplays: ConfigExcludeReplays,
 ): Promise<Output> => {
   const replaysList = Array.from(dom.querySelectorAll('.common-table > tbody > tr'));

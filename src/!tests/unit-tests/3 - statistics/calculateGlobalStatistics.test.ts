@@ -29,7 +29,7 @@ it('Exception in readExcludePlayer function should handled correctly', () => {
 });
 
 it('Exclude players should work correctly', () => {
-  const excludePlayers: ConfigExcludePlayers = [
+  const excludePlayers: ConfigExcludePlayer[] = [
     {
       name: 'aFgan0r',
       minDate: dayjsUTCISO('2022-11-28'),

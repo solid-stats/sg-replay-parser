@@ -16,7 +16,7 @@ import { isInInterval } from '../squads/utils';
 import addPlayerGameResultToWeekStatistics from './addToResultsByWeek';
 import calculateDeaths from './utils/calculateDeaths';
 
-const readExcludePlayer = (): ConfigExcludePlayers => {
+const readExcludePlayer = (): ConfigExcludePlayer[] => {
   try {
     return JSON.parse(fs.readFileSync(excludePlayersPath, 'utf8'));
   } catch {

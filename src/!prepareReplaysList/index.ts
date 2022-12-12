@@ -22,7 +22,7 @@ const readReplaysListFile = (): Output => {
   }
 };
 
-const readIncludeReplays = (): ConfigIncludeReplays => {
+const readIncludeReplays = (): ConfigIncludeReplay[] => {
   try {
     return JSON.parse(fs.readFileSync(includeReplaysPath, 'utf8'));
   } catch {
