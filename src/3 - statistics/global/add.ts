@@ -20,9 +20,6 @@ const readExcludePlayer = (): ConfigExcludePlayers => {
   try {
     return JSON.parse(fs.readFileSync(excludePlayersPath, 'utf8'));
   } catch {
-    // eslint-disable-next-line no-console
-    console.log(`${excludePlayersPath} file doesn't exist or has the wrong format`);
-
     return [];
   }
 };
@@ -44,7 +41,9 @@ const addPlayerGameResultToGlobalStatistics = (
   const stringDate = date.toJSON();
 
   const playersToExclude = readExcludePlayer();
-  const foundPlayer = playersToExclude.find((player) => player.name === name);
+  const foundPlayer = playersToExclude.find(
+    (player) => isSameNickName(player.name, name),
+  );
 
   if (foundPlayer) {
     const dateIntervalToExclude: DayjsInterval = [
