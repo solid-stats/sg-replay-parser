@@ -30,7 +30,7 @@ const parseTableRowInfo = async (
 ): Promise<Replay | null> => {
   const tableCells = el.getElementsByTagName('td');
   const linkElement = el.querySelector('a');
-  const replayLink = linkElement?.getAttribute('href');
+  const replayLink = linkElement ? linkElement.getAttribute('href') as ReplayLink : null;
 
   if (!(linkElement && linkElement.textContent) || !replayLink) return null;
 

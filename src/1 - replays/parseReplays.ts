@@ -23,6 +23,7 @@ const fetchReplayInfo = async (
       result,
       date: replay.date,
       missionName: replay.mission_name,
+      replayLink: replay.replayLink,
     };
   } catch (err) {
     if (

@@ -9,6 +9,4 @@ type ConfigIncludeReplay = {
   gameType: GameType;
 };
 
-type ReplayLink = string;
-
 type ConfigExcludeReplays = ReplayLink[];
