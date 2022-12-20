@@ -18,11 +18,9 @@ const filterPlayersByTotalPlayedGames = ({
   const condition = (count) => count >= minGamesCount;
 
   if (type === 'not show') {
-    return statistics.map((stats) => (
-      condition(stats.totalPlayedGames)
-        ? { ...stats, isShow: true }
-        : { ...stats, isShow: false }
-    ));
+    return statistics.map(
+      (stats) => ({ ...stats, isShow: condition(stats.totalPlayedGames) }),
+    );
   }
 
   return statistics.filter(
