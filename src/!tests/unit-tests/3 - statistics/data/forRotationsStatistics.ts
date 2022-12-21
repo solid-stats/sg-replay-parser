@@ -22,7 +22,6 @@ export const getReplays = (startDate: Dayjs, short?: boolean): PlayersGameResult
     {
       date: getDate(startDate, 0, 4, 18),
       missionName: '',
-      replayLink: '/replays/0',
       result: [
         generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 2 }),
         generatePlayerInfo({ id: 1, name: '[FNX]Flashback' }),
@@ -35,7 +34,6 @@ export const getReplays = (startDate: Dayjs, short?: boolean): PlayersGameResult
     {
       date: getDate(startDate, 0, 4, 20),
       missionName: '',
-      replayLink: '/replays/0',
       result: [
         generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 1 }),
         generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 2 }),
@@ -49,7 +47,6 @@ export const getReplays = (startDate: Dayjs, short?: boolean): PlayersGameResult
     {
       date: getDate(startDate, 0, 5, 18),
       missionName: '',
-      replayLink: '/replays/0',
       result: [
         generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', teamkills: 1 }),
         generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 4, teamkills: 2 }),
@@ -61,7 +58,6 @@ export const getReplays = (startDate: Dayjs, short?: boolean): PlayersGameResult
     {
       date: getDate(startDate, 0, 5, 20),
       missionName: '',
-      replayLink: '/replays/0',
       result: [
         generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r' }),
         generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
@@ -73,7 +69,6 @@ export const getReplays = (startDate: Dayjs, short?: boolean): PlayersGameResult
     {
       date: getDate(startDate, 1, 4, 18),
       missionName: '',
-      replayLink: '/replays/0',
       result: [
         generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 2 }),
         generatePlayerInfo({ id: 1, name: '[FNX]Flashback' }),
@@ -85,7 +80,6 @@ export const getReplays = (startDate: Dayjs, short?: boolean): PlayersGameResult
     {
       date: getDate(startDate, 1, 4, 20),
       missionName: '',
-      replayLink: '/replays/0',
       result: [
         generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 1 }),
         generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
@@ -97,7 +91,6 @@ export const getReplays = (startDate: Dayjs, short?: boolean): PlayersGameResult
     {
       date: getDate(startDate, 1, 5, 18),
       missionName: '',
-      replayLink: '/replays/0',
       result: [
         generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', teamkills: 1 }),
         generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 4, teamkills: 2 }),
@@ -109,7 +102,6 @@ export const getReplays = (startDate: Dayjs, short?: boolean): PlayersGameResult
     {
       date: getDate(startDate, 1, 5, 20),
       missionName: '',
-      replayLink: '/replays/0',
       result: [
         generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r' }),
         generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),

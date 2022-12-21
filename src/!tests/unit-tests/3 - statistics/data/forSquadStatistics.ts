@@ -7,7 +7,6 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-07-01T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 2, killsFromVehicle: 2 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback' }),
@@ -42,13 +41,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-07-01T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-01T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 1 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
@@ -81,13 +78,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-07-01T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-02T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', teamkills: 1 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 4, teamkills: 2 }),
@@ -121,13 +116,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-07-02T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-02T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r' }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
@@ -161,13 +154,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-07-02T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-08T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback' }),
       generatePlayerInfo({ id: 2, name: '[FNX]Skywalker', kills: 3, killsFromVehicle: 1, teamkills: 1 }),
@@ -202,13 +193,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-07-08T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-08T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 1 }),
       generatePlayerInfo({ id: 2, name: '[FNX]Skywalker', teamkills: 1 }),
@@ -241,13 +230,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-07-08T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-09T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', teamkills: 1 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 4, teamkills: 2 }),
@@ -282,13 +269,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-07-09T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-09T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r' }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
@@ -326,13 +311,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-07-09T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-15T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 2, killsFromVehicle: 2 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback' }),
@@ -371,13 +354,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-07-15T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-15T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 1 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
@@ -412,13 +393,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-07-15T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-16T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', teamkills: 1 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 4, teamkills: 2 }),
@@ -456,13 +435,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-07-16T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-16T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r' }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
@@ -496,13 +473,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-07-16T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-22T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 2, killsFromVehicle: 2 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback' }),
@@ -539,13 +514,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-07-22T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-22T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 1 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
@@ -581,13 +554,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-07-22T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-23T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', teamkills: 1 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 4, teamkills: 2 }),
@@ -625,13 +596,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-07-23T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-23T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r' }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
@@ -667,13 +636,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-07-23T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-29T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 2, killsFromVehicle: 2 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback' }),
@@ -708,13 +675,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-07-29T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-29T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 1 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
@@ -749,13 +714,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-07-29T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-30T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', teamkills: 1 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 4, teamkills: 2 }),
@@ -793,13 +756,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-07-30T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-07-30T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r' }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
@@ -833,13 +794,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-07-30T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-08-05T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 2, killsFromVehicle: 2 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback' }),
@@ -874,13 +833,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-08-05T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-08-05T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 1 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
@@ -913,13 +870,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-08-05T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-08-06T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', teamkills: 1 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 4, teamkills: 2 }),
@@ -956,13 +911,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-08-06T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-08-06T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r' }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
@@ -995,13 +948,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-08-06T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-08-12T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 2, killsFromVehicle: 2 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback' }),
@@ -1035,13 +986,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-08-12T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-08-12T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 1 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
@@ -1078,13 +1027,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-08-12T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-08-13T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', teamkills: 1 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 4, teamkills: 2 }),
@@ -1118,13 +1065,11 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-08-13T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-08-13T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r' }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
@@ -1158,7 +1103,6 @@ const parsedReplays: PlayersGameResult[] = [
   {
     date: '2022-08-13T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
 ];
@@ -1167,7 +1111,6 @@ export const parsedReplaysOnLastFriday = [
   {
     date: '2022-08-19T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 2, killsFromVehicle: 2 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback' }),
@@ -1196,13 +1139,11 @@ export const parsedReplaysOnLastFriday = [
   {
     date: '2022-08-19T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-08-19T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 1 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
@@ -1237,7 +1178,6 @@ export const parsedReplaysOnLastFriday = [
   {
     date: '2022-08-19T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
 ];
@@ -1246,7 +1186,6 @@ export const parsedReplaysOnLastSaturday = [
   {
     date: '2022-08-20T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 4, teamkills: 2 }),
       generatePlayerInfo({ id: 2, name: '[FNX]Skywalker', kills: 6 }),
@@ -1277,13 +1216,11 @@ export const parsedReplaysOnLastSaturday = [
   {
     date: '2022-08-20T18:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
   {
     date: '2022-08-20T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r' }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
@@ -1316,7 +1253,6 @@ export const parsedReplaysOnLastSaturday = [
   {
     date: '2022-08-20T20:00:00.000Z',
     missionName: '',
-    replayLink: '/replays/0',
     result: [generatePlayerInfo({ id: 0, name: '[VTR]Veleslav' })],
   },
 ];
