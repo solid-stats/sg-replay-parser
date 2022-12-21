@@ -8,7 +8,7 @@ const generateReplay = (
   mission_name: `${gameType}@${defaultName}`,
   date: date || 'some_date',
   filename,
-  replayLink: '/replays/123',
+  replayLink: '/replays/0',
   serverId: 1,
   world_name: 'unknown',
 });
