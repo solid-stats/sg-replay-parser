@@ -18,6 +18,7 @@ const data: TestData = {
     {
       date: '2022-08-05T18:00:00.000Z',
       missionName: '',
+      replayLink: '/replays/0',
       result: [
         generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', side: 'EAST', killsFromVehicle: 2, isDead: true }),
         generatePlayerInfo({ id: 1, name: '[FNX]Skywalker', side: 'EAST', killsFromVehicle: 3, teamkills: 1 }),
@@ -28,6 +29,7 @@ const data: TestData = {
     {
       date: '2022-08-05T20:00:00.000Z',
       missionName: '',
+      replayLink: '/replays/0',
       result: [
         generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', side: 'EAST' }),
         generatePlayerInfo({ id: 1, name: '[FNX]Loxdor', side: 'EAST', kills: 7, vehicleKills: 2 }),
@@ -36,6 +38,7 @@ const data: TestData = {
     {
       date: '2022-08-12T18:00:00.000Z',
       missionName: '',
+      replayLink: '/replays/0',
       result: [
         generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', side: 'EAST', kills: 3, teamkills: 1, isDead: true }),
         generatePlayerInfo({ id: 1, name: '[FNX]Skywalker', side: 'EAST', kills: 1, isDead: true }),
@@ -45,6 +48,7 @@ const data: TestData = {
     {
       date: '2022-08-12T20:00:00.000Z',
       missionName: '',
+      replayLink: '/replays/0',
       result: [
         generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', side: 'EAST', isDead: true, isDeadByTeamkill: true }),
         generatePlayerInfo({ id: 1, name: '[FNX]Skywalker', side: 'EAST', teamkills: 2 }),

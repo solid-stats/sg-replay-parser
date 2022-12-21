@@ -225,6 +225,7 @@ const testData: TestData = {
     {
       missionName: getDefaultMissionName(),
       date: dates[0],
+      replayLink: '/replays/0',
       result: [
         generatePlayerInfo({
           id: 0,
@@ -276,6 +277,7 @@ const testData: TestData = {
     {
       date: dates[1],
       missionName: getDefaultMissionName(),
+      replayLink: '/replays/0',
       result: [
         generatePlayerInfo({
           id: 1,
@@ -306,6 +308,7 @@ const testData: TestData = {
     {
       date: dates[2],
       missionName: getDefaultMissionName(),
+      replayLink: '/replays/0',
       result: [
         generatePlayerInfo({
           id: 0,
@@ -363,6 +366,7 @@ const testData: TestData = {
     {
       date: dates[3],
       missionName: getDefaultMissionName(),
+      replayLink: '/replays/0',
       result: [
         generatePlayerInfo({ id: 0, isDead: true, side: 'EAST', killers: [] }),
         generatePlayerInfo({ id: 1, isDead: true, side: 'EAST', killers: [] }),

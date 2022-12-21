@@ -46,7 +46,7 @@ describe('Calculation of squad statistics on any non-weekend day should return c
 
 describe('Calculation of squad statistics on Friday, after the game, and on Saturday morning should return correct and same results', () => {
   const dates = [dayjs.dayjsUTC('2022-08-19 20:04:23'), dayjs.dayjsUTC('2022-08-20 12:00')];
-  const replays = [...parsedReplays, ...parsedReplaysOnLastFriday];
+  const replays = [...parsedReplays, ...parsedReplaysOnLastFriday] as PlayersGameResult[];
   let statisticsToCompare: GlobalSquadStatistics[] = [];
 
   dates.forEach((date, index) => {
@@ -76,7 +76,11 @@ describe('Calculation of squad statistics on Friday, after the game, and on Satu
 
 describe('Calculation of squad statistics on Saturday, after the game, on Sunday morning and evening should return correct and same results', () => {
   const dates = [dayjs.dayjsUTC('2022-08-20 20:04:23'), dayjs.dayjsUTC('2022-08-21 10:00'), dayjs.dayjsUTC('2022-08-21').endOf('day')];
-  const replays = [...parsedReplays, ...parsedReplaysOnLastFriday, ...parsedReplaysOnLastSaturday];
+  const replays = [
+    ...parsedReplays,
+    ...parsedReplaysOnLastFriday,
+    ...parsedReplaysOnLastSaturday,
+  ] as PlayersGameResult[];
   let statisticsToCompare: GlobalSquadStatistics[] = [];
 
   dates.forEach((date, index) => {
@@ -126,6 +130,7 @@ test('Squads with less than 5 members should not account', () => {
   const replays: PlayersGameResult[] = [{
     date: dayjs.dayjsUTC('2022-08-16').startOf('day').toISOString(),
     missionName: '',
+    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[HH]smth1' }),
       generatePlayerInfo({ id: 1, name: '[FNX]smth2' }),

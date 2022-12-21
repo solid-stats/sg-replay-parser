@@ -45,6 +45,7 @@ it('Exclude players should work correctly', () => {
     {
       date: '2022-12-03',
       missionName: '',
+      replayLink: '/replays/0',
       result: [
         generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r' }),
         generatePlayerInfo({ id: 1, name: '[A]Chikon' }),
@@ -53,6 +54,7 @@ it('Exclude players should work correctly', () => {
     {
       date: '2022-12-04',
       missionName: '',
+      replayLink: '/replays/0',
       result: [
         generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r' }),
         generatePlayerInfo({ id: 1, name: '[A]Chikon' }),
@@ -61,6 +63,7 @@ it('Exclude players should work correctly', () => {
     {
       date: '2022-12-10',
       missionName: '',
+      replayLink: '/replays/0',
       result: [
         generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r' }),
       ],

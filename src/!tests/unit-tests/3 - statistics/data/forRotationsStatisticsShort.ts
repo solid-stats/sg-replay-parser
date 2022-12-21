@@ -9,6 +9,7 @@ export const getReplays = (startDate: Dayjs): PlayersGameResult[] => ([
   {
     date: startDate.startOf('isoWeek').toISOString(),
     missionName: '',
+    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 2 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback' }),
@@ -20,6 +21,7 @@ export const getReplays = (startDate: Dayjs): PlayersGameResult[] => ([
   {
     date: startDate.startOf('isoWeek').add(1, 'h').toISOString(),
     missionName: '',
+    replayLink: '/replays/0',
     result: [
       generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 1 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 2, teamkills: 1 }),
