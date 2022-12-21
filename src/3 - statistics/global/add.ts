@@ -7,7 +7,7 @@ import { excludePlayersPath } from '../../0 - consts';
 import calculateKDRatio from '../../0 - utils/calculateKDRatio';
 import calculateScore from '../../0 - utils/calculateScore';
 import { dayjsUTC } from '../../0 - utils/dayjs';
-import getPlayerName from '../../0 - utils/getPlayerName';
+import getPlayerFullName from '../../0 - utils/getPlayerName';
 import mergeOtherPlayers from '../../0 - utils/mergeOtherPlayers';
 import { unionWeaponsStatistic } from '../../0 - utils/weaponsStatistic';
 import { defaultStatistics } from '../consts';
@@ -34,7 +34,7 @@ const addPlayerGameResultToGlobalStatistics = (
   date: Dayjs,
 ): GlobalPlayerStatistics[] => {
   const currentGlobalStatistics = globalStatistics.slice();
-  const [name, squadPrefix] = getPlayerName(playerGameResult.name);
+  const [name, squadPrefix] = getPlayerFullName(playerGameResult.name);
   let currentStatisticsIndex = globalStatistics.findIndex(
     (playerStatistics) => (isSameNickName(playerStatistics.name, name)),
   );

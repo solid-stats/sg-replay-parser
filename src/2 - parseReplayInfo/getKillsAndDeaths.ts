@@ -1,6 +1,6 @@
 import { keyBy } from 'lodash';
 
-import getPlayerName from '../0 - utils/getPlayerName';
+import { getPlayerName } from '../0 - utils/getPlayerName';
 import mergeOtherPlayers from '../0 - utils/mergeOtherPlayers';
 import { addWeaponStatistic, filterWeaponStatistics } from '../0 - utils/weaponsStatistic';
 
@@ -54,8 +54,8 @@ const processPlayerKilled = ({
     killers, teamkillers,
   } = killedPlayer;
 
-  const killerName = getPlayerName(killer.name)[0];
-  const killedName = getPlayerName(killedPlayer.name)[0];
+  const killerName = getPlayerName(killer.name);
+  const killedName = getPlayerName(killedPlayer.name);
 
   if (!(isSameSide || isSuicide)) {
     if (isKillFromVehicle) {

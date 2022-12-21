@@ -1,4 +1,4 @@
-import getPlayerName from '../../../0 - utils/getPlayerName';
+import getPlayerFullName from '../../../0 - utils/getPlayerName';
 import getDefaultTestDescription from '../../utils/getDefaultTestDescription';
 
 type TestData = {
@@ -17,7 +17,7 @@ const testData: TestData[] = [
 ];
 
 testData.forEach(({ input, output }) => {
-  test(getDefaultTestDescription('getPlayerName'), () => {
-    expect(getPlayerName(input)).toEqual(output);
+  test(getDefaultTestDescription('getPlayerFullName'), () => {
+    expect(getPlayerFullName(input)).toEqual(output);
   });
 });

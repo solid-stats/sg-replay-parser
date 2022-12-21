@@ -1,6 +1,6 @@
 import { isNull } from 'lodash';
 
-const getPlayerName = (playerName: PlayerName): [PlayerName, PlayerPrefix] => {
+const getPlayerFullName = (playerName: PlayerName): [PlayerName, PlayerPrefix] => {
   if (!playerName.includes('[')) return [playerName.trim(), null];
 
   const squadPrefixRegex = /\[.*?\]/;
@@ -22,4 +22,8 @@ const getPlayerName = (playerName: PlayerName): [PlayerName, PlayerPrefix] => {
   return [name.trim(), squadPrefix.trim()];
 };
 
-export default getPlayerName;
+export const getPlayerName = (val: PlayerName): PlayerName => getPlayerFullName(val)[0];
+
+// export const getPlayerPrefix = (val: PlayerName): PlayerName => getPlayerFullName(val)[1];
+
+export default getPlayerFullName;

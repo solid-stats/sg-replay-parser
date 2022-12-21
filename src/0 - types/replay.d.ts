@@ -96,3 +96,13 @@ type GameType = 'sg' | 'mace';
 type SkippedGameTypes = 'sgs';
 
 type FormattedGameType = 'SG' | 'Mace';
+
+type ChangeResuestTypesRU = 'Добавить одно или несколько убийств' | 'Добавить один или несколько тимкиллов' | 'Добавить уничтожение техники' | 'Убрать один или несколько тимкиллов' | 'Удалить игрока из игры';
+type ChangeResuestTypesEN = 'add_kill' | 'add_teamkill' | 'add_vehicle_kill' | 'remove_teamkill' | 'remove_from_game';
+
+type GameResultsChangeRequest = {
+  replayLink: ReplayLink;
+  type: ChangeResuestTypesEN;
+  requestedPlayer: PlayerName;
+  affectedPlayers: PlayerName[];
+};
