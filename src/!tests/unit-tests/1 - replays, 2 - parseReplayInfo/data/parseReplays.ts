@@ -46,7 +46,7 @@ const testData: TestData = {
         generatePlayerEntity({
           id: 0,
           side: 'EAST',
-          name: getNameById(3),
+          name: getNameById(3, null),
         }),
         generatePlayerEntity({
           id: 1,
@@ -60,7 +60,7 @@ const testData: TestData = {
         generatePlayerEntity({
           id: 3,
           side: 'GUER',
-          name: getNameById(3),
+          name: getNameById(3, null),
         }),
         generatePlayerEntity({
           id: 4,
@@ -80,9 +80,9 @@ const testData: TestData = {
     // behaviour when player changes the game slot after start
     file_2: generateReplayInfo(
       [
-        generateConnectEvent(1, getNameById(0)),
-        generateConnectEvent(2, getNameById(0)),
-        generateConnectEvent(1, getNameById(10)),
+        generateConnectEvent(1, getNameById(0, 'FNX')),
+        generateConnectEvent(2, getNameById(0, 'FNX')),
+        generateConnectEvent(1, getNameById(10, 'FNX')),
         generateKillEvent({ killerId: 3, killedId: 0 }),
         generateKillEvent({ killerId: 1, killedId: 5 }),
       ],
@@ -90,17 +90,17 @@ const testData: TestData = {
         generatePlayerEntity({
           id: 0,
           side: 'EAST',
-          name: getNameById(0),
+          name: getNameById(0, 'FNX'),
         }),
         generatePlayerEntity({
           id: 1,
           side: 'EAST',
-          name: getNameById(10),
+          name: getNameById(10, 'FNX'),
         }),
         generatePlayerEntity({
           id: 2,
           side: 'EAST',
-          name: getNameById(0),
+          name: getNameById(0, 'FNX'),
         }),
         generatePlayerEntity({
           id: 3,
@@ -113,7 +113,7 @@ const testData: TestData = {
         generatePlayerEntity({
           id: 5,
           side: 'GUER',
-          name: getNameById(4),
+          name: getNameById(4, 'FNX'),
           description: '',
         }),
       ],
@@ -238,12 +238,14 @@ const testData: TestData = {
         }),
         generatePlayerInfo({
           id: 1,
+          prefix: 'FNX',
           side: 'EAST',
           isDead: true,
           killers: [{ name: getNameById(5), count: 1 }],
         }),
         generatePlayerInfo({
           id: 2,
+          prefix: 'FNX',
           side: 'EAST',
         }),
         generatePlayerInfo({
@@ -254,6 +256,7 @@ const testData: TestData = {
         }),
         generatePlayerInfo({
           id: 4,
+          prefix: 'FNX',
           side: 'GUER',
           teamkills: 1,
           isDead: true,
@@ -262,6 +265,7 @@ const testData: TestData = {
         }),
         generatePlayerInfo({
           id: 5,
+          prefix: 'FNX',
           side: 'GUER',
           kills: 1,
           isDead: true,
@@ -280,24 +284,26 @@ const testData: TestData = {
         generatePlayerInfo({
           id: 1,
           side: 'EAST',
-          name: getNameById(10),
+          name: getNameById(10, 'FNX'),
         }),
         generatePlayerInfo({
           id: 2,
           side: 'EAST',
-          name: getNameById(0),
+          name: getNameById(0, 'FNX'),
           isDead: true,
           isDeadByTeamkill: true,
           teamkillers: [{ name: getNameById(3), count: 1 }],
         }),
         generatePlayerInfo({
           id: 3,
+          prefix: 'FNX',
           side: 'EAST',
           teamkills: 1,
           teamkilled: [{ name: getNameById(0), count: 1 }],
         }),
         generatePlayerInfo({
           id: 4,
+          prefix: 'FNX',
           side: 'GUER',
         }),
       ],
@@ -309,18 +315,21 @@ const testData: TestData = {
       result: [
         generatePlayerInfo({
           id: 0,
+          prefix: 'FNX',
           side: 'EAST',
           isDead: true,
           killers: [{ name: getNameById(6), count: 1 }],
         }),
         generatePlayerInfo({
           id: 1,
+          prefix: 'FNX',
           side: 'EAST',
           isDead: true,
           killers: [{ name: getNameById(6), count: 1 }],
         }),
         generatePlayerInfo({
           id: 2,
+          prefix: 'FNX',
           side: 'EAST',
           kills: 1,
           killsFromVehicle: 1,
@@ -331,12 +340,14 @@ const testData: TestData = {
         }),
         generatePlayerInfo({
           id: 4,
+          prefix: 'FNX',
           side: 'GUER',
           isDead: true,
           killers: [{ name: getNameById(2), count: 1 }],
         }),
         generatePlayerInfo({
           id: 5,
+          prefix: 'FNX',
           side: 'GUER',
           isDead: true,
           isDeadByTeamkill: true,
@@ -344,6 +355,7 @@ const testData: TestData = {
         }),
         generatePlayerInfo({
           id: 6,
+          prefix: 'FNX',
           side: 'GUER',
           kills: 3,
           killsFromVehicle: 3,
@@ -364,8 +376,8 @@ const testData: TestData = {
       date: dates[3],
       missionName: getDefaultMissionName(),
       result: [
-        generatePlayerInfo({ id: 0, isDead: true, side: 'EAST', killers: [] }),
-        generatePlayerInfo({ id: 1, isDead: true, side: 'EAST', killers: [] }),
+        generatePlayerInfo({ id: 0, isDead: true, side: 'EAST', killers: [], prefix: 'FNX' }),
+        generatePlayerInfo({ id: 1, isDead: true, side: 'EAST', killers: [], prefix: 'FNX' }),
       ],
     },
   ],

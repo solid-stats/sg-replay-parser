@@ -5,6 +5,7 @@ import generateDefaultWeapons from './generateDefaultWeapons';
 type GeneratePlayerInfo = {
   id: PlayerInfo['id'];
   name?: PlayerInfo['name'];
+  prefix?: PlayerPrefix;
   side?: GeneratorSide;
   kills?: PlayerInfo['kills'];
   killsFromVehicle?: PlayerInfo['killsFromVehicle'];
@@ -23,6 +24,7 @@ type GeneratePlayerInfo = {
 const generatePlayerInfo = ({
   id,
   name,
+  prefix,
   side,
   kills,
   killsFromVehicle,
@@ -59,7 +61,7 @@ const generatePlayerInfo = ({
 
   return {
     id,
-    name: name || getNameById(id),
+    name: name || getNameById(id, prefix),
     side: side || 'EAST',
     kills: resultKills,
     killsFromVehicle: killsFromVehicle || 0,

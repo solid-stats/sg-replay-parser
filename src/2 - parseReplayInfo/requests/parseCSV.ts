@@ -7,6 +7,8 @@ import { trim } from 'lodash';
 import { requestsFilePath } from '../../0 - consts';
 import { getPlayerName } from '../../0 - utils/getPlayerName';
 
+let parsedCSV: GameResultsChangeRequest[] | null = null;
+
 type RawCSVContentType = {
   'Реплей': ReplayLink;
   'Тип запроса': ChangeResuestTypesRU;
@@ -39,6 +41,8 @@ const processAffectedPlayers = (affectedPlayers: string): GameResultsChangeReque
 };
 
 const parseCSV = (): GameResultsChangeRequest[] => {
+  if (parsedCSV !== null) return parsedCSV;
+
   const fileContent = readCSVFile();
 
   if (!fileContent) return [];
@@ -53,6 +57,8 @@ const parseCSV = (): GameResultsChangeRequest[] => {
     requestedPlayer: getPlayerName(record.Позывной),
     affectedPlayers: processAffectedPlayers(record['Затронутые игроки']),
   }));
+
+  parsedCSV = requests;
 
   return requests;
 };

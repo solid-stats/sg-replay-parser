@@ -51,6 +51,7 @@ type ReplayInfo = {
   missionAuthor: string;
   missionName: string;
   worldName: string;
+  pathname: ReplayLink;
 };
 
 type PlayerInfo = {
@@ -89,7 +90,6 @@ type PlayersGameResult = {
   result: PlayerInfo[];
   date: Replay['date'];
   missionName: Replay['mission_name'];
-  replayLink: Replay['replayLink'];
 };
 
 type GameType = 'sg' | 'mace';

@@ -15,15 +15,13 @@ const fetchReplayInfo = async (
     );
 
     const parsedReplayInfo = parseReplayInfo(replayInfo);
-    const result = Object.values(parsedReplayInfo);
 
-    if (gameType === 'mace' && result.length < 10) return null;
+    if (gameType === 'mace' && parsedReplayInfo.length < 10) return null;
 
     return {
-      result,
+      result: parsedReplayInfo,
       date: replay.date,
       missionName: replay.mission_name,
-      replayLink: replay.replayLink,
     };
   } catch (err) {
     if (

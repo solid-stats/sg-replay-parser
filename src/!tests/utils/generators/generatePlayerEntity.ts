@@ -23,7 +23,7 @@ const generatePlayerEntity = ({
   positions: [],
   side,
   id,
-  name: name || getNameById(id),
+  name: name || getNameById(id, 'FNX'),
   group: defaultName,
   type: 'unit',
 });

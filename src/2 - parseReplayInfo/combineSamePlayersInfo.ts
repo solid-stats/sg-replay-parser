@@ -6,10 +6,10 @@ import mergeOtherPlayers from '../0 - utils/mergeOtherPlayers';
 import { unionWeaponsStatistic } from '../0 - utils/weaponsStatistic';
 
 // in such situation we should left only one entity
-const combineSamePlayersInfo = (entities: PlayersList): PlayerInfo[] => {
+const combineSamePlayersInfo = (entities: PlayerInfo[]): PlayerInfo[] => {
   const result: PlayerInfo[] = [];
 
-  Object.values(entities).forEach((player) => {
+  entities.forEach((player) => {
     const prevEntityIndex = result.findIndex(
       (pl) => player.name === pl.name,
     );
