@@ -1,4 +1,6 @@
 type Frame = number;
+type Position = [x: number, y: number];
+type Position3D = [x: number, y: number, z: number];
 
 type EntityId = number;
 type EntitySide = 'EAST' | 'WEST' | 'GUER' | 'CIV' | 'UNKNOWN';
@@ -17,27 +19,53 @@ type KillEvent = [Frame, 'killed', KilledEntityId, [KillerEntityId, KillerWeapon
 
 type RawVehicleClass = 'parachute' | 'car' | 'truck' | 'plane' | 'sea' | 'apc' | 'heli' | 'tank' | 'static-weapon';
 type VehicleClass = Omit<RawVehicleClass, 'parachute' | 'static-weapon' | 'sea'>;
-type VehiclePositions = [unkwn: unknown[], unkwn: unknown, unkwn: unknown, playersInside: number[]];
+
+declare enum ConsciousState {
+  Dead,
+  Conscious,
+  Unconscious,
+}
+
+declare enum NumBool {
+  True,
+  False,
+}
+
+type PlayerPosition = [
+  pos: Position,
+  direction: number,
+  consciousState: ConsciousState,
+  isInVehicle: NumBool,
+  name: string,
+  isPlayer: NumBool,
+];
+type VehiclePosition = [
+  pos: Position3D[],
+  direction: number,
+  isAlive: NumBool,
+  playersInside: number[], // order like this [driver, gunner, commander, turrets, cargo]
+];
 
 type CommonEntity = {
   id: EntityId;
   name: EntityName;
   framesFires: any[];
   startFrameNum: number;
-  positions: VehiclePositions[];
 };
 
 type PlayerEntity = CommonEntity & {
   type: 'unit';
   description: string;
-  isPlayer: 0 | 1;
+  isPlayer: NumBool;
   side: EntitySide;
   group: string;
+  positions: PlayerPosition[];
 };
 
 type VehicleEntity = CommonEntity & {
   type: 'vehicle';
   vehicleClass: RawVehicleClass;
+  positions: VehiclePosition[];
 };
 
 type ReplayInfo = {
