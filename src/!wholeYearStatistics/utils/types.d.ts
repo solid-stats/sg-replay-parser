@@ -78,6 +78,7 @@ type WholeYearStatisticsResult = {
   worstDeathToGamesRatio: DeathToGamesRatio[];
   mostTeamkillsInOneGame: MostTeamkillsInOneGame[];
   mostTeamkills: DefaultCountNomination[];
+  mostKilledByTeamkills: DefaultCountNomination[];
   mostShots: MostShots[];
   mostPopularMission: BestMission[];
   mostPopularMissionMaker: DefaultCountNomination[];
@@ -96,6 +97,7 @@ type WholeYearStatisticsResult = {
   mostHeightHeli: MostHeight[];
   mostTimeAlive: DefaultTimeNomination[];
   mostTimeWalked: DefaultTimeNomination[];
+  mostTimeInVehicle: DefaultTimeNomination[];
   mostTimeInGroundVehicle: DefaultTimeNomination[];
   mostTimeInFlyingVehicle: DefaultTimeNomination[];
   mostFlyingTimeInGroundVehicle: MostFlyingTimeInGroundVehicle[];
@@ -113,3 +115,6 @@ type InfoForRawReplayProcess = {
   replayInfo: ReplayInfo;
   result: WholeYearStatisticsResult;
 };
+
+type YearStatisticsKeys = keyof WholeYearStatisticsResult;
+type NominationsOrder = Array<YearStatisticsKeys | YearStatisticsKeys[]>;
