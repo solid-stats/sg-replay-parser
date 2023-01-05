@@ -15,6 +15,7 @@ export const sortMostTime = (
   ...statistics,
   mostTimeAlive: limitAndOrder(statistics.mostTimeAlive, 'timeInSeconds', 'desc'),
   mostTimeWalked: limitAndOrder(statistics.mostTimeWalked, 'timeInSeconds', 'desc'),
+  mostTimeInVehicle: limitAndOrder(statistics.mostTimeInVehicle, 'timeInSeconds', 'desc'),
   mostTimeInGroundVehicle: limitAndOrder(statistics.mostTimeInGroundVehicle, 'timeInSeconds', 'desc'),
   mostTimeInFlyingVehicle: limitAndOrder(statistics.mostTimeInFlyingVehicle, 'timeInSeconds', 'desc'),
 });
@@ -30,6 +31,7 @@ export const processTime = (
   ...statistics,
   mostTimeAlive: statistics.mostTimeAlive.map(formatTimeForNominee),
   mostTimeWalked: statistics.mostTimeWalked.map(formatTimeForNominee),
+  mostTimeInVehicle: statistics.mostTimeInVehicle.map(formatTimeForNominee),
   mostTimeInGroundVehicle: statistics.mostTimeInGroundVehicle.map(formatTimeForNominee),
   mostTimeInFlyingVehicle: statistics.mostTimeInFlyingVehicle.map(formatTimeForNominee),
 });
@@ -41,6 +43,7 @@ const mostTime = ({
 }: InfoForRawReplayProcess): InfoForRawReplayProcess => {
   const mostTimeAliveNomineesByName = keyBy(result.mostTimeAlive, 'name') as NomineeList<DefaultTimeNomination>;
   const mostTimeWalkedNomineesByName = keyBy(result.mostTimeWalked, 'name') as NomineeList<DefaultTimeNomination>;
+  const mostTimeInVehicleNomineesByName = keyBy(result.mostTimeInVehicle, 'name') as NomineeList<DefaultTimeNomination>;
   const mostTimeInGroundVehicleNomineesByName = keyBy(result.mostTimeInGroundVehicle, 'name') as NomineeList<DefaultTimeNomination>;
   const mostTimeInFlyingVehicleNomineesByName = keyBy(result.mostTimeInFlyingVehicle, 'name') as NomineeList<DefaultTimeNomination>;
   const { players, vehicles } = getEntities(replayInfo);
@@ -53,6 +56,7 @@ const mostTime = ({
     const { positions } = entity;
     let timeAlive = 0;
     let timeWalked = 0;
+    let timeInVehicle = 0;
     let timeInGroundVehicle = 0;
     let timeInFlyingVehicle = 0;
 
@@ -81,6 +85,8 @@ const mostTime = ({
 
           if (flyingVehicle.includes(vehicleClass)) timeInFlyingVehicle += secondsInFrame;
         }
+
+        timeInVehicle += secondsInFrame;
       }
 
       timeAlive += secondsInFrame;
@@ -94,6 +100,9 @@ const mostTime = ({
       name, time: defaultTimeDuration, timeInSeconds: 0,
     };
     const currentMostTimeWalkedNominee = mostTimeWalkedNomineesByName[name] || {
+      name, time: defaultTimeDuration, timeInSeconds: 0,
+    };
+    const currentMostTimeInVehicleNominee = mostTimeInVehicleNomineesByName[name] || {
       name, time: defaultTimeDuration, timeInSeconds: 0,
     };
     const currentMostTimeInGroundVehicleNominee = mostTimeInGroundVehicleNomineesByName[name] || {
@@ -112,6 +121,11 @@ const mostTime = ({
       name,
       time: defaultTimeDuration,
       timeInSeconds: currentMostTimeWalkedNominee.timeInSeconds + timeWalked,
+    };
+    mostTimeInVehicleNomineesByName[name] = {
+      name,
+      time: defaultTimeDuration,
+      timeInSeconds: currentMostTimeInVehicleNominee.timeInSeconds + timeInVehicle,
     };
     mostTimeInGroundVehicleNomineesByName[name] = {
       name,
@@ -132,6 +146,7 @@ const mostTime = ({
       ...result,
       mostTimeAlive: Object.values(mostTimeAliveNomineesByName),
       mostTimeWalked: Object.values(mostTimeWalkedNomineesByName),
+      mostTimeInVehicle: Object.values(mostTimeInVehicleNomineesByName),
       mostTimeInGroundVehicle: Object.values(mostTimeInGroundVehicleNomineesByName),
       mostTimeInFlyingVehicle: Object.values(mostTimeInFlyingVehicleNomineesByName),
     },
