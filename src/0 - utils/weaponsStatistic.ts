@@ -1,4 +1,4 @@
-export const forbiddenWeapons = ['throw', 'binoculars', 'бинокль'];
+export const forbiddenWeapons = ['throw', 'binoculars', 'бинокль', 'pdu', 'vector'];
 
 export const filterWeaponStatistics = (stats: WeaponStatistic[]): WeaponStatistic[] => (
   stats.filter(
