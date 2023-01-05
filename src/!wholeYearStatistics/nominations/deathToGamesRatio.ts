@@ -30,7 +30,7 @@ const deathToGamesRatioNomination = ({
         name,
         totalPlayedGames,
         deaths: deaths.total,
-        ratio: `${round(ratio * 100)}%`,
+        ratio: `${100 - round(ratio * 100)}%`,
       };
     });
 
