@@ -24,13 +24,26 @@ test('SG replays should be parsed correctly', async () => {
   expect(await parseReplays(replays, 'sg')).toMatchObject(result);
 });
 
-test('Errors during fetching should be ignored', async () => {
-  fetchMock.mockRejectOnce(new Error('invalid json response'));
+describe('Errors during fetching should be handled correctly', () => {
+  it('Common errors during fetching should be ignored', async () => {
+    fetchMock.mockRejectOnce(new Error('invalid json response'));
 
-  expect(await parseReplays([generateReplay('sg', 'test_1')], 'sg')).toMatchObject([]);
+    expect(await parseReplays([generateReplay('sg', 'test_1')], 'sg')).toMatchObject([]);
+  });
+
+  it('Non common errors during fetching should not be ignored', async () => {
+    const testErrorMessage = '404 error';
+
+    fetchMock.mockRejectOnce(new Error(testErrorMessage));
+    console.error = jest.fn();
+
+    expect(await parseReplays([generateReplay('sg', 'test_1')], 'sg')).toMatchObject([]);
+    expect(console.error).toBeCalledWith(testErrorMessage);
+    expect(console.error).toBeCalledTimes(1);
+  });
 });
 
-test("Errors during parsing shouldn't be ignored", async () => {
+test('Errors during parsing should not be ignored', async () => {
   const testErrorMessage = 'test error message';
 
   jest.spyOn(parse, 'default').mockImplementationOnce(() => {

@@ -41,6 +41,8 @@ const testData: TestData = {
         generateKillEvent({ killerId: 5, killedId: 1 }),
         generateKillEvent({ killerId: 4, killedId: 5 }),
         generateKillEvent({ killerId: 0, killedId: 4 }),
+        generateKillEvent({ killedId: 7, killInfo: ['null'] }),
+        generateKillEvent({ killedId: 8, killInfo: [0, undefined] }),
       ],
       [
         generatePlayerEntity({
@@ -73,6 +75,14 @@ const testData: TestData = {
         generatePlayerEntity({
           isPlayer: 0,
           id: 6,
+          side: 'GUER',
+        }),
+        generatePlayerEntity({
+          id: 7,
+          side: 'GUER',
+        }),
+        generatePlayerEntity({
+          id: 8,
           side: 'GUER',
         }),
       ],
@@ -157,6 +167,10 @@ const testData: TestData = {
           killerWeapon: 'BTR-80A',
           distance: 150,
         }),
+        generateKillEvent({
+          killedId: 3,
+          killInfo: ['null'],
+        }),
       ],
       [
         generatePlayerEntity({
@@ -174,7 +188,7 @@ const testData: TestData = {
         generateVehicleEntity({
           id: 3,
           name: 'BTR-82',
-          vehicleClass: 'apc',
+          class: 'apc',
         }),
 
         generatePlayerEntity({
@@ -192,7 +206,7 @@ const testData: TestData = {
         generateVehicleEntity({
           id: 7,
           name: 'BTR-80A',
-          vehicleClass: 'apc',
+          class: 'apc',
         }),
       ],
     ),
@@ -215,7 +229,7 @@ const testData: TestData = {
         generateVehicleEntity({
           id: 2,
           name: 'BTR-80',
-          vehicleClass: 'apc',
+          class: 'apc',
         }),
       ],
     ),
@@ -229,11 +243,12 @@ const testData: TestData = {
         generatePlayerInfo({
           id: 0,
           side: 'EAST',
-          kills: 2,
+          kills: 3,
           weapons: generateDefaultWeapons(2),
           killed: [
             { name: getNameById(3), count: 1 },
             { name: getNameById(4), count: 1 },
+            { name: getNameById(8), count: 1 },
           ],
         }),
         generatePlayerInfo({
@@ -269,6 +284,19 @@ const testData: TestData = {
           weapons: generateDefaultWeapons(1),
           killed: [{ name: getNameById(1), count: 1 }],
           teamkillers: [{ name: getNameById(4), count: 1 }],
+        }),
+        generatePlayerInfo({
+          id: 7,
+          side: 'GUER',
+          isDead: true,
+          killers: [],
+          teamkillers: [],
+        }),
+        generatePlayerInfo({
+          id: 8,
+          side: 'GUER',
+          isDead: true,
+          killers: [{ name: getNameById(0), count: 1 }],
         }),
       ],
     },

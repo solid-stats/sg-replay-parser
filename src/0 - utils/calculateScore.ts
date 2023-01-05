@@ -1,7 +1,7 @@
 import { round } from 'lodash';
 
 const calculateScore = (
-  totalPlayedGames: GlobalPlayerStatistics['totalPlayedGames'],
+  totalPlayedGames: TotalPlayedGames,
   kills: GlobalPlayerStatistics['kills'],
   teamkills: GlobalPlayerStatistics['teamkills'],
   deaths: Deaths,

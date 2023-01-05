@@ -6,6 +6,7 @@ type Deaths = {
 };
 type Score = number;
 type Coefficient = number;
+type TotalPlayedGames = number;
 
 type WeekNumber = `${number}${number}${number}${number}-${number}${number}`; // 2022-35
 type GlobalPlayerWeekStatistics = {
@@ -27,7 +28,7 @@ type GlobalPlayerStatistics = {
   name: PlayerName;
   isShow: boolean;
   lastSquadPrefix: PlayerPrefix;
-  totalPlayedGames: number;
+  totalPlayedGames: TotalPlayedGames;
   kills: Kills;
   killsFromVehicle: Kills;
   vehicleKills: Kills;

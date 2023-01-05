@@ -2,7 +2,6 @@
 import { gameTypes } from './0 - consts';
 import filterPlayersByTotalPlayedGames from './0 - utils/filterPlayersByTotalPlayedGames';
 import formatGameType from './0 - utils/formatGameType';
-import { stopAllBarsProgress } from './0 - utils/progressHandler';
 import getReplays from './1 - replays/getReplays';
 import parseReplays from './1 - replays/parseReplays';
 import calculateGlobalStatistics from './3 - statistics/global';
@@ -44,8 +43,6 @@ const countStatistics = (
   const [sgParsedReplays, maceParsedReplays] = await Promise.all(
     gameTypes.map((gameType) => getParsedReplays(gameType)),
   );
-
-  stopAllBarsProgress();
 
   console.log('\nAll replays parsed, start collecting statistics:');
 

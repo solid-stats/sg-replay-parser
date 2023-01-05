@@ -17,7 +17,7 @@ const generatePlayerEntity = ({
   description,
 }: GeneratePlayerEntity): PlayerEntity => ({
   description: description === undefined ? defaultName : description,
-  framesFires: [],
+  framesFired: [],
   isPlayer: isPlayer === undefined ? 1 : 0,
   startFrameNum: 0,
   positions: [],

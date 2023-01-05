@@ -1,4 +1,4 @@
-type Frame = number;
+type FrameId = number;
 type Position = [x: number, y: number];
 type Position3D = [x: number, y: number, z: number];
 
@@ -14,49 +14,41 @@ type OtherPlayer = {
   count: number;
 };
 
-type ConnectEvent = [Frame, 'connected' | 'disconnected', PlayerName, EntityId];
-type KillEvent = [Frame, 'killed', KilledEntityId, [KillerEntityId, KillerWeaponName], Distance];
+type ConnectEvent = [frameId: FrameId, eventType: 'connected' | 'disconnected', playerName: PlayerName, entityId: EntityId];
+type KillEvent = [frameId: FrameId, eventType: 'killed', killedId: KilledEntityId, killInfo: [killerId: KillerEntityId, weapon: KillerWeaponName | undefined] | ['null'], distance: Distance];
 
 type RawVehicleClass = 'parachute' | 'car' | 'truck' | 'plane' | 'sea' | 'apc' | 'heli' | 'tank' | 'static-weapon';
 type VehicleClass = Omit<RawVehicleClass, 'parachute' | 'static-weapon' | 'sea'>;
 
-declare enum ConsciousState {
-  Dead,
-  Conscious,
-  Unconscious,
-}
-
-declare enum NumBool {
-  True,
-  False,
-}
+// dead | conscious | unconscious
+type ConsciousState = 0 | 1 | 2;
 
 type PlayerPosition = [
   pos: Position,
   direction: number,
   consciousState: ConsciousState,
-  isInVehicle: NumBool,
+  isInVehicle: 0 | 1,
   name: string,
-  isPlayer: NumBool,
+  isPlayer: 0 | 1,
 ];
 type VehiclePosition = [
-  pos: Position3D[],
+  pos: Position3D,
   direction: number,
-  isAlive: NumBool,
+  isAlive: 0 | 1,
   playersInside: number[], // order like this [driver, gunner, commander, turrets, cargo]
 ];
 
 type CommonEntity = {
   id: EntityId;
   name: EntityName;
-  framesFires: any[];
+  framesFired: [FrameId, Position][];
   startFrameNum: number;
 };
 
 type PlayerEntity = CommonEntity & {
   type: 'unit';
   description: string;
-  isPlayer: NumBool;
+  isPlayer: 0 | 1;
   side: EntitySide;
   group: string;
   positions: PlayerPosition[];
@@ -64,7 +56,7 @@ type PlayerEntity = CommonEntity & {
 
 type VehicleEntity = CommonEntity & {
   type: 'vehicle';
-  vehicleClass: RawVehicleClass;
+  class: RawVehicleClass;
   positions: VehiclePosition[];
 };
 
@@ -103,7 +95,7 @@ type PlayersList = Record<EntityId, PlayerInfo>;
 type VehicleInfo = {
   id: EntityId;
   name: EntityName;
-  vehicleClass: VehicleClass;
+  class: RawVehicleClass;
 };
 
 type VehicleList = Record<EntityId, VehicleInfo>;
