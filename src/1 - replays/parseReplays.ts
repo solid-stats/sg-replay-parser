@@ -28,16 +28,23 @@ const processReplay = async (
 
   if (replayInfo === null) return replayInfo;
 
-  const parsedReplayInfo = parseReplayInfo(replayInfo);
-  const result = Object.values(parsedReplayInfo);
+  try {
+    const parsedReplayInfo = parseReplayInfo(replayInfo);
+    const result = Object.values(parsedReplayInfo);
 
-  if (gameType === 'mace' && result.length < 10) return null;
+    if (gameType === 'mace' && result.length < 10) return null;
 
-  return {
-    result,
-    date: replay.date,
-    missionName: replay.mission_name,
-  };
+    return {
+      result,
+      date: replay.date,
+      missionName: replay.mission_name,
+    };
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error(err.message);
+
+    return null;
+  }
 };
 
 const parseReplays = async (

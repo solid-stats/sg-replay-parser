@@ -15,6 +15,7 @@ module.exports = {
     '!./src/*utils/promiseAllWithProgress.ts',
     '!./src/*output/**/*.ts',
     '!./src/!prepareReplaysList/**/*.ts',
+    '!./src/!wholeYearStatistics/**/*.ts',
     '!./src/!tests/**/*.ts',
   ],
   "automock": false,

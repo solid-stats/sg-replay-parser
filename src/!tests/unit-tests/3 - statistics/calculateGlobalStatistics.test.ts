@@ -40,6 +40,16 @@ it('Exclude players should work correctly', () => {
       minDate: dayjsUTCISO('2022-11-28'),
       maxDate: dayjsUTCISO('2022-12-04'),
     },
+    {
+      name: 'Londor',
+      minDate: null,
+      maxDate: dayjsUTCISO('2022-12-04'),
+    },
+    {
+      name: 'Markovnik',
+      minDate: dayjsUTCISO('2022-12-10'),
+      maxDate: null,
+    },
   ];
   const playersGameResult: PlayersGameResult[] = [
     {
@@ -48,6 +58,8 @@ it('Exclude players should work correctly', () => {
       result: [
         generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r' }),
         generatePlayerInfo({ id: 1, name: '[A]Chikon' }),
+        generatePlayerInfo({ id: 2, name: '[A]Markovnik' }),
+        generatePlayerInfo({ id: 3, name: '[FNX]Londor' }),
       ],
     },
     {
@@ -56,6 +68,8 @@ it('Exclude players should work correctly', () => {
       result: [
         generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r' }),
         generatePlayerInfo({ id: 1, name: '[A]Chikon' }),
+        generatePlayerInfo({ id: 2, name: '[A]Markovnik' }),
+        generatePlayerInfo({ id: 3, name: '[FNX]Londor' }),
       ],
     },
     {
@@ -63,6 +77,8 @@ it('Exclude players should work correctly', () => {
       missionName: '',
       result: [
         generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r' }),
+        generatePlayerInfo({ id: 1, name: '[A]Markovnik' }),
+        generatePlayerInfo({ id: 2, name: '[FNX]Londor' }),
       ],
     },
   ];
@@ -71,6 +87,12 @@ it('Exclude players should work correctly', () => {
 
   const resultGlobalStatistics = calculateGlobalStatistics(playersGameResult);
 
-  expect(resultGlobalStatistics).toHaveLength(1);
-  expect(resultGlobalStatistics[0].totalPlayedGames).toBe(1);
+  expect(resultGlobalStatistics).toHaveLength(3);
+
+  // Markovnik
+  expect(resultGlobalStatistics[0].totalPlayedGames).toBe(2);
+  // Afgan0r
+  expect(resultGlobalStatistics[1].totalPlayedGames).toBe(1);
+  // Londor
+  expect(resultGlobalStatistics[2].totalPlayedGames).toBe(1);
 });

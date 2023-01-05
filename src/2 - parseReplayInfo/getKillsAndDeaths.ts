@@ -5,17 +5,18 @@ import mergeOtherPlayers from '../0 - utils/mergeOtherPlayers';
 import { addWeaponStatistic, filterWeaponStatistics } from '../0 - utils/weaponsStatistic';
 
 type CommonParams = {
-  killer: PlayerInfo;
   players: PlayersList;
 };
 
 type PlayerKilledParams = CommonParams & {
+  killer: PlayerInfo | null;
   killed: PlayerInfo;
-  weapon: Weapon;
+  weapon: Weapon | null;
   distance: Distance;
   entities: VehicleList;
 };
 type VehicleKilledParams = CommonParams & {
+  killer: PlayerInfo;
   vehicle: VehicleInfo;
 };
 
@@ -39,13 +40,23 @@ const processPlayerKilled = ({
   entities,
 }: PlayerKilledParams): PlayersList => {
   const newPlayers = { ...players };
+
+  if (!killer) {
+    newPlayers[killedPlayer.id] = {
+      ...newPlayers[killedPlayer.id],
+      isDead: true,
+    };
+
+    return newPlayers;
+  }
+
   const isSameSide = killer.side === killedPlayer.side;
   const isSuicide = killer.id === killedPlayer.id;
 
   const vehiclesList = Object.values(entities);
   const vehiclesByName = keyBy(vehiclesList, 'name');
 
-  const isKillFromVehicle = vehiclesByName[weapon] !== undefined;
+  const isKillFromVehicle = weapon ? vehiclesByName[weapon] !== undefined : false;
 
   let {
     kills, teamkills, killsFromVehicle, weapons, vehicles, killed, teamkilled,
@@ -58,10 +69,12 @@ const processPlayerKilled = ({
   const killedName = getPlayerName(killedPlayer.name)[0];
 
   if (!(isSameSide || isSuicide)) {
-    if (isKillFromVehicle) {
-      vehicles = calculateWeaponStatistics(weapon, distance, killer.vehicles);
-      killsFromVehicle += 1;
-    } else weapons = calculateWeaponStatistics(weapon, distance, killer.weapons);
+    if (weapon) {
+      if (isKillFromVehicle) {
+        vehicles = calculateWeaponStatistics(weapon, distance, killer.vehicles);
+        killsFromVehicle += 1;
+      } else weapons = calculateWeaponStatistics(weapon, distance, killer.weapons);
+    }
 
     kills += 1;
 
@@ -126,16 +139,37 @@ const getKillsAndDeaths = (entities: VehiclesWithPlayersList, events: ReplayInfo
         distance,
       ] = event;
 
-      if (killInfo[0] === 'null' || !killInfo[1]) return;
-
-      const [killerId, weapon] = killInfo;
-      const killer = players[killerId];
       const killedPlayer = players[killedId];
       const killedVehicle = vehicles[killedId];
 
+      if (killInfo[0] === 'null') {
+        if (killedVehicle) return;
+
+        if (killedPlayer) {
+          players = processPlayerKilled({
+            killer: null,
+            killed: killedPlayer,
+            players,
+            distance,
+            weapon: null,
+            entities: vehicles,
+          });
+        }
+
+        return;
+      }
+
+      const [killerId, weapon] = killInfo;
+      const killer = players[killerId];
+
       if (killer && killedPlayer) {
         players = processPlayerKilled({
-          killer, killed: killedPlayer, players, distance, weapon, entities: vehicles,
+          killer,
+          killed: killedPlayer,
+          players,
+          distance,
+          weapon: weapon || null,
+          entities: vehicles,
         });
 
         return;
