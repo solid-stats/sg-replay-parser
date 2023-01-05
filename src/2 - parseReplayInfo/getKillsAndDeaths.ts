@@ -122,10 +122,13 @@ const getKillsAndDeaths = (entities: VehiclesWithPlayersList, events: ReplayInfo
       const [
         , ,
         killedId,
-        [killerId, weapon],
+        killInfo,
         distance,
       ] = event;
 
+      if (killInfo[0] === 'null' || !killInfo[1]) return;
+
+      const [killerId, weapon] = killInfo;
       const killer = players[killerId];
       const killedPlayer = players[killedId];
       const killedVehicle = vehicles[killedId];

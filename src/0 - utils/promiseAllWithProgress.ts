@@ -1,4 +1,4 @@
-import { incrementBarValue, initializeProgressBar } from './progressHandler';
+import { incrementBarValue, initializeProgressBar, stopAllBarsProgress } from './progressHandler';
 
 const promiseAllWithProgress = async <PromiseType>(
   promises: Promise<PromiseType>[],
@@ -8,7 +8,11 @@ const promiseAllWithProgress = async <PromiseType>(
 
   promises.forEach((promise) => promise.then(() => incrementBarValue(gameType)));
 
-  return Promise.all(promises);
+  const result = await Promise.all(promises);
+
+  stopAllBarsProgress();
+
+  return result;
 };
 
 export default promiseAllWithProgress;

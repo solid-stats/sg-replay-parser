@@ -5,25 +5,9 @@ import fetchData from '../0 - utils/fetchData';
 import promiseAllWithProgress from '../0 - utils/promiseAllWithProgress';
 import parseReplayInfo from '../2 - parseReplayInfo';
 
-const fetchReplayInfo = async (
-  replay: Replay,
-  gameType: GameType,
-): Promise<PlayersGameResult | null> => {
+export const fetchReplayInfo = async (filename: Replay['filename']): Promise<ReplayInfo | null> => {
   try {
-    const replayInfo = await fetchData<ReplayInfo>(
-      `https://solidgames.ru/data/${replay.filename}.json`,
-    );
-
-    const parsedReplayInfo = parseReplayInfo(replayInfo);
-    const result = Object.values(parsedReplayInfo);
-
-    if (gameType === 'mace' && result.length < 10) return null;
-
-    return {
-      result,
-      date: replay.date,
-      missionName: replay.mission_name,
-    };
+    return await fetchData<ReplayInfo>(`https://solidgames.ru/data/${filename}.json`);
   } catch (err) {
     if (
       !err.message.includes('unexpected character')
@@ -36,16 +20,36 @@ const fetchReplayInfo = async (
   }
 };
 
+const processReplay = async (
+  replay: Replay,
+  gameType: GameType,
+): Promise<PlayersGameResult | null> => {
+  const replayInfo = await fetchReplayInfo(replay.filename);
+
+  if (replayInfo === null) return replayInfo;
+
+  const parsedReplayInfo = parseReplayInfo(replayInfo);
+  const result = Object.values(parsedReplayInfo);
+
+  if (gameType === 'mace' && result.length < 10) return null;
+
+  return {
+    result,
+    date: replay.date,
+    missionName: replay.mission_name,
+  };
+};
+
 const parseReplays = async (
   replays: Replay[],
   gameType: GameType,
 ): Promise<PlayersGameResult[]> => {
   const limit = pLimit(gameType === 'sg' ? 10 : 20);
   const parsedReplays = await promiseAllWithProgress(
-    replays.map((replay) => limit(() => fetchReplayInfo(replay, gameType))),
+    replays.map((replay) => limit(() => processReplay(replay, gameType))),
     gameType,
   );
-  // compact remove null vallues
+
   const orderedParsedReplaysByDate = orderBy(compact(parsedReplays), 'date', 'asc');
 
   return orderedParsedReplaysByDate;

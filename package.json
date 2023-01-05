@@ -7,6 +7,7 @@
   "scripts": {
     "build-dist": "rimraf dist && rimraf output && tsc --project tsconfig.build.json",
     "build": "yarn build-dist && node dist/index.js",
+    "count-whole-year-statistics": "yarn build-dist && node dist/*wholeYearStatistics/index.js",
     "prepare-replays": "yarn build-dist && node dist/!prepareReplaysList/index.js",
     "build-with-prepare": "yarn build-dist && node dist/!prepareReplaysList/index.js && node dist/index.js",
     "lint-files": "eslint ./src/**/*.ts",

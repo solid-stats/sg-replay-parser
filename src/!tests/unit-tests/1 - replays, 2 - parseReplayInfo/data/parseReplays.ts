@@ -174,7 +174,7 @@ const testData: TestData = {
         generateVehicleEntity({
           id: 3,
           name: 'BTR-82',
-          vehicleClass: 'apc',
+          class: 'apc',
         }),
 
         generatePlayerEntity({
@@ -192,7 +192,7 @@ const testData: TestData = {
         generateVehicleEntity({
           id: 7,
           name: 'BTR-80A',
-          vehicleClass: 'apc',
+          class: 'apc',
         }),
       ],
     ),
@@ -215,7 +215,7 @@ const testData: TestData = {
         generateVehicleEntity({
           id: 2,
           name: 'BTR-80',
-          vehicleClass: 'apc',
+          class: 'apc',
         }),
       ],
     ),

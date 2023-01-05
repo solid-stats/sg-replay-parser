@@ -1,5 +1,6 @@
 import vanillaDayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
+import duration from 'dayjs/plugin/duration';
 import isBetween from 'dayjs/plugin/isBetween';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
@@ -10,6 +11,7 @@ import weekOfYear from 'dayjs/plugin/weekOfYear';
 import weekday from 'dayjs/plugin/weekday';
 
 vanillaDayjs.extend(advancedFormat);
+vanillaDayjs.extend(duration);
 vanillaDayjs.extend(isBetween);
 vanillaDayjs.extend(isSameOrAfter);
 vanillaDayjs.extend(isSameOrBefore);

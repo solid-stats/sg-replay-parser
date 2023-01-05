@@ -2,18 +2,18 @@ import getNameById from '../getNameById';
 
 type GenerateVehicleEntity = {
   id: VehicleEntity['id'];
-  vehicleClass: VehicleEntity['vehicleClass'];
+  class: VehicleEntity['class'];
   name?: VehicleEntity['name'];
 };
 
 const generateVehicleEntity = ({
   id,
-  vehicleClass,
+  class: vehicleClass,
   name,
 }: GenerateVehicleEntity): VehicleEntity => ({
-  framesFires: [],
+  framesFired: [0, [0, 0]],
   type: 'vehicle',
-  vehicleClass,
+  class: vehicleClass,
   startFrameNum: 0,
   positions: [],
   id,
