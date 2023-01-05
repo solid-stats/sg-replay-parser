@@ -12,8 +12,9 @@ import deathToGamesRatio from './nominations/deathToGamesRatio';
 import mostPopularMission from './nominations/mostPopularMission';
 import mostTeamkills from './nominations/mostTeamkills';
 import mostTeamkillsInOneGame from './nominations/mostTeamkillsInOneGame';
+import printOutput from './output';
 import processRawReplays from './processRawReplays';
-import { defaultResult, titles } from './utils/consts';
+import { defaultResult } from './utils/consts';
 import { printFinish } from './utils/printText';
 
 /*
@@ -61,10 +62,5 @@ const interval: DayjsInterval = [
 
   fs.mkdirSync(statsFolder);
 
-  Object.keys(result).forEach((nominationName) => (
-    fs.writeFileSync(
-      `${statsFolder}/${titles[nominationName]}.json`,
-      JSON.stringify(result[nominationName], null, '\t'),
-    )
-  ));
+  printOutput(result);
 })();
