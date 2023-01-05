@@ -4,6 +4,7 @@ import { isArray } from 'lodash';
 
 import { statsFolder } from '../../4 - output/consts';
 import { nominationsOrder } from '../utils/consts';
+import formatters from './formattersList';
 
 const print = (
   statistics: WholeYearStatisticsResult,
@@ -12,7 +13,7 @@ const print = (
 ): void => (
   fs.appendFileSync(
     `${statsFolder}/${orderNumber} nomination.txt`,
-    `${JSON.stringify(statistics[nomination], null, '\t')}\n`,
+    `${formatters[nomination](statistics)}\n`,
   )
 );
 

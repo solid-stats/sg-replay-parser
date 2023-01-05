@@ -70,6 +70,12 @@ export const nominationsOrder: NominationsOrder = [
   ['mostTimeAlive', 'mostTimeWalked', 'mostTimeInVehicle', 'mostTimeInGroundVehicle', 'mostTimeInFlyingVehicle'],
 ];
 
+export const colorsByPlace = [
+  '#ffd700',
+  '#c0c0c0',
+  '#cd7f32',
+];
+
 export const maxRecords = 10;
 
 export const defaultTimeDuration: DefaultTimeNomination['time'] = '00:00:00:00';
