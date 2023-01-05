@@ -16,7 +16,7 @@ type DefaultTimeNomination = Default & {
 type DeathToGamesRatio = Default & {
   totalPlayedGames: TotalPlayedGames;
   deaths: Deaths['total'];
-  ratio: string;
+  ratio: number;
 };
 
 type MostTeamkillsInOneGame = DefaultCountNomination & {

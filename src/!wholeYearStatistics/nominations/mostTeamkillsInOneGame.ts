@@ -1,6 +1,7 @@
-import { maxBy, orderBy } from 'lodash';
+import { orderBy } from 'lodash';
 
 import getPlayerName from '../../0 - utils/getPlayerName';
+import limitAndOrder from '../utils/limitAndOrder';
 import { printFinish, printNominationProcessStart } from '../utils/printText';
 
 const mostTeamkillsInOneGame = ({
@@ -33,16 +34,11 @@ const mostTeamkillsInOneGame = ({
 
   printFinish();
 
-  const maximumTeamkills = maxBy(Object.values(list), 'count')?.count || 0;
-  const filteredList = Object.values(list).filter(
-    (teamkiller) => teamkiller.count > (15 * maximumTeamkills) / 100,
-  );
-
   return {
     ...other,
     result: {
       ...result,
-      mostTeamkillsInOneGame: orderBy(filteredList, ['count', 'missionName'], ['desc', 'desc']),
+      mostTeamkillsInOneGame: limitAndOrder(list, ['count', 'missionName'], ['desc', 'desc']),
     },
   };
 };

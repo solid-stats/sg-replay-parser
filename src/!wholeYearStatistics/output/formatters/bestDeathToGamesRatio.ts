@@ -8,7 +8,7 @@ const bestDeathToGamesRatioFormatter = (
 
   bestDeathToGamesRatio.forEach(
     (nominee, index) => {
-      text += `[color=${colorsByPlace[index] || '#fff'}]${index + 1}.[/color] [user]${nominee.name}[/user], всего игр: ${nominee.totalPlayedGames}, смертей: ${nominee.deaths}, выживаемость: ${nominee.ratio};}\n`;
+      text += `[color=${colorsByPlace[index] || '#fff'}]${index + 1}.[/color] [user]${nominee.name}[/user], всего игр: ${nominee.totalPlayedGames}, смертей: ${nominee.deaths}, выживаемость: ${nominee.ratio}%;\n`;
     },
   );
 

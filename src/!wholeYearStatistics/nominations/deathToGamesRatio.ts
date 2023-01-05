@@ -1,14 +1,8 @@
-import { orderBy, round, take } from 'lodash';
+import { round } from 'lodash';
 
 import filterPlayersByTotalPlayedGames from '../../0 - utils/filterPlayersByTotalPlayedGames';
-import { maxRecords } from '../utils/consts';
+import limitAndOrder from '../utils/limitAndOrder';
 import { printFinish, printNominationProcessStart } from '../utils/printText';
-
-const calculateRatio = (totalPlayedGames: TotalPlayedGames, deaths: Deaths): Coefficient => {
-  if (totalPlayedGames <= 0) return 0;
-
-  return round(deaths.total / totalPlayedGames, 2);
-};
 
 const deathToGamesRatioNomination = ({
   result,
@@ -24,13 +18,13 @@ const deathToGamesRatioNomination = ({
     type: 'remove',
   })
     .forEach(({ name, totalPlayedGames, deaths }) => {
-      const ratio = calculateRatio(totalPlayedGames, deaths);
+      const ratio = round(deaths.total / totalPlayedGames, 2);
 
       list[name] = {
         name,
         totalPlayedGames,
         deaths: deaths.total,
-        ratio: `${100 - round(ratio * 100)}%`,
+        ratio: round(100 - ratio * 100),
       };
     });
 
@@ -40,8 +34,8 @@ const deathToGamesRatioNomination = ({
     ...other,
     result: {
       ...result,
-      bestDeathToGamesRatio: take(orderBy(list, ['ratio', 'totalPlayedGames'], ['asc', 'desc']), maxRecords),
-      worstDeathToGamesRatio: take(orderBy(list, ['ratio', 'totalPlayedGames'], ['desc', 'desc']), maxRecords),
+      bestDeathToGamesRatio: limitAndOrder(list, ['ratio', 'totalPlayedGames'], ['desc', 'desc']),
+      worstDeathToGamesRatio: limitAndOrder(list, ['ratio', 'totalPlayedGames'], ['asc', 'desc']),
     },
   };
 };

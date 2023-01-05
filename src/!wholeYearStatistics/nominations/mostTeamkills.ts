@@ -1,6 +1,7 @@
 import { orderBy, take } from 'lodash';
 
 import { maxRecords } from '../utils/consts';
+import limitAndOrder from '../utils/limitAndOrder';
 import { printFinish, printNominationProcessStart } from '../utils/printText';
 
 const mostTeamkills = ({
@@ -24,7 +25,7 @@ const mostTeamkills = ({
     ...other,
     result: {
       ...result,
-      mostTeamkills: nomineeList,
+      mostTeamkills: limitAndOrder(nomineeList, 'count', 'desc'),
     },
   };
 };
