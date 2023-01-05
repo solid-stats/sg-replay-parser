@@ -1,8 +1,8 @@
 import { defaultDistance, defaultWeapon } from '../consts';
 
 type GenerateKillEvent = {
-  killedId: KillEvent[2],
-  killerId: KillEvent[3][0],
+  killedId: number,
+  killerId: number,
   killerWeapon?: KillEvent[3][1],
   distance?: KillEvent[4],
 };

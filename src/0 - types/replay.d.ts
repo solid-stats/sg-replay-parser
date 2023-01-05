@@ -41,7 +41,7 @@ type VehiclePosition = [
 type CommonEntity = {
   id: EntityId;
   name: EntityName;
-  framesFired: [FrameId, Position];
+  framesFired: [FrameId, Position][];
   startFrameNum: number;
 };
 

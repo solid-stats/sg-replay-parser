@@ -11,7 +11,7 @@ const generateVehicleEntity = ({
   class: vehicleClass,
   name,
 }: GenerateVehicleEntity): VehicleEntity => ({
-  framesFired: [0, [0, 0]],
+  framesFired: [[0, [0, 0]]],
   type: 'vehicle',
   class: vehicleClass,
   startFrameNum: 0,
