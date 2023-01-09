@@ -317,7 +317,7 @@ export const globalStatistics: GlobalPlayerStatisticsWithoutDates[] = [
     ],
     weapons: generateDefaultWeapons(6),
     vehicles: [],
-    killed: [{ name: defaultKilledName, count: 7 }],
+    killed: [{ name: defaultKilledName, count: 6 }],
     killers: [],
     teamkilled: [],
     teamkillers: [],

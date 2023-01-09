@@ -27,7 +27,7 @@ describe('Rotation statistics should return correct values', () => {
   )));
 
   const lastRotationStartDate = rotationDates[rotationDates.length - 1][0];
-  const isRotationStartedLessThanTwoWeeksAgo = lastRotationStartDate.diff(dayjsUTC(), 'w') < 2;
+  const isRotationStartedLessThanTwoWeeksAgo = dayjsUTC().diff(lastRotationStartDate, 'w') < 2;
 
   let globalStatistics = longGlobalStatistics;
   let squadStatistics = longSquadStatistics;
