@@ -26,7 +26,7 @@ describe('Calculation of squad statistics on any non-weekend day should return c
       expect(globalStatistics).toMatchSnapshot();
 
       jest.spyOn(dayjs, 'dayjsUTC').mockImplementationOnce(() => date);
-      const squadStatistics = calculateSquadStatistics(globalStatistics, parsedReplays);
+      const squadStatistics = calculateSquadStatistics(globalStatistics, parsedReplays, null);
 
       jest.spyOn(dayjs, 'dayjsUTC').mockImplementationOnce(() => date);
       const squadStatisticsWithRotationEndDate = calculateSquadStatistics(
@@ -56,7 +56,7 @@ describe('Calculation of squad statistics on Friday, after the game, and on Satu
       expect(globalStatistics).toMatchSnapshot();
 
       jest.spyOn(dayjs, 'dayjsUTC').mockImplementationOnce(() => date);
-      const squadStatistics = calculateSquadStatistics(globalStatistics, replays);
+      const squadStatistics = calculateSquadStatistics(globalStatistics, replays, null);
 
       jest.spyOn(dayjs, 'dayjsUTC').mockImplementationOnce(() => date);
       const squadStatisticsWithRotationEndDate = calculateSquadStatistics(
@@ -74,9 +74,18 @@ describe('Calculation of squad statistics on Friday, after the game, and on Satu
   });
 });
 
-describe('Calculation of squad statistics on Saturday, after the game, on Sunday morning and evening should return correct and same results', () => {
-  const dates = [dayjs.dayjsUTC('2022-08-20 20:04:23'), dayjs.dayjsUTC('2022-08-21 10:00'), dayjs.dayjsUTC('2022-08-21').endOf('day')];
-  const replays = [...parsedReplays, ...parsedReplaysOnLastFriday, ...parsedReplaysOnLastSaturday];
+describe('Calculation of squad statistics on Saturday, after the game, on Sunday morning and evening, and on next day should return correct and same results', () => {
+  const dates = [
+    dayjs.dayjsUTC('2022-08-20 20:04:23'),
+    dayjs.dayjsUTC('2022-08-21 10:00'),
+    dayjs.dayjsUTC('2022-08-21').endOf('day'),
+    dayjs.dayjsUTC('2022-08-22 10:00'),
+  ];
+  const replays = [
+    ...parsedReplays,
+    ...parsedReplaysOnLastFriday,
+    ...parsedReplaysOnLastSaturday,
+  ];
   let statisticsToCompare: GlobalSquadStatistics[] = [];
 
   dates.forEach((date, index) => {
@@ -86,6 +95,8 @@ describe('Calculation of squad statistics on Saturday, after the game, on Sunday
       case 1: dayText = 'Sunday morning';
         break;
       case 2: dayText = 'Sunday evening';
+        break;
+      case 3: dayText = 'Next day';
         break;
       default:
         dayText = 'Saturday, after the game,';
@@ -98,7 +109,7 @@ describe('Calculation of squad statistics on Saturday, after the game, on Sunday
       expect(globalStatistics).toMatchSnapshot();
 
       jest.spyOn(dayjs, 'dayjsUTC').mockImplementationOnce(() => date);
-      const squadStatistics = calculateSquadStatistics(globalStatistics, replays);
+      const squadStatistics = calculateSquadStatistics(globalStatistics, replays, null);
 
       jest.spyOn(dayjs, 'dayjsUTC').mockImplementationOnce(() => date);
       const squadStatisticsWithRotationEndDate = calculateSquadStatistics(
@@ -117,7 +128,7 @@ describe('Calculation of squad statistics on Saturday, after the game, on Sunday
 });
 
 test('Calculation with empty replays should return nothing', () => {
-  const squadStatistics = calculateSquadStatistics(data.globalStatistics, []);
+  const squadStatistics = calculateSquadStatistics(data.globalStatistics, [], null);
 
   expect(squadStatistics).toHaveLength(0);
 });
