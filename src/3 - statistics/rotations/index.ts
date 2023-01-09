@@ -1,4 +1,3 @@
-import { dayjsUTC } from '../../0 - utils/dayjs';
 import filterPlayersByTotalPlayedGames from '../../0 - utils/filterPlayersByTotalPlayedGames';
 import getRotations from '../../0 - utils/rotations';
 import calculateGlobalStatistics from '../global';
