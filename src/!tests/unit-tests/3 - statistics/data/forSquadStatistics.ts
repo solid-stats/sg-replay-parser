@@ -8,11 +8,11 @@ const parsedReplays: PlayersGameResult[] = [
     date: '2022-07-01T18:00:00.000Z',
     missionName: '',
     result: [
-      generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 2, killsFromVehicle: 2 }),
-      generatePlayerInfo({ id: 1, name: '[FNX]Flashback' }),
-      generatePlayerInfo({ id: 2, name: '[FNX]Skywalker', kills: 3, killsFromVehicle: 1, teamkills: 1 }),
-      generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy' }),
-      generatePlayerInfo({ id: 7, name: '[FNX]Puma', kills: 3, killsFromVehicle: 1 }),
+      generatePlayerInfo({ id: 0, name: '[FNX]afgan0r', kills: 2, killsFromVehicle: 2 }),
+      generatePlayerInfo({ id: 1, name: '[FNX]flashback' }),
+      generatePlayerInfo({ id: 2, name: '[FNX]skyWalker', kills: 3, killsFromVehicle: 1, teamkills: 1 }),
+      generatePlayerInfo({ id: 4, name: '[FNX]mecheniy' }),
+      generatePlayerInfo({ id: 7, name: '[FNX]PUma', kills: 3, killsFromVehicle: 1 }),
 
       generatePlayerInfo({ id: 8, name: '[W8]Piligrim', kills: 3, killsFromVehicle: 1, teamkills: 1 }),
       generatePlayerInfo({ id: 9, name: '[W8]Parker' }),
@@ -34,7 +34,7 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar', kills: 1 }),
       generatePlayerInfo({ id: 26, name: '[CU]Syargik', kills: 1, teamkills: 1 }),
 
-      generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
+      generatePlayerInfo({ id: 26, name: 'UlTimate', kills: 1 }),
       generatePlayerInfo({ id: 26, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
     ],
   },
@@ -47,7 +47,7 @@ const parsedReplays: PlayersGameResult[] = [
     date: '2022-07-01T20:00:00.000Z',
     missionName: '',
     result: [
-      generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 1 }),
+      generatePlayerInfo({ id: 0, name: '[FNX]afgan0R', kills: 1 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
       generatePlayerInfo({ id: 2, name: '[FNX]Skywalker', teamkills: 1 }),
       generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy', kills: 2, killsFromVehicle: 2 }),
@@ -1071,7 +1071,7 @@ const parsedReplays: PlayersGameResult[] = [
     date: '2022-08-13T20:00:00.000Z',
     missionName: '',
     result: [
-      generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r' }),
+      generatePlayerInfo({ id: 0, name: '[FNX]afgan0R' }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
       generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy', kills: 3, killsFromVehicle: 1 }),
       generatePlayerInfo({ id: 5, name: '[FNX]LOXDOR' }),
@@ -1145,7 +1145,7 @@ export const parsedReplaysOnLastFriday = [
     date: '2022-08-19T20:00:00.000Z',
     missionName: '',
     result: [
-      generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', kills: 1 }),
+      generatePlayerInfo({ id: 0, name: '[FNX]afgan0R', kills: 1 }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
       generatePlayerInfo({ id: 2, name: '[FNX]Skywalker', teamkills: 1 }),
       generatePlayerInfo({ id: 3, name: '[FNX]Brom' }),
@@ -1222,7 +1222,7 @@ export const parsedReplaysOnLastSaturday = [
     date: '2022-08-20T20:00:00.000Z',
     missionName: '',
     result: [
-      generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r' }),
+      generatePlayerInfo({ id: 0, name: '[FNX]afgan0R' }),
       generatePlayerInfo({ id: 1, name: '[FNX]Flashback', kills: 1 }),
       generatePlayerInfo({ id: 3, name: '[FNX]Brom', teamkills: 2 }),
       generatePlayerInfo({ id: 4, name: '[FNX]Mecheniy', kills: 3, killsFromVehicle: 1 }),
@@ -1502,7 +1502,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.48,
       },
       {
-        name: 'Afgan0r',
+        name: 'afgan0R',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 27,
         kills: 19,
@@ -1975,7 +1975,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 0.77,
       },
       {
-        name: 'Afgan0r',
+        name: 'afgan0R',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 29,
         kills: 22,
@@ -2464,7 +2464,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.71,
       },
       {
-        name: 'Afgan0r',
+        name: 'afgan0R',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 30,
         kills: 22,

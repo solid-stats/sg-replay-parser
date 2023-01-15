@@ -25,10 +25,13 @@ const getSquadsInfo = (
       score: 0,
     };
 
-    const players = playersBySquadPrefix[prefix].map((player) => `${player.lastSquadPrefix}${player.name}`);
+    const players = playersBySquadPrefix[prefix].map(
+      (player) => `${player.lastSquadPrefix?.toLowerCase()}${player.name.toLowerCase()}`,
+    );
 
     const filteredReplays = replaysForTheLast4Weeks.map(({ result: gameResults }) => (
-      Object.values(gameResults).filter((playerResult) => players.includes(playerResult.name))
+      Object.values(gameResults)
+        .filter((playerResult) => players.includes(playerResult.name.toLowerCase()))
     ));
 
     filteredReplays.forEach((results) => {
