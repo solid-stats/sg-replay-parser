@@ -34,8 +34,8 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar', kills: 1 }),
       generatePlayerInfo({ id: 26, name: '[CU]Syargik', kills: 1, teamkills: 1 }),
 
-      generatePlayerInfo({ id: 26, name: 'UlTimate', kills: 1 }),
-      generatePlayerInfo({ id: 26, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
+      generatePlayerInfo({ id: 27, name: 'UlTimate', kills: 1 }),
+      generatePlayerInfo({ id: 28, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
     ],
   },
   {
@@ -147,8 +147,8 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar', kills: 1 }),
       generatePlayerInfo({ id: 26, name: '[CU]Syargik' }),
 
-      generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
-      generatePlayerInfo({ id: 26, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
+      generatePlayerInfo({ id: 27, name: 'Ultimate', kills: 1 }),
+      generatePlayerInfo({ id: 28, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
     ],
   },
   {
@@ -186,8 +186,8 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar', kills: 1 }),
       generatePlayerInfo({ id: 26, name: '[CU]Syargik', kills: 1, teamkills: 1 }),
 
-      generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
-      generatePlayerInfo({ id: 26, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
+      generatePlayerInfo({ id: 27, name: 'Ultimate', kills: 1 }),
+      generatePlayerInfo({ id: 28, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
     ],
   },
   {
@@ -304,8 +304,8 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar', kills: 1 }),
       generatePlayerInfo({ id: 26, name: '[CU]Syargik' }),
 
-      generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
-      generatePlayerInfo({ id: 26, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
+      generatePlayerInfo({ id: 27, name: 'Ultimate', kills: 1 }),
+      generatePlayerInfo({ id: 28, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
     ],
   },
   {
@@ -347,8 +347,8 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar', kills: 1 }),
       generatePlayerInfo({ id: 26, name: '[CU]Syargik', kills: 1, teamkills: 1 }),
 
-      generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
-      generatePlayerInfo({ id: 26, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
+      generatePlayerInfo({ id: 27, name: 'Ultimate', kills: 1 }),
+      generatePlayerInfo({ id: 28, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
     ],
   },
   {
@@ -428,8 +428,8 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar' }),
       generatePlayerInfo({ id: 26, name: '[CU]Syargik' }),
 
-      generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
-      generatePlayerInfo({ id: 26, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
+      generatePlayerInfo({ id: 27, name: 'Ultimate', kills: 1 }),
+      generatePlayerInfo({ id: 28, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
     ],
   },
   {
@@ -508,7 +508,7 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar', kills: 1 }),
       generatePlayerInfo({ id: 26, name: '[CU]Syargik', kills: 1, teamkills: 1 }),
 
-      generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
+      generatePlayerInfo({ id: 27, name: 'Ultimate', kills: 1 }),
     ],
   },
   {
@@ -547,8 +547,8 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar' }),
       generatePlayerInfo({ id: 26, name: '[CU]Syargik' }),
 
-      generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
-      generatePlayerInfo({ id: 26, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
+      generatePlayerInfo({ id: 27, name: 'Ultimate', kills: 1 }),
+      generatePlayerInfo({ id: 28, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
     ],
   },
   {
@@ -589,8 +589,8 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar' }),
       generatePlayerInfo({ id: 26, name: '[CU]Syargik' }),
 
-      generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
-      generatePlayerInfo({ id: 26, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
+      generatePlayerInfo({ id: 27, name: 'Ultimate', kills: 1 }),
+      generatePlayerInfo({ id: 28, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
     ],
   },
   {
@@ -629,8 +629,8 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar', kills: 1 }),
       generatePlayerInfo({ id: 26, name: '[CU]Syargik' }),
 
-      generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
-      generatePlayerInfo({ id: 26, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
+      generatePlayerInfo({ id: 27, name: 'Ultimate', kills: 1 }),
+      generatePlayerInfo({ id: 28, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
     ],
   },
   {
@@ -707,8 +707,8 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 24, name: '[CU]Savel' }),
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar' }),
 
-      generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
-      generatePlayerInfo({ id: 26, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
+      generatePlayerInfo({ id: 30, name: 'Ultimate', kills: 1 }),
+      generatePlayerInfo({ id: 27, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
     ],
   },
   {
@@ -749,8 +749,8 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar' }),
       generatePlayerInfo({ id: 26, name: '[CU]Syargik' }),
 
-      generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
-      generatePlayerInfo({ id: 26, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
+      generatePlayerInfo({ id: 27, name: 'Ultimate', kills: 1 }),
+      generatePlayerInfo({ id: 28, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
     ],
   },
   {
@@ -826,8 +826,8 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar', kills: 1 }),
       generatePlayerInfo({ id: 26, name: '[CU]Syargik', kills: 1, teamkills: 1 }),
 
-      generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
-      generatePlayerInfo({ id: 26, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
+      generatePlayerInfo({ id: 30, name: 'Ultimate', kills: 1 }),
+      generatePlayerInfo({ id: 31, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
     ],
   },
   {
@@ -863,8 +863,8 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 23, name: '[CU]Eeshka' }),
       generatePlayerInfo({ id: 24, name: '[CU]Savel' }),
 
-      generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
-      generatePlayerInfo({ id: 26, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
+      generatePlayerInfo({ id: 30, name: 'Ultimate', kills: 1 }),
+      generatePlayerInfo({ id: 31, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
     ],
   },
   {
@@ -904,8 +904,8 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar' }),
       generatePlayerInfo({ id: 26, name: '[CU]Syargik' }),
 
-      generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
-      generatePlayerInfo({ id: 26, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
+      generatePlayerInfo({ id: 30, name: 'Ultimate', kills: 1 }),
+      generatePlayerInfo({ id: 31, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
     ],
   },
   {
@@ -979,8 +979,8 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 24, name: '[CU]Savel', kills: 3, killsFromVehicle: 1 }),
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar', kills: 1 }),
 
-      generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
-      generatePlayerInfo({ id: 26, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
+      generatePlayerInfo({ id: 30, name: 'Ultimate', kills: 1 }),
+      generatePlayerInfo({ id: 31, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
     ],
   },
   {
@@ -1020,8 +1020,8 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar' }),
       generatePlayerInfo({ id: 26, name: '[CU]Syargik' }),
 
-      generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
-      generatePlayerInfo({ id: 26, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
+      generatePlayerInfo({ id: 30, name: 'Ultimate', kills: 1 }),
+      generatePlayerInfo({ id: 31, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
     ],
   },
   {
@@ -1096,8 +1096,8 @@ const parsedReplays: PlayersGameResult[] = [
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar', kills: 1 }),
       generatePlayerInfo({ id: 26, name: '[CU]Syargik' }),
 
-      generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
-      generatePlayerInfo({ id: 26, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
+      generatePlayerInfo({ id: 30, name: 'Ultimate', kills: 1 }),
+      generatePlayerInfo({ id: 31, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
     ],
   },
   {
@@ -1171,8 +1171,8 @@ export const parsedReplaysOnLastFriday = [
       generatePlayerInfo({ id: 24, name: '[CU]Savel' }),
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar' }),
 
-      generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
-      generatePlayerInfo({ id: 26, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
+      generatePlayerInfo({ id: 30, name: 'Ultimate', kills: 1 }),
+      generatePlayerInfo({ id: 31, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
     ],
   },
   {
@@ -1246,8 +1246,8 @@ export const parsedReplaysOnLastSaturday = [
       generatePlayerInfo({ id: 25, name: '[CU]Koshmar', kills: 1 }),
       generatePlayerInfo({ id: 26, name: '[CU]Syargik' }),
 
-      generatePlayerInfo({ id: 26, name: 'Ultimate', kills: 1 }),
-      generatePlayerInfo({ id: 26, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
+      generatePlayerInfo({ id: 30, name: 'Ultimate', kills: 1 }),
+      generatePlayerInfo({ id: 31, name: 'cursed', kills: 2, killsFromVehicle: 2 }),
     ],
   },
   {
