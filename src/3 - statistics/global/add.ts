@@ -92,6 +92,7 @@ const addPlayerGameResultToGlobalStatistics = (
 
   currentGlobalStatistics[currentStatisticsIndex] = {
     ...playerStatistics,
+    name,
     lastSquadPrefix: squadPrefix,
     lastPlayedGameDate: stringDate,
     totalPlayedGames,
