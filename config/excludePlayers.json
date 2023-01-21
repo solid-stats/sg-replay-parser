@@ -3,5 +3,10 @@
     "name": "scandal",
     "minDate": null,
     "maxDate": "2020-12-01T00:00:00.000Z"
+  },
+  {
+    "name": "mayson",
+    "minDate": null,
+    "maxDate": "2023-01-01T00:00:00.000Z"
   }
 ]
