@@ -6,7 +6,7 @@
 
 ## About
 
-This app gets all replays from https://replays.solidgames.ru/ and then calculates the stats for each player and squad
+This app gets all replays from https://solidgames.ru/replays and then calculates the stats for each player and squad
 
 ## Example of data usage (not my website):
 
@@ -14,14 +14,17 @@ https://solid-stats.web.app/
 
 ## Output
 
-This application outputs 2 JSON files:
-1) With global and by squad statistics
-2) Statistics by each rotation, each rotation has global and squad statistics
+This application outputs several JSON files:
+1) Global statistics
+2) Squad statistics
+3) Weapons statistics (firearms and vehicles separately)
+4) By weeks statistics
+5) Other players statistics (top players killed, teamkilled, killers and teamkillers)
 
 ## Limitations
 
 - If you change nickname, then your statistics will count from scratch. That's because there is no way to get the player's steam id
-- Statistics will not be 100% accurate because of possible mistakes in the replay
+- Statistics will not be 100% accurate because of possible bugs in the replay
 
 ## How to get statistics
 
@@ -31,42 +34,26 @@ This application outputs 2 JSON files:
 ```sh
 yarn install
 ```
-2. Start parsing replays
+2. Prepare replays list and start parsing replays
 ```sh
+yarn build-with-prepare
+```
+or
+```sh
+yarn prepare-replays
 yarn build
 ```
-3) Get statistics from folder `output`
-
-### Using Docker
-
-1) Build docker image
-
-```sh
-docker build -t sg-parser .
-```
-
-2) Get output folder from docker image
-
-```sh
-docker create --name sg-parser sg-parser &&
-docker cp sg-parser:/app/output/ your_folder_name/ &&
-docker rm sg-parser
-```
+3. Get statistics from folder `output`
 
 ## Contributing
 
 If you find bugs in the app or want to suggest new features, you should open the issue
 
-## Development
-
-If you want to change the code, you can fork this repository or open a pull request
-
-In order to start development, you should install NodeJS and yarn, and then start parsing by using [those steps](#how-to-get-statistics).
-
 ## Contacts
 
 - Discord: [link](https://discordapp.com/users/270491849066545153)
 - Steam: [link](https://steamcommunity.com/id/Afgan0r)
+- Telegram: [link](https://t.me/Afgan0r)
 
 ## License
 
