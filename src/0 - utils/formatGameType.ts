@@ -6,6 +6,9 @@ const formatGameType = (gameType: GameType): FormattedGameType => {
     case 'mace': {
       return 'Mace';
     }
+    case 'sm': {
+      return 'SM';
+    }
     default: {
       return gameType;
     }

@@ -14,7 +14,7 @@ const progress = new cliProgress.MultiBar({
   gracefulExit: true,
 }, cliProgress.Presets.shades_classic);
 
-const bars: Record<GameType, SingleBar | null> = { sg: null, mace: null };
+const bars: Record<GameType, SingleBar | null> = { sg: null, mace: null, sm: null };
 
 const isInitialized = (gameType: GameType): boolean => {
   const isNotInitialized = bars[gameType] === null;

@@ -1,4 +1,4 @@
-export const gameTypes: GameType[] = ['sg', 'mace'];
+export const gameTypes: GameType[] = ['sg', 'mace', 'sm'];
 
 export const replaysListFileName = 'replaysList.json';
 

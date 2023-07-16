@@ -1,17 +1,15 @@
 type Params = {
   statistics: GlobalPlayerStatistics[];
-  gamesCount?: number;
+  gamesCount: number;
   type?: 'remove' | 'not show';
 };
 
 const filterPlayersByTotalPlayedGames = ({
   statistics,
-  // used only in statistics by rotations
-  // to reduce the number of games needed to be in the statistics
   gamesCount,
   type,
 }: Params) => {
-  const minGamesCount = gamesCount
+  const minGamesCount = gamesCount < 125
     ? (15 * gamesCount) / 100 // 15%
     : 20;
 

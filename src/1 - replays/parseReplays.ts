@@ -61,7 +61,7 @@ const parseReplays = async (
   replays: Replay[],
   gameType: GameType,
 ): Promise<PlayersGameResult[]> => {
-  const limit = pLimit(gameType === 'sg' ? 10 : 30);
+  const limit = pLimit(gameType === 'mace' ? 30 : 10);
   const parsedReplays = await promiseAllWithProgress(
     replays.map((replay) => limit(() => processReplay(replay, gameType))),
     gameType,

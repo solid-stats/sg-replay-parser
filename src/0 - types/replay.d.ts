@@ -111,7 +111,7 @@ type PlayersGameResult = {
   missionName: Replay['mission_name'];
 };
 
-type GameType = 'sg' | 'mace';
+type GameType = 'sg' | 'mace' | 'sm';
 type SkippedGameTypes = 'sgs';
 
-type FormattedGameType = 'SG' | 'Mace';
+type FormattedGameType = 'SG' | 'Mace' | 'SM';
