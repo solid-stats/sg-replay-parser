@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-await-in-loop */
 
 import fs from 'fs';
@@ -32,6 +33,7 @@ const readIncludeReplays = (): ConfigIncludeReplay[] => {
     return [];
   }
 };
+
 const readExcludeReplays = (): ConfigExcludeReplays => {
   try {
     return JSON.parse(fs.readFileSync(excludeReplaysPath, 'utf8'));
@@ -48,9 +50,7 @@ const readExcludeReplays = (): ConfigExcludeReplays => {
   const includeReplays = readIncludeReplays();
   const excludeReplays = readExcludeReplays();
 
-  // eslint-disable-next-line no-console
   console.log(`Found ${replaysList.parsedReplays.length} already parsed replays and ${replaysList.problematicReplays.length} problematic replays. Start preparing new replays list`);
-  // eslint-disable-next-line no-console
   console.log('');
 
   let result: Output = { ...defaultEmptyOutput };
@@ -90,18 +90,14 @@ const readExcludeReplays = (): ConfigExcludeReplays => {
 
   result = processProblematicReplays(result);
 
-  // eslint-disable-next-line no-console
   console.log('');
-  // eslint-disable-next-line no-console
   console.log(`Found: ${result.parsedReplays.length} new replays and ${result.problematicReplays.length} problematic replays.`);
-  // eslint-disable-next-line no-console
   console.log('');
 
   result = unionReplaysInfo(replaysList, result);
 
   checks(result);
 
-  // eslint-disable-next-line no-console
   console.log(`Total replays: ${result.parsedReplays.length}.`);
 
   fs.writeFileSync(replaysListFileName, JSON.stringify(result, null, '\t'));

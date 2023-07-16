@@ -1,20 +1,30 @@
 import { compact, orderBy } from 'lodash';
 import pLimit from 'p-limit';
 
-import fetchData from '../0 - utils/fetchData';
 import promiseAllWithProgress from '../0 - utils/promiseAllWithProgress';
+import request from '../0 - utils/request';
 import parseReplayInfo from '../2 - parseReplayInfo';
 
 export const fetchReplayInfo = async (filename: Replay['filename']): Promise<ReplayInfo | null> => {
+  const resp = await request(`https://solidgames.ru/data/${filename}.json`);
+
+  if (!resp) return null;
+
   try {
-    return await fetchData<ReplayInfo>(`https://solidgames.ru/data/${filename}.json`);
+    const data = await resp.json() as ReplayInfo;
+
+    return data;
   } catch (err) {
-    if (
-      !err.message.includes('unexpected character')
-      && !err.message.includes('invalid json response')
-      && !err.message.includes('connect ETIMEDOUT')
+    let reason: string | null = null;
+
+    if (err.message.includes('unexpected character')) reason = 'JSON includes unexpected character';
+
+    if (err.message.includes('invalid json response')) reason = 'JSON have invalid format';
+
     // eslint-disable-next-line no-console
-    ) console.error(err.message);
+    console.log('');
+    // eslint-disable-next-line no-console
+    console.error(reason ?? err.message);
 
     return null;
   }
@@ -26,7 +36,7 @@ const processReplay = async (
 ): Promise<PlayersGameResult | null> => {
   const replayInfo = await fetchReplayInfo(replay.filename);
 
-  if (replayInfo === null) return replayInfo;
+  if (!replayInfo) return null;
 
   try {
     const parsedReplayInfo = parseReplayInfo(replayInfo);
@@ -51,7 +61,7 @@ const parseReplays = async (
   replays: Replay[],
   gameType: GameType,
 ): Promise<PlayersGameResult[]> => {
-  const limit = pLimit(gameType === 'sg' ? 10 : 20);
+  const limit = pLimit(gameType === 'sg' ? 10 : 30);
   const parsedReplays = await promiseAllWithProgress(
     replays.map((replay) => limit(() => processReplay(replay, gameType))),
     gameType,

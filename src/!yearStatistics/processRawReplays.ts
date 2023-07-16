@@ -30,7 +30,7 @@ const processRawReplays = async (
     // eslint-disable-next-line no-await-in-loop
     const replayInfo = await fetchReplayInfo(replay.filename);
 
-    if (replayInfo === null) {
+    if (!replayInfo) {
       incrementBarValue('sg');
       break;
     }

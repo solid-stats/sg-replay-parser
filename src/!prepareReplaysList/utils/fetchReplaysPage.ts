@@ -1,7 +1,7 @@
-import fetch from 'node-fetch';
+import request from '../../0 - utils/request';
 
 const fetchReplaysPage = async (pageNumber: number) => (
-  fetch(`https://solidgames.ru/replays?p=${pageNumber}`).then((resp: Response) => resp.text())
+  request(`https://solidgames.ru/replays?p=${pageNumber}`).then((resp: Response) => resp.text())
 );
 
 export default fetchReplaysPage;
