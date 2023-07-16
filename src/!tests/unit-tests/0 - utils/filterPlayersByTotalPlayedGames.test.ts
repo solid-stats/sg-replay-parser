@@ -13,8 +13,8 @@ const statistics: GlobalPlayerStatistics[] = [
 ];
 
 test('filterPlayersByTotalPlayedGames should filter correct', () => {
-  const result = filterPlayersByTotalPlayedGames({ statistics });
-  const resultWithoutRemove = filterPlayersByTotalPlayedGames({ statistics, type: 'not show' });
+  const result = filterPlayersByTotalPlayedGames({ statistics, gamesCount: 500 });
+  const resultWithoutRemove = filterPlayersByTotalPlayedGames({ statistics, gamesCount: 500, type: 'not show' });
 
   expect(statistics).toHaveLength(5);
   expect(result).toHaveLength(2);

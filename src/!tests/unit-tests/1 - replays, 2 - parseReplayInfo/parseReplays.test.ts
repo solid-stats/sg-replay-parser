@@ -38,8 +38,9 @@ describe('Errors during fetching should be handled correctly', () => {
     console.error = jest.fn();
 
     expect(await parseReplays([generateReplay('sg', 'test_1')], 'sg')).toMatchObject([]);
-    expect(console.error).toBeCalledWith(testErrorMessage);
-    expect(console.error).toBeCalledTimes(1);
+    expect(console.error).toBeCalledWith(`error occured: ${testErrorMessage}`);
+    expect(console.error).toBeCalledWith('JSON have invalid format');
+    expect(console.error).toBeCalledTimes(2);
   });
 });
 
