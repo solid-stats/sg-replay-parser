@@ -1,14 +1,12 @@
 import { Dayjs } from 'dayjs';
 
-export type PlayersBySquadPrefix = Record<string, GlobalPlayerStatistics[]>;
-
 export type SquadInfo = {
+  name: string,
+  gamesPlayed: number,
   playersCount: number,
   kills: number,
   teamkills: number,
-  score: number,
+  players: Record<PlayerName, SimplifiedGlobalPlayerStatistics>,
 };
-
-export type AverageSquadsInfoByPrefix = Record<string, SquadInfo>;
 
 export type DayjsInterval = [start: Dayjs, end: Dayjs];

@@ -35,3 +35,5 @@ export const defaultWeekStatistics: Omit<GlobalPlayerWeekStatistics, 'week' | 'd
   killsFromVehicleCoef: 0,
   score: 0,
 };
+
+export const playerStatsSort = [['totalScore', 'totalPlayedGames', 'kills'], ['desc', 'desc', 'desc']];

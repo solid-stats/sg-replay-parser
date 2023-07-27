@@ -1,24 +1,30 @@
 import { Dayjs } from 'dayjs';
-import {
-  groupBy, isEmpty, isNull, omit, orderBy, sumBy,
-} from 'lodash';
+import { orderBy } from 'lodash';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
+import pipe from '../../0 - utils/pipe';
+import { playerStatsSort } from '../consts';
 import getSquadsInfo from './getSquadInfo';
-import { DayjsInterval, PlayersBySquadPrefix } from './types';
-import { isInInterval } from './utils';
+import { isInInterval } from './utils/funcs';
+import { DayjsInterval } from './utils/types';
+
+const sortStatistics = (stats: GlobalSquadStatistics[]) => (
+  orderBy(stats, ['score', 'averagePlayersCount', 'averageKills'], ['desc', 'desc', 'desc']).map((squadStats) => ({
+    ...squadStats,
+    players: orderBy(squadStats.players, ...playerStatsSort),
+  }))
+);
+
+const filterStatistics = (stats: GlobalSquadStatistics[]) => (
+  stats.filter((squad) => squad.players.length > 4)
+);
 
 const calculateSquadStatistics = (
-  globalStatistics: GlobalPlayerStatistics[],
   replays: PlayersGameResult[],
   // not used in calculations for global statistics
   rotationLastDate: Dayjs | null,
 ): GlobalSquadStatistics[] => {
   if (!replays.length) return [];
-
-  const filteredStatistics = globalStatistics.filter((stats) => !isNull(stats.lastSquadPrefix));
-  const playersBySquadPrefix: PlayersBySquadPrefix = groupBy(filteredStatistics, 'lastSquadPrefix');
-  const filteredPlayersBySquadPrefix: PlayersBySquadPrefix = {};
 
   let currentDate = dayjsUTC();
   let rotationEndDate = rotationLastDate;
@@ -38,61 +44,13 @@ const calculateSquadStatistics = (
     endDate,
   ];
 
-  Object.keys(playersBySquadPrefix).forEach((prefix) => {
-    const players = playersBySquadPrefix[prefix];
-    const filteredPlayers = players.filter((player) => (
-      isInInterval(player.lastPlayedGameDate, last4WeeksInterval)
-    ));
+  const replaysForTheLast4Weeks = replays.filter((replay) => (
+    isInInterval(replay.date, last4WeeksInterval)
+  ));
 
-    if (isEmpty(filteredPlayers) || filteredPlayers.length < 4) return;
+  const squadsInfo = getSquadsInfo(replaysForTheLast4Weeks);
 
-    filteredPlayersBySquadPrefix[prefix] = filteredPlayers;
-  });
-
-  const averageSquadsInfo = getSquadsInfo(
-    filteredPlayersBySquadPrefix,
-    last4WeeksInterval,
-    replays,
-  );
-  const squadStatistics: GlobalSquadStatistics[] = Object.keys(filteredPlayersBySquadPrefix).map(
-    (prefix) => {
-      const players = filteredPlayersBySquadPrefix[prefix];
-      const {
-        playersCount: averagePlayersCount,
-        kills: averageKills,
-        teamkills: averageTeamkills,
-        score,
-      } = averageSquadsInfo[prefix];
-
-      const kills = sumBy(players, 'kills');
-      const teamkills = sumBy(players, 'teamkills');
-
-      return {
-        prefix,
-        averagePlayersCount,
-        kills,
-        averageKills,
-        teamkills,
-        averageTeamkills,
-        score,
-        players: players.map((stats) => omit(stats, [
-          'byWeeks',
-          'weapons',
-          'vehicles',
-          'lastPlayedGameDate',
-          'isShow',
-          'killers',
-          'killed',
-          'teamkillers',
-          'teamkilled',
-        ])),
-      };
-    },
-  );
-
-  const sortedSquadStatistics = orderBy(squadStatistics, ['score', 'averagePlayersCount', 'averageKills'], ['desc', 'desc', 'desc']);
-
-  return sortedSquadStatistics;
+  return pipe(sortStatistics, filterStatistics)(squadsInfo);
 };
 
 export default calculateSquadStatistics;

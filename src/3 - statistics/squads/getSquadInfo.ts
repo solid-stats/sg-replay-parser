@@ -1,60 +1,102 @@
-import { round, sumBy } from 'lodash';
+import { round } from 'lodash';
 
-import {
-  AverageSquadsInfoByPrefix, DayjsInterval, PlayersBySquadPrefix, SquadInfo,
-} from './types';
-import { isInInterval } from './utils';
+import calculateKDRatio from '../../0 - utils/calculateKDRatio';
+import calculateScore from '../../0 - utils/calculateScore';
+import calculateVehicleKillsCoef from '../../0 - utils/calculateVehicleKillsCoef';
+import getPlayerName from '../../0 - utils/getPlayerName';
+import calculateDeaths from '../global/utils/calculateDeaths';
+import { getEmptyPlayer, getEmptySquad } from './utils/funcs';
+import { SquadInfo } from './utils/types';
 
-const getSquadsInfo = (
-  playersBySquadPrefix: PlayersBySquadPrefix,
-  last4WeeksInterval: DayjsInterval,
-  replays: PlayersGameResult[],
-): AverageSquadsInfoByPrefix => {
-  const replaysForTheLast4Weeks = replays.filter((replay) => (
-    isInInterval(replay.date, last4WeeksInterval)
-  ));
+type SquadsInfo = Record<string, SquadInfo>;
 
-  const squadsInfo: AverageSquadsInfoByPrefix = {};
+const getSquadsInfo = (replays: PlayersGameResult[]): GlobalSquadStatistics[] => {
+  const squads: SquadsInfo = {};
 
-  Object.keys(playersBySquadPrefix).forEach((prefix) => {
-    let gamesPlayed = 0;
-    let info: SquadInfo = {
-      playersCount: 0,
-      kills: 0,
-      teamkills: 0,
-      score: 0,
-    };
+  replays.forEach((replay) => {
+    const squadsInReplay: string[] = [];
 
-    const players = playersBySquadPrefix[prefix].map(
-      (player) => `${player.lastSquadPrefix?.toLowerCase()}${player.name.toLowerCase()}`,
-    );
+    replay.result.forEach((playerResult) => {
+      const [name, prefix] = getPlayerName(playerResult.name);
 
-    const filteredReplays = replaysForTheLast4Weeks.map(({ result: gameResults }) => (
-      Object.values(gameResults)
-        .filter((playerResult) => players.includes(playerResult.name.toLowerCase()))
-    ));
+      const lowerCaseName = name.toLowerCase();
 
-    filteredReplays.forEach((results) => {
-      if (results.length === 0) return;
+      if (!prefix) return;
 
-      gamesPlayed += 1;
-      info = {
-        playersCount: info.playersCount + results.length,
-        kills: info.kills + sumBy(results, 'kills'),
-        teamkills: info.teamkills + sumBy(results, 'teamkills'),
-        score: 0,
+      const isSquadAlreadyInReplay = squadsInReplay.includes(prefix);
+
+      if (!isSquadAlreadyInReplay) squadsInReplay.push(prefix);
+
+      if (!squads[prefix]) squads[prefix] = getEmptySquad(prefix);
+
+      const squadPlayer = squads[prefix].players[lowerCaseName] || getEmptyPlayer(name, prefix);
+
+      // prepare data for player statistics
+      const deaths = calculateDeaths({
+        deaths: squadPlayer.deaths,
+        isDead: playerResult.isDead,
+        isDeadByTeamkill: playerResult.isDeadByTeamkill,
+      });
+      const totalPlayedGames = squadPlayer.totalPlayedGames + 1;
+      const kills = squadPlayer.kills + playerResult.kills;
+      const killsFromVehicle = squadPlayer.killsFromVehicle + playerResult.killsFromVehicle;
+      const teamkills = squadPlayer.teamkills + playerResult.teamkills;
+      const killsFromVehicleCoef = calculateVehicleKillsCoef(
+        kills,
+        killsFromVehicle,
+      );
+
+      // add player data to squad statistics
+      squads[prefix] = {
+        ...squads[prefix],
+        playersCount: squads[prefix].playersCount + 1,
+        kills: squads[prefix].kills + playerResult.kills,
+        teamkills: squads[prefix].teamkills + playerResult.teamkills,
+      };
+
+      // add player data to squad players statistics
+      squads[prefix].players[lowerCaseName] = {
+        name,
+        lastSquadPrefix: prefix,
+        totalPlayedGames: squadPlayer.totalPlayedGames + 1,
+        deaths,
+        kills,
+        vehicleKills: squadPlayer.vehicleKills + playerResult.vehicleKills,
+        teamkills,
+        killsFromVehicle,
+        killsFromVehicleCoef,
+        kdRatio: calculateKDRatio(kills, teamkills, deaths),
+        totalScore: calculateScore(totalPlayedGames, kills, teamkills, deaths),
       };
     });
 
-    squadsInfo[prefix] = {
-      playersCount: round(info.playersCount / gamesPlayed, 2),
-      kills: round(info.kills / gamesPlayed, 2),
-      teamkills: info.kills > 0 ? round(info.teamkills / info.kills, 2) : 0,
-      score: round(info.kills / info.playersCount, 2),
-    };
+    squadsInReplay.forEach((prefix) => { squads[prefix].gamesPlayed += 1; });
   });
 
-  return squadsInfo;
+  const result: GlobalSquadStatistics[] = [];
+
+  Object.keys(squads).forEach((prefix) => {
+    const squadInfo = squads[prefix];
+
+    const players = Object.keys(squadInfo.players).map((name) => squadInfo.players[name]);
+
+    const averageKills = squadInfo.kills / squadInfo.gamesPlayed;
+    const averageTeamkills = squadInfo.teamkills / (squadInfo.kills || 1);
+    const averagePlayersCount = squadInfo.playersCount / squadInfo.gamesPlayed;
+
+    result.push({
+      prefix: squadInfo.name,
+      kills: squadInfo.kills,
+      averageKills: round(averageKills, 2),
+      teamkills: squadInfo.teamkills,
+      averageTeamkills: round(averageTeamkills, 2),
+      averagePlayersCount: round(averagePlayersCount, 2),
+      score: round(averageKills / averagePlayersCount, 2),
+      players,
+    });
+  });
+
+  return result;
 };
 
 export default getSquadsInfo;
