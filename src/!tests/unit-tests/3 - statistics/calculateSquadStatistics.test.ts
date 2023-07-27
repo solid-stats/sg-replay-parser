@@ -1,7 +1,6 @@
 /* eslint-disable max-nested-callbacks */
 /* eslint-disable @typescript-eslint/no-loop-func */
 import * as dayjs from '../../../0 - utils/dayjs';
-import calculateGlobalStatistics from '../../../3 - statistics/global';
 import calculateSquadStatistics from '../../../3 - statistics/squads';
 import generatePlayerInfo from '../../utils/generators/generatePlayerInfo';
 import getDefaultTestDescription from '../../utils/getDefaultTestDescription';
