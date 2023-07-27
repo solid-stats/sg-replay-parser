@@ -1,6 +1,6 @@
 import { dayjsUnix, dayjsUTC } from '../../../0 - utils/dayjs';
-import { DayjsInterval } from '../../../3 - statistics/squads/types';
-import { isInInterval } from '../../../3 - statistics/squads/utils';
+import { isInInterval } from '../../../3 - statistics/squads/utils/funcs';
+import { DayjsInterval } from '../../../3 - statistics/squads/utils/types';
 
 const testFormat = 'YYYY-MM-DDTHH:mm:ss ZZ';
 
