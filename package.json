@@ -13,7 +13,7 @@
     "lint-files": "eslint ./src/**/*.ts",
     "lint-tests": "eslint ./src/**/*.test.ts",
     "lint": "yarn lint-files && yarn lint-tests",
-    "test": "jest src/!tests",
+    "test": "jest --silent src/!tests",
     "test:watch": "jest src/!tests --watch"
   },
   "author": "Afgan0r",

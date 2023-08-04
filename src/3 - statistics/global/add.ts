@@ -11,8 +11,8 @@ import getPlayerName from '../../0 - utils/getPlayerName';
 import mergeOtherPlayers from '../../0 - utils/mergeOtherPlayers';
 import { unionWeaponsStatistic } from '../../0 - utils/weaponsStatistic';
 import { defaultStatistics } from '../consts';
-import { DayjsInterval } from '../squads/types';
-import { isInInterval } from '../squads/utils';
+import { isInInterval } from '../squads/utils/funcs';
+import { DayjsInterval } from '../squads/utils/types';
 import addPlayerGameResultToWeekStatistics from './addToResultsByWeek';
 import calculateDeaths from './utils/calculateDeaths';
 

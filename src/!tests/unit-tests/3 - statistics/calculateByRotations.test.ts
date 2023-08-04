@@ -42,7 +42,6 @@ describe('Rotation statistics should return correct values', () => {
 
   const rotations = getStatsByRotations(replays);
   const rotationsCount = rotationDates.length;
-  const statisticsToCompare = removeDates(rotations[0]).stats;
 
   it('Rotations count should be correct', () => {
     expect(rotations.length).toEqual(rotationsCount);
@@ -58,22 +57,22 @@ describe('Rotation statistics should return correct values', () => {
     });
   });
 
-  it('Statistics should be equal in each rotation', () => {
-    rotations.forEach((rotation) => (
-      expect(removeDates(rotation).stats).toMatchObject(statisticsToCompare)
-    ));
-  });
-
   it('Global statistics should be equal and correct in each rotation', () => {
     rotations.forEach((rotation) => (
       expect(removeDates(rotation).stats.global).toMatchObject(globalStatistics)
     ));
   });
 
-  it('Squad statistics should be equal and correct in each rotation', () => {
-    rotations.forEach((rotation) => (
+  it('Squad statistics history should be equal in each rotation', () => {
+    dropRight(rotations, 1).forEach((rotation) => (
       expect(removeDates(rotation).stats.squad).toMatchObject(squadStatistics)
     ));
+  });
+
+  it('Last rotation squad statistics should be empty', () => {
+    const lastRotation = rotations.pop() as StatisticsByRotation;
+
+    expect(removeDates(lastRotation).stats.squad).toMatchObject([]);
   });
 
   it('No replays should be handled correctly', () => {
