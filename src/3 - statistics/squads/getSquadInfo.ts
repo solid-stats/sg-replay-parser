@@ -3,7 +3,9 @@ import { round } from 'lodash';
 import calculateKDRatio from '../../0 - utils/calculateKDRatio';
 import calculateScore from '../../0 - utils/calculateScore';
 import calculateVehicleKillsCoef from '../../0 - utils/calculateVehicleKillsCoef';
+import { dayjsUTC } from '../../0 - utils/dayjs';
 import getPlayerName from '../../0 - utils/getPlayerName';
+import { getPlayerId } from '../../0 - utils/namesHelper/getId';
 import calculateDeaths from '../global/utils/calculateDeaths';
 import { getEmptyPlayer, getEmptySquad } from './utils/funcs';
 import { SquadInfo } from './utils/types';
@@ -18,8 +20,7 @@ const getSquadsInfo = (replays: PlayersGameResult[]): GlobalSquadStatistics[] =>
 
     replay.result.forEach((playerResult) => {
       const [name, prefix] = getPlayerName(playerResult.name);
-
-      const lowerCaseName = name.toLowerCase();
+      const id = getPlayerId(name, dayjsUTC(replay.date));
 
       if (!prefix) return;
 
@@ -29,7 +30,7 @@ const getSquadsInfo = (replays: PlayersGameResult[]): GlobalSquadStatistics[] =>
 
       if (!squads[prefix]) squads[prefix] = getEmptySquad(prefix);
 
-      const squadPlayer = squads[prefix].players[lowerCaseName] || getEmptyPlayer(name, prefix);
+      const squadPlayer = squads[prefix].players[id] || getEmptyPlayer(id, name, prefix);
 
       // prepare data for player statistics
       const deaths = calculateDeaths({
@@ -55,7 +56,8 @@ const getSquadsInfo = (replays: PlayersGameResult[]): GlobalSquadStatistics[] =>
       };
 
       // add player data to squad players statistics
-      squads[prefix].players[lowerCaseName] = {
+      squads[prefix].players[id] = {
+        id,
         name,
         lastSquadPrefix: prefix,
         totalPlayedGames: squadPlayer.totalPlayedGames + 1,

@@ -10,6 +10,7 @@ type Distance = number;
 type KilledEntityId = EntityId;
 type KillerEntityId = EntityId;
 type OtherPlayer = {
+  id: PlayerId;
   name: EntityName;
   count: number;
 };

@@ -1,12 +1,11 @@
 import fs from 'fs';
 
 import { dayjsUTC } from '../0 - utils/dayjs';
+import { isInInterval } from '../0 - utils/isInInterval';
 import pipe from '../0 - utils/pipe';
 import getReplays from '../1 - replays/getReplays';
 import parseReplays from '../1 - replays/parseReplays';
 import calculateGlobalStatistics from '../3 - statistics/global';
-import { isInInterval } from '../3 - statistics/squads/utils/funcs';
-import { DayjsInterval } from '../3 - statistics/squads/utils/types';
 import { statsFolder } from '../4 - output/consts';
 import deathToGamesRatio from './nominations/deathToGamesRatio';
 import mostPopularMission from './nominations/mostPopularMission';
@@ -23,14 +22,14 @@ import { printFinish } from './utils/printText';
 */
 
 const year = 2022;
-const interval: DayjsInterval = [
-  dayjsUTC().year(year).startOf('year'),
-  dayjsUTC().year(year).endOf('year'),
-];
 
 (async () => {
   const allReplays = await getReplays('sg');
-  const replays = allReplays.filter((replay) => isInInterval(replay.date, interval)).reverse();
+  const replays = allReplays.filter((replay) => isInInterval(
+    dayjsUTC(replay.date),
+    dayjsUTC().year(year).startOf('year'),
+    dayjsUTC().year(year).endOf('year'),
+  )).reverse();
   const parsedReplays = await parseReplays(replays, 'sg');
 
   printFinish();

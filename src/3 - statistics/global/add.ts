@@ -8,11 +8,11 @@ import calculateKDRatio from '../../0 - utils/calculateKDRatio';
 import calculateScore from '../../0 - utils/calculateScore';
 import { dayjsUTC } from '../../0 - utils/dayjs';
 import getPlayerName from '../../0 - utils/getPlayerName';
+import { isInInterval } from '../../0 - utils/isInInterval';
 import mergeOtherPlayers from '../../0 - utils/mergeOtherPlayers';
+import { getPlayerId } from '../../0 - utils/namesHelper/getId';
 import { unionWeaponsStatistic } from '../../0 - utils/weaponsStatistic';
 import { defaultStatistics } from '../consts';
-import { isInInterval } from '../squads/utils/funcs';
-import { DayjsInterval } from '../squads/utils/types';
 import addPlayerGameResultToWeekStatistics from './addToResultsByWeek';
 import calculateDeaths from './utils/calculateDeaths';
 
@@ -24,38 +24,37 @@ const readExcludePlayer = (): ConfigExcludePlayer[] => {
   }
 };
 
-const isSameNickName = (first: string, second: string) => (
-  first.toLowerCase() === second.toLowerCase()
-);
-
 const addPlayerGameResultToGlobalStatistics = (
   globalStatistics: GlobalPlayerStatistics[],
   playerGameResult: PlayerGameResult,
   date: Dayjs,
 ): GlobalPlayerStatistics[] => {
   const currentGlobalStatistics = globalStatistics.slice();
+
   const [name, squadPrefix] = getPlayerName(playerGameResult.name);
-  let currentStatisticsIndex = globalStatistics.findIndex(
-    (playerStatistics) => (isSameNickName(playerStatistics.name, name)),
-  );
+  const id = getPlayerId(name, date);
   const stringDate = date.toJSON();
+
+  let currentStatisticsIndex = globalStatistics.findIndex(
+    (playerStatistics) => playerStatistics.id === id,
+  );
 
   const playersToExclude = readExcludePlayer();
   const foundPlayer = playersToExclude.find(
-    (player) => isSameNickName(player.name, name),
+    (player) => player.name.toLowerCase() === name.toLowerCase(),
   );
 
   if (foundPlayer) {
-    const dateIntervalToExclude: DayjsInterval = [
+    if (isInInterval(
+      date,
       dayjsUTC(foundPlayer.minDate || '1970-01-01T00:00:00.000Z'),
       foundPlayer.maxDate ? dayjsUTC(foundPlayer.maxDate) : dayjsUTC(),
-    ];
-
-    if (isInInterval(stringDate, dateIntervalToExclude)) return currentGlobalStatistics;
+    )) return currentGlobalStatistics;
   }
 
   if (currentStatisticsIndex === -1) {
     const newArrLength = currentGlobalStatistics.push({
+      id,
       name,
       lastSquadPrefix: squadPrefix,
       lastPlayedGameDate: stringDate,

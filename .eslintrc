@@ -69,6 +69,6 @@
     ],
     "import/no-anonymous-default-export": "error",
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
-    "import/prefer-default-export": "error"
+    "import/prefer-default-export": "off"
   }
 }
