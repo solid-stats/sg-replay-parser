@@ -65,7 +65,7 @@ const mostDistantKill = ({
 
     const playerName = getPlayerName(killer.name)[0];
     const roleDescription = killerEntity.description.toLowerCase();
-    const replayLink = `https://sg.zone.ru${other.replay.replayLink}`;
+    const replayLink = `https://sg.zone${other.replay.replayLink}`;
 
     const currentNominee: MostDistantKill = nomineesByWeaponName[weaponName] || {
       playerName, weaponName, maxDistance: 0, roleDescription, replayLink,
