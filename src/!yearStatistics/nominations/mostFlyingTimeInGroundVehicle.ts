@@ -122,7 +122,7 @@ const mostTimeFlyingInGroundVehicle = ({
       distance: maximumFliedDistance,
       vehicleName,
       maxHeight,
-      replayLink: `https://solidgames.ru${other.replay.replayLink}`,
+      replayLink: `https://sg.zone${other.replay.replayLink}`,
       startTime: formatTime(startFrame * secondsInFrame),
     });
 

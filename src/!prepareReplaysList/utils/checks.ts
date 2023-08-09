@@ -9,7 +9,7 @@ const checks = (result: Output): void => {
   // eslint-disable-next-line no-console
     console.error(`
       Found replays without filename.
-      Suggest find those replays in ${replaysListFileName} file in problematicReplays array and if its really don't have filename, then open ticket in a bugtracker https://solidgames.ru/bugtracker.
+      Suggest find those replays in ${replaysListFileName} file in problematicReplays array and if its really don't have filename, then open ticket in a bugtracker https://sg.zone/bugtracker.
       If in fact there is a filename there then suggest to re-run job or open issue in github https://github.com/Afgan0r/sg-replay-parser/issues.
     `);
   }

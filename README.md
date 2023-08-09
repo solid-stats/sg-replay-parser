@@ -6,7 +6,7 @@
 
 ## About
 
-This app gets all replays from https://solidgames.ru/replays and then calculates the stats for each player and squad
+This app gets all replays from https://sg.zone/replays and then calculates the stats for each player and squad
 
 ## Example of data usage (not my website):
 

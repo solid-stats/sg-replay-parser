@@ -6,7 +6,7 @@ import request from '../0 - utils/request';
 import parseReplayInfo from '../2 - parseReplayInfo';
 
 export const fetchReplayInfo = async (filename: Replay['filename']): Promise<ReplayInfo | null> => {
-  const resp = await request(`https://solidgames.ru/data/${filename}.json`);
+  const resp = await request(`https://sg.zone/data/${filename}.json`);
 
   if (!resp) return null;
 
