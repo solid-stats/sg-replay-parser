@@ -1,7 +1,6 @@
 import fs from 'fs';
 
 import { parse } from 'csv-parse/sync';
-import dayjs from 'dayjs';
 import { isEmpty } from 'lodash';
 import { v4 as uuid } from 'uuid';
 
@@ -11,6 +10,7 @@ import { nameChangesPath } from '../../0 - consts';
 import { dayjsUTC, dayjsUnix } from '../dayjs';
 import pipe from '../pipe';
 import { findNameInfo } from './findNameInfo';
+import moscowDateToUTC from './moscowDateToUTC';
 import { dateFormat } from './utils/consts';
 import { NamesList } from './utils/types';
 
@@ -69,7 +69,7 @@ export const prepareNamesList = (): void => {
     let oldName = record['Старый позывной'].toLowerCase();
     let newName = record['Новый позывной'].toLowerCase();
 
-    const date = dayjs(record.Дата, dateFormat).tz('Europe/Moscow', true).utc();
+    const date = moscowDateToUTC(record.Дата);
     const formattedDate = date.format(dateFormat);
 
     const oldNameInfo = findNameInfo(newNamesList, oldName, date);

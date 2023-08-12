@@ -29,6 +29,7 @@ export const findNameInfo = (
       date,
       dayjsUTC(nameInfo.fromDate, dateFormat),
       dayjsUTC(nameInfo.endDate, dateFormat),
+      true,
     );
   });
 
@@ -36,11 +37,11 @@ export const findNameInfo = (
     const info = namesList[`${playerName}_0`];
 
     if (
-      info
-      && isInInterval(
+      info && isInInterval(
         date,
         dayjsUTC(info.fromDate, dateFormat),
         dayjsUTC(info.endDate, dateFormat),
+        true,
       )
     ) return { info, indexInfo: { listIndex: 0, lastIndex: 0 } };
 
