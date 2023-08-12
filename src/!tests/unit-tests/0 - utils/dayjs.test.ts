@@ -1,6 +1,5 @@
 import { dayjsUnix, dayjsUTC } from '../../../0 - utils/dayjs';
-import { isInInterval } from '../../../3 - statistics/squads/utils/funcs';
-import { DayjsInterval } from '../../../3 - statistics/squads/utils/types';
+import { isInInterval } from '../../../0 - utils/isInInterval';
 
 const testFormat = 'YYYY-MM-DDTHH:mm:ss ZZ';
 
@@ -53,21 +52,20 @@ test('Dayjs should return correct start and end of the week', () => {
 test('isBetween should work correct', () => {
   const currentDate = dayjsUTC('2022-08-05T17:23:15.125Z');
 
-  const interval: DayjsInterval = [
-    currentDate.startOf('isoWeek'),
-    currentDate.endOf('isoWeek'),
-  ];
-
   const correctDays = [
     dayjsUTC('2022-08-01'),
     dayjsUTC('2022-08-03'),
     dayjsUTC('2022-08-07'),
+    dayjsUTC('2022-08-01').startOf('isoWeek'),
+    dayjsUTC('2022-08-01').endOf('isoWeek'),
   ];
   const wrongDates = [
     dayjsUTC('2022-07-21'),
     dayjsUTC('2022-08-08'),
     dayjsUTC('2022-08-13'),
     dayjsUTC('2022-01-01'),
+    dayjsUTC('2022-08-01').startOf('isoWeek').subtract(1, 's'),
+    dayjsUTC('2022-08-01').endOf('isoWeek').add(1, 's'),
   ];
 
   const datesToTest = [
@@ -76,7 +74,45 @@ test('isBetween should work correct', () => {
   ];
 
   expect(
-    datesToTest.filter((date) => isInInterval(date.toISOString(), interval)),
+    datesToTest.filter((date) => isInInterval(
+      date,
+      currentDate.startOf('isoWeek'),
+      currentDate.endOf('isoWeek'),
+    )),
+  ).toStrictEqual(correctDays);
+});
+
+test('isBetween with excluding of the last day should work correct', () => {
+  const currentDate = dayjsUTC('2022-08-05T17:23:15.125Z');
+
+  const correctDays = [
+    dayjsUTC('2022-08-01'),
+    dayjsUTC('2022-08-03'),
+    dayjsUTC('2022-08-07'),
+    dayjsUTC('2022-08-01').startOf('isoWeek'),
+  ];
+  const wrongDates = [
+    dayjsUTC('2022-07-21'),
+    dayjsUTC('2022-08-08'),
+    dayjsUTC('2022-08-13'),
+    dayjsUTC('2022-01-01'),
+    dayjsUTC('2022-08-01').startOf('isoWeek').subtract(1, 's'),
+    dayjsUTC('2022-08-01').endOf('isoWeek').add(1, 's'),
+    dayjsUTC('2022-08-01').endOf('isoWeek'),
+  ];
+
+  const datesToTest = [
+    ...correctDays,
+    ...wrongDates,
+  ];
+
+  expect(
+    datesToTest.filter((date) => isInInterval(
+      date,
+      currentDate.startOf('isoWeek'),
+      currentDate.endOf('isoWeek'),
+      true,
+    )),
   ).toStrictEqual(correctDays);
 });
 

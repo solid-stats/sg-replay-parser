@@ -1296,6 +1296,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
     score: 1.25,
     players: [
       {
+        id: 'eeshka',
         name: 'Eeshka',
         lastSquadPrefix: '[CU]',
         totalPlayedGames: 14,
@@ -1312,6 +1313,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 2.57,
       },
       {
+        id: 'nucis',
         name: 'Nucis',
         lastSquadPrefix: '[CU]',
         totalPlayedGames: 15,
@@ -1328,6 +1330,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 1.6,
       },
       {
+        id: 'grow',
         name: 'Grow',
         lastSquadPrefix: '[CU]',
         totalPlayedGames: 13,
@@ -1344,6 +1347,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 1.54,
       },
       {
+        id: 'haskilove',
         name: 'HaskiLove',
         lastSquadPrefix: '[CU]',
         totalPlayedGames: 15,
@@ -1360,6 +1364,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 1.27,
       },
       {
+        id: 'owlet',
         name: 'owlet',
         lastSquadPrefix: '[CU]',
         totalPlayedGames: 1,
@@ -1376,6 +1381,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 1,
       },
       {
+        id: 'savel',
         name: 'Savel',
         lastSquadPrefix: '[CU]',
         totalPlayedGames: 16,
@@ -1392,6 +1398,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.75,
       },
       {
+        id: 'koshmar',
         name: 'Koshmar',
         lastSquadPrefix: '[CU]',
         totalPlayedGames: 15,
@@ -1408,6 +1415,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.53,
       },
       {
+        id: 'syargik',
         name: 'Syargik',
         lastSquadPrefix: '[CU]',
         totalPlayedGames: 13,
@@ -1435,6 +1443,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
     score: 1.06,
     players: [
       {
+        id: 'skywalker',
         name: 'Skywalker',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 15,
@@ -1451,6 +1460,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 1.87,
       },
       {
+        id: 'flashback',
         name: 'Flashback',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 16,
@@ -1467,6 +1477,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 1,
       },
       {
+        id: 'mecheniy',
         name: 'Mecheniy',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 16,
@@ -1483,6 +1494,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 1,
       },
       {
+        id: 'owlet',
         name: 'owlet',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 2,
@@ -1499,6 +1511,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 1,
       },
       {
+        id: 'puma',
         name: 'Puma',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 15,
@@ -1515,6 +1528,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.8,
       },
       {
+        id: 'loxdor',
         name: 'LOXDOR',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 15,
@@ -1531,6 +1545,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.67,
       },
       {
+        id: 'afgan0r',
         name: 'afgan0R',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 16,
@@ -1547,6 +1562,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.5,
       },
       {
+        id: 't1m',
         name: 'T1m',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 15,
@@ -1563,6 +1579,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.47,
       },
       {
+        id: 'brom',
         name: 'Brom',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 8,
@@ -1590,6 +1607,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
     score: 1.04,
     players: [
       {
+        id: 'mercenary',
         name: 'Mercenary',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 16,
@@ -1606,6 +1624,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 3,
       },
       {
+        id: 'piligrim',
         name: 'Piligrim',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 16,
@@ -1622,6 +1641,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 2.25,
       },
       {
+        id: 'svyat',
         name: 'Svyat',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 16,
@@ -1638,6 +1658,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 1.5,
       },
       {
+        id: 'advocat',
         name: 'Advocat',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 7,
@@ -1654,6 +1675,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 1.14,
       },
       {
+        id: 'owlet',
         name: 'owlet',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 1,
@@ -1670,6 +1692,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 1,
       },
       {
+        id: 'parker',
         name: 'Parker',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 16,
@@ -1686,6 +1709,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.75,
       },
       {
+        id: 'major',
         name: 'Major',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 13,
@@ -1702,6 +1726,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.62,
       },
       {
+        id: 'kvadrat',
         name: 'kvadrat',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 16,
@@ -1718,6 +1743,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.5,
       },
       {
+        id: 'gre4a',
         name: 'Gre4a',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 16,
@@ -1734,6 +1760,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.5,
       },
       {
+        id: 'callisto1',
         name: 'callisto1',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 13,
@@ -1750,6 +1777,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.31,
       },
       {
+        id: 'honest',
         name: 'Honest',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 16,
@@ -1766,6 +1794,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.25,
       },
       {
+        id: 'eleven',
         name: 'Eleven',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 16,
@@ -1782,6 +1811,7 @@ export const squadStatisticsOnNonWeekend: GlobalSquadStatistics[] = [
         totalScore: -0.25,
       },
       {
+        id: 'neon',
         name: 'Neon',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 9,
@@ -1827,6 +1857,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
     score: 1.27,
     players: [
       {
+        id: 'eeshka',
         name: 'Eeshka',
         lastSquadPrefix: '[CU]',
         totalPlayedGames: 13,
@@ -1843,6 +1874,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 2.77,
       },
       {
+        id: 'nucis',
         name: 'Nucis',
         lastSquadPrefix: '[CU]',
         totalPlayedGames: 15,
@@ -1859,6 +1891,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 1.6,
       },
       {
+        id: 'grow',
         name: 'Grow',
         lastSquadPrefix: '[CU]',
         totalPlayedGames: 13,
@@ -1875,6 +1908,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 1.54,
       },
       {
+        id: 'haskilove',
         name: 'HaskiLove',
         lastSquadPrefix: '[CU]',
         totalPlayedGames: 15,
@@ -1891,6 +1925,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 1.27,
       },
       {
+        id: 'owlet',
         name: 'owlet',
         lastSquadPrefix: '[CU]',
         totalPlayedGames: 1,
@@ -1907,6 +1942,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 1,
       },
       {
+        id: 'savel',
         name: 'Savel',
         lastSquadPrefix: '[CU]',
         totalPlayedGames: 16,
@@ -1923,6 +1959,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 0.75,
       },
       {
+        id: 'koshmar',
         name: 'Koshmar',
         lastSquadPrefix: '[CU]',
         totalPlayedGames: 15,
@@ -1939,6 +1976,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 0.53,
       },
       {
+        id: 'syargik',
         name: 'Syargik',
         lastSquadPrefix: '[CU]',
         totalPlayedGames: 11,
@@ -1966,6 +2004,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
     score: 1.04,
     players: [
       {
+        id: 'skywalker',
         name: 'Skywalker',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 14,
@@ -1982,6 +2021,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 1.86,
       },
       {
+        id: 'flashback',
         name: 'Flashback',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 16,
@@ -1998,6 +2038,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 1,
       },
       {
+        id: 'owlet',
         name: 'owlet',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 1,
@@ -2014,6 +2055,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 1,
       },
       {
+        id: 'mecheniy',
         name: 'Mecheniy',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 15,
@@ -2030,6 +2072,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 0.93,
       },
       {
+        id: 'puma',
         name: 'Puma',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 15,
@@ -2046,6 +2089,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 0.8,
       },
       {
+        id: 'loxdor',
         name: 'LOXDOR',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 15,
@@ -2062,6 +2106,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 0.67,
       },
       {
+        id: 't1m',
         name: 'T1m',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 15,
@@ -2078,6 +2123,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 0.53,
       },
       {
+        id: 'afgan0r',
         name: 'afgan0R',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 16,
@@ -2094,6 +2140,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 0.5,
       },
       {
+        id: 'brom',
         name: 'Brom',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 8,
@@ -2121,6 +2168,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
     score: 0.99,
     players: [
       {
+        id: 'mercenary',
         name: 'Mercenary',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 15,
@@ -2137,6 +2185,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 2.53,
       },
       {
+        id: 'piligrim',
         name: 'Piligrim',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 16,
@@ -2153,6 +2202,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 2.25,
       },
       {
+        id: 'advocat',
         name: 'Advocat',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 6,
@@ -2169,6 +2219,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 1.67,
       },
       {
+        id: 'svyat',
         name: 'Svyat',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 16,
@@ -2185,6 +2236,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 1.5,
       },
       {
+        id: 'parker',
         name: 'Parker',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 16,
@@ -2201,6 +2253,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 0.75,
       },
       {
+        id: 'major',
         name: 'Major',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 12,
@@ -2217,6 +2270,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 0.67,
       },
       {
+        id: 'kvadrat',
         name: 'kvadrat',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 16,
@@ -2233,6 +2287,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 0.5,
       },
       {
+        id: 'gre4a',
         name: 'Gre4a',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 16,
@@ -2249,6 +2304,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 0.5,
       },
       {
+        id: 'callisto1',
         name: 'callisto1',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 14,
@@ -2265,6 +2321,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 0.29,
       },
       {
+        id: 'honest',
         name: 'Honest',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 16,
@@ -2281,6 +2338,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: 0.25,
       },
       {
+        id: 'eleven',
         name: 'Eleven',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 16,
@@ -2297,6 +2355,7 @@ export const squadStatisticsAfterFirstDay: GlobalSquadStatistics[] = [
         totalScore: -0.25,
       },
       {
+        id: 'neon',
         name: 'Neon',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 9,
@@ -2342,6 +2401,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
     score: 1.3,
     players: [
       {
+        id: 'eeshka',
         name: 'Eeshka',
         lastSquadPrefix: '[CU]',
         totalPlayedGames: 12,
@@ -2358,6 +2418,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
         totalScore: 2.5,
       },
       {
+        id: 'nucis',
         name: 'Nucis',
         lastSquadPrefix: '[CU]',
         totalPlayedGames: 15,
@@ -2374,6 +2435,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
         totalScore: 1.8,
       },
       {
+        id: 'grow',
         name: 'Grow',
         lastSquadPrefix: '[CU]',
         totalPlayedGames: 12,
@@ -2390,6 +2452,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
         totalScore: 1.67,
       },
       {
+        id: 'haskilove',
         name: 'HaskiLove',
         lastSquadPrefix: '[CU]',
         totalPlayedGames: 14,
@@ -2406,6 +2469,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
         totalScore: 1.36,
       },
       {
+        id: 'savel',
         name: 'Savel',
         lastSquadPrefix: '[CU]',
         totalPlayedGames: 16,
@@ -2422,6 +2486,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.75,
       },
       {
+        id: 'koshmar',
         name: 'Koshmar',
         lastSquadPrefix: '[CU]',
         totalPlayedGames: 15,
@@ -2438,6 +2503,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.53,
       },
       {
+        id: 'syargik',
         name: 'Syargik',
         lastSquadPrefix: '[CU]',
         totalPlayedGames: 10,
@@ -2465,6 +2531,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
     score: 1.07,
     players: [
       {
+        id: 'skywalker',
         name: 'Skywalker',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 13,
@@ -2481,6 +2548,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
         totalScore: 2,
       },
       {
+        id: 'flashback',
         name: 'Flashback',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 16,
@@ -2497,6 +2565,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
         totalScore: 1,
       },
       {
+        id: 'mecheniy',
         name: 'Mecheniy',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 15,
@@ -2513,6 +2582,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.93,
       },
       {
+        id: 'puma',
         name: 'Puma',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 14,
@@ -2529,6 +2599,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.86,
       },
       {
+        id: 'loxdor',
         name: 'LOXDOR',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 15,
@@ -2545,6 +2616,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.67,
       },
       {
+        id: 'afgan0r',
         name: 'afgan0R',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 15,
@@ -2561,6 +2633,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.6,
       },
       {
+        id: 't1m',
         name: 'T1m',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 14,
@@ -2577,6 +2650,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.5,
       },
       {
+        id: 'brom',
         name: 'Brom',
         lastSquadPrefix: '[FNX]',
         totalPlayedGames: 8,
@@ -2604,6 +2678,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
     score: 0.96,
     players: [
       {
+        id: 'mercenary',
         name: 'Mercenary',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 15,
@@ -2620,6 +2695,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
         totalScore: 2.53,
       },
       {
+        id: 'piligrim',
         name: 'Piligrim',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 16,
@@ -2636,6 +2712,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
         totalScore: 1.88,
       },
       {
+        id: 'advocat',
         name: 'Advocat',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 6,
@@ -2652,6 +2729,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
         totalScore: 1.67,
       },
       {
+        id: 'svyat',
         name: 'Svyat',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 16,
@@ -2668,6 +2746,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
         totalScore: 1.5,
       },
       {
+        id: 'parker',
         name: 'Parker',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 16,
@@ -2684,6 +2763,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.75,
       },
       {
+        id: 'kvadrat',
         name: 'kvadrat',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 16,
@@ -2700,6 +2780,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.63,
       },
       {
+        id: 'major',
         name: 'Major',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 13,
@@ -2716,6 +2797,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.54,
       },
       {
+        id: 'gre4a',
         name: 'Gre4a',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 16,
@@ -2732,6 +2814,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.5,
       },
       {
+        id: 'callisto1',
         name: 'callisto1',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 14,
@@ -2748,6 +2831,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.29,
       },
       {
+        id: 'honest',
         name: 'Honest',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 16,
@@ -2764,6 +2848,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
         totalScore: 0.25,
       },
       {
+        id: 'eleven',
         name: 'Eleven',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 16,
@@ -2780,6 +2865,7 @@ export const squadStatisticsAfterGameWeekend: GlobalSquadStatistics[] = [
         totalScore: -0.25,
       },
       {
+        id: 'neon',
         name: 'Neon',
         lastSquadPrefix: '[W8]',
         totalPlayedGames: 9,

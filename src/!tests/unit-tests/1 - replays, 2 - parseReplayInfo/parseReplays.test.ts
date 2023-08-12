@@ -5,9 +5,12 @@ import * as parse from '../../../2 - parseReplayInfo';
 import generatePlayerEntity from '../../utils/generators/generatePlayerEntity';
 import generateReplay from '../../utils/generators/generateReplay';
 import generateReplayInfo from '../../utils/generators/generateReplayInfo';
+import prepareNamesWithMock from '../../utils/prepareNamesWithMock';
 import testData from './data/parseReplays';
 
 jest.mock('console');
+
+beforeAll(() => { prepareNamesWithMock(); });
 
 beforeEach(() => {
   disableBarsProgress();

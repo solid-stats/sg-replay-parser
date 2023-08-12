@@ -52,7 +52,11 @@ export const prepareNamesList = (): void => {
 
   const fileContent = readCSCFile();
 
-  if (!fileContent) return;
+  if (!fileContent) {
+    setNamesList({});
+
+    return;
+  }
 
   const records = parse(fileContent, {
     columns: true,

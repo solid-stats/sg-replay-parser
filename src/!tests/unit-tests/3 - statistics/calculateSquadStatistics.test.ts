@@ -4,6 +4,7 @@ import * as dayjs from '../../../0 - utils/dayjs';
 import calculateSquadStatistics from '../../../3 - statistics/squads';
 import generatePlayerInfo from '../../utils/generators/generatePlayerInfo';
 import getDefaultTestDescription from '../../utils/getDefaultTestDescription';
+import prepareNamesWithMock from '../../utils/prepareNamesWithMock';
 import {
   parsedReplays,
   squadStatisticsOnNonWeekend,
@@ -12,6 +13,8 @@ import {
   parsedReplaysOnLastSaturday,
   squadStatisticsAfterGameWeekend,
 } from './data/forSquadStatistics';
+
+beforeAll(() => { prepareNamesWithMock(); });
 
 describe('Calculation of squad statistics on any non-weekend day should return correct and same results', () => {
   let mondayResults: GlobalSquadStatistics[] = [];

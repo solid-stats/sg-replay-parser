@@ -4,7 +4,10 @@ import { dayjsUTCISO } from '../../../0 - utils/dayjs';
 import calculateGlobalStatistics from '../../../3 - statistics/global';
 import generatePlayerInfo from '../../utils/generators/generatePlayerInfo';
 import getDefaultTestDescription from '../../utils/getDefaultTestDescription';
+import prepareNamesWithMock from '../../utils/prepareNamesWithMock';
 import data from './data/forGlobalStatistics';
+
+beforeAll(() => { prepareNamesWithMock(); });
 
 it(getDefaultTestDescription('Global statistics calculation'), () => {
   const { globalStatistics, playersGameResult } = data;
