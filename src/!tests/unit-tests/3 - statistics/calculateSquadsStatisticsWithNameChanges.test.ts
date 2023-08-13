@@ -1,0 +1,95 @@
+import syncParse from 'csv-parse/sync';
+
+import { dayjsUTC } from '../../../0 - utils/dayjs';
+import { getNamesList } from '../../../0 - utils/namesHelper';
+import { prepareNamesList } from '../../../0 - utils/namesHelper/prepareNamesList';
+import calculateSquadStatistics from '../../../3 - statistics/squads';
+import generateNameChangeItem from '../../utils/generators/generateNameChangeItem';
+import {
+  nameChangeAfterSquadChangeTestData,
+  nameChangeAndChangeBackTestData,
+  nameChangeAndChangeBackWithCollisionsTestData,
+  nameChangesSequenceTestData,
+  nameChangesTestData,
+} from './data/forSquadStatisticsWithNameChanges';
+
+const exampleNamesChanges = [
+  generateNameChangeItem('Parker', 'morpex', '12.11.2022 03:00'),
+  generateNameChangeItem('morpex', 'Parker', '15.11.2022 03:00'),
+
+  generateNameChangeItem('Markovnik', 'borigen', '09.04.2023 03:00'),
+
+  generateNameChangeItem('callisto1', 'Outkast', '18.08.2023 03:00'),
+  generateNameChangeItem('Outkast', 'kanistra', '25.08.2023 03:00'),
+  generateNameChangeItem('kanistra', 'AllCash', '01.09.2023 03:00'),
+
+  generateNameChangeItem('neon', 'beda', '05.08.2023 03:00'),
+  generateNameChangeItem('Londor', 'neon', '05.08.2023 04:00'),
+  generateNameChangeItem('neon', 'londor', '07.08.2023 03:00'),
+  generateNameChangeItem('beda', 'neon', '08.08.2023 03:00'),
+];
+
+jest.mock('uuid', () => {
+  let id = 0;
+
+  return {
+    v4: () => {
+      const oldId = id;
+
+      id += 1;
+
+      return oldId.toString();
+    },
+  };
+});
+jest.mock('csv-parse');
+jest.spyOn(syncParse, 'parse').mockReturnValue(exampleNamesChanges);
+prepareNamesList();
+
+test('Prepare names changes list snapshot', () => {
+  const namesList = getNamesList();
+
+  expect(namesList).toMatchSnapshot();
+});
+
+describe('getPlayerId func should work correctly', () => {
+  it('Name change should work correctly', () => {
+    const playersGameResult = nameChangesTestData;
+
+    const resultSquadStatistics = calculateSquadStatistics(playersGameResult, dayjsUTC('2023-04-15'));
+
+    expect(resultSquadStatistics).toMatchSnapshot();
+  });
+
+  it('Name changes sequence should work correctly', () => {
+    const playersGameResult = nameChangesSequenceTestData;
+
+    const resultSquadStatistics = calculateSquadStatistics(playersGameResult, dayjsUTC('2023-09-02'));
+
+    expect(resultSquadStatistics).toMatchSnapshot();
+  });
+
+  it('Name change and then change back to the same name should work correctly', () => {
+    const playersGameResult = nameChangeAndChangeBackTestData;
+
+    const resultSquadStatistics = calculateSquadStatistics(playersGameResult, dayjsUTC('2022-11-19'));
+
+    expect(resultSquadStatistics).toMatchSnapshot();
+  });
+
+  it('Name change collision after name change and before change back should be handled correctly', () => {
+    const playersGameResult = nameChangeAndChangeBackWithCollisionsTestData;
+
+    const resultSquadStatistics = calculateSquadStatistics(playersGameResult, dayjsUTC('2023-08-12'));
+
+    expect(resultSquadStatistics).toMatchSnapshot();
+  });
+
+  it('Name change after squad change should be handled correctly', () => {
+    const playersGameResult = nameChangeAfterSquadChangeTestData;
+
+    const resultSquadStatistics = calculateSquadStatistics(playersGameResult, dayjsUTC('2023-04-15'));
+
+    expect(resultSquadStatistics).toMatchSnapshot();
+  });
+});

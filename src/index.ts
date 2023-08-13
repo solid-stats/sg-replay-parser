@@ -37,7 +37,7 @@ const countStatistics = (
   gameType: GameType,
 ): Statistics => {
   const global = calculateGlobalStatistics(parsedReplays);
-  const squad = calculateSquadStatistics(parsedReplays, null);
+  const squad = calculateSquadStatistics(parsedReplays);
   const byRotations = gameType === 'sg' ? getStatsByRotations(parsedReplays) : null;
 
   console.log(`- ${formatGameType(gameType)} statistics collected.`);

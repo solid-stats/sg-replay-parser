@@ -24,7 +24,7 @@ describe('Calculation of squad statistics on any non-weekend day should return c
 
     it(`Calculations on ${date.format('dddd')} should be correct`, () => {
       jest.spyOn(dayjs, 'dayjsUTC').mockImplementationOnce(() => date);
-      const squadStatistics = calculateSquadStatistics(parsedReplays, null);
+      const squadStatistics = calculateSquadStatistics(parsedReplays);
 
       jest.spyOn(dayjs, 'dayjsUTC').mockImplementationOnce(() => date);
       const squadStatisticsWithRotationEndDate = calculateSquadStatistics(
@@ -49,7 +49,7 @@ describe('Calculation of squad statistics on Friday, after the game, and on Satu
   dates.forEach((date, index) => {
     it(`Calculations on ${index === 0 ? 'Friday, after the game,' : 'Saturday morning'} should be correct`, () => {
       jest.spyOn(dayjs, 'dayjsUTC').mockImplementationOnce(() => date);
-      const squadStatistics = calculateSquadStatistics(replays, null);
+      const squadStatistics = calculateSquadStatistics(replays);
 
       jest.spyOn(dayjs, 'dayjsUTC').mockImplementationOnce(() => date);
       const squadStatisticsWithRotationEndDate = calculateSquadStatistics(
@@ -97,7 +97,7 @@ describe('Calculation of squad statistics on Saturday, after the game, on Sunday
 
     it(`Calculations on ${dayText} should be correct`, () => {
       jest.spyOn(dayjs, 'dayjsUTC').mockImplementationOnce(() => date);
-      const squadStatistics = calculateSquadStatistics(replays, null);
+      const squadStatistics = calculateSquadStatistics(replays);
 
       jest.spyOn(dayjs, 'dayjsUTC').mockImplementationOnce(() => date);
       const squadStatisticsWithRotationEndDate = calculateSquadStatistics(
@@ -115,7 +115,7 @@ describe('Calculation of squad statistics on Saturday, after the game, on Sunday
 });
 
 test('Calculation with empty replays should return nothing', () => {
-  const squadStatistics = calculateSquadStatistics([], null);
+  const squadStatistics = calculateSquadStatistics([]);
 
   expect(squadStatistics).toHaveLength(0);
 });
