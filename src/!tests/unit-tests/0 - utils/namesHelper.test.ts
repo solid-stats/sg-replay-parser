@@ -1,7 +1,9 @@
+import fs from 'fs';
+
 import syncParse from 'csv-parse/sync';
 
 import { dayjsUTC } from '../../../0 - utils/dayjs';
-import { getNamesList } from '../../../0 - utils/namesHelper';
+import { getNamesList, resetNamesList } from '../../../0 - utils/namesHelper';
 import { getPlayerId } from '../../../0 - utils/namesHelper/getId';
 import moscowDateToUTC from '../../../0 - utils/namesHelper/moscowDateToUTC';
 import { prepareNamesList } from '../../../0 - utils/namesHelper/prepareNamesList';
@@ -36,14 +38,42 @@ jest.mock('uuid', () => {
     },
   };
 });
-jest.mock('csv-parse');
-jest.spyOn(syncParse, 'parse').mockReturnValue(exampleNamesChanges);
-prepareNamesList();
+
+test('getId without generating name changes should throw error', () => {
+  expect(getPlayerId).toThrow('Список смен ников не был инициализирован');
+});
+
+/* eslint-disable no-console */
+test('prepareNamesList without file should send message', () => {
+  jest.spyOn(fs, 'readFileSync').mockImplementationOnce(() => { throw new Error(); });
+
+  // @ts-ignore
+  // eslint-disable-next-line import/namespace
+  jest.mock('console');
+  console.log = jest.fn();
+
+  prepareNamesList();
+
+  expect(console.log).toBeCalledTimes(1);
+  expect(console.log).toBeCalledWith('CSV файл с историей смен ников не найден');
+  expect(getNamesList()).toStrictEqual({});
+
+  resetNamesList();
+});
+/* eslint-enable no-console */
 
 test('Prepare names changes list snapshot', () => {
+  jest.mock('csv-parse');
+  jest.spyOn(syncParse, 'parse').mockReturnValueOnce(exampleNamesChanges);
+
+  prepareNamesList();
   const namesList = getNamesList();
 
+  prepareNamesList();
+  const secondNamesList = getNamesList();
+
   expect(namesList).toMatchSnapshot();
+  expect(namesList).toStrictEqual(secondNamesList);
 });
 
 test('Moscow date to UTC should work correctly', () => {

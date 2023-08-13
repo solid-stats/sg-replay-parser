@@ -33,20 +33,7 @@ export const findNameInfo = (
     );
   });
 
-  if (index === -1) {
-    const info = namesList[`${playerName}_0`];
-
-    if (
-      info && isInInterval(
-        date,
-        dayjsUTC(info.fromDate, dateFormat),
-        dayjsUTC(info.endDate, dateFormat),
-        true,
-      )
-    ) return { info, indexInfo: { listIndex: 0, lastIndex: 0 } };
-
-    return undefined;
-  }
+  if (index === -1) return undefined;
 
   return {
     info: namesList[names[index]],
