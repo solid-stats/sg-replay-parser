@@ -4,7 +4,7 @@ module.exports = {
   "setupFiles": [
     "./src/!tests/setupFetch.ts"
   ],
-  collectCoverage: false,
+  collectCoverage: true,
   collectCoverageFrom: [
     './src/**/*.ts',
     '!./src/**/*.d.ts',
