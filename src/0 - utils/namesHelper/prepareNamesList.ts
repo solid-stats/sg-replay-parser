@@ -16,7 +16,8 @@ import { NamesList } from './utils/types';
 
 // accepted | declined
 type StatusRU = 'Принято' | 'Отказано';
-type RawCSVContentType = {
+
+export type RawCSVContentType = {
   'Старый позывной': string,
   'Новый позывной': string,
   'Дата смены ника': string,

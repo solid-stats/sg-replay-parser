@@ -1,12 +1,15 @@
-const generateNameChangeItem = (oldName: string, newName: string, date: string) => (
+import { RawCSVContentType } from '../../../0 - utils/namesHelper/prepareNamesList';
+
+const generateNameChangeItem = (
+  oldName: string,
+  newName: string,
+  date: string,
+): RawCSVContentType => (
   {
-    'Отметка времени': '28.07.2023 14:15:31',
-    'Ссылка на профиль': 'https://solidgames.ru/profile/borigen',
     'Старый позывной': oldName,
     'Новый позывной': newName,
-    Дата: date,
+    'Дата смены ника': date,
     Статус: 'Принято',
-    'Причина отказа': '',
   }
 );
 
