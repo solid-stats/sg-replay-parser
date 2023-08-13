@@ -3,6 +3,7 @@ import removeDatesFromGlobalStatistics from '../../../0 - utils/removeDatesFromG
 import getDefaultTestDescription from '../../utils/getDefaultTestDescription';
 
 const globalStatistics: GlobalPlayerStatistics[] = [{
+  id: '_',
   name: '',
   isShow: true,
   lastSquadPrefix: null,
@@ -39,6 +40,7 @@ const globalStatistics: GlobalPlayerStatistics[] = [{
 }];
 
 const result: GlobalPlayerStatisticsWithoutDates[] = [{
+  id: '_',
   name: '',
   isShow: true,
   lastSquadPrefix: null,

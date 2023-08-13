@@ -3,6 +3,7 @@ import { gameTypes } from './0 - consts';
 import { dayjsUTC } from './0 - utils/dayjs';
 import filterPlayersByTotalPlayedGames from './0 - utils/filterPlayersByTotalPlayedGames';
 import formatGameType from './0 - utils/formatGameType';
+import { prepareNamesList } from './0 - utils/namesHelper/prepareNamesList';
 import { stopAllBarsProgress } from './0 - utils/progressHandler';
 import getReplays from './1 - replays/getReplays';
 import parseReplays from './1 - replays/parseReplays';
@@ -36,7 +37,7 @@ const countStatistics = (
   gameType: GameType,
 ): Statistics => {
   const global = calculateGlobalStatistics(parsedReplays);
-  const squad = calculateSquadStatistics(parsedReplays, null);
+  const squad = calculateSquadStatistics(parsedReplays);
   const byRotations = gameType === 'sg' ? getStatsByRotations(parsedReplays) : null;
 
   console.log(`- ${formatGameType(gameType)} statistics collected.`);
@@ -53,6 +54,8 @@ const countStatistics = (
 };
 
 (async () => {
+  prepareNamesList();
+
   const [sgParsedReplays, maceParsedReplays, smParsedReplays] = await Promise.all(
     gameTypes.map((gameType) => getParsedReplays(gameType)),
   );

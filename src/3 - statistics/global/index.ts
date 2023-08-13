@@ -37,31 +37,45 @@ const sortAndLimitOtherPlayersStatsCount = (
   }))
 );
 
-type NamesWithPrefix = Array<[PlayerName, PlayerPrefix]>;
+type NamesInfo = {
+  playerId: PlayerId,
+  playerName: PlayerName,
+  prefix: PlayerPrefix,
+};
 
-const addPrefix = (playersList: OtherPlayer[], namesWithPrefix: NamesWithPrefix) => (
-  playersList.map(({ name, count }) => {
-    const player = namesWithPrefix.find(([playerName]) => name === playerName);
+const addPrefixAndUpdateName = (
+  otherPlayersList: OtherPlayer[],
+  namesInfo: NamesInfo[],
+) => (
+  otherPlayersList.map(({ id, name, count }) => {
+    const player = namesInfo.find((nameInfo) => id === nameInfo.playerId);
 
-    if (player && player[1]) return { name: `${player[1]}${name}`, count };
+    const playerName = player?.playerName || name;
+    const prefix = player?.prefix;
 
-    return { name, count };
+    if (prefix) return { id, name: `${prefix}${playerName}`, count };
+
+    return { id, name: playerName, count };
   })
 );
 
-const addPrefixToNames = (
+const updateNamesAndPrefix = (
   statistics: GlobalPlayerStatistics[],
 ): GlobalPlayerStatistics[] => {
-  const namesWithPrefix: NamesWithPrefix = statistics.map(
-    (stats) => [stats.name, stats.lastSquadPrefix],
+  const namesInfo: NamesInfo[] = statistics.map(
+    (stats) => ({
+      playerId: stats.id,
+      playerName: stats.name,
+      prefix: stats.lastSquadPrefix,
+    }),
   );
 
   return statistics.map((stats) => ({
     ...stats,
-    killed: addPrefix(stats.killed, namesWithPrefix),
-    killers: addPrefix(stats.killers, namesWithPrefix),
-    teamkilled: addPrefix(stats.teamkilled, namesWithPrefix),
-    teamkillers: addPrefix(stats.teamkillers, namesWithPrefix),
+    killed: addPrefixAndUpdateName(stats.killed, namesInfo),
+    killers: addPrefixAndUpdateName(stats.killers, namesInfo),
+    teamkilled: addPrefixAndUpdateName(stats.teamkilled, namesInfo),
+    teamkillers: addPrefixAndUpdateName(stats.teamkillers, namesInfo),
   }));
 };
 
@@ -84,7 +98,7 @@ const calculateGlobalStatistics = (
     sortPlayerStatistics,
     sortAndLimitWeaponsStatisticsCount,
     sortAndLimitOtherPlayersStatsCount,
-    addPrefixToNames,
+    updateNamesAndPrefix,
   )(globalStatistics);
 
   return resultStatistics;

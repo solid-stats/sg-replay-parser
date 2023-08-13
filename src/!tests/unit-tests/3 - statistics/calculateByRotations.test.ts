@@ -4,6 +4,7 @@ import { dayjsUTC } from '../../../0 - utils/dayjs';
 import removeDatesFromGlobalStatistics from '../../../0 - utils/removeDatesFromGlobalStatistics';
 import getRotations from '../../../0 - utils/rotations';
 import getStatsByRotations from '../../../3 - statistics/rotations';
+import prepareNamesWithMock from '../../utils/prepareNamesWithMock';
 import {
   getReplays,
   globalStatistics as longGlobalStatistics,
@@ -20,6 +21,8 @@ const removeDates = (rotation: StatisticsByRotation) => ({
 });
 
 describe('Rotation statistics should return correct values', () => {
+  prepareNamesWithMock();
+
   const rotationDates = getRotations();
 
   let replays: PlayersGameResult[] = flatten(rotationDates.map(([, rotationEndDate]) => (

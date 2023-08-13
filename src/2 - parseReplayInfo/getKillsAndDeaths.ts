@@ -1,7 +1,9 @@
+import { Dayjs } from 'dayjs';
 import { keyBy } from 'lodash';
 
 import getPlayerName from '../0 - utils/getPlayerName';
 import mergeOtherPlayers from '../0 - utils/mergeOtherPlayers';
+import { getPlayerId } from '../0 - utils/namesHelper/getId';
 import { addWeaponStatistic, filterWeaponStatistics } from '../0 - utils/weaponsStatistic';
 
 type CommonParams = {
@@ -14,6 +16,7 @@ type PlayerKilledParams = CommonParams & {
   weapon: Weapon | null;
   distance: Distance;
   entities: VehicleList;
+  gameDate: Dayjs;
 };
 type VehicleKilledParams = CommonParams & {
   killer: PlayerInfo;
@@ -38,6 +41,7 @@ const processPlayerKilled = ({
   distance,
   weapon,
   entities,
+  gameDate,
 }: PlayerKilledParams): PlayersList => {
   const newPlayers = { ...players };
 
@@ -68,6 +72,9 @@ const processPlayerKilled = ({
   const killerName = getPlayerName(killer.name)[0];
   const killedName = getPlayerName(killedPlayer.name)[0];
 
+  const killerId = getPlayerId(killerName, gameDate);
+  const killedId = getPlayerId(killedName, gameDate);
+
   if (!(isSameSide || isSuicide)) {
     if (weapon) {
       if (isKillFromVehicle) {
@@ -78,15 +85,15 @@ const processPlayerKilled = ({
 
     kills += 1;
 
-    killed = mergeOtherPlayers(killed, [{ name: killedName, count: 1 }]);
-    killers = mergeOtherPlayers(killers, [{ name: killerName, count: 1 }]);
+    killed = mergeOtherPlayers(killed, [{ id: killedId, name: killedName, count: 1 }]);
+    killers = mergeOtherPlayers(killers, [{ id: killerId, name: killerName, count: 1 }]);
   }
 
   if (isSameSide && !isSuicide) {
     teamkills += 1;
 
-    teamkilled = mergeOtherPlayers(teamkilled, [{ name: killedName, count: 1 }]);
-    teamkillers = mergeOtherPlayers(killers, [{ name: killerName, count: 1 }]);
+    teamkilled = mergeOtherPlayers(teamkilled, [{ id: killedId, name: killedName, count: 1 }]);
+    teamkillers = mergeOtherPlayers(killers, [{ id: killerId, name: killerName, count: 1 }]);
   }
 
   newPlayers[killedPlayer.id] = {
@@ -124,7 +131,11 @@ const processVehicleKilled = ({
   return newPlayers;
 };
 
-const getKillsAndDeaths = (entities: VehiclesWithPlayersList, events: ReplayInfo['events']): PlayersList => {
+const getKillsAndDeaths = (
+  entities: VehiclesWithPlayersList,
+  events: ReplayInfo['events'],
+  gameDate: Dayjs,
+): PlayersList => {
   let players = { ...entities.players };
   const { vehicles } = entities;
 
@@ -153,6 +164,7 @@ const getKillsAndDeaths = (entities: VehiclesWithPlayersList, events: ReplayInfo
             distance,
             weapon: null,
             entities: vehicles,
+            gameDate,
           });
         }
 
@@ -170,6 +182,7 @@ const getKillsAndDeaths = (entities: VehiclesWithPlayersList, events: ReplayInfo
           distance,
           weapon: weapon || null,
           entities: vehicles,
+          gameDate,
         });
 
         return;

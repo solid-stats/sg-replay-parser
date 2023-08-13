@@ -39,7 +39,7 @@ const processReplay = async (
   if (!replayInfo) return null;
 
   try {
-    const parsedReplayInfo = parseReplayInfo(replayInfo);
+    const parsedReplayInfo = parseReplayInfo(replayInfo, replay.date);
     const result = Object.values(parsedReplayInfo);
 
     if (gameType === 'mace' && result.length < 10) return null;

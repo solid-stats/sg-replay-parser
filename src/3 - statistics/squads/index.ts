@@ -2,11 +2,10 @@ import { Dayjs } from 'dayjs';
 import { orderBy } from 'lodash';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
+import { isInInterval } from '../../0 - utils/isInInterval';
 import pipe from '../../0 - utils/pipe';
 import { playerStatsSort } from '../consts';
 import getSquadsInfo from './getSquadInfo';
-import { isInInterval } from './utils/funcs';
-import { DayjsInterval } from './utils/types';
 
 const sortStatistics = (stats: GlobalSquadStatistics[]) => (
   orderBy(stats, ['score', 'averagePlayersCount', 'averageKills'], ['desc', 'desc', 'desc']).map((squadStats) => ({
@@ -22,7 +21,7 @@ const filterStatistics = (stats: GlobalSquadStatistics[]) => (
 const calculateSquadStatistics = (
   replays: PlayersGameResult[],
   // not used in calculations for global statistics
-  rotationLastDate: Dayjs | null,
+  rotationLastDate?: Dayjs,
 ): GlobalSquadStatistics[] => {
   if (!replays.length) return [];
 
@@ -34,18 +33,13 @@ const calculateSquadStatistics = (
 
   if (!isLastReplayOnThisDay) {
     currentDate = currentDate.startOf('day');
-    rotationEndDate = rotationEndDate?.startOf('day') || null;
+    rotationEndDate = rotationEndDate?.startOf('day');
   }
 
   const endDate = rotationEndDate || currentDate;
 
-  const last4WeeksInterval: DayjsInterval = [
-    endDate.subtract(4, 'weeks'),
-    endDate,
-  ];
-
   const replaysForTheLast4Weeks = replays.filter((replay) => (
-    isInInterval(replay.date, last4WeeksInterval)
+    isInInterval(dayjsUTC(replay.date), endDate.subtract(4, 'weeks'), endDate)
   ));
 
   const squadsInfo = getSquadsInfo(replaysForTheLast4Weeks);

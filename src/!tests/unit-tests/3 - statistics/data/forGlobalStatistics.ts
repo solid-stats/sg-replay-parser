@@ -8,21 +8,16 @@ type TestData = {
   globalStatistics: GlobalPlayerStatistics[];
 };
 
-// killed: [{ name: defaultKilledName, count: 1 }],
-// killers: [{ name: defaultKillerName, count: 1 }],
-// teamkilled: [{ name: defaultTeamkilledName, count: 1 }],
-// teamkillers: [{ name: defaultTeamkillerName, count: 1 }],
-
 const data: TestData = {
   playersGameResult: [
     {
       date: '2022-08-05T18:00:00.000Z',
       missionName: '',
       result: [
-        generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', side: 'GUER', killsFromVehicle: 2, isDead: true, killers: [{ name: 'Something', count: 1 }] }),
+        generatePlayerInfo({ id: 0, name: '[FNX]Afgan0r', side: 'GUER', killsFromVehicle: 2, isDead: true, killers: [{ id: 'something', name: 'Something', count: 1 }] }),
         generatePlayerInfo({ id: 1, name: '[FNX]Skywalker', side: 'EAST', killsFromVehicle: 3, teamkills: 1 }),
         generatePlayerInfo({ id: 2, name: '[FNX]Loxdor', side: 'EAST', kills: 4, vehicleKills: 1, isDead: true }),
-        generatePlayerInfo({ id: 3, name: 'Something', side: 'EAST', kills: 1, isDead: true, killed: [{ name: 'Afgan0r', count: 1 }] }),
+        generatePlayerInfo({ id: 3, name: 'Something', side: 'EAST', kills: 1, isDead: true, killed: [{ id: 'afgan0r', name: 'Afgan0r', count: 1 }] }),
       ],
     },
     {
@@ -54,6 +49,7 @@ const data: TestData = {
   ],
   globalStatistics: [
     {
+      id: 'loxdor',
       name: 'Loxdor',
       isShow: true,
       lastSquadPrefix: '[FNX]',
@@ -85,12 +81,13 @@ const data: TestData = {
       ],
       weapons: generateDefaultWeapons(11),
       vehicles: [],
-      killed: [{ name: defaultKilledName, count: 11 }],
-      killers: [{ name: defaultKillerName, count: 1 }],
+      killed: [{ id: defaultKilledName, name: defaultKilledName, count: 11 }],
+      killers: [{ id: defaultKillerName, name: defaultKillerName, count: 1 }],
       teamkilled: [],
       teamkillers: [],
     },
     {
+      id: 'something',
       name: 'Something',
       isShow: true,
       lastSquadPrefix: null,
@@ -136,12 +133,16 @@ const data: TestData = {
       ],
       weapons: generateDefaultWeapons(6),
       vehicles: [],
-      killed: [{ name: defaultKilledName, count: 5 }, { name: '[FNX]Afgan0r', count: 1 }],
-      killers: [{ name: defaultKillerName, count: 2 }],
-      teamkilled: [{ name: defaultTeamkilledName, count: 1 }],
-      teamkillers: [{ name: defaultTeamkillerName, count: 1 }],
+      killed: [
+        { id: defaultKilledName, name: defaultKilledName, count: 5 },
+        { id: 'afgan0r', name: '[FNX]Afgan0r', count: 1 },
+      ],
+      killers: [{ id: defaultKillerName, name: defaultKillerName, count: 2 }],
+      teamkilled: [{ id: defaultTeamkilledName, name: defaultTeamkilledName, count: 1 }],
+      teamkillers: [{ id: defaultTeamkillerName, name: defaultTeamkillerName, count: 1 }],
     },
     {
+      id: 'afgan0r',
       name: 'Afgan0r',
       isShow: true,
       lastSquadPrefix: '[FNX]',
@@ -187,12 +188,16 @@ const data: TestData = {
       ],
       weapons: generateDefaultWeapons(3),
       vehicles: generateDefaultWeapons(2, 'vehicle'),
-      killed: [{ name: defaultKilledName, count: 5 }],
-      killers: [{ name: 'Something', count: 1 }, { name: defaultKillerName, count: 1 }],
-      teamkilled: [{ name: defaultTeamkilledName, count: 1 }],
-      teamkillers: [{ name: defaultTeamkillerName, count: 1 }],
+      killed: [{ id: defaultKilledName, name: defaultKilledName, count: 5 }],
+      killers: [
+        { id: 'something', name: 'Something', count: 1 },
+        { id: defaultKillerName, name: defaultKillerName, count: 1 },
+      ],
+      teamkilled: [{ id: defaultTeamkilledName, name: defaultTeamkilledName, count: 1 }],
+      teamkillers: [{ id: defaultTeamkillerName, name: defaultTeamkillerName, count: 1 }],
     },
     {
+      id: 'skywalker',
       name: 'Skywalker',
       isShow: true,
       lastSquadPrefix: '[FNX]',
@@ -238,9 +243,9 @@ const data: TestData = {
       ],
       weapons: generateDefaultWeapons(1),
       vehicles: generateDefaultWeapons(3, 'vehicle'),
-      killed: [{ name: defaultKilledName, count: 4 }],
-      killers: [{ name: defaultKillerName, count: 1 }],
-      teamkilled: [{ name: defaultTeamkilledName, count: 3 }],
+      killed: [{ id: defaultKilledName, name: defaultKilledName, count: 4 }],
+      killers: [{ id: defaultKillerName, name: defaultKillerName, count: 1 }],
+      teamkilled: [{ id: defaultTeamkilledName, name: defaultTeamkilledName, count: 3 }],
       teamkillers: [],
     },
   ],
