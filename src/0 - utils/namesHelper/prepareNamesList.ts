@@ -19,7 +19,7 @@ type StatusRU = 'Принято' | 'Отказано';
 type RawCSVContentType = {
   'Старый позывной': string,
   'Новый позывной': string,
-  'Дата': string,
+  'Дата смены ника': string,
   'Статус': StatusRU,
 };
 
@@ -39,7 +39,8 @@ const filter = (records: RawCSVContentType[]) => records.filter(
 );
 const order = (records: RawCSVContentType[]) => (
   records.sort((first, second) => (
-    dayjsUTC(first.Дата, dateFormat).isAfter(dayjsUTC(second.Дата, dateFormat)) ? 1 : -1
+    dayjsUTC(first['Дата смены ника'], dateFormat)
+      .isAfter(dayjsUTC(second['Дата смены ника'], dateFormat)) ? 1 : -1
   ))
 );
 
@@ -69,7 +70,7 @@ export const prepareNamesList = (): void => {
     let oldName = record['Старый позывной'].toLowerCase();
     let newName = record['Новый позывной'].toLowerCase();
 
-    const date = moscowDateToUTC(record.Дата);
+    const date = moscowDateToUTC(record['Дата смены ника']);
     const formattedDate = date.format(dateFormat);
 
     const oldNameInfo = findNameInfo(newNamesList, oldName, date);
