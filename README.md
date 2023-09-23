@@ -23,8 +23,9 @@ This application outputs several JSON files:
 
 ## Limitations
 
-- If you change nickname, then your statistics will count from scratch. That's because there is no way to get the player's steam id
+- If you change nickname, then your statistics will count from scratch. That's because there is no way to get the player's steam id. Can be avoided by creating a ticket via [this form (in russian)](https://docs.google.com/forms/d/e/1FAIpQLSfKyUsQzf0Hrv6rgZdbbvN2wh0KPzN5r3Ag-Uf2oETxMMCDUw/viewform)
 - Statistics will not be 100% accurate because of possible bugs in the replay
+- Since anti ddos protection was added to the website it has become impossible for a common user to parse replays. If you need help with that, you can contact the author through the contacts below
 
 ## How to get statistics
 
