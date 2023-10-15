@@ -4,13 +4,13 @@ import fs from 'fs-extra';
 import { compact, orderBy } from 'lodash';
 import pLimit from 'p-limit';
 
-import { rawReplaysDir } from '../0 - utils/dirs';
 import logger from '../0 - utils/logger';
+import { rawReplaysPath } from '../0 - utils/paths';
 import parseReplayInfo from '../2 - parseReplayInfo';
 
 export const fetchReplayInfo = async (filename: Replay['filename']): Promise<ReplayInfo | null> => {
   try {
-    const replay = fs.readJsonSync(path.join(rawReplaysDir, `${filename}.json`)) as ReplayInfo;
+    const replay = fs.readJsonSync(path.join(rawReplaysPath, `${filename}.json`)) as ReplayInfo;
 
     return replay;
   } catch (err) {

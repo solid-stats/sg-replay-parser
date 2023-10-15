@@ -3,7 +3,7 @@
 import fs from 'fs-extra';
 import { union } from 'lodash';
 
-import { replaysListDir } from '../../0 - utils/dirs';
+import { replaysListPath } from '../../0 - utils/paths';
 import logger from '../../0 - utils/logger';
 import { defaultEmptyOutput, excludeReplaysPath, includeReplaysPath } from './consts';
 import parseReplaysOnPage from './parseReplaysOnPage';
@@ -15,9 +15,9 @@ import unionReplaysInfo from './utils/unionReplaysInfo';
 
 const readReplaysListFile = (): Output => {
   try {
-    return JSON.parse(fs.readFileSync(replaysListDir, 'utf8'));
+    return JSON.parse(fs.readFileSync(replaysListPath, 'utf8'));
   } catch (e) {
-    logger.info(`${replaysListDir} file doesn't exist or has the wrong format. Trace: ${e.stack}`);
+    logger.info(`${replaysListPath} file doesn't exist or has the wrong format. Trace: ${e.stack}`);
 
     return { ...defaultEmptyOutput };
   }
@@ -93,7 +93,7 @@ Total replays: ${result.parsedReplays.length}.`,
 
   checks(result);
 
-  fs.writeFileSync(replaysListDir, JSON.stringify(result, null, '\t'));
+  fs.writeFileSync(replaysListPath, JSON.stringify(result, null, '\t'));
 };
 
 export default startFetchingReplays;

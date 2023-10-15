@@ -5,7 +5,7 @@ import { JSDOM } from 'jsdom';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
 import defaultDateFormat from '../../0 - utils/defaultDateFormat';
-import { listsDir, replaysListDir } from '../../0 - utils/dirs';
+import { listsPath, replaysListPath } from '../../0 - utils/paths';
 import generateBasicHTML from '../../0 - utils/generateBasicHTML';
 import logger from '../../0 - utils/logger';
 import body from './utils/body';
@@ -18,9 +18,9 @@ type MaceReplayItem = {
 
 const readReplaysListFile = (): Output => {
   try {
-    return JSON.parse(fs.readFileSync(replaysListDir, 'utf8'));
+    return JSON.parse(fs.readFileSync(replaysListPath, 'utf8'));
   } catch {
-    throw new Error(`${replaysListDir} file doesn't exist or has invalid format`);
+    throw new Error(`${replaysListPath} file doesn't exist or has invalid format`);
   }
 };
 
@@ -83,7 +83,7 @@ const generateMaceList = () => {
   replaysCountElement.textContent = replaysCount.toString();
   updateDateElement.textContent = dateNow;
 
-  fs.writeFileSync(path.join(listsDir, 'mace_list.html'), dom.serialize());
+  fs.writeFileSync(path.join(listsPath, 'mace_list.html'), dom.serialize());
 
   logger.info('Maces list created successfully.');
 };

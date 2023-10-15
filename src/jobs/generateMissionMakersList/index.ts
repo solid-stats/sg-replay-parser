@@ -5,7 +5,7 @@ import { JSDOM } from 'jsdom';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
 import defaultDateFormat from '../../0 - utils/defaultDateFormat';
-import { listsDir } from '../../0 - utils/dirs';
+import { listsPath } from '../../0 - utils/paths';
 import generateBasicHTML from '../../0 - utils/generateBasicHTML';
 import logger from '../../0 - utils/logger';
 import body from './utils/body';
@@ -82,7 +82,7 @@ const generateMissionMakersList = async () => {
 
   updateDateElement.textContent = dateNow;
 
-  fs.writeFileSync(path.join(listsDir, 'mission_makers_list.html'), resultDOM.serialize());
+  fs.writeFileSync(path.join(listsPath, 'mission_makers_list.html'), resultDOM.serialize());
 
   logger.info('Mission makers fetching finished.');
 };

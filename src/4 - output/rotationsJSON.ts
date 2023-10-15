@@ -2,7 +2,7 @@ import path from 'path';
 
 import fs from 'fs-extra';
 
-import { tempResultsDir } from '../0 - utils/dirs';
+import { tempResultsPath } from '../0 - utils/paths';
 import { rotationStatsDefaultFolder } from './consts';
 import generateJSONOutput from './json';
 
@@ -11,7 +11,7 @@ const generateRotationJSONOutput = (
   index: number,
   folderName: FolderName,
 ) => {
-  const folderPath = path.join(tempResultsDir, folderName, `${rotationStatsDefaultFolder}_${index + 1}`);
+  const folderPath = path.join(tempResultsPath, folderName, `${rotationStatsDefaultFolder}_${index + 1}`);
 
   fs.mkdirSync(folderPath);
 

@@ -1,4 +1,4 @@
-import { replaysListDir } from '../../../0 - utils/dirs';
+import { replaysListPath } from '../../../0 - utils/paths';
 import logger from '../../../0 - utils/logger';
 
 const checks = (result: Output): void => {
@@ -10,7 +10,7 @@ const checks = (result: Output): void => {
     logger.error(
       `
 Found replays without filename.
-Suggest finding those replays in ${replaysListDir} file in problematicReplays array and if its really don't have filename, then open ticket in a bugtracker https://sg.zone/bugtracker.
+Suggest finding those replays in ${replaysListPath} file in problematicReplays array and if its really don't have filename, then open ticket in a bugtracker https://sg.zone/bugtracker.
 If in fact there is a filename there then suggest to re-run job or open issue in github https://github.com/Afgan0r/sg-replay-parser/issues.`,
     );
   }

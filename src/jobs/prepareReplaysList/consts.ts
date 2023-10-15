@@ -1,10 +1,10 @@
 import path from 'path';
 
-import { configDir } from '../../0 - utils/dirs';
+import { configPath } from '../../0 - utils/paths';
 
-export const includeReplaysPath = path.join(configDir, 'includeReplays.json');
+export const includeReplaysPath = path.join(configPath, 'includeReplays.json');
 
-export const excludeReplaysPath = path.join(configDir, 'excludeReplays.json');
+export const excludeReplaysPath = path.join(configPath, 'excludeReplays.json');
 
 export const defaultEmptyOutput: Output = {
   parsedReplays: [],

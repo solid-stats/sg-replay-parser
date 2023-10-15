@@ -1,9 +1,9 @@
 import fs from 'fs-extra';
 
-import { basicDirs } from './dirs';
+import { basicPaths } from './paths';
 
 const generateBasicFolders = () => (
-  basicDirs.forEach((dir) => {
+  basicPaths.forEach((dir) => {
     fs.ensureDirSync(dir);
   })
 );

@@ -8,7 +8,7 @@ import { v4 as uuid } from 'uuid';
 import { getNamesList, setNamesList } from '.';
 
 import { dayjsUTC, dayjsUnix } from '../dayjs';
-import { configDir } from '../dirs';
+import { configPath } from '../paths';
 import logger from '../logger';
 import pipe from '../pipe';
 import { findNameInfo } from './findNameInfo';
@@ -27,7 +27,7 @@ export type RawCSVContentType = {
 };
 
 const readCSCFile = () => {
-  const nameChangesPath = path.join(configDir, 'nameChanges.csv');
+  const nameChangesPath = path.join(configPath, 'nameChanges.csv');
 
   try {
     return fs.readFileSync(nameChangesPath, 'utf8');

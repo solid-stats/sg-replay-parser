@@ -4,7 +4,7 @@ import fs from 'fs-extra';
 import startParsingReplays from '.';
 
 // import { pingMonitor } from './0 - utils/cronitorHelper';
-import { tempResultsDir } from './0 - utils/dirs';
+import { tempResultsPath } from './0 - utils/paths';
 import generateBasicFolders from './0 - utils/generateBasicFolders';
 import logger from './0 - utils/logger';
 import generateMaceList from './jobs/generateMaceListHTML';
@@ -76,7 +76,7 @@ Cron(
     protect: true,
     catch: (err: Error) => {
       logger.error(`Error during parsing replays list. Trace: ${err.stack}`);
-      fs.rmdirSync(tempResultsDir, { recursive: true });
+      fs.rmdirSync(tempResultsPath, { recursive: true });
       // pingMonitor('replaysParser', 'fail', err.message);
     },
   },
@@ -96,9 +96,9 @@ Cron(
       // pingMonitor('replaysParser', 'ok', afterMsg);
     }
 
-    fs.mkdirSync(tempResultsDir);
+    fs.mkdirSync(tempResultsPath);
     await startParsingReplays();
-    fs.rmdirSync(tempResultsDir, { recursive: true });
+    fs.rmdirSync(tempResultsPath, { recursive: true });
     // pingMonitor('replaysParser', 'complete');
   },
 );

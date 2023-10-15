@@ -2,7 +2,7 @@ import fs from 'fs-extra';
 
 import { isArray } from 'lodash';
 
-import { yearResultsDir } from '../../0 - utils/dirs';
+import { yearResultsPath } from '../../0 - utils/paths';
 import { nominationsOrder } from '../utils/consts';
 import formatters from './formattersList';
 
@@ -12,7 +12,7 @@ const print = (
   orderNumber: number,
 ): void => (
   fs.appendFileSync(
-    `${yearResultsDir}/${orderNumber} nomination.txt`,
+    `${yearResultsPath}/${orderNumber} nomination.txt`,
     `${formatters[nomination](statistics)}\n`,
   )
 );

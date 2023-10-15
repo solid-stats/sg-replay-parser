@@ -4,15 +4,15 @@ import fs from 'fs-extra';
 import pino from 'pino';
 
 import { dayjsUTC } from './dayjs';
-import { logsDir } from './dirs';
 import { dateFormat } from './namesHelper/utils/consts';
+import { logsPath } from './paths';
 
 const pinoPrettyDefaultOptions = { colorize: true, colorizeObjects: true };
 
 const getTransport = () => {
-  fs.ensureDirSync(logsDir);
+  fs.ensureDirSync(logsPath);
 
-  const logsFolderPath = path.join(logsDir, dayjsUTC().tz('Europe/Moscow').format(dateFormat));
+  const logsFolderPath = path.join(logsPath, dayjsUTC().tz('Europe/Moscow').format(dateFormat));
 
   const infoFilePath = path.join(logsFolderPath, 'info.log');
   const errorFilePath = path.join(logsFolderPath, 'error.log');

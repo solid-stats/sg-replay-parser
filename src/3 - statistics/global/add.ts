@@ -7,7 +7,7 @@ import { round } from 'lodash';
 import calculateKDRatio from '../../0 - utils/calculateKDRatio';
 import calculateScore from '../../0 - utils/calculateScore';
 import { dayjsUTC } from '../../0 - utils/dayjs';
-import { configDir } from '../../0 - utils/dirs';
+import { configPath } from '../../0 - utils/paths';
 import getPlayerName from '../../0 - utils/getPlayerName';
 import { isInInterval } from '../../0 - utils/isInInterval';
 import mergeOtherPlayers from '../../0 - utils/mergeOtherPlayers';
@@ -19,7 +19,7 @@ import calculateDeaths from './utils/calculateDeaths';
 
 const readExcludePlayer = (): ConfigExcludePlayer[] => {
   try {
-    return JSON.parse(fs.readFileSync(path.join(configDir, 'excludePlayers.json'), 'utf8'));
+    return JSON.parse(fs.readFileSync(path.join(configPath, 'excludePlayers.json'), 'utf8'));
   } catch {
     return [];
   }

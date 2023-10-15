@@ -3,7 +3,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import { omit, pick } from 'lodash';
 
-import { resultsDir, tempResultsDir } from '../0 - utils/dirs';
+import { resultsPath, tempResultsPath } from '../0 - utils/paths';
 import archiveFiles from './archiveFiles';
 import { allTimeFolder, rotationsGeneralInfoFileName } from './consts';
 import generateJSONOutput from './json';
@@ -13,7 +13,7 @@ const generateOutput = async (statistics: StatisticsForOutput): Promise<void> =>
   const folderNames = Object.keys(statistics) as FolderName[];
 
   folderNames.forEach((folderName) => {
-    const folderPath = path.join(tempResultsDir, folderName);
+    const folderPath = path.join(tempResultsPath, folderName);
     const allTimeFolderPath = path.join(folderPath, allTimeFolder);
     const rotationsStats = statistics[folderName].byRotations;
     const generalRotationsStats: GeneralRotationInfo[] = [];
@@ -39,8 +39,8 @@ const generateOutput = async (statistics: StatisticsForOutput): Promise<void> =>
 
   await archiveFiles(folderNames);
 
-  fs.rmdirSync(resultsDir, { recursive: true });
-  fs.moveSync(tempResultsDir, resultsDir);
+  fs.rmdirSync(resultsPath, { recursive: true });
+  fs.moveSync(tempResultsPath, resultsPath);
 };
 
 export default generateOutput;

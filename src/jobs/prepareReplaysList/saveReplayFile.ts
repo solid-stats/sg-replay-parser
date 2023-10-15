@@ -2,12 +2,12 @@ import path from 'path';
 
 import fs from 'fs-extra';
 
-import { rawReplaysDir } from '../../0 - utils/dirs';
+import { rawReplaysPath } from '../../0 - utils/paths';
 import logger from '../../0 - utils/logger';
 import request from '../../0 - utils/request';
 
 const saveReplayFile = async (filename: string): Promise<Boolean> => {
-  const resultFilenamePath = path.join(rawReplaysDir, `${filename}.json`);
+  const resultFilenamePath = path.join(rawReplaysPath, `${filename}.json`);
 
   try {
     fs.accessSync(resultFilenamePath);

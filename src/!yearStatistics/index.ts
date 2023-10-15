@@ -1,9 +1,9 @@
 import fs from 'fs-extra';
 
 import { dayjsUTC } from '../0 - utils/dayjs';
-import { yearResultsDir } from '../0 - utils/dirs';
 import { isInInterval } from '../0 - utils/isInInterval';
 import logger from '../0 - utils/logger';
+import { yearResultsPath } from '../0 - utils/paths';
 import pipe from '../0 - utils/pipe';
 import getReplays from '../1 - replays/getReplays';
 import parseReplays from '../1 - replays/parseReplays';
@@ -59,7 +59,7 @@ const year = 2022;
 
   result = await processRawReplays(result, replays);
 
-  fs.emptyDirSync(yearResultsDir);
+  fs.emptyDirSync(yearResultsPath);
 
   printOutput(result);
 })();
