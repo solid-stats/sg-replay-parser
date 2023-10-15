@@ -1,5 +1,5 @@
+import logger from '../0 - utils/logger';
 import pipe from '../0 - utils/pipe';
-import { incrementBarValue, initializeProgressBar, stopAllBarsProgress } from '../0 - utils/progressHandler';
 import { fetchReplayInfo } from '../1 - replays/parseReplays';
 import bestWeaponsAndVehicles, { sortBestWeaponsAndVehicles } from './nominations/bestWeaponAndVehicle';
 import mostATKills, { sortMostATKills } from './nominations/mostATKills';
@@ -18,22 +18,16 @@ const processRawReplays = async (
   result: WholeYearStatisticsResult,
   replays: Replay[],
 ): Promise<WholeYearStatisticsResult> => {
-  // eslint-disable-next-line no-console
-  console.log('Started data process for nominations which requires raw replays data.');
+  logger.info('Started data process for nominations which requires raw replays data.');
 
   let newResult = { ...result };
-
-  initializeProgressBar('sg', replays.length);
 
   // eslint-disable-next-line no-restricted-syntax
   for (const replay of replays) {
     // eslint-disable-next-line no-await-in-loop
     const replayInfo = await fetchReplayInfo(replay.filename);
 
-    if (!replayInfo) {
-      incrementBarValue('sg');
-      break;
-    }
+    if (!replayInfo) break;
 
     newResult = pipe(
       mostShots,
@@ -49,7 +43,6 @@ const processRawReplays = async (
       mostTime,
       // mostTimeFlyingInGroundVehicle,
     )({ replay, replayInfo, result: newResult }).result;
-    incrementBarValue('sg');
   }
 
   // process or sort and limit
@@ -70,8 +63,6 @@ const processRawReplays = async (
     processTime,
     // processMostTimeFlyingInGroundVehicle,
   )(newResult);
-
-  stopAllBarsProgress();
 
   printFinish();
 

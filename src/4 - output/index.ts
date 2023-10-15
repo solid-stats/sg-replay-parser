@@ -1,20 +1,20 @@
-import fs from 'fs';
+import path from 'path';
 
+import fs from 'fs-extra';
 import { omit, pick } from 'lodash';
 
+import { resultsDir, tempResultsDir } from '../0 - utils/dirs';
 import archiveFiles from './archiveFiles';
-import { allTimeFolder, rotationsGeneralInfoFileName, statsFolder } from './consts';
+import { allTimeFolder, rotationsGeneralInfoFileName } from './consts';
 import generateJSONOutput from './json';
 import generateRotationJSONOutput from './rotationsJSON';
 
-const generateOutput = (statistics: StatisticsForOutput): void => {
+const generateOutput = async (statistics: StatisticsForOutput): Promise<void> => {
   const folderNames = Object.keys(statistics) as FolderName[];
 
-  fs.mkdirSync(statsFolder);
-
   folderNames.forEach((folderName) => {
-    const folderPath = `${statsFolder}/${folderName}`;
-    const allTimeFolderPath = `${folderPath}/${allTimeFolder}`;
+    const folderPath = path.join(tempResultsDir, folderName);
+    const allTimeFolderPath = path.join(folderPath, allTimeFolder);
     const rotationsStats = statistics[folderName].byRotations;
     const generalRotationsStats: GeneralRotationInfo[] = [];
 
@@ -31,9 +31,16 @@ const generateOutput = (statistics: StatisticsForOutput): void => {
       });
     }
 
-    fs.writeFileSync(`${folderPath}/${rotationsGeneralInfoFileName}`, JSON.stringify(generalRotationsStats, null, '\t'));
+    fs.writeFileSync(
+      path.join(folderPath, rotationsGeneralInfoFileName),
+      JSON.stringify(generalRotationsStats, null, '\t'),
+    );
   });
-  archiveFiles(folderNames);
+
+  await archiveFiles(folderNames);
+
+  fs.rmdirSync(resultsDir, { recursive: true });
+  fs.moveSync(tempResultsDir, resultsDir);
 };
 
 export default generateOutput;

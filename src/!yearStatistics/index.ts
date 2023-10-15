@@ -1,12 +1,13 @@
-import fs from 'fs';
+import fs from 'fs-extra';
 
 import { dayjsUTC } from '../0 - utils/dayjs';
+import { yearResultsDir } from '../0 - utils/dirs';
 import { isInInterval } from '../0 - utils/isInInterval';
+import logger from '../0 - utils/logger';
 import pipe from '../0 - utils/pipe';
 import getReplays from '../1 - replays/getReplays';
 import parseReplays from '../1 - replays/parseReplays';
 import calculateGlobalStatistics from '../3 - statistics/global';
-import { statsFolder } from '../4 - output/consts';
 import deathToGamesRatio from './nominations/deathToGamesRatio';
 import mostPopularMission from './nominations/mostPopularMission';
 import mostTeamkills from './nominations/mostTeamkills';
@@ -34,8 +35,7 @@ const year = 2022;
 
   printFinish();
 
-  // eslint-disable-next-line no-console
-  console.log('Started calculating global statistics.');
+  logger.info('Started calculating global statistics.');
 
   const globalStatistics = calculateGlobalStatistics(parsedReplays);
 
@@ -59,7 +59,7 @@ const year = 2022;
 
   result = await processRawReplays(result, replays);
 
-  fs.mkdirSync(statsFolder);
+  fs.emptyDirSync(yearResultsDir);
 
   printOutput(result);
 })();

@@ -53,8 +53,6 @@ const mostATKills = ({
 
     if (!atWeapons.some((weapon) => weaponName.toLowerCase().includes(weapon))) return;
 
-    // console.log(playerName, weaponName, Boolean(killedPlayer), Boolean(killedVehicle));
-
     const currentNominee: MostATKills = nomineesByName[playerName] || {
       playerName, maxDistance: distance, playersKilled: 0, vehiclesKilled: 0, total: 0,
     };

@@ -1,12 +1,13 @@
-import fs from 'fs';
+import fs from 'fs-extra';
+import path from 'path';
 
 import { Dayjs } from 'dayjs';
 import { round } from 'lodash';
 
-import { excludePlayersPath } from '../../0 - consts';
 import calculateKDRatio from '../../0 - utils/calculateKDRatio';
 import calculateScore from '../../0 - utils/calculateScore';
 import { dayjsUTC } from '../../0 - utils/dayjs';
+import { configDir } from '../../0 - utils/dirs';
 import getPlayerName from '../../0 - utils/getPlayerName';
 import { isInInterval } from '../../0 - utils/isInInterval';
 import mergeOtherPlayers from '../../0 - utils/mergeOtherPlayers';
@@ -18,7 +19,7 @@ import calculateDeaths from './utils/calculateDeaths';
 
 const readExcludePlayer = (): ConfigExcludePlayer[] => {
   try {
-    return JSON.parse(fs.readFileSync(excludePlayersPath, 'utf8'));
+    return JSON.parse(fs.readFileSync(path.join(configDir, 'excludePlayers.json'), 'utf8'));
   } catch {
     return [];
   }

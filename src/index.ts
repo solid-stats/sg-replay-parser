@@ -1,10 +1,10 @@
-/* eslint-disable no-console */
 import { gameTypes } from './0 - consts';
 import { dayjsUTC } from './0 - utils/dayjs';
 import filterPlayersByTotalPlayedGames from './0 - utils/filterPlayersByTotalPlayedGames';
 import formatGameType from './0 - utils/formatGameType';
+import generateBasicFolders from './0 - utils/generateBasicFolders';
+import logger from './0 - utils/logger';
 import { prepareNamesList } from './0 - utils/namesHelper/prepareNamesList';
-import { stopAllBarsProgress } from './0 - utils/progressHandler';
 import getReplays from './1 - replays/getReplays';
 import parseReplays from './1 - replays/parseReplays';
 import calculateGlobalStatistics from './3 - statistics/global';
@@ -40,7 +40,7 @@ const countStatistics = (
   const squad = calculateSquadStatistics(parsedReplays);
   const byRotations = gameType === 'sg' ? getStatsByRotations(parsedReplays) : null;
 
-  console.log(`- ${formatGameType(gameType)} statistics collected.`);
+  logger.info(`- ${formatGameType(gameType)} statistics collected.`);
 
   return {
     global: filterPlayersByTotalPlayedGames({
@@ -53,16 +53,15 @@ const countStatistics = (
   };
 };
 
-(async () => {
+const startParsingReplays = async () => {
+  generateBasicFolders();
   prepareNamesList();
 
   const [sgParsedReplays, maceParsedReplays, smParsedReplays] = await Promise.all(
     gameTypes.map((gameType) => getParsedReplays(gameType)),
   );
 
-  stopAllBarsProgress();
-
-  console.log('\nAll replays parsed, start collecting statistics:');
+  logger.info('All replays parsed, start collecting statistics:');
 
   const parsedReplays: Record<GameType, PlayersGameResult[]> = {
     sg: sgParsedReplays,
@@ -73,7 +72,7 @@ const countStatistics = (
     gameTypes.map((gameType) => countStatistics(parsedReplays[gameType], gameType)),
   );
 
-  console.log('\nAll statistics collected, start generating output files.');
+  logger.info('All statistics collected, start generating output files.');
 
   generateOutput({
     sg: { ...sgStats },
@@ -81,5 +80,7 @@ const countStatistics = (
     sm: { ...smStats },
   });
 
-  console.log('\nCompleted.');
-})();
+  logger.info('Replays parsing completed.');
+};
+
+export default startParsingReplays;

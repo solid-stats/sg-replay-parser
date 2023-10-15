@@ -1,13 +1,15 @@
-import fs from 'fs';
+import path from 'path';
 
 import { parse } from 'csv-parse/sync';
+import fs from 'fs-extra';
 import { isEmpty } from 'lodash';
 import { v4 as uuid } from 'uuid';
 
 import { getNamesList, setNamesList } from '.';
 
-import { nameChangesPath } from '../../0 - consts';
 import { dayjsUTC, dayjsUnix } from '../dayjs';
+import { configDir } from '../dirs';
+import logger from '../logger';
 import pipe from '../pipe';
 import { findNameInfo } from './findNameInfo';
 import moscowDateToUTC from './moscowDateToUTC';
@@ -25,11 +27,12 @@ export type RawCSVContentType = {
 };
 
 const readCSCFile = () => {
+  const nameChangesPath = path.join(configDir, 'nameChanges.csv');
+
   try {
     return fs.readFileSync(nameChangesPath, 'utf8');
-  } catch {
-    // eslint-disable-next-line no-console
-    console.log('CSV файл с историей смен ников не найден');
+  } catch (e) {
+    logger.error(`Error occurred during reading ${nameChangesPath} file. Trace: ${e.stack}`);
 
     return '';
   }

@@ -1,10 +1,9 @@
-/* eslint-disable no-console */
+import logger from '../../0 - utils/logger';
+
 export const printNominationProcessStart = (nominationTitle: string) => (
-  console.log(`Started data process for ${nominationTitle} nomination.`)
+  logger.info(`Started data process for ${nominationTitle} nomination.`)
 );
 
-export const printFinish = (placeSpaceInTheEnd = true) => {
-  console.log('Completed.');
-
-  if (placeSpaceInTheEnd) console.log('');
+export const printFinish = () => {
+  logger.info('Completed.');
 };

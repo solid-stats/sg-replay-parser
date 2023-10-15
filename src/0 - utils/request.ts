@@ -1,25 +1,29 @@
-/* eslint-disable no-console */
 import fetch from 'node-fetch';
+
+import logger from './logger';
+
+const defaultRetryCount = 3;
 
 const request = async (
   url: string,
   options?: RequestInit,
-  retryCount: number = 3,
+  retryCount: number = defaultRetryCount,
+  initialRetryCount?: number,
 ): Promise<Response | null> => {
   try {
     const resp = await fetch(url, options);
 
     return resp;
   } catch (err) {
-    console.log('');
+    if (retryCount === defaultRetryCount) { logger.error(`Unknown error occurred during fetching: ${err.message}.`); }
 
-    if (retryCount === 3) { console.error(`error occured: ${err.message}`); }
+    if (retryCount === 0) {
+      logger.error(`The fetching error did not disappear after ${initialRetryCount} retries. Trace: ${err.stack}`);
 
-    console.log(`retrying ${url}, retries left: ${retryCount}`);
+      throw err;
+    }
 
-    if (retryCount === 0) throw err;
-
-    return await request(url, options, retryCount - 1);
+    return await request(url, options, retryCount - 1, initialRetryCount ?? retryCount);
   }
 };
 

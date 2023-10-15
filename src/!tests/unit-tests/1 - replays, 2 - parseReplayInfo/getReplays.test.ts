@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'fs-extra';
 
 import getReplays from '../../../1 - replays/getReplays';
 import generateReplay from '../../utils/generators/generateReplay';
@@ -22,7 +22,7 @@ const data: Output = {
   problematicReplays: [],
 };
 
-jest.mock('fs');
+jest.mock('fs-extra');
 jest.spyOn(fs, 'readFileSync').mockReturnValue(JSON.stringify(data));
 
 test('Should return correct SG replays', async () => {

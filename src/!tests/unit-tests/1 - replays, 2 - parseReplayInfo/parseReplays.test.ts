@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import { disableBarsProgress } from '../../../0 - utils/progressHandler';
 import parseReplays from '../../../1 - replays/parseReplays';
 import * as parse from '../../../2 - parseReplayInfo';
 import generatePlayerEntity from '../../utils/generators/generatePlayerEntity';
@@ -13,7 +12,6 @@ jest.mock('console');
 beforeAll(() => { prepareNamesWithMock(); });
 
 beforeEach(() => {
-  disableBarsProgress();
   fetchMock.resetMocks();
 });
 

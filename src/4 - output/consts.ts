@@ -1,5 +1,3 @@
-export const statsFolder = 'output';
-
 export const rotationStatsDefaultFolder = 'rotation';
 
 export const rotationsGeneralInfoFileName = 'rotations_info.json';

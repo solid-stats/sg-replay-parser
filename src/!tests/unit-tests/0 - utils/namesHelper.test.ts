@@ -1,6 +1,5 @@
-import fs from 'fs';
-
 import syncParse from 'csv-parse/sync';
+import fs from 'fs-extra';
 
 import { dayjsUTC } from '../../../0 - utils/dayjs';
 import { getNamesList, resetNamesList } from '../../../0 - utils/namesHelper';

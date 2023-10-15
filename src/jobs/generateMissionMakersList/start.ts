@@ -1,0 +1,3 @@
+import generateMissionMakersList from '.';
+
+generateMissionMakersList();

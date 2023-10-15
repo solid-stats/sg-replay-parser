@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'fs-extra';
 
 import { dayjsUTCISO } from '../../../0 - utils/dayjs';
 import calculateGlobalStatistics from '../../../3 - statistics/global';
@@ -17,7 +17,7 @@ it(getDefaultTestDescription('Global statistics calculation'), () => {
   expect(resultGlobalStatistics).toMatchObject(globalStatistics);
 });
 
-jest.mock('fs');
+jest.mock('fs-extra');
 
 it('Exception in readExcludePlayer function should handled correctly', () => {
   const { globalStatistics, playersGameResult } = data;

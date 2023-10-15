@@ -1,5 +1,4 @@
-import fs from 'fs';
-
+import fs from 'fs-extra';
 import { isEmpty, omit, toPairs } from 'lodash';
 
 import {
