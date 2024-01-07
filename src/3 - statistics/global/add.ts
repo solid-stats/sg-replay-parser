@@ -1,17 +1,17 @@
-import fs from 'fs-extra';
 import path from 'path';
 
 import { Dayjs } from 'dayjs';
+import fs from 'fs-extra';
 import { round } from 'lodash';
 
 import calculateKDRatio from '../../0 - utils/calculateKDRatio';
 import calculateScore from '../../0 - utils/calculateScore';
 import { dayjsUTC } from '../../0 - utils/dayjs';
-import { configPath } from '../../0 - utils/paths';
 import getPlayerName from '../../0 - utils/getPlayerName';
 import { isInInterval } from '../../0 - utils/isInInterval';
 import mergeOtherPlayers from '../../0 - utils/mergeOtherPlayers';
 import { getPlayerId } from '../../0 - utils/namesHelper/getId';
+import { configPath } from '../../0 - utils/paths';
 import { unionWeaponsStatistic } from '../../0 - utils/weaponsStatistic';
 import { defaultStatistics } from '../consts';
 import addPlayerGameResultToWeekStatistics from './addToResultsByWeek';

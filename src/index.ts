@@ -1,3 +1,5 @@
+import fs from 'fs-extra';
+
 import { gameTypes } from './0 - consts';
 import { dayjsUTC } from './0 - utils/dayjs';
 import filterPlayersByTotalPlayedGames from './0 - utils/filterPlayersByTotalPlayedGames';
@@ -5,6 +7,7 @@ import formatGameType from './0 - utils/formatGameType';
 import generateBasicFolders from './0 - utils/generateBasicFolders';
 import logger from './0 - utils/logger';
 import { prepareNamesList } from './0 - utils/namesHelper/prepareNamesList';
+import { tempResultsPath } from './0 - utils/paths';
 import getReplays from './1 - replays/getReplays';
 import parseReplays from './1 - replays/parseReplays';
 import calculateGlobalStatistics from './3 - statistics/global';
@@ -55,7 +58,10 @@ const countStatistics = (
 
 const startParsingReplays = async () => {
   generateBasicFolders();
+  fs.mkdirSync(tempResultsPath);
   prepareNamesList();
+
+  logger.info('Started parsing replays.');
 
   const [sgParsedReplays, maceParsedReplays, smParsedReplays] = await Promise.all(
     gameTypes.map((gameType) => getParsedReplays(gameType)),
@@ -74,7 +80,7 @@ const startParsingReplays = async () => {
 
   logger.info('All statistics collected, start generating output files.');
 
-  generateOutput({
+  await generateOutput({
     sg: { ...sgStats },
     mace: { ...maceStats },
     sm: { ...smStats },

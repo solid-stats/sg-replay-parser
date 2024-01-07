@@ -29,17 +29,17 @@ const generateOutput = async (statistics: StatisticsForOutput): Promise<void> =>
         generalRotationsStats.push(omit(rotation, 'stats'));
         generateRotationJSONOutput(rotation, index, folderName);
       });
-    }
 
-    fs.writeFileSync(
-      path.join(folderPath, rotationsGeneralInfoFileName),
-      JSON.stringify(generalRotationsStats, null, '\t'),
-    );
+      fs.writeFileSync(
+        path.join(folderPath, rotationsGeneralInfoFileName),
+        JSON.stringify(generalRotationsStats, null, '\t'),
+      );
+    }
   });
 
   await archiveFiles(folderNames);
 
-  fs.rmdirSync(resultsPath, { recursive: true });
+  fs.removeSync(resultsPath);
   fs.moveSync(tempResultsPath, resultsPath);
 };
 

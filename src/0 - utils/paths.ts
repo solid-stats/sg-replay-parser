@@ -1,7 +1,9 @@
 import os from 'os';
 import path from 'path';
 
-const statsPath = path.join(os.homedir(), 'sg_stats');
+import isDev from './isDev';
+
+const statsPath = path.join(os.homedir(), isDev ? 'dev_sg_stats' : 'sg_stats');
 
 export const rawReplaysPath = path.join(statsPath, 'raw_replays');
 

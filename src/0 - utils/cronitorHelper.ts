@@ -11,7 +11,7 @@ const getCronitorURL = (jobKey: JobKey) => (
   `https://cronitor.link/p/${apiKey}/${jobsName[jobKey]}`
 );
 
-export const pingMonitor = async (
+export const pingMonitor = (
   jobKey: JobKey,
   state: 'run' | 'complete' | 'fail' | 'ok',
   message?: string,
@@ -28,5 +28,5 @@ export const pingMonitor = async (
     { arrayFormat: 'repeat', encode: false },
   );
 
-  request(`${url}?${params}`, {}, 5);
+  return request(`${url}?${params}`, {}, 5);
 };

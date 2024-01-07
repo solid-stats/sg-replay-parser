@@ -7,7 +7,7 @@ import { dayjsUTC } from './dayjs';
 import { dateFormat } from './namesHelper/utils/consts';
 import { logsPath } from './paths';
 
-const pinoPrettyDefaultOptions = { colorize: true, colorizeObjects: true };
+const pinoPrettyDefaultOptions = { sync: true, colorize: true, colorizeObjects: true };
 
 const getTransport = () => {
   fs.ensureDirSync(logsPath);
@@ -33,5 +33,10 @@ const getTransport = () => {
 };
 
 const logger = pino(getTransport());
+
+process.on('uncaughtException', (err) => {
+  logger.fatal('Uncaught exception detected', err);
+  process.exit(1);
+});
 
 export default logger;

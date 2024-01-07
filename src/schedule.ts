@@ -4,9 +4,9 @@ import fs from 'fs-extra';
 import startParsingReplays from '.';
 
 // import { pingMonitor } from './0 - utils/cronitorHelper';
-import { tempResultsPath } from './0 - utils/paths';
 import generateBasicFolders from './0 - utils/generateBasicFolders';
 import logger from './0 - utils/logger';
+import { tempResultsPath } from './0 - utils/paths';
 import generateMaceList from './jobs/generateMaceListHTML';
 import generateMissionMakersList from './jobs/generateMissionMakersList';
 import startFetchingReplays from './jobs/prepareReplaysList';
@@ -15,27 +15,33 @@ generateBasicFolders();
 
 Cron(
   '*/5 * * * *',
-  {
-    protect: true,
-    catch: (err: Error) => {
-      logger.error(`Error during fetching mission makers list. Trace: ${err.stack}`);
-      // pingMonitor('missionMakersFetcher', 'fail', err.message);
-    },
-  },
+  { protect: true },
   async () => {
     // pingMonitor('missionMakersFetcher', 'run');
-    await generateMissionMakersList();
+
+    try {
+      await generateMissionMakersList();
+    } catch (err) {
+      logger.error(`Error during fetching mission makers list. Trace: ${err.stack}`);
+      // pingMonitor('missionMakersFetcher', 'fail', err.message);
+
+      // return;
+    }
+
     // pingMonitor('missionMakersFetcher', 'complete');
   },
 );
 
-const generateMaceListJob = () => {
+const generateMaceListJob = async () => {
   // pingMonitor('maceListGenerator', 'run');
 
   try {
     generateMaceList();
-  } catch (e) {
-    // pingMonitor('maceListGenerator', 'fail', e.message);
+  } catch (err) {
+    logger.error(`Error during mace list generation. Trace: ${err.stack}`);
+    // pingMonitor('maceListGenerator', 'fail', err.message);
+
+    // return;
   }
 
   // pingMonitor('maceListGenerator', 'complete');
@@ -43,16 +49,19 @@ const generateMaceListJob = () => {
 
 const replaysFetcherJob = Cron(
   '*/5 * * * *',
-  {
-    protect: true,
-    catch: (err: Error) => {
-      logger.error(`Error during fetching replays list. Trace: ${err.stack}`);
-      // pingMonitor('replaysFetcher', 'fail', err.message);
-    },
-  },
+  { protect: true },
   async () => {
     // pingMonitor('replaysFetcher', 'run');
-    await startFetchingReplays();
+
+    try {
+      await startFetchingReplays();
+    } catch (err) {
+      logger.error(`Error during fetching replays list. Trace: ${err.stack}`);
+      // pingMonitor('replaysFetcher', 'fail', err.message);
+
+      return;
+    }
+
     // pingMonitor('replaysFetcher', 'complete');
 
     generateMaceListJob();
@@ -72,17 +81,8 @@ const waitReplaysFetchingToFinish = async (): Promise<void> => (
 
 Cron(
   '4 */1 * * *',
-  {
-    protect: true,
-    catch: (err: Error) => {
-      logger.error(`Error during parsing replays list. Trace: ${err.stack}`);
-      fs.rmdirSync(tempResultsPath, { recursive: true });
-      // pingMonitor('replaysParser', 'fail', err.message);
-    },
-  },
+  { protect: true },
   async () => {
-    // pingMonitor('replaysParser', 'run');
-
     if (replaysFetcherJob.isBusy()) {
       const beforeMsg = 'Replays list is preparing, waiting...';
       const afterMsg = 'Replays list is finished.';
@@ -96,9 +96,21 @@ Cron(
       // pingMonitor('replaysParser', 'ok', afterMsg);
     }
 
-    fs.mkdirSync(tempResultsPath);
-    await startParsingReplays();
-    fs.rmdirSync(tempResultsPath, { recursive: true });
+    // pingMonitor('replaysParser', 'run');
+
+    try {
+      fs.removeSync(tempResultsPath);
+
+      await startParsingReplays();
+    } catch (err) {
+      logger.error(`Error during parsing replays list. Trace: ${err.stack}`);
+
+      fs.removeSync(tempResultsPath);
+      // pingMonitor('replaysParser', 'fail', err.message);
+
+      // return;
+    }
+
     // pingMonitor('replaysParser', 'complete');
   },
 );

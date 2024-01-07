@@ -3,8 +3,9 @@
 import fs from 'fs-extra';
 import { union } from 'lodash';
 
-import { replaysListPath } from '../../0 - utils/paths';
+import generateBasicFolders from '../../0 - utils/generateBasicFolders';
 import logger from '../../0 - utils/logger';
+import { replaysListPath } from '../../0 - utils/paths';
 import { defaultEmptyOutput, excludeReplaysPath, includeReplaysPath } from './consts';
 import parseReplaysOnPage from './parseReplaysOnPage';
 import checks from './utils/checks';
@@ -44,6 +45,7 @@ const readExcludeReplays = (): ConfigExcludeReplays => {
 };
 
 const startFetchingReplays = async () => {
+  generateBasicFolders();
   const replaysList = readReplaysListFile();
   const includeReplays = readIncludeReplays();
   const excludeReplays = readExcludeReplays();

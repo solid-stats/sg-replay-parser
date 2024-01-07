@@ -5,9 +5,9 @@ import { JSDOM } from 'jsdom';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
 import defaultDateFormat from '../../0 - utils/defaultDateFormat';
-import { listsPath, replaysListPath } from '../../0 - utils/paths';
 import generateBasicHTML from '../../0 - utils/generateBasicHTML';
 import logger from '../../0 - utils/logger';
+import { listsPath, replaysListPath } from '../../0 - utils/paths';
 import body from './utils/body';
 
 type MaceReplayItem = {
