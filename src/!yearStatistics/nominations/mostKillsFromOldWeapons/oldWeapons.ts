@@ -34,6 +34,7 @@ export const oldWeapons = [
   'Mosin',
   'MP 40',
   'M1 Garand',
+  'PTRD',
 ].map(toLowerCase);
 
 export const exactOldWeapons = [
