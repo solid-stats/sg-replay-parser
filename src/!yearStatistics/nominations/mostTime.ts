@@ -1,11 +1,14 @@
 import { keyBy } from 'lodash';
 
+import { dayjsUTC } from '../../0 - utils/dayjs';
 import getPlayerName from '../../0 - utils/getPlayerName';
+import { getPlayerId } from '../../0 - utils/namesHelper/getId';
 import getEntities from '../../2 - parseReplayInfo/getEntities';
 import {
   defaultTimeDuration, flyingVehicle, groundVehicle, secondsInFrame,
 } from '../utils/consts';
 import formatTime from '../utils/formatTime';
+import getPlayerNameAtEndOfTheYear from '../utils/getPlayerNameAtEndOfTheYear';
 import getPlayerVehicleClass from '../utils/getPlayerVehicleClass';
 import limitAndOrder from '../utils/limitAndOrder';
 
@@ -41,11 +44,11 @@ const mostTime = ({
   replayInfo,
   ...other
 }: InfoForRawReplayProcess): InfoForRawReplayProcess => {
-  const mostTimeAliveNomineesByName = keyBy(result.mostTimeAlive, 'name') as NomineeList<DefaultTimeNomination>;
-  const mostTimeWalkedNomineesByName = keyBy(result.mostTimeWalked, 'name') as NomineeList<DefaultTimeNomination>;
-  const mostTimeInVehicleNomineesByName = keyBy(result.mostTimeInVehicle, 'name') as NomineeList<DefaultTimeNomination>;
-  const mostTimeInGroundVehicleNomineesByName = keyBy(result.mostTimeInGroundVehicle, 'name') as NomineeList<DefaultTimeNomination>;
-  const mostTimeInFlyingVehicleNomineesByName = keyBy(result.mostTimeInFlyingVehicle, 'name') as NomineeList<DefaultTimeNomination>;
+  const mostTimeAliveNomineesById = keyBy(result.mostTimeAlive, 'id') as NomineeList<DefaultTimeNomination>;
+  const mostTimeWalkedNomineesById = keyBy(result.mostTimeWalked, 'id') as NomineeList<DefaultTimeNomination>;
+  const mostTimeInVehicleNomineesById = keyBy(result.mostTimeInVehicle, 'id') as NomineeList<DefaultTimeNomination>;
+  const mostTimeInGroundVehicleNomineesById = keyBy(result.mostTimeInGroundVehicle, 'id') as NomineeList<DefaultTimeNomination>;
+  const mostTimeInFlyingVehicleNomineesById = keyBy(result.mostTimeInFlyingVehicle, 'id') as NomineeList<DefaultTimeNomination>;
   const { players, vehicles } = getEntities(replayInfo);
 
   Object.values(players).forEach(({ id: playerId, name: playerName }) => {
@@ -94,45 +97,52 @@ const mostTime = ({
       return false;
     });
 
-    const name = getPlayerName(playerName)[0];
+    const entityName = getPlayerName(playerName)[0];
+    const id = getPlayerId(entityName, dayjsUTC(other.replay.date));
+    const name = getPlayerNameAtEndOfTheYear(id) ?? entityName;
 
-    const currentMostTimeAliveNominee = mostTimeAliveNomineesByName[name] || {
-      name, time: defaultTimeDuration, timeInSeconds: 0,
+    const currentMostTimeAliveNominee = mostTimeAliveNomineesById[id] || {
+      id, name, time: defaultTimeDuration, timeInSeconds: 0,
     };
-    const currentMostTimeWalkedNominee = mostTimeWalkedNomineesByName[name] || {
-      name, time: defaultTimeDuration, timeInSeconds: 0,
+    const currentMostTimeWalkedNominee = mostTimeWalkedNomineesById[id] || {
+      id, name, time: defaultTimeDuration, timeInSeconds: 0,
     };
-    const currentMostTimeInVehicleNominee = mostTimeInVehicleNomineesByName[name] || {
-      name, time: defaultTimeDuration, timeInSeconds: 0,
+    const currentMostTimeInVehicleNominee = mostTimeInVehicleNomineesById[id] || {
+      id, name, time: defaultTimeDuration, timeInSeconds: 0,
     };
-    const currentMostTimeInGroundVehicleNominee = mostTimeInGroundVehicleNomineesByName[name] || {
-      name, time: defaultTimeDuration, timeInSeconds: 0,
+    const currentMostTimeInGroundVehicleNominee = mostTimeInGroundVehicleNomineesById[id] || {
+      id, name, time: defaultTimeDuration, timeInSeconds: 0,
     };
-    const currentMostTimeInFlyingVehicleNominee = mostTimeInFlyingVehicleNomineesByName[name] || {
-      name, time: defaultTimeDuration, timeInSeconds: 0,
+    const currentMostTimeInFlyingVehicleNominee = mostTimeInFlyingVehicleNomineesById[id] || {
+      id, name, time: defaultTimeDuration, timeInSeconds: 0,
     };
 
-    mostTimeAliveNomineesByName[name] = {
+    mostTimeAliveNomineesById[id] = {
+      id,
       name,
       time: defaultTimeDuration,
       timeInSeconds: currentMostTimeAliveNominee.timeInSeconds + timeAlive,
     };
-    mostTimeWalkedNomineesByName[name] = {
+    mostTimeWalkedNomineesById[id] = {
+      id,
       name,
       time: defaultTimeDuration,
       timeInSeconds: currentMostTimeWalkedNominee.timeInSeconds + timeWalked,
     };
-    mostTimeInVehicleNomineesByName[name] = {
+    mostTimeInVehicleNomineesById[id] = {
+      id,
       name,
       time: defaultTimeDuration,
       timeInSeconds: currentMostTimeInVehicleNominee.timeInSeconds + timeInVehicle,
     };
-    mostTimeInGroundVehicleNomineesByName[name] = {
+    mostTimeInGroundVehicleNomineesById[id] = {
+      id,
       name,
       time: defaultTimeDuration,
       timeInSeconds: currentMostTimeInGroundVehicleNominee.timeInSeconds + timeInGroundVehicle,
     };
-    mostTimeInFlyingVehicleNomineesByName[name] = {
+    mostTimeInFlyingVehicleNomineesById[id] = {
+      id,
       name,
       time: defaultTimeDuration,
       timeInSeconds: currentMostTimeInFlyingVehicleNominee.timeInSeconds + timeInFlyingVehicle,
@@ -144,11 +154,11 @@ const mostTime = ({
     replayInfo,
     result: {
       ...result,
-      mostTimeAlive: Object.values(mostTimeAliveNomineesByName),
-      mostTimeWalked: Object.values(mostTimeWalkedNomineesByName),
-      mostTimeInVehicle: Object.values(mostTimeInVehicleNomineesByName),
-      mostTimeInGroundVehicle: Object.values(mostTimeInGroundVehicleNomineesByName),
-      mostTimeInFlyingVehicle: Object.values(mostTimeInFlyingVehicleNomineesByName),
+      mostTimeAlive: Object.values(mostTimeAliveNomineesById),
+      mostTimeWalked: Object.values(mostTimeWalkedNomineesById),
+      mostTimeInVehicle: Object.values(mostTimeInVehicleNomineesById),
+      mostTimeInGroundVehicle: Object.values(mostTimeInGroundVehicleNomineesById),
+      mostTimeInFlyingVehicle: Object.values(mostTimeInFlyingVehicleNomineesById),
     },
   };
 };

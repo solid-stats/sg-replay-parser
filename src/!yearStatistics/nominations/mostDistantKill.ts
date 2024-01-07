@@ -1,9 +1,12 @@
 import { keyBy, uniq } from 'lodash';
 
+import { dayjsUTC } from '../../0 - utils/dayjs';
 import getPlayerName from '../../0 - utils/getPlayerName';
+import { getPlayerId } from '../../0 - utils/namesHelper/getId';
 import getEntities from '../../2 - parseReplayInfo/getEntities';
 import { secondsInFrame } from '../utils/consts';
 import formatTime from '../utils/formatTime';
+import getPlayerNameAtEndOfTheYear from '../utils/getPlayerNameAtEndOfTheYear';
 import limitAndOrder from '../utils/limitAndOrder';
 
 const ignoredWeapons = [
@@ -37,7 +40,7 @@ const mostDistantKill = ({
   replayInfo,
   ...other
 }: InfoForRawReplayProcess): InfoForRawReplayProcess => {
-  const nomineesByWeaponName = keyBy(result.mostDistantKill, 'weaponName') as NomineeList<MostDistantKill>;
+  const nomineesById = keyBy(result.mostDistantKill, 'playerId') as NomineeList<MostDistantKill>;
   const { players, vehicles } = getEntities(replayInfo);
   const vehiclesName = uniq(Object.values(vehicles).map((vehicle) => vehicle.name.toLowerCase()));
 
@@ -63,17 +66,26 @@ const mostDistantKill = ({
       || vehicles[killedId]
     ) return;
 
-    const playerName = getPlayerName(killer.name)[0];
+    const entityName = getPlayerName(killer.name)[0];
+    const playerId = getPlayerId(entityName, dayjsUTC(other.replay.date));
+    const name = getPlayerNameAtEndOfTheYear(playerId) ?? entityName;
+
     const roleDescription = killerEntity.description.toLowerCase();
     const replayLink = `https://sg.zone${other.replay.replayLink}`;
 
-    const currentNominee: MostDistantKill = nomineesByWeaponName[weaponName] || {
-      playerName, weaponName, maxDistance: 0, roleDescription, replayLink,
+    const currentNominee: MostDistantKill = nomineesById[playerId] || {
+      playerId,
+      playerName: name,
+      weaponName,
+      maxDistance: 0,
+      roleDescription,
+      replayLink,
     };
 
     if (currentNominee.maxDistance < distance && distance >= 1000 && distance <= 3000) {
-      nomineesByWeaponName[weaponName] = {
-        playerName,
+      nomineesById[playerId] = {
+        playerId,
+        playerName: name,
         weaponName,
         maxDistance: distance,
         roleDescription,
@@ -88,7 +100,7 @@ const mostDistantKill = ({
     replayInfo,
     result: {
       ...result,
-      mostDistantKill: Object.values(nomineesByWeaponName),
+      mostDistantKill: Object.values(nomineesById),
     },
   };
 };

@@ -1,7 +1,10 @@
 import { keyBy } from 'lodash';
 
+import { dayjsUTC } from '../../0 - utils/dayjs';
 import getPlayerName from '../../0 - utils/getPlayerName';
+import { getPlayerId } from '../../0 - utils/namesHelper/getId';
 import getEntities from '../../2 - parseReplayInfo/getEntities';
+import getPlayerNameAtEndOfTheYear from '../utils/getPlayerNameAtEndOfTheYear';
 import limitAndOrder from '../utils/limitAndOrder';
 
 // Shows shots only from firearms, does not work with shots from vehicle
@@ -18,7 +21,7 @@ const mostShots = ({
   replayInfo,
   ...other
 }: InfoForRawReplayProcess): InfoForRawReplayProcess => {
-  const nomineesByName = keyBy(result.mostShots, 'name') as NomineeList<MostShots>;
+  const nomineesById = keyBy(result.mostShots, 'id') as NomineeList<MostShots>;
   const entities = getEntities(replayInfo).players;
 
   replayInfo.entities.forEach((entity) => {
@@ -26,13 +29,17 @@ const mostShots = ({
 
     if (!playerInfo) return;
 
-    const name = getPlayerName(playerInfo.name)[0];
-    const currentNominee = nomineesByName[name] || {
-      name, count: 0, gamesCountWithAtleastOneShot: 0,
+    const entityName = getPlayerName(playerInfo.name)[0];
+    const id = getPlayerId(entityName, dayjsUTC(other.replay.date));
+    const name = getPlayerNameAtEndOfTheYear(id) ?? entityName;
+
+    const currentNominee = nomineesById[id] || {
+      id, name, count: 0, gamesCountWithAtleastOneShot: 0,
     };
     const shotsCount = entity.framesFired.length;
 
-    nomineesByName[name] = {
+    nomineesById[id] = {
+      id,
       name,
       count: currentNominee.count + shotsCount,
       gamesCountWithAtleastOneShot: shotsCount > 0
@@ -46,7 +53,7 @@ const mostShots = ({
     replayInfo,
     result: {
       ...result,
-      mostShots: Object.values(nomineesByName),
+      mostShots: Object.values(nomineesById),
     },
   };
 };

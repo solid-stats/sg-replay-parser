@@ -1,10 +1,21 @@
 import { orderBy } from 'lodash';
 
+import { dayjsUTC } from '../../0 - utils/dayjs';
 import limitAndOrder from '../utils/limitAndOrder';
 import { printFinish, printNominationProcessStart } from '../utils/printText';
 
 // eslint-disable-next-line no-useless-escape
 const regex = /(?<=sg\@\d\d\d\_)(.*?)(?=\_v\d)/gm;
+
+export const processMissionDates = (
+  statistics: WholeYearStatisticsResult,
+): WholeYearStatisticsResult => ({
+  ...statistics,
+  mostPopularMission: statistics.mostPopularMission.map((nominee) => ({
+    ...nominee,
+    lastPlayedDate: dayjsUTC(nominee.lastPlayedDate).format('DD.MM.YYYY'),
+  })),
+});
 
 // sg@216_suppression_v4 -> suppression
 // sg@216_abu_Лалезар_v4 -> abu_Лалезар
@@ -26,19 +37,24 @@ const mostPopularMission = ({
   orderedReplays.forEach(({ mission_name, date, world_name: map }) => {
     const name = extractMissionName(mission_name);
 
-    if (!name) return;
+    if (!name || name === 'retreat') return;
 
     const currentReplayInfo = list[name];
 
     if (!currentReplayInfo) {
       list[name] = {
-        name, lastPlayedDate: date, map, count: 1,
+        id: name,
+        name,
+        lastPlayedDate: date,
+        map,
+        count: 1,
       };
 
       return;
     }
 
     list[name] = {
+      id: name,
       name,
       count: currentReplayInfo.count + 1,
       lastPlayedDate: date,

@@ -19,6 +19,7 @@ const bestWeaponsAndVehicles = ({
 }: InfoForRawReplayProcess): InfoForRawReplayProcess => {
   const vehicleNomineesByName = keyBy(result.bestVehicle, 'name') as NomineeList<DefaultCountNomination>;
   const weaponNomineesByName = keyBy(result.bestWeapon, 'name') as NomineeList<DefaultCountNomination>;
+
   const { players, vehicles } = getEntities(replayInfo);
   const vehiclesName = uniq(Object.values(vehicles).map((vehicle) => vehicle.name.toLowerCase()));
 
@@ -32,27 +33,40 @@ const bestWeaponsAndVehicles = ({
     if (killInfo[0] === 'null' || !killInfo[1]) return;
 
     const [killerId, weaponName] = killInfo;
+    const loweredWeaponName = weaponName.toLowerCase();
     const killer = players[killerId];
 
     if (!killer) return;
 
-    if (vehiclesName.includes(weaponName.toLowerCase())) {
+    if (vehiclesName.includes(loweredWeaponName)) {
       const currentNominee: DefaultCountNomination = vehicleNomineesByName[weaponName] || {
-        name: weaponName, count: 0,
+        id: weaponName,
+        name: weaponName,
+        count: 0,
       };
 
-      vehicleNomineesByName[weaponName] = { name: weaponName, count: currentNominee.count + 1 };
+      vehicleNomineesByName[weaponName] = {
+        id: weaponName,
+        name: weaponName,
+        count: currentNominee.count + 1,
+      };
 
       return;
     }
 
-    if (forbiddenWeapons.includes(weaponName.toLowerCase())) return;
+    if (forbiddenWeapons.includes(loweredWeaponName)) return;
 
     const currentNominee: DefaultCountNomination = weaponNomineesByName[weaponName] || {
-      name: weaponName, count: 0,
+      id: weaponName,
+      name: weaponName,
+      count: 0,
     };
 
-    weaponNomineesByName[weaponName] = { name: weaponName, count: currentNominee.count + 1 };
+    weaponNomineesByName[weaponName] = {
+      id: weaponName,
+      name: weaponName,
+      count: currentNominee.count + 1,
+    };
   });
 
   return {

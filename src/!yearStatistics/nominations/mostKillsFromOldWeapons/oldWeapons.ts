@@ -1,0 +1,58 @@
+const toLowerCase = (name: string): string => name.toLowerCase();
+
+export const oldWeapons = [
+  'M16A1',
+  'FN MAG',
+  'FN FAL',
+  'MG3',
+  'MG-34',
+  'M76',
+  'M14',
+  'RPD',
+  'PM-63',
+  'SLR',
+  'L1A1',
+  'Sa vz. 61',
+  'SVT-40',
+  'AMD-63',
+  'Kar98k',
+  'MP5A2',
+  'MP5A3',
+  'XM-177E1',
+  'M79',
+  'M1903',
+  'FR-F2',
+  'MP44',
+  'PSG1',
+  'Lee-Enfield',
+  'M84',
+  'SPR220',
+  'PPS',
+  'PPSH',
+  'Thompson',
+  'UZI',
+  'Mosin',
+  'MP 40',
+  'M1 Garand',
+].map(toLowerCase);
+
+export const exactOldWeapons = [
+  'M16',
+  'PM',
+  'APB',
+  'TT-33',
+  '6P9',
+  'M21',
+  'M60',
+].map(toLowerCase);
+
+export const forbiddenNamesInOldWeapons = [
+  'RIS',
+  'rail',
+  'zenitco',
+  'sopmod',
+  'NPZ',
+  'Rail',
+  'EBR',
+  'IMOD',
+].map(toLowerCase);

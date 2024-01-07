@@ -1,5 +1,4 @@
 import fs from 'fs-extra';
-
 import { isArray } from 'lodash';
 
 import { yearResultsPath } from '../../0 - utils/paths';

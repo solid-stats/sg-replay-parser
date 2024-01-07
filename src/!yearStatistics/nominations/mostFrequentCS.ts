@@ -1,7 +1,10 @@
 import { groupBy, keyBy } from 'lodash';
 
+import { dayjsUTC } from '../../0 - utils/dayjs';
 import getPlayerName from '../../0 - utils/getPlayerName';
+import { getPlayerId } from '../../0 - utils/namesHelper/getId';
 import getEntities from '../../2 - parseReplayInfo/getEntities';
+import getPlayerNameAtEndOfTheYear from '../utils/getPlayerNameAtEndOfTheYear';
 import limitAndOrder from '../utils/limitAndOrder';
 
 export const sortMostFrequentCS = (
@@ -16,7 +19,7 @@ const mostFrequentCS = ({
   replayInfo,
   ...other
 }: InfoForRawReplayProcess): InfoForRawReplayProcess => {
-  const nomineesByName = keyBy(result.mostFrequentCS, 'name') as NomineeList<DefaultCountNomination>;
+  const nomineesById = keyBy(result.mostFrequentCS, 'id') as NomineeList<DefaultCountNomination>;
   const { players } = getEntities(replayInfo);
 
   const groupedBySide = groupBy(
@@ -31,10 +34,14 @@ const mostFrequentCS = ({
 
     if (!players[sideCommander.id]) return;
 
-    const name = getPlayerName(sideCommander.name)[0];
-    const currentNominee = nomineesByName[name] || { name, count: 0 };
+    const entityName = getPlayerName(sideCommander.name)[0];
+    const id = getPlayerId(entityName, dayjsUTC(other.replay.date));
+    const name = getPlayerNameAtEndOfTheYear(id) ?? entityName;
 
-    nomineesByName[name] = {
+    const currentNominee = nomineesById[id] || { id, name, count: 0 };
+
+    nomineesById[id] = {
+      id,
       name,
       count: currentNominee.count + 1,
     };
@@ -45,7 +52,7 @@ const mostFrequentCS = ({
     replayInfo,
     result: {
       ...result,
-      mostFrequentCS: Object.values(nomineesByName),
+      mostFrequentCS: Object.values(nomineesById),
     },
   };
 };

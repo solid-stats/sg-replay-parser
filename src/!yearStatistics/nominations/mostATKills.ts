@@ -1,8 +1,11 @@
 import { keyBy, max, uniq } from 'lodash';
 
+import { dayjsUTC } from '../../0 - utils/dayjs';
 import getPlayerName from '../../0 - utils/getPlayerName';
+import { getPlayerId } from '../../0 - utils/namesHelper/getId';
 import { forbiddenWeapons } from '../../0 - utils/weaponsStatistic';
 import getEntities from '../../2 - parseReplayInfo/getEntities';
+import getPlayerNameAtEndOfTheYear from '../utils/getPlayerNameAtEndOfTheYear';
 import limitAndOrder from '../utils/limitAndOrder';
 
 const atWeapons = ['m136', 'rpg', 'fgm', 'm72', 'smaw', 'maaws', 'panzerfaust', 'rshg', 'apilas'];
@@ -23,7 +26,7 @@ const mostATKills = ({
   replayInfo,
   ...other
 }: InfoForRawReplayProcess): InfoForRawReplayProcess => {
-  const nomineesByName = keyBy(result.mostATKills, 'playerName') as NomineeList<MostATKills>;
+  const nomineesById = keyBy(result.mostATKills, 'playerId') as NomineeList<MostATKills>;
   const { players, vehicles } = getEntities(replayInfo);
   const vehiclesName = uniq(Object.values(vehicles).map((vehicle) => vehicle.name.toLowerCase()));
 
@@ -49,16 +52,24 @@ const mostATKills = ({
       || vehiclesName.includes(weaponName.toLowerCase())
     ) return;
 
-    const playerName = getPlayerName(killer.name)[0];
+    const entityName = getPlayerName(killer.name)[0];
+    const playerId = getPlayerId(entityName, dayjsUTC(other.replay.date));
+    const name = getPlayerNameAtEndOfTheYear(playerId) ?? entityName;
 
     if (!atWeapons.some((weapon) => weaponName.toLowerCase().includes(weapon))) return;
 
-    const currentNominee: MostATKills = nomineesByName[playerName] || {
-      playerName, maxDistance: distance, playersKilled: 0, vehiclesKilled: 0, total: 0,
+    const currentNominee: MostATKills = nomineesById[playerId] || {
+      playerId,
+      playerName: name,
+      maxDistance: distance,
+      playersKilled: 0,
+      vehiclesKilled: 0,
+      total: 0,
     };
 
-    nomineesByName[playerName] = {
-      playerName,
+    nomineesById[playerId] = {
+      playerId,
+      playerName: name,
       maxDistance: max([currentNominee.maxDistance, distance]) || distance,
       playersKilled: killedPlayer
         ? currentNominee.playersKilled + 1
@@ -75,7 +86,7 @@ const mostATKills = ({
     replayInfo,
     result: {
       ...result,
-      mostATKills: Object.values(nomineesByName),
+      mostATKills: Object.values(nomineesById),
     },
   };
 };

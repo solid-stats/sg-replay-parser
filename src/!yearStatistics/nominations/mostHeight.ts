@@ -1,5 +1,10 @@
+import { keyBy } from 'lodash';
+
+import { dayjsUTC } from '../../0 - utils/dayjs';
 import getPlayerName from '../../0 - utils/getPlayerName';
+import { getPlayerId } from '../../0 - utils/namesHelper/getId';
 import getEntities from '../../2 - parseReplayInfo/getEntities';
+import getPlayerNameAtEndOfTheYear from '../utils/getPlayerNameAtEndOfTheYear';
 import limitAndOrder from '../utils/limitAndOrder';
 
 const allowedClasses: RawVehicleClass[] = ['plane', 'heli'];
@@ -18,8 +23,8 @@ const mostHeight = ({
   replayInfo,
   ...other
 }: InfoForRawReplayProcess): InfoForRawReplayProcess => {
-  const nomineesForPlane = [...result.mostHeightPlane];
-  const nomineesForHeli = [...result.mostHeightHeli];
+  const nomineesForHeliById = keyBy(result.mostHeightHeli, 'playedId') as NomineeList<MostHeight>;
+  const nomineesForPlaneById = keyBy(result.mostHeightPlane, 'playedId') as NomineeList<MostHeight>;
   const { players, vehicles } = getEntities(replayInfo);
   const vehiclesId = Object.values(vehicles).map((val) => val.id);
 
@@ -37,10 +42,16 @@ const mostHeight = ({
       || vehicleId < 0
     ) return;
 
-    const maxHeight: MostHeight = { playerName: 'unknown', vehicleName, height: 0 };
+    const maxHeight: MostHeight = {
+      playedId: 'none', playerName: 'unknown', vehicleName, height: 0,
+    };
 
     positions.forEach((position) => {
-      const height = position[0][2];
+      const pos = position[0];
+
+      if (!pos) return;
+
+      const height = pos[2];
 
       if (height > maxHeight.height) {
         maxHeight.height = height;
@@ -55,16 +66,29 @@ const mostHeight = ({
           return;
         }
 
-        const playerName = getPlayerName(playerInfo.name)[0];
+        const entityName = getPlayerName(playerInfo.name)[0];
+        const playerId = getPlayerId(entityName, dayjsUTC(other.replay.date));
+        const playerName = getPlayerNameAtEndOfTheYear(playerId) ?? entityName;
 
+        maxHeight.playedId = playerId;
         maxHeight.playerName = playerName;
       }
     });
 
     if (maxHeight.height >= minHeight) {
-      if (vehicleClass === 'heli') nomineesForHeli.push(maxHeight);
+      const { playedId, height } = maxHeight;
 
-      if (vehicleClass === 'plane') nomineesForPlane.push(maxHeight);
+      if (vehicleClass === 'heli') {
+        const nominee = nomineesForHeliById[playedId] as MostHeight | undefined;
+
+        if (!nominee || (height > nominee.height)) nomineesForHeliById[playedId] = maxHeight;
+      }
+
+      if (vehicleClass === 'plane') {
+        const nominee = nomineesForPlaneById[playedId] as MostHeight | undefined;
+
+        if (!nominee || (height > nominee.height)) nomineesForPlaneById[playedId] = maxHeight;
+      }
     }
   });
 
@@ -73,8 +97,8 @@ const mostHeight = ({
     replayInfo,
     result: {
       ...result,
-      mostHeightHeli: nomineesForHeli,
-      mostHeightPlane: nomineesForPlane,
+      mostHeightHeli: Object.values(nomineesForHeliById),
+      mostHeightPlane: Object.values(nomineesForPlaneById),
     },
   };
 };

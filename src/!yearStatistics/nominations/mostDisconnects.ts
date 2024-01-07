@@ -2,7 +2,10 @@ import {
   flatten, groupBy, keyBy, uniqBy,
 } from 'lodash';
 
+import { dayjsUTC } from '../../0 - utils/dayjs';
 import getPlayerName from '../../0 - utils/getPlayerName';
+import { getPlayerId } from '../../0 - utils/namesHelper/getId';
+import getPlayerNameAtEndOfTheYear from '../utils/getPlayerNameAtEndOfTheYear';
 import limitAndOrder from '../utils/limitAndOrder';
 
 export const sortMostDisconnects = (
@@ -21,8 +24,8 @@ const mostDisconnects = ({
   replayInfo,
   ...other
 }: InfoForRawReplayProcess): InfoForRawReplayProcess => {
-  const nomineesByName = keyBy(result.mostDisconnects, 'name') as NomineeList<MostDisconnects>;
-  const alreadyConnectedOnce: PlayerName[] = [];
+  const nomineesById = keyBy(result.mostDisconnects, 'id') as NomineeList<MostDisconnects>;
+  const alreadyConnectedOnce: PlayerId[] = [];
 
   const connectEvents = replayInfo.events.filter((event) => {
     const eventType = event[1];
@@ -50,20 +53,24 @@ const mostDisconnects = ({
 
     const [frameId, , playerName, entityId] = event;
 
-    const name = getPlayerName(playerName)[0];
+    const entityName = getPlayerName(playerName)[0];
+    const id = getPlayerId(entityName, dayjsUTC(other.replay.date));
+    const name = getPlayerNameAtEndOfTheYear(id) ?? entityName;
 
     const unitPositionAtConnect = replayInfo.entities[entityId].positions[frameId];
     const isUnitDead = unitPositionAtConnect && unitPositionAtConnect[2] === 0;
 
     if (isUnitDead) return;
 
-    const isAlreadyConnectedOnce = alreadyConnectedOnce.includes(name);
+    const isAlreadyConnectedOnce = alreadyConnectedOnce.includes(id);
 
-    if (!isAlreadyConnectedOnce) alreadyConnectedOnce.push(name);
+    if (!isAlreadyConnectedOnce) alreadyConnectedOnce.push(id);
 
-    const nominee = nomineesByName[name] || { name, count: 0, gamesWithAtleastOneDisconnect: 0 };
+    const nominee = nomineesById[id] || {
+      id, name, count: 0, gamesWithAtleastOneDisconnect: 0,
+    };
 
-    nomineesByName[name] = {
+    nomineesById[id] = {
       ...nominee,
       count: nominee.count + 1,
       gamesWithAtleastOneDisconnect: isAlreadyConnectedOnce
@@ -77,7 +84,7 @@ const mostDisconnects = ({
     replayInfo,
     result: {
       ...result,
-      mostDisconnects: Object.values(nomineesByName),
+      mostDisconnects: Object.values(nomineesById),
     },
   };
 };

@@ -3,8 +3,7 @@ import { colorsByPlace, titles } from '../../utils/consts';
 const worstDeathToGamesRatioFormatter = (
   { worstDeathToGamesRatio }: WholeYearStatisticsResult,
 ): string => {
-  let text = `[spoiler=${titles.worstDeathToGamesRatio}]
-Топ 10 самых агрессивных игроков с наименьшим процентом выживания:\n`;
+  let text = `[spoiler=${titles.worstDeathToGamesRatio}]Топ 10 самых агрессивных игроков с наименьшим процентом выживания:\n`;
 
   worstDeathToGamesRatio.forEach(
     (nominee, index) => {
@@ -14,7 +13,7 @@ const worstDeathToGamesRatioFormatter = (
 
   text += '[/spoiler]';
 
-  return (text);
+  return text;
 };
 
 export default worstDeathToGamesRatioFormatter;

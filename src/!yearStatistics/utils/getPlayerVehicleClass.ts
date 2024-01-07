@@ -19,7 +19,11 @@ const getPlayerVehicleClass = (
     if (playersInside.includes(playerId)) {
       const vehicleClass = vehicleEntity.class;
 
-      if (flyingVehicle.includes(vehicleClass) && vehiclePosition[0][2] <= 0) return;
+      const pos = vehiclePosition[0];
+
+      if (!pos) return;
+
+      if (flyingVehicle.includes(vehicleClass) && pos[2] <= 0) return;
 
       result = vehicleClass;
     }

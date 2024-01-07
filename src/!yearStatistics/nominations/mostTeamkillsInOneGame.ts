@@ -1,6 +1,9 @@
 import { orderBy } from 'lodash';
 
+import { dayjsUTC } from '../../0 - utils/dayjs';
 import getPlayerName from '../../0 - utils/getPlayerName';
+import { getPlayerId } from '../../0 - utils/namesHelper/getId';
+import getPlayerNameAtEndOfTheYear from '../utils/getPlayerNameAtEndOfTheYear';
 import limitAndOrder from '../utils/limitAndOrder';
 import { printFinish, printNominationProcessStart } from '../utils/printText';
 
@@ -12,21 +15,24 @@ const mostTeamkillsInOneGame = ({
 
   const list: NomineeList<MostTeamkillsInOneGame> = {};
 
-  other.parsedReplays.forEach(({ result: playersResult, missionName }) => {
+  other.parsedReplays.forEach(({ result: playersResult, missionName, date }) => {
     const orderedResults = orderBy(playersResult, 'teamkills', 'desc');
-    const maxTeamkills = orderedResults[0].teamkills;
-
-    if (maxTeamkills === 0) return;
 
     orderedResults.forEach(({ name: fullName, teamkills }) => {
-      if (teamkills < maxTeamkills) return;
+      const entityName = getPlayerName(fullName)[0];
+      const id = getPlayerId(entityName, dayjsUTC(date));
+      const name = getPlayerNameAtEndOfTheYear(id) ?? entityName;
 
-      const name = getPlayerName(fullName)[0];
-      const count = teamkills;
+      const currentNominee: DefaultCountNomination = list[id] || {
+        id, name, count: 0,
+      };
 
-      list[name] = {
+      if (teamkills < currentNominee.count) return;
+
+      list[id] = {
+        id,
         name,
-        count,
+        count: teamkills,
         missionName,
       };
     });
