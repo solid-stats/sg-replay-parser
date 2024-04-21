@@ -13,13 +13,10 @@
     "lint": "yarn lint-files && yarn lint-tests",
     "test": "jest --silent src/!tests",
     "test:watch": "jest src/!tests --watch",
-
     "generate-replays-list": "yarn build-dist && node dist/jobs/prepareReplaysList/start.js",
     "generate-replays-list-dev": "yarn build-dist && NODE_ENV=development node dist/jobs/prepareReplaysList/start.js",
-
     "parse": "yarn build-dist && node ./dist/start.js",
     "parse-dev": "yarn build-dist && NODE_ENV=development node ./dist/start.js",
-
     "parse-new-year": "yarn build-dist && node ./dist/!yearStatistics/index.js",
     "parse-new-year-dev": "yarn build-dist && NODE_ENV=development node ./dist/!yearStatistics/index.js"
   },
@@ -46,7 +43,6 @@
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-plugin-import": "^2.25.2",
     "jest": "28.1.3",
-    "jest-fetch-mock": "^3.0.3",
     "rimraf": "^3.0.2",
     "ts-jest": "^28.0.7",
     "typescript": "^4.6.3"

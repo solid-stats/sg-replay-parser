@@ -2,6 +2,7 @@ import syncParse from 'csv-parse/sync';
 import fs from 'fs-extra';
 
 import { dayjsUTC } from '../../../0 - utils/dayjs';
+import logger from '../../../0 - utils/logger';
 import { getNamesList, resetNamesList } from '../../../0 - utils/namesHelper';
 import { getPlayerId } from '../../../0 - utils/namesHelper/getId';
 import moscowDateToUTC from '../../../0 - utils/namesHelper/moscowDateToUTC';
@@ -46,15 +47,12 @@ test('getId without generating name changes should throw error', () => {
 test('prepareNamesList without file should send message', () => {
   jest.spyOn(fs, 'readFileSync').mockImplementationOnce(() => { throw new Error(); });
 
-  // @ts-ignore
-  // eslint-disable-next-line import/namespace
-  jest.mock('console');
-  console.log = jest.fn();
+  jest.mock('../../../0 - utils/logger');
+  logger.error = jest.fn();
 
   prepareNamesList();
 
-  expect(console.log).toBeCalledTimes(1);
-  expect(console.log).toBeCalledWith('CSV файл с историей смен ников не найден');
+  expect(logger.error).toBeCalledTimes(1);
   expect(getNamesList()).toStrictEqual({});
 
   resetNamesList();

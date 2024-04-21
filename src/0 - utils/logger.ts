@@ -17,6 +17,8 @@ const getTransport = () => {
   const infoFilePath = path.join(logsFolderPath, 'info.log');
   const errorFilePath = path.join(logsFolderPath, 'error.log');
 
+  if (process.env.NODE_ENV === 'test') return undefined;
+
   if (fs.pathExistsSync(logsFolderPath)) fs.emptyDirSync(logsFolderPath);
   else fs.mkdirSync(logsFolderPath);
 

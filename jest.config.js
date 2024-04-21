@@ -1,9 +1,6 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  "setupFiles": [
-    "./src/!tests/setupFetch.ts"
-  ],
   collectCoverage: true,
   collectCoverageFrom: [
     './src/**/*.ts',
