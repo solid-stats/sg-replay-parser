@@ -5,6 +5,7 @@
   "main": "index.js",
   "license": "GPL-3.0-or-later",
   "scripts": {
+    "tsc": "tsc",
     "build-dist": "rimraf dist && rimraf output && tsc --project tsconfig.build.json",
     "schedule": "npm run build-dist && node dist/schedule.js",
     "schedule-prod": "npm run build-dist && pm2 start dist/schedule.js --cron-restart=\"59 0 * * *\"",
