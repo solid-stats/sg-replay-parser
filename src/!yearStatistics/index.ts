@@ -36,6 +36,7 @@ import { printFinish } from './utils/printText';
     dayjsUTC().year(year).endOf('year'),
   )).reverse();
 
+  // eslint-disable-next-line no-console
   console.log(`Replays count: ${replays.length}`);
   const parsedReplays = await parseReplays(replays, 'sg');
 

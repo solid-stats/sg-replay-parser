@@ -12,7 +12,6 @@ module.exports = {
     '!./src/*utils/progressHandler.ts',
     '!./src/*utils/formatGameType.ts',
     '!./src/*utils/pipe.ts',
-    '!./src/*utils/jobsName.ts',
     '!./src/*utils/generateBasicFolders.ts',
     '!./src/*utils/generateBasicHTML.ts',
     '!./src/*utils/logger.ts',
