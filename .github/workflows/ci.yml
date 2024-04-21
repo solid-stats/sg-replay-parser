@@ -15,7 +15,7 @@ jobs:
     - name: Install dependencies
       run: npm i
     - name: Run linter
-      run: npm run linter
+      run: npm run lint
 
   tsc:
     runs-on: ubuntu-latest
