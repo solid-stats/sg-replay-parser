@@ -6,19 +6,19 @@
   "license": "GPL-3.0-or-later",
   "scripts": {
     "build-dist": "rimraf dist && rimraf output && tsc --project tsconfig.build.json",
-    "schedule": "yarn build-dist && node dist/schedule.js",
-    "schedule-prod": "yarn build-dist && pm2 start dist/schedule.js --cron-restart=\"59 0 * * *\"",
+    "schedule": "npm run build-dist && node dist/schedule.js",
+    "schedule-prod": "npm run build-dist && pm2 start dist/schedule.js --cron-restart=\"59 0 * * *\"",
     "lint-files": "eslint ./src/**/*.ts",
     "lint-tests": "eslint ./src/**/*.test.ts",
-    "lint": "yarn lint-files && yarn lint-tests",
+    "lint": "npm run lint-files && npm run lint-tests",
     "test": "jest --silent src/!tests",
     "test:watch": "jest src/!tests --watch",
-    "generate-replays-list": "yarn build-dist && node dist/jobs/prepareReplaysList/start.js",
-    "generate-replays-list-dev": "yarn build-dist && NODE_ENV=development node dist/jobs/prepareReplaysList/start.js",
-    "parse": "yarn build-dist && node ./dist/start.js",
-    "parse-dev": "yarn build-dist && NODE_ENV=development node ./dist/start.js",
-    "parse-new-year": "yarn build-dist && node ./dist/!yearStatistics/index.js",
-    "parse-new-year-dev": "yarn build-dist && NODE_ENV=development node ./dist/!yearStatistics/index.js"
+    "generate-replays-list": "npm run build-dist && node dist/jobs/prepareReplaysList/start.js",
+    "generate-replays-list-dev": "npm run build-dist && NODE_ENV=development node dist/jobs/prepareReplaysList/start.js",
+    "parse": "npm run build-dist && node ./dist/start.js",
+    "parse-dev": "npm run build-dist && NODE_ENV=development node ./dist/start.js",
+    "parse-new-year": "npm run build-dist && node ./dist/!yearStatistics/index.js",
+    "parse-new-year-dev": "npm run build-dist && NODE_ENV=development node ./dist/!yearStatistics/index.js"
   },
   "author": "Afgan0r",
   "devDependencies": {
@@ -50,6 +50,7 @@
   "dependencies": {
     "archiver": "^5.3.1",
     "cli-progress": "^3.11.1",
+    "croner": "^7.0.2",
     "csv-parse": "^5.4.0",
     "dayjs": "^1.11.4",
     "fs-extra": "^11.1.1",
