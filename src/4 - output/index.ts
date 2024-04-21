@@ -22,7 +22,10 @@ const generateOutput = async (statistics: StatisticsForOutput): Promise<void> =>
 
     if (rotationsStats) fs.mkdirSync(allTimeFolderPath);
 
-    generateJSONOutput(pick(statistics[folderName], ['global', 'squad']), rotationsStats ? allTimeFolderPath : folderPath);
+    generateJSONOutput(
+      pick(statistics[folderName], ['global', 'squad', 'squadFull']),
+      rotationsStats ? allTimeFolderPath : folderPath,
+    );
 
     if (rotationsStats) {
       rotationsStats.forEach((rotation, index) => {

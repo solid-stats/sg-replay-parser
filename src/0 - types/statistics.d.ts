@@ -76,5 +76,6 @@ type StatisticsByRotation = {
   stats: {
     global: GlobalPlayerStatistics[];
     squad: GlobalSquadStatistics[];
+    squadFull: GlobalSquadStatistics[];
   }
 };

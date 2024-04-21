@@ -7,7 +7,6 @@ import getReplaysGroupByRotation from './getReplaysGroupByRotation';
 const getStatsByRotations = (allReplays: PlayersGameResult[]): StatisticsByRotation[] => {
   const replaysGroupedByRotation = getReplaysGroupByRotation(allReplays);
   const statistics: StatisticsByRotation[] = replaysGroupedByRotation.map((replays, index) => {
-    const isLastRotation = index === replaysGroupedByRotation.length - 1;
     const [rotationStartDate, rotationEndDate] = getRotations()[index];
     const totalGames = replays.length;
 
@@ -22,6 +21,7 @@ const getStatsByRotations = (allReplays: PlayersGameResult[]): StatisticsByRotat
         stats: {
           global: [],
           squad: [],
+          squadFull: [],
         },
       };
     }
@@ -30,6 +30,11 @@ const getStatsByRotations = (allReplays: PlayersGameResult[]): StatisticsByRotat
     const squadStatistics = calculateSquadStatistics(
       replays,
       rotationEndDate ?? undefined,
+    );
+    const squadFullRotationStatistics = calculateSquadStatistics(
+      replays,
+      rotationEndDate ?? null,
+      rotationStartDate,
     );
 
     return {
@@ -42,7 +47,8 @@ const getStatsByRotations = (allReplays: PlayersGameResult[]): StatisticsByRotat
           gamesCount: totalGames,
           type: 'not show',
         }),
-        squad: !isLastRotation ? squadStatistics : [],
+        squad: squadStatistics,
+        squadFull: squadFullRotationStatistics,
       },
     };
   });

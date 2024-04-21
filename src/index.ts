@@ -28,7 +28,7 @@ const getParsedReplays = async (gameType: GameType): Promise<PlayersGameResult[]
 
   // used only in development
   // const parsedReplays = await parseReplays(
-  //   gameType === 'sg' ? replays.slice(0, 50) : [],
+  //   gameType === 'sg' ? replays.slice(0, 100) : [],
   //   gameType,
   // );
 
@@ -52,6 +52,7 @@ const countStatistics = (
       type: 'not show',
     }),
     squad,
+    squadFull: [],
     byRotations,
   };
 };

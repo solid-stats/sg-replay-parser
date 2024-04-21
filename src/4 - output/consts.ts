@@ -6,6 +6,8 @@ export const globalStatsFileName = 'global_statistics.json';
 
 export const squadStatsFileName = 'squad_statistics.json';
 
+export const squadFullRotationFileName = 'squad_full_rotation_statistics.json';
+
 export const allTimeFolder = 'all_time';
 
 export const weaponsStatisticsFolder = 'weapons_statistics';

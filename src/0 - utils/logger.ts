@@ -17,7 +17,7 @@ const getTransport = () => {
   const infoFilePath = path.join(logsFolderPath, 'info.log');
   const errorFilePath = path.join(logsFolderPath, 'error.log');
 
-  if (process.env.NODE_ENV === 'test') return undefined;
+  if (process.env?.NODE_ENV === 'test') return undefined;
 
   if (fs.pathExistsSync(logsFolderPath)) fs.emptyDirSync(logsFolderPath);
   else fs.mkdirSync(logsFolderPath);
@@ -37,7 +37,7 @@ const getTransport = () => {
 const logger = pino(getTransport());
 
 process.on('uncaughtException', (err) => {
-  logger.fatal('Uncaught exception detected', err);
+  logger.fatal('Uncaught exception detected', err.name, err.message, err.stack);
   process.exit(1);
 });
 

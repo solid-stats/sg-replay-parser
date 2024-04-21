@@ -4,6 +4,7 @@ import { isEmpty, omit, toPairs } from 'lodash';
 import {
   globalStatsFileName,
   otherPlayersStatisticsFolder,
+  squadFullRotationFileName,
   squadStatsFileName,
   weaponsStatisticsFolder,
   weeksStatisticsFolder,
@@ -46,6 +47,8 @@ const generateJSONOutput = (statistics: Stats, folderPath: string): void => {
 
   fs.writeFileSync(`${folderPath}/${globalStatsFileName}`, JSON.stringify(outputGlobalStats, null, '\t'));
   fs.writeFileSync(`${folderPath}/${squadStatsFileName}`, JSON.stringify(statistics.squad, null, '\t'));
+
+  if (statistics.squadFull.length) fs.writeFileSync(`${folderPath}/${squadFullRotationFileName}`, JSON.stringify(statistics.squadFull, null, '\t'));
 
   createFileForEach(`${folderPath}/${weaponsStatisticsFolder}`, weaponsStatistics);
   createFileForEach(`${folderPath}/${weeksStatisticsFolder}`, weeksStatistics);

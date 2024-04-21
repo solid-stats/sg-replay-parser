@@ -1,6 +1,7 @@
 type Statistics = {
   global: GlobalPlayerStatistics[];
   squad: GlobalSquadStatistics[];
+  squadFull: GlobalSquadStatistics[];
   byRotations: StatisticsByRotation[] | null;
 };
 
