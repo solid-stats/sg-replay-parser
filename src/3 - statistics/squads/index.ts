@@ -26,7 +26,7 @@ const calculateSquadStatistics = (
 ): GlobalSquadStatistics[] => {
   if (!replays.length) return [];
 
-  let currentDate = dayjsUTC('2024-01-01').endOf('day');
+  let currentDate = dayjsUTC();
   let rotationEndDate = rotationLastDate;
   const lastReplayDate = dayjsUTC(replays[replays.length - 1].date);
   const isLastReplayOnThisDay = lastReplayDate.isoWeek() === currentDate.isoWeek()
