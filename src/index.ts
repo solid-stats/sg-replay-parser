@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
 
-import { gameTypes } from './0 - consts';
+import { gameTypes } from './0 - consts/gameTypesArray';
 import { dayjsUTC } from './0 - utils/dayjs';
 import filterPlayersByTotalPlayedGames from './0 - utils/filterPlayersByTotalPlayedGames';
 import formatGameType from './0 - utils/formatGameType';

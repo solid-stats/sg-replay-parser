@@ -4,11 +4,11 @@ import fs from 'fs-extra';
 import { JSDOM } from 'jsdom';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
-import defaultDateFormat from '../../0 - utils/defaultDateFormat';
 import generateBasicHTML from '../../0 - utils/generateBasicHTML';
 import logger from '../../0 - utils/logger';
 import { listsPath } from '../../0 - utils/paths';
 import body from './utils/body';
+import defaultDateFormat from './utils/defaultDateFormat';
 import fetchTeamPage from './utils/requestTeamPage';
 
 const findMissionMakers = (sectionHeaders: NodeListOf<Element>, sectionHeaderText: string) => {
