@@ -15,19 +15,20 @@ const mostPopularMissionMaker = ({
   replayInfo,
   ...other
 }: InfoForRawReplayProcess): InfoForRawReplayProcess => {
-  const nomineesByName = keyBy(result.mostPopularMissionMaker, 'name') as NomineeList<DefaultCountNomination>;
+  const nomineesById = keyBy(result.mostPopularMissionMaker, 'id') as NomineeList<DefaultCountNomination>;
   const name = getPlayerName(replayInfo.missionAuthor)[0];
+  const id = name;
 
-  const nominee = nomineesByName[name];
+  const nominee = nomineesById[name];
 
-  nomineesByName[name] = { name, count: (nominee?.count || 0) + 1 };
+  nomineesById[id] = { id, name, count: (nominee?.count || 0) + 1 };
 
   return {
     ...other,
     replayInfo,
     result: {
       ...result,
-      mostPopularMissionMaker: Object.values(nomineesByName),
+      mostPopularMissionMaker: Object.values(nomineesById),
     },
   };
 };

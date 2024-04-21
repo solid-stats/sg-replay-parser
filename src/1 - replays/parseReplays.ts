@@ -1,30 +1,20 @@
+import path from 'path';
+
+import fs from 'fs-extra';
 import { compact, orderBy } from 'lodash';
 import pLimit from 'p-limit';
 
-import promiseAllWithProgress from '../0 - utils/promiseAllWithProgress';
-import request from '../0 - utils/request';
+import logger from '../0 - utils/logger';
+import { rawReplaysPath } from '../0 - utils/paths';
 import parseReplayInfo from '../2 - parseReplayInfo';
 
 export const fetchReplayInfo = async (filename: Replay['filename']): Promise<ReplayInfo | null> => {
-  const resp = await request(`https://sg.zone/data/${filename}.json`);
-
-  if (!resp) return null;
-
   try {
-    const data = await resp.json() as ReplayInfo;
+    const replay = fs.readJsonSync(path.join(rawReplaysPath, `${filename}.json`)) as ReplayInfo;
 
-    return data;
+    return replay;
   } catch (err) {
-    let reason: string | null = null;
-
-    if (err.message.includes('unexpected character')) reason = 'JSON includes unexpected character';
-
-    if (err.message.includes('invalid json response')) reason = 'JSON have invalid format';
-
-    // eslint-disable-next-line no-console
-    console.log('');
-    // eslint-disable-next-line no-console
-    console.error(reason ?? err.message);
+    logger.error(`Error occurred during raw replay reading: ${err.message}. Trace: ${err.stack}`);
 
     return null;
   }
@@ -50,8 +40,13 @@ const processReplay = async (
       missionName: replay.mission_name,
     };
   } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err.message);
+    logger.error(
+      `
+Error occurred during replay parsing.
+Replay: ${replay.filename};
+Error: ${err.message};
+Trace: ${err.stack}`,
+    );
 
     return null;
   }
@@ -61,10 +56,13 @@ const parseReplays = async (
   replays: Replay[],
   gameType: GameType,
 ): Promise<PlayersGameResult[]> => {
-  const limit = pLimit(gameType === 'mace' ? 30 : 10);
-  const parsedReplays = await promiseAllWithProgress(
-    replays.map((replay) => limit(() => processReplay(replay, gameType))),
-    gameType,
+  const limit = pLimit(gameType === 'mace' ? 50 : 25);
+  const parsedReplays = await Promise.all(
+    replays.map(
+      (replay) => limit(
+        () => processReplay(replay, gameType),
+      ),
+    ),
   );
 
   const orderedParsedReplaysByDate = orderBy(compact(parsedReplays), 'date', 'asc');

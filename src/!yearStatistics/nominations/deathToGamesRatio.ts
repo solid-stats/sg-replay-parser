@@ -16,11 +16,15 @@ const deathToGamesRatioNomination = ({
     statistics: other.globalStatistics,
     gamesCount: other.replays.length,
     type: 'remove',
+    isNewYearStats: true,
   })
-    .forEach(({ name, totalPlayedGames, deaths }) => {
+    .forEach(({
+      id, name, totalPlayedGames, deaths,
+    }) => {
       const ratio = round(deaths.total / totalPlayedGames, 2);
 
-      list[name] = {
+      list[id] = {
+        id,
         name,
         totalPlayedGames,
         deaths: deaths.total,

@@ -1,18 +1,17 @@
-import fs from 'fs';
-
+import fs from 'fs-extra';
 import { uniqBy } from 'lodash';
 
-import { replaysListFileName } from '../0 - consts';
+import { replaysListPath } from '../0 - utils/paths';
 
 const getReplays = async (gameType: GameType): Promise<Replay[]> => {
   let allReplays: Replay[] = [];
 
   try {
-    const fileContents = JSON.parse(fs.readFileSync(replaysListFileName, 'utf8')) as Output;
+    const fileContents = JSON.parse(fs.readFileSync(replaysListPath, 'utf8')) as Output;
 
     allReplays = fileContents.replays;
   } catch {
-    throw new Error(`${replaysListFileName} not found, start prepare-replays job first.`);
+    throw new Error(`${replaysListPath} not found, start prepare-replays job first.`);
   }
 
   const uniqueReplays = uniqBy(allReplays, 'filename');

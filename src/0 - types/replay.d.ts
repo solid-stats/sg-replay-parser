@@ -33,7 +33,7 @@ type PlayerPosition = [
   isPlayer: 0 | 1,
 ];
 type VehiclePosition = [
-  pos: Position3D,
+  pos: Position3D | undefined,
   direction: number,
   isAlive: 0 | 1,
   playersInside: number[], // order like this [driver, gunner, commander, turrets, cargo]
@@ -46,6 +46,8 @@ type CommonEntity = {
   startFrameNum: number;
 };
 
+type MinifiedCommonEntity = Omit<CommonEntity, 'framesFired' | 'startFrameNum'>;
+
 type PlayerEntity = CommonEntity & {
   type: 'unit';
   description: string;
@@ -55,10 +57,23 @@ type PlayerEntity = CommonEntity & {
   positions: PlayerPosition[];
 };
 
+type MinifiedPlayerEntity = MinifiedCommonEntity & {
+  type: 'unit';
+  description: string;
+  isPlayer: 0 | 1;
+  side: EntitySide;
+  group: string;
+};
+
 type VehicleEntity = CommonEntity & {
   type: 'vehicle';
   class: RawVehicleClass;
   positions: VehiclePosition[];
+};
+
+type MinifiedVehicleEntity = MinifiedCommonEntity & {
+  type:'vehicle';
+  class: RawVehicleClass;
 };
 
 type ReplayInfo = {
@@ -72,6 +87,10 @@ type ReplayInfo = {
   missionAuthor: string;
   missionName: string;
   worldName: string;
+};
+
+type MinifiedReplayInfo = Pick<ReplayInfo, 'playersCount' | 'endFrame' | 'events' | 'missionAuthor' | 'missionName' | 'worldName'> & {
+  entities: Array<MinifiedPlayerEntity | MinifiedVehicleEntity>;
 };
 
 type PlayerInfo = {
@@ -97,6 +116,7 @@ type VehicleInfo = {
   id: EntityId;
   name: EntityName;
   class: RawVehicleClass;
+  positions: VehiclePosition[];
 };
 
 type VehicleList = Record<EntityId, VehicleInfo>;

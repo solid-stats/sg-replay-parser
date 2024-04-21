@@ -12,32 +12,29 @@ jobs:
     name: Linter
     steps:
     - uses: actions/checkout@v3
-    - uses: c-hive/gha-yarn-cache@v2
     - name: Install dependencies
-      run: yarn install
+      run: npm i
     - name: Run linter
-      run: yarn lint
+      run: npm run lint
 
   tsc:
     runs-on: ubuntu-latest
     name: Types check
     steps:
     - uses: actions/checkout@v3
-    - uses: c-hive/gha-yarn-cache@v2
     - name: Install dependencies
-      run: yarn install
+      run: npm i
     - name: Run the types check
-      run: yarn tsc
+      run: npm run tsc
 
   tests:
     runs-on: ubuntu-latest
     name: Tests
     steps:
     - uses: actions/checkout@v3
-    - uses: c-hive/gha-yarn-cache@v2
     - name: Install dependencies
-      run: yarn install
+      run: npm i
     - name: Run the tests
-      run: yarn test
+      run: npm run test
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3

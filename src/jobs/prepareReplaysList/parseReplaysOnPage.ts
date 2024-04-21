@@ -1,8 +1,9 @@
 import { compact } from 'lodash';
 import pLimit from 'p-limit';
 
-import { dayjsUnix } from '../0 - utils/dayjs';
+import { dayjsUnix } from '../../0 - utils/dayjs';
 import parseReplay from './parseReplay';
+import saveReplayFile from './saveReplayFile';
 
 const parseTableRowInfo = async (
   el: Element,
@@ -30,6 +31,10 @@ const parseTableRowInfo = async (
   const filename = await parseReplay(replayLink);
   const date = dayjsUnix(parseInt(replayLink.split('/')[2], 10)).toJSON();
 
+  const isFileSaved = await saveReplayFile(filename);
+
+  if (!isFileSaved) return null;
+
   return {
     mission_name: `${missionGameType}@${missionName}`,
     filename,
@@ -48,7 +53,7 @@ const parseReplaysOnPage = async (
 ): Promise<Output> => {
   const replaysList = Array.from(dom.querySelectorAll('.common-table > tbody > tr'));
 
-  const limit = pLimit(15);
+  const limit = pLimit(10);
   const rawReplays = await Promise.all(
     replaysList.map((replay) => limit(() => parseTableRowInfo(
       replay,

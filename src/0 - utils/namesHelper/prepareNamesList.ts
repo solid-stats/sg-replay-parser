@@ -1,13 +1,15 @@
-import fs from 'fs';
+import path from 'path';
 
 import { parse } from 'csv-parse/sync';
+import fs from 'fs-extra';
 import { isEmpty } from 'lodash';
 import { v4 as uuid } from 'uuid';
 
 import { getNamesList, setNamesList } from '.';
 
-import { nameChangesPath } from '../../0 - consts';
 import { dayjsUTC, dayjsUnix } from '../dayjs';
+import logger from '../logger';
+import { configPath } from '../paths';
 import pipe from '../pipe';
 import { findNameInfo } from './findNameInfo';
 import moscowDateToUTC from './moscowDateToUTC';
@@ -25,11 +27,12 @@ export type RawCSVContentType = {
 };
 
 const readCSCFile = () => {
+  const nameChangesPath = path.join(configPath, 'nameChanges.csv');
+
   try {
     return fs.readFileSync(nameChangesPath, 'utf8');
-  } catch {
-    // eslint-disable-next-line no-console
-    console.log('CSV файл с историей смен ников не найден');
+  } catch (e) {
+    logger.error(`Error occurred during reading ${nameChangesPath} file. Trace: ${e.stack}`);
 
     return '';
   }
@@ -54,12 +57,6 @@ export const prepareNamesList = (): void => {
 
   const fileContent = readCSCFile();
 
-  if (!fileContent) {
-    setNamesList({});
-
-    return;
-  }
-
   const records = parse(fileContent, {
     columns: true,
     skip_empty_lines: true,
@@ -68,8 +65,10 @@ export const prepareNamesList = (): void => {
   const processedRecords = pipe(filter, order)(records);
 
   processedRecords.forEach((record) => {
-    let oldName = record['Старый позывной'].toLowerCase();
-    let newName = record['Новый позывной'].toLowerCase();
+    const originalOldName = record['Старый позывной'].trim();
+    const originalNewName = record['Новый позывной'].trim();
+    let oldName = originalOldName.toLowerCase();
+    let newName = originalNewName.toLowerCase();
 
     const date = moscowDateToUTC(record['Дата смены ника']);
     const formattedDate = date.format(dateFormat);
@@ -87,24 +86,28 @@ export const prepareNamesList = (): void => {
     if (!oldNameInfo) {
       newNamesList[oldName] = {
         id,
+        name: originalOldName,
         fromDate: dayjsUnix(1).format(dateFormat),
         endDate: formattedDate,
       };
 
       newNamesList[newName] = {
         id,
+        name: originalNewName,
         fromDate: formattedDate,
         endDate: dayjsUTC('2100-01-01').endOf('day').format(dateFormat),
       };
     } else {
       newNamesList[oldName] = {
         id,
+        name: originalOldName,
         fromDate: oldNameInfo.info.fromDate,
         endDate: formattedDate,
       };
 
       newNamesList[newName] = {
         id,
+        name: originalNewName,
         fromDate: formattedDate,
         endDate: dayjsUTC('2100-01-01').endOf('day').format(dateFormat),
       };

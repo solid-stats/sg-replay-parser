@@ -14,7 +14,8 @@ const mostTeamkills = ({
   const nomineeList: DefaultCountNomination[] = take(
     orderedStatistics,
     maxRecords,
-  ).map(({ name, teamkills }) => ({
+  ).map(({ id, name, teamkills }) => ({
+    id,
     name,
     count: teamkills,
   }));

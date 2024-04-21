@@ -1,8 +1,11 @@
 import { keyBy } from 'lodash';
 
+import { dayjsUTC } from '../../0 - utils/dayjs';
 import getPlayerName from '../../0 - utils/getPlayerName';
+import { getPlayerId } from '../../0 - utils/namesHelper/getId';
 import getEntities from '../../2 - parseReplayInfo/getEntities';
 import calculateDistance from '../utils/calculateDistance';
+import getPlayerNameAtEndOfTheYear from '../utils/getPlayerNameAtEndOfTheYear';
 import getPlayerVehicleClass from '../utils/getPlayerVehicleClass';
 import limitAndOrder from '../utils/limitAndOrder';
 
@@ -26,8 +29,8 @@ const mostDistance = ({
   replayInfo,
   ...other
 }: InfoForRawReplayProcess): InfoForRawReplayProcess => {
-  const walkedDistanceNomineesByName = keyBy(result.mostWalkedDistance, 'name') as NomineeList<DefaultDistanceNomination>;
-  const distanceInVehicleNomineesByName = keyBy(result.mostDistanceInVehicle, 'name') as NomineeList<DefaultDistanceNomination>;
+  const walkedDistanceNomineesById = keyBy(result.mostWalkedDistance, 'id') as NomineeList<DefaultDistanceNomination>;
+  const distanceInVehicleNomineesById = keyBy(result.mostDistanceInVehicle, 'id') as NomineeList<DefaultDistanceNomination>;
   const { players, vehicles } = getEntities(replayInfo);
 
   Object.values(players).forEach(({ id: playerId, name: playerName }) => {
@@ -79,17 +82,20 @@ const mostDistance = ({
       return false;
     });
 
-    const name = getPlayerName(playerName)[0];
-    const currentWalkedNominee = walkedDistanceNomineesByName[name] || { name, distance: 0 };
-    const currentDistanceInVehicleNominee = distanceInVehicleNomineesByName[name] || {
-      name, distance: 0,
+    const entityName = getPlayerName(playerName)[0];
+    const id = getPlayerId(entityName, dayjsUTC(other.replay.date));
+    const name = getPlayerNameAtEndOfTheYear(id) ?? entityName;
+
+    const currentWalkedNominee = walkedDistanceNomineesById[id] || { id, name, distance: 0 };
+    const currentDistanceInVehicleNominee = distanceInVehicleNomineesById[id] || {
+      id, name, distance: 0,
     };
 
-    walkedDistanceNomineesByName[name] = {
-      name, distance: currentWalkedNominee.distance + walkedDistance,
+    walkedDistanceNomineesById[id] = {
+      id, name, distance: currentWalkedNominee.distance + walkedDistance,
     };
-    distanceInVehicleNomineesByName[name] = {
-      name, distance: currentDistanceInVehicleNominee.distance + distanceInVehicle,
+    distanceInVehicleNomineesById[id] = {
+      id, name, distance: currentDistanceInVehicleNominee.distance + distanceInVehicle,
     };
   });
 
@@ -98,8 +104,8 @@ const mostDistance = ({
     replayInfo,
     result: {
       ...result,
-      mostWalkedDistance: Object.values(walkedDistanceNomineesByName),
-      mostDistanceInVehicle: Object.values(distanceInVehicleNomineesByName),
+      mostWalkedDistance: Object.values(walkedDistanceNomineesById),
+      mostDistanceInVehicle: Object.values(distanceInVehicleNomineesById),
     },
   };
 };

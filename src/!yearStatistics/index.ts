@@ -1,19 +1,23 @@
-import fs from 'fs';
+import fs from 'fs-extra';
 
 import { dayjsUTC } from '../0 - utils/dayjs';
+import generateBasicFolders from '../0 - utils/generateBasicFolders';
 import { isInInterval } from '../0 - utils/isInInterval';
+import logger from '../0 - utils/logger';
+import { prepareNamesList } from '../0 - utils/namesHelper/prepareNamesList';
+import { yearResultsPath } from '../0 - utils/paths';
 import pipe from '../0 - utils/pipe';
 import getReplays from '../1 - replays/getReplays';
 import parseReplays from '../1 - replays/parseReplays';
 import calculateGlobalStatistics from '../3 - statistics/global';
-import { statsFolder } from '../4 - output/consts';
 import deathToGamesRatio from './nominations/deathToGamesRatio';
+import mostDeathsFromTeamkills from './nominations/mostDeathsFromTeamkills';
 import mostPopularMission from './nominations/mostPopularMission';
 import mostTeamkills from './nominations/mostTeamkills';
 import mostTeamkillsInOneGame from './nominations/mostTeamkillsInOneGame';
 import printOutput from './output';
 import processRawReplays from './processRawReplays';
-import { defaultResult } from './utils/consts';
+import { defaultResult, year } from './utils/consts';
 import { printFinish } from './utils/printText';
 
 /*
@@ -21,21 +25,24 @@ import { printFinish } from './utils/printText';
   that we usually show when it's New Year's Eve
 */
 
-const year = 2022;
-
 (async () => {
+  generateBasicFolders();
+  prepareNamesList();
+
   const allReplays = await getReplays('sg');
   const replays = allReplays.filter((replay) => isInInterval(
     dayjsUTC(replay.date),
     dayjsUTC().year(year).startOf('year'),
     dayjsUTC().year(year).endOf('year'),
   )).reverse();
+
+  // eslint-disable-next-line no-console
+  console.log(`Replays count: ${replays.length}`);
   const parsedReplays = await parseReplays(replays, 'sg');
 
   printFinish();
 
-  // eslint-disable-next-line no-console
-  console.log('Started calculating global statistics.');
+  logger.info('Started calculating global statistics.');
 
   const globalStatistics = calculateGlobalStatistics(parsedReplays);
 
@@ -55,11 +62,12 @@ const year = 2022;
     mostTeamkillsInOneGame,
     mostTeamkills,
     mostPopularMission,
+    mostDeathsFromTeamkills,
   )(info).result;
 
-  result = await processRawReplays(result, replays);
+  result = await processRawReplays(result, replays, globalStatistics);
 
-  fs.mkdirSync(statsFolder);
+  fs.emptyDirSync(yearResultsPath);
 
   printOutput(result);
 })();

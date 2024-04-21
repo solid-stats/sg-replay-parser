@@ -1,4 +1,5 @@
 type Default = {
+  id: PlayerId;
   name: PlayerName;
 };
 type DefaultCountNomination = Default & {
@@ -41,6 +42,7 @@ type MostFrequentCommander = DefaultCountNomination & {
 };
 
 type MostDistantKill = {
+  playerId: PlayerId;
   weaponName: string;
   playerName: PlayerName;
   maxDistance: number;
@@ -50,6 +52,7 @@ type MostDistantKill = {
 };
 
 type MostATKills = {
+  playerId: PlayerId;
   playerName: string;
   playersKilled: number;
   vehiclesKilled: number;
@@ -59,6 +62,7 @@ type MostATKills = {
 
 type MostHeight = {
   height: number;
+  playedId: PlayerId;
   playerName: PlayerName;
   vehicleName: string;
 };
@@ -71,14 +75,24 @@ type MostFlyingTimeInGroundVehicle = DefaultTimeNomination & {
   startTime: string;
 };
 
+type KillsFromSlot = DefaultCountNomination & {
+  totalSlotCount: number;
+  slotFrequency: number;
+};
+
+type RandomshikNominee = DefaultDistanceNomination & {
+  kills: number;
+  coef: number;
+};
+
 type NomineeList<ValueType> = Record<string, ValueType>;
 
 type WholeYearStatisticsResult = {
   bestDeathToGamesRatio: DeathToGamesRatio[];
+  bestRandomshik: RandomshikNominee[];
   worstDeathToGamesRatio: DeathToGamesRatio[];
   mostTeamkillsInOneGame: MostTeamkillsInOneGame[];
   mostTeamkills: DefaultCountNomination[];
-  mostKilledByTeamkills: DefaultCountNomination[];
   mostShots: MostShots[];
   mostPopularMission: BestMission[];
   mostPopularMissionMaker: DefaultCountNomination[];
@@ -87,10 +101,14 @@ type WholeYearStatisticsResult = {
   mostFrequentCS: DefaultCountNomination[];
   // TL = Team Leader
   mostFrequentTL: DefaultCountNomination[];
+  mostKillsFromCommanderSlot: KillsFromSlot[];
+  mostKillsFromMedicSlot: KillsFromSlot[];
   mostDistantKill: MostDistantKill[];
   bestWeapon: DefaultCountNomination[];
   bestVehicle: DefaultCountNomination[];
+  mostKillsFromOldWeapons: DefaultCountNomination[];
   mostATKills: MostATKills[];
+  mostAAKills: DefaultCountNomination[];
   mostWalkedDistance: DefaultDistanceNomination[];
   mostDistanceInVehicle: DefaultDistanceNomination[];
   mostHeightPlane: MostHeight[];
@@ -100,7 +118,8 @@ type WholeYearStatisticsResult = {
   mostTimeInVehicle: DefaultTimeNomination[];
   mostTimeInGroundVehicle: DefaultTimeNomination[];
   mostTimeInFlyingVehicle: DefaultTimeNomination[];
-  mostFlyingTimeInGroundVehicle: MostFlyingTimeInGroundVehicle[];
+  mostDeathsFromTeamkills: DefaultCountNomination[];
+  mostKillsInCQB: DefaultCountNomination[];
 };
 
 type YearResultsInfo = {
@@ -114,6 +133,7 @@ type InfoForRawReplayProcess = {
   replay: Replay;
   replayInfo: ReplayInfo;
   result: WholeYearStatisticsResult;
+  globalStatistics: GlobalPlayerStatistics[];
 };
 
 type YearStatisticsKeys = keyof WholeYearStatisticsResult;

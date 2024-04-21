@@ -1,12 +1,11 @@
-/* eslint-disable no-console */
 /* eslint-disable no-await-in-loop */
 
-import fs from 'fs';
-
-import cliProgress from 'cli-progress';
+import fs from 'fs-extra';
 import { union } from 'lodash';
 
-import { replaysListFileName } from '../0 - consts';
+import generateBasicFolders from '../../0 - utils/generateBasicFolders';
+import logger from '../../0 - utils/logger';
+import { replaysListPath } from '../../0 - utils/paths';
 import { defaultEmptyOutput, excludeReplaysPath, includeReplaysPath } from './consts';
 import parseReplaysOnPage from './parseReplaysOnPage';
 import checks from './utils/checks';
@@ -17,8 +16,10 @@ import unionReplaysInfo from './utils/unionReplaysInfo';
 
 const readReplaysListFile = (): Output => {
   try {
-    return JSON.parse(fs.readFileSync(replaysListFileName, 'utf8'));
-  } catch {
+    return JSON.parse(fs.readFileSync(replaysListPath, 'utf8'));
+  } catch (e) {
+    logger.info(`${replaysListPath} file doesn't exist or has the wrong format. Trace: ${e.stack}`);
+
     return { ...defaultEmptyOutput };
   }
 };
@@ -26,9 +27,8 @@ const readReplaysListFile = (): Output => {
 const readIncludeReplays = (): ConfigIncludeReplay[] => {
   try {
     return JSON.parse(fs.readFileSync(includeReplaysPath, 'utf8'));
-  } catch {
-    // eslint-disable-next-line no-console
-    console.log(`${includeReplaysPath} file doesn't exist or has the wrong format`);
+  } catch (e) {
+    logger.error(`Error occurred during reading ${includeReplaysPath} file. Trace: ${e.stack}`);
 
     return [];
   }
@@ -37,33 +37,31 @@ const readIncludeReplays = (): ConfigIncludeReplay[] => {
 const readExcludeReplays = (): ConfigExcludeReplays => {
   try {
     return JSON.parse(fs.readFileSync(excludeReplaysPath, 'utf8'));
-  } catch {
-    // eslint-disable-next-line no-console
-    console.log(`${excludeReplaysPath} file doesn't exist or has the wrong format`);
+  } catch (e) {
+    logger.error(`Error occurred during reading ${excludeReplaysPath} file. Trace: ${e.stack}`);
 
     return [];
   }
 };
 
-(async () => {
+const startFetchingReplays = async () => {
+  generateBasicFolders();
   const replaysList = readReplaysListFile();
   const includeReplays = readIncludeReplays();
   const excludeReplays = readExcludeReplays();
 
-  console.log(`Found ${replaysList.parsedReplays.length} already parsed replays and ${replaysList.problematicReplays.length} problematic replays. Start preparing new replays list`);
-  console.log('');
+  logger.info(
+    `
+Starting fetching replays.
+Found ${replaysList.parsedReplays.length} already parsed replays and ${replaysList.problematicReplays.length} problematic replays.
+Start preparing new replays list.`,
+  );
 
   let result: Output = { ...defaultEmptyOutput };
-  const bar = new cliProgress.SingleBar({
-    format: 'Pages parsed | {bar} {percentage}% | ETA: {eta}s | {value}/{total} pages',
-    gracefulExit: true,
-  });
   const response: string = await fetchReplaysPage(1);
   const dom = parseDOM(response);
 
   const totalPages = parseInt(dom.querySelector('.pagination-item:nth-last-child(2) > a')?.textContent || '', 10) || 1;
-
-  bar.start(totalPages, 1);
 
   for (let page = 1; page <= totalPages; page += 1) {
     const pageDom = page === 1
@@ -82,23 +80,22 @@ const readExcludeReplays = (): ConfigExcludeReplays => {
       parsedReplays: union(result.parsedReplays, newReplays.parsedReplays),
       replays: union(result.replays, newReplays.replays),
     };
-
-    if (page < totalPages) bar.increment();
   }
-
-  bar.stop();
 
   result = processProblematicReplays(result);
 
-  console.log('');
-  console.log(`Found: ${result.parsedReplays.length} new replays and ${result.problematicReplays.length} problematic replays.`);
-  console.log('');
+  logger.info(
+    `
+Fetched replays.
+Found: ${result.parsedReplays.length} new replays and ${result.problematicReplays.length} problematic replays.
+Total replays: ${result.parsedReplays.length}.`,
+  );
 
   result = unionReplaysInfo(replaysList, result);
 
   checks(result);
 
-  console.log(`Total replays: ${result.parsedReplays.length}.`);
+  fs.writeFileSync(replaysListPath, JSON.stringify(result, null, '\t'));
+};
 
-  fs.writeFileSync(replaysListFileName, JSON.stringify(result, null, '\t'));
-})();
+export default startFetchingReplays;
