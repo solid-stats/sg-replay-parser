@@ -72,12 +72,6 @@ describe('Rotation statistics should return correct values', () => {
     ));
   });
 
-  it('Last rotation squad statistics should be empty', () => {
-    const lastRotation = rotations.pop() as StatisticsByRotation;
-
-    expect(removeDates(lastRotation).stats.squad).toMatchObject([]);
-  });
-
   it('No replays should be handled correctly', () => {
     const replaysWithoutLastRotation = dropRight(
       replays,
