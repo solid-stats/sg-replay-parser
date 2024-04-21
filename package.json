@@ -50,7 +50,6 @@
   "dependencies": {
     "archiver": "^5.3.1",
     "cli-progress": "^3.11.1",
-    "croner": "^7.0.2",
     "csv-parse": "^5.4.0",
     "dayjs": "^1.11.4",
     "fs-extra": "^11.1.1",
