@@ -13,7 +13,7 @@ import { configPath } from '../paths';
 import pipe from '../pipe';
 import { findNameInfo } from './findNameInfo';
 import moscowDateToUTC from './moscowDateToUTC';
-import { dateFormat } from './utils/consts';
+import { dateFormat, delimiter } from './utils/consts';
 import { NamesList } from './utils/types';
 
 // accepted | declined
@@ -78,10 +78,10 @@ export const prepareNamesList = (): void => {
 
     const existingNames = Object.keys(newNamesList).filter((name) => name.includes(newName));
 
-    if (!isEmpty(existingNames)) newName = `${newName}_${existingNames.length}`;
-    else { newName = `${newName}_0`; }
+    if (!isEmpty(existingNames)) newName = `${newName}${delimiter}${existingNames.length}`;
+    else { newName = `${newName}${delimiter}0`; }
 
-    oldName = oldNameInfo ? `${oldName}_${oldNameInfo.indexInfo.listIndex}` : `${oldName}_0`;
+    oldName = oldNameInfo ? `${oldName}${delimiter}${oldNameInfo.indexInfo.listIndex}` : `${oldName}${delimiter}0`;
 
     if (!oldNameInfo) {
       newNamesList[oldName] = {

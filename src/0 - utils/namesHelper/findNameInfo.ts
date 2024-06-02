@@ -2,13 +2,13 @@ import { Dayjs } from 'dayjs';
 
 import { dayjsUTC } from '../dayjs';
 import { isInInterval } from '../isInInterval';
-import { dateFormat } from './utils/consts';
+import { dateFormat, delimiter } from './utils/consts';
 import { NameInfo, NamesList } from './utils/types';
 
 // examples:
 // afgan0r_0 -> 0
 // afgan0r_1 -> 1
-const getIndexFromName = (name: string) => Number(name.split('_')[1]);
+const getIndexFromName = (name: string) => Number(name.split(delimiter)[1]);
 
 type ReturnType = {
   info: NameInfo,
@@ -20,7 +20,9 @@ export const findNameInfo = (
   playerName: PlayerName,
   date: Dayjs,
 ): ReturnType | undefined => {
-  const names = Object.keys(namesList).filter((name) => name.includes(playerName));
+  const names = Object.keys(namesList).filter(
+    (name) => name.split(delimiter)[0] === playerName,
+  );
 
   const index = names.findIndex((name) => {
     const nameInfo = namesList[name];
