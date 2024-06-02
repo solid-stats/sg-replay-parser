@@ -8,5 +8,20 @@
     "name": "mayson",
     "minDate": null,
     "maxDate": "2023-01-01T00:00:00.000Z"
+  },
+  {
+    "name": "exile",
+    "minDate": null,
+    "maxDate": null
+  },
+  {
+    "name": "mooniverse",
+    "minDate": null,
+    "maxDate": null
+  },
+  {
+    "name": "jm0t",
+    "minDate": null,
+    "maxDate": null
   }
 ]
