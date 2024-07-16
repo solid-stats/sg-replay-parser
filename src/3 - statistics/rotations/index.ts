@@ -29,12 +29,15 @@ const getStatsByRotations = (allReplays: PlayersGameResult[]): StatisticsByRotat
     const globalStatistics = calculateGlobalStatistics(replays);
     const squadStatistics = calculateSquadStatistics(
       replays,
-      rotationEndDate ?? undefined,
+      rotationStartDate,
+      rotationEndDate,
+      true,
     );
     const squadFullRotationStatistics = calculateSquadStatistics(
       replays,
-      rotationEndDate ?? null,
       rotationStartDate,
+      rotationEndDate,
+      false,
     );
 
     return {

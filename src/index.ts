@@ -12,7 +12,6 @@ import getReplays from './1 - replays/getReplays';
 import parseReplays from './1 - replays/parseReplays';
 import calculateGlobalStatistics from './3 - statistics/global';
 import getStatsByRotations from './3 - statistics/rotations';
-import calculateSquadStatistics from './3 - statistics/squads';
 import generateOutput from './4 - output';
 
 const getParsedReplays = async (gameType: GameType): Promise<PlayersGameResult[]> => {
@@ -40,7 +39,6 @@ const countStatistics = (
   gameType: GameType,
 ): Statistics => {
   const global = calculateGlobalStatistics(parsedReplays);
-  const squad = calculateSquadStatistics(parsedReplays);
   const byRotations = gameType === 'sg' ? getStatsByRotations(parsedReplays) : null;
 
   logger.info(`- ${formatGameType(gameType)} statistics collected.`);
@@ -51,7 +49,7 @@ const countStatistics = (
       gamesCount: parsedReplays.length,
       type: 'not show',
     }),
-    squad,
+    squad: [],
     squadFull: [],
     byRotations,
   };

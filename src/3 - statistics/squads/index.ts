@@ -20,15 +20,17 @@ const filterStatistics = (stats: GlobalSquadStatistics[]) => (
 
 const calculateSquadStatistics = (
   replays: PlayersGameResult[],
-  // not used in calculations for global statistics
-  rotationLastDate?: Dayjs | null,
-  rotationStartDate?: Dayjs,
+  rotationStartDate: Dayjs,
+  rotationLastDate: Dayjs | null,
+  only4Weeks: boolean,
 ): GlobalSquadStatistics[] => {
   if (!replays.length) return [];
 
   let currentDate = dayjsUTC();
-  let rotationEndDate = rotationLastDate;
+  let rotationEndDate = rotationLastDate ?? undefined;
+
   const lastReplayDate = dayjsUTC(replays[replays.length - 1].date);
+
   const isLastReplayOnThisDay = lastReplayDate.isoWeek() === currentDate.isoWeek()
     && lastReplayDate.weekday() === currentDate.weekday();
 
@@ -38,11 +40,18 @@ const calculateSquadStatistics = (
   }
 
   const endDate = rotationEndDate || currentDate;
+  let fourWeeksIntervalStartDate = endDate.subtract(4, 'weeks');
+
+  if (rotationStartDate.isAfter(fourWeeksIntervalStartDate)) {
+    fourWeeksIntervalStartDate = rotationStartDate;
+  }
 
   const replaysForCalculations = replays.filter((replay) => (
     isInInterval(
       dayjsUTC(replay.date),
-      rotationStartDate ?? endDate.subtract(4, 'weeks'),
+      only4Weeks
+        ? fourWeeksIntervalStartDate
+        : rotationStartDate,
       endDate,
     )
   ));
