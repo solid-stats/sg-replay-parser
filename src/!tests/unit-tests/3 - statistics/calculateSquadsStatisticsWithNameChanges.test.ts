@@ -55,40 +55,70 @@ test('Prepare names changes list snapshot', () => {
 describe('getPlayerId func should work correctly', () => {
   it('Name change should work correctly', () => {
     const playersGameResult = nameChangesTestData;
+    const rotationStartDate = dayjsUTC(playersGameResult[0].date).startOf('week');
 
-    const resultSquadStatistics = calculateSquadStatistics(playersGameResult, dayjsUTC('2023-04-15'));
+    const resultSquadStatistics = calculateSquadStatistics(
+      playersGameResult,
+      rotationStartDate,
+      dayjsUTC('2023-04-15'),
+      true,
+    );
 
     expect(resultSquadStatistics).toMatchSnapshot();
   });
 
   it('Name changes sequence should work correctly', () => {
     const playersGameResult = nameChangesSequenceTestData;
+    const rotationStartDate = dayjsUTC(playersGameResult[0].date).startOf('week');
 
-    const resultSquadStatistics = calculateSquadStatistics(playersGameResult, dayjsUTC('2023-09-02'));
+    const resultSquadStatistics = calculateSquadStatistics(
+      playersGameResult,
+      rotationStartDate,
+      dayjsUTC('2023-09-02'),
+      true,
+    );
 
     expect(resultSquadStatistics).toMatchSnapshot();
   });
 
   it('Name change and then change back to the same name should work correctly', () => {
     const playersGameResult = nameChangeAndChangeBackTestData;
+    const rotationStartDate = dayjsUTC(playersGameResult[0].date).startOf('week');
 
-    const resultSquadStatistics = calculateSquadStatistics(playersGameResult, dayjsUTC('2022-11-19'));
+    const resultSquadStatistics = calculateSquadStatistics(
+      playersGameResult,
+      rotationStartDate,
+      dayjsUTC('2022-11-19'),
+      true,
+    );
 
     expect(resultSquadStatistics).toMatchSnapshot();
   });
 
   it('Name change collision after name change and before change back should be handled correctly', () => {
     const playersGameResult = nameChangeAndChangeBackWithCollisionsTestData;
+    const rotationStartDate = dayjsUTC(playersGameResult[0].date).startOf('week');
 
-    const resultSquadStatistics = calculateSquadStatistics(playersGameResult, dayjsUTC('2023-08-12'));
+    const resultSquadStatistics = calculateSquadStatistics(
+      playersGameResult,
+      rotationStartDate,
+      dayjsUTC('2023-08-12'),
+      true,
+    );
 
     expect(resultSquadStatistics).toMatchSnapshot();
   });
 
   it('Name change after squad change should be handled correctly', () => {
     const playersGameResult = nameChangeAfterSquadChangeTestData;
+    const rotationStartDate = dayjsUTC(playersGameResult[0].date).startOf('week');
 
-    const resultSquadStatistics = calculateSquadStatistics(playersGameResult, dayjsUTC('2023-04-15'));
+    const resultSquadStatistics = calculateSquadStatistics(
+      playersGameResult,
+      rotationStartDate,
+      dayjsUTC('2023-04-15'),
+      true,
+    );
 
     expect(resultSquadStatistics).toMatchSnapshot();
   });
