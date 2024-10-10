@@ -14,19 +14,19 @@ import {
 } from './data/forSquadStatisticsWithNameChanges';
 
 const exampleNamesChanges = [
-  generateNameChangeItem('Parker', 'morpex', '12.11.2022 03:00'),
-  generateNameChangeItem('morpex', 'Parker', '15.11.2022 03:00'),
+  generateNameChangeItem('Parker', 'morpex', '12.11.2022 3:00'),
+  generateNameChangeItem('morpex', 'Parker', '15.11.2022 3:00'),
 
-  generateNameChangeItem('Markovnik', 'borigen', '09.04.2023 03:00'),
+  generateNameChangeItem('Markovnik', 'borigen', '09.04.2023 3:00'),
 
-  generateNameChangeItem('callisto1', 'Outkast', '18.08.2023 03:00'),
-  generateNameChangeItem('Outkast', 'kanistra', '25.08.2023 03:00'),
-  generateNameChangeItem('kanistra', 'AllCash', '01.09.2023 03:00'),
+  generateNameChangeItem('callisto1', 'Outkast', '18.08.2023 3:00'),
+  generateNameChangeItem('Outkast', 'kanistra', '25.08.2023 3:00'),
+  generateNameChangeItem('kanistra', 'AllCash', '01.09.2023 3:00'),
 
-  generateNameChangeItem('neon', 'beda', '05.08.2023 03:00'),
-  generateNameChangeItem('Londor', 'neon', '05.08.2023 04:00'),
-  generateNameChangeItem('neon', 'londor', '07.08.2023 03:00'),
-  generateNameChangeItem('beda', 'neon', '08.08.2023 03:00'),
+  generateNameChangeItem('neon', 'beda', '05.08.2023 3:00'),
+  generateNameChangeItem('Londor', 'neon', '05.08.2023 4:00'),
+  generateNameChangeItem('neon', 'londor', '07.08.2023 3:00'),
+  generateNameChangeItem('beda', 'neon', '08.08.2023 3:00'),
 ];
 
 jest.mock('uuid', () => {
