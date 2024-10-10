@@ -13,7 +13,7 @@ import { configPath } from '../paths';
 import pipe from '../pipe';
 import { findNameInfo } from './findNameInfo';
 import moscowDateToUTC from './moscowDateToUTC';
-import { dateFormat, delimiter } from './utils/consts';
+import { dateFormat, delimiter, nameChangeDateFormat } from './utils/consts';
 import { NamesList } from './utils/types';
 
 // accepted | declined
@@ -42,10 +42,12 @@ const filter = (records: RawCSVContentType[]) => records.filter(
   (record) => record.Статус === 'Принято',
 );
 const order = (records: RawCSVContentType[]) => (
-  records.sort((first, second) => (
-    dayjsUTC(first['Дата смены ника'], dateFormat)
-      .isAfter(dayjsUTC(second['Дата смены ника'], dateFormat)) ? 1 : -1
-  ))
+  records.sort((first, second) => {
+    const firstDate = dayjsUTC(first['Дата смены ника'], nameChangeDateFormat);
+    const secondDate = dayjsUTC(second['Дата смены ника'], nameChangeDateFormat);
+
+    return firstDate.isAfter(secondDate) ? 1 : -1;
+  })
 );
 
 export const prepareNamesList = (): void => {

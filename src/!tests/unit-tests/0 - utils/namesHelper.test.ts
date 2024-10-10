@@ -43,7 +43,6 @@ test('getId without generating name changes should throw error', () => {
   expect(getPlayerId).toThrow('Список смен ников не был инициализирован');
 });
 
-/* eslint-disable no-console */
 test('prepareNamesList without file should send message', () => {
   jest.spyOn(fs, 'readFileSync').mockImplementationOnce(() => { throw new Error(); });
 
@@ -57,7 +56,6 @@ test('prepareNamesList without file should send message', () => {
 
   resetNamesList();
 });
-/* eslint-enable no-console */
 
 test('Prepare names changes list snapshot', () => {
   jest.mock('csv-parse');
