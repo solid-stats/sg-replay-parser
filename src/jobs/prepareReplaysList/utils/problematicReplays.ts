@@ -1,5 +1,5 @@
 const findProblematicReplays = (result: Output): Output['problematicReplays'] => {
-  const replaysWithoutsFilename = result.problematicReplays.filter(
+  const replaysWithoutsFilename = result.replays.filter(
     (val) => val.filename.length === 0,
   );
 
@@ -18,8 +18,8 @@ const processProblematicReplays = (result: Output): Output => {
       (replay) => replay.replayLink === replayLink,
     );
 
-    delete newResult.parsedReplays[parsedReplaysIndex];
-    delete newResult.replays[replaysIndex];
+    newResult.parsedReplays.splice(parsedReplaysIndex, 1);
+    newResult.replays.splice(replaysIndex, 1);
   });
 
   newResult = {
