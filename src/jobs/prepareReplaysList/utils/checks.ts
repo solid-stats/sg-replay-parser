@@ -1,5 +1,5 @@
-import { replaysListPath } from '../../../0 - utils/paths';
 import logger from '../../../0 - utils/logger';
+import { replaysListPath } from '../../../0 - utils/paths';
 
 const checks = (result: Output): void => {
   const replaysWithoutsFilename = result.problematicReplays.filter(
