@@ -2,6 +2,7 @@ import { compact } from 'lodash';
 import pLimit from 'p-limit';
 
 import { dayjsUnix } from '../../0 - utils/dayjs';
+import logger from '../../0 - utils/logger';
 import parseReplay from './parseReplay';
 import saveReplayFile from './saveReplayFile';
 
@@ -10,38 +11,46 @@ const parseTableRowInfo = async (
   alreadyParsedReplays: Output['parsedReplays'],
   includeReplays: ConfigIncludeReplay[],
 ): Promise<Replay | null> => {
-  const tableCells = el.getElementsByTagName('td');
-  const linkElement = el.querySelector('a');
-  const replayLink = linkElement?.getAttribute('href');
+  try {
+    const tableCells = el.getElementsByTagName('td');
+    const linkElement = el.querySelector('a');
+    const replayLink = linkElement?.getAttribute('href');
 
-  if (!(linkElement && linkElement.textContent) || !replayLink) return null;
+    if (!(linkElement && linkElement.textContent) || !replayLink) return null;
 
     if (alreadyParsedReplays.includes(replayLink)) return null;
 
-  const missionInfo = linkElement.textContent.split('@');
-  let missionGameType = missionInfo[0];
-  const missionName = missionInfo[1];
-  const replayToInclude = includeReplays.find(({ name }) => (name === missionName));
+    const missionInfo = linkElement.textContent.split('@');
+    let missionGameType = missionInfo[0];
+    const missionName = missionInfo[1];
+    const replayToInclude = includeReplays.find(({ name }) => (name === missionName));
 
-  if (replayToInclude && !missionGameType) missionGameType = `${replayToInclude.gameType}@`;
+    if (replayToInclude && !missionGameType) missionGameType = `${replayToInclude.gameType}@`;
 
-  if (!missionGameType) return null;
+    if (!missionGameType) return null;
 
-  const filename = await parseReplay(replayLink);
-  const date = dayjsUnix(parseInt(replayLink.split('/')[2], 10)).toJSON();
+    const filename = await parseReplay(replayLink);
+    const date = dayjsUnix(parseInt(replayLink.split('/')[2], 10)).toJSON();
 
-  const isFileSaved = await saveReplayFile(filename);
+    const isFileSaved = await saveReplayFile(filename);
 
-  if (!isFileSaved) return null;
+    if (!isFileSaved) return null;
 
-  return {
-    mission_name: `${missionGameType}@${missionName}`,
-    filename,
-    date,
-    serverId: parseInt(tableCells[2].textContent || '', 10) || 0,
-    world_name: tableCells[1].textContent || 'unknown',
-    replayLink,
-  };
+    return {
+      mission_name: `${missionGameType}@${missionName}`,
+      filename,
+      date,
+      serverId: parseInt(tableCells[2].textContent || '', 10) || 0,
+      world_name: tableCells[1].textContent || 'unknown',
+      replayLink,
+    };
+  } catch (err) {
+    const error = err as Error;
+
+    logger.error(`Error occurred during parsing replay info. Error: ${error.message}, stack: ${error.stack}`);
+
+    return null;
+  }
 };
 
 const parseReplaysOnPage = async (
