@@ -79,22 +79,22 @@ Start preparing new replays list.`,
       parsedReplays: union(result.parsedReplays, newReplays.parsedReplays),
       replays: union(result.replays, newReplays.replays),
     };
-
-    result = {
-      ...newReplays,
-      replays: newReplays.replays.filter(
-        (replay) => (
-          !excludeReplays.includes(replay.replayLink)
-        ),
-      ),
-      parsedReplays: newReplays.parsedReplays.filter(
-        (replay) => (
-          !excludeReplays.includes(replay)
-        ),
-      ),
-    };
   }
 
+  result = unionReplaysInfo(replaysList, result);
+  result = {
+    ...result,
+    replays: result.replays.filter(
+      (replay) => (
+        !excludeReplays.includes(replay.replayLink)
+      ),
+    ),
+    parsedReplays: result.parsedReplays.filter(
+      (replay) => (
+        !excludeReplays.includes(replay)
+      ),
+    ),
+  };
   result = processProblematicReplays(result);
 
   logger.info(
@@ -103,8 +103,6 @@ Fetched replays.
 Found: ${result.parsedReplays.length} new replays and ${result.problematicReplays.length} problematic replays.
 Total replays: ${result.parsedReplays.length}.`,
   );
-
-  result = unionReplaysInfo(replaysList, result);
 
   checks(result);
 
