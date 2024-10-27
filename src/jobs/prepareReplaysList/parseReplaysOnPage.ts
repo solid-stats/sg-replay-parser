@@ -9,7 +9,6 @@ const parseTableRowInfo = async (
   el: Element,
   alreadyParsedReplays: Output['parsedReplays'],
   includeReplays: ConfigIncludeReplay[],
-  excludeReplays: ConfigExcludeReplays,
 ): Promise<Replay | null> => {
   const tableCells = el.getElementsByTagName('td');
   const linkElement = el.querySelector('a');
@@ -17,7 +16,7 @@ const parseTableRowInfo = async (
 
   if (!(linkElement && linkElement.textContent) || !replayLink) return null;
 
-  if (alreadyParsedReplays.includes(replayLink) || excludeReplays.includes(replayLink)) return null;
+    if (alreadyParsedReplays.includes(replayLink)) return null;
 
   const missionInfo = linkElement.textContent.split('@');
   let missionGameType = missionInfo[0];
@@ -49,7 +48,6 @@ const parseReplaysOnPage = async (
   dom: Document,
   alreadyParsedReplays: Output['parsedReplays'],
   includeReplays: ConfigIncludeReplay[],
-  excludeReplays: ConfigExcludeReplays,
 ): Promise<Output> => {
   const replaysList = Array.from(dom.querySelectorAll('.common-table > tbody > tr'));
 
@@ -59,7 +57,6 @@ const parseReplaysOnPage = async (
       replay,
       alreadyParsedReplays,
       includeReplays,
-      excludeReplays,
     ))),
   );
   const replays = compact(rawReplays);

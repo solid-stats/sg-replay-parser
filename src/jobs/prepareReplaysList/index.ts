@@ -72,13 +72,26 @@ Start preparing new replays list.`,
       pageDom,
       replaysList.parsedReplays,
       includeReplays,
-      excludeReplays,
     );
 
     result = {
       ...result,
       parsedReplays: union(result.parsedReplays, newReplays.parsedReplays),
       replays: union(result.replays, newReplays.replays),
+    };
+
+    result = {
+      ...newReplays,
+      replays: newReplays.replays.filter(
+        (replay) => (
+          !excludeReplays.includes(replay.replayLink)
+        ),
+      ),
+      parsedReplays: newReplays.parsedReplays.filter(
+        (replay) => (
+          !excludeReplays.includes(replay)
+        ),
+      ),
     };
   }
 
