@@ -3,7 +3,7 @@ import { colorsByPlace, titles } from '../../utils/consts';
 const mostDisconnectsFormatter = (
   { mostDisconnects }: WholeYearStatisticsResult,
 ): string => {
-  let text = `[spoiler=${titles.mostDisconnects}]Топ 10 игроков с наибольшим количеством перезаходов:
+  let text = `[spoiler=${titles.mostDisconnects}]Игроки с наибольшим количеством перезаходов:
 (считается только когда игрок выходил после начала игры и потом заходил обратно в [b]живой юнит[/b])\n`;
 
   mostDisconnects.forEach(

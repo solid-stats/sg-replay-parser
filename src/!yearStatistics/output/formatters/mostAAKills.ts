@@ -3,7 +3,7 @@ import { colorsByPlace, titles } from '../../utils/consts';
 const mostAAKillsFormatter = (
   { mostAAKills }: WholeYearStatisticsResult,
 ): string => {
-  let text = `[spoiler=${titles.mostAAKills}]Топ 10 игроков, которые больше остальных уничтожали воздушную технику из ПЗРК:
+  let text = `[spoiler=${titles.mostAAKills}]Игроки сбившее наибольшее количество воздушной техники из ПЗРК:
 (засчитывается уничтожение из любого оружия всех ЛА, кроме маленьких дронов типа Darter, Tayran и т.п.)\n`;
 
   mostAAKills.forEach(

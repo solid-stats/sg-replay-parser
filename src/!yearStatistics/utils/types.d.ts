@@ -21,11 +21,15 @@ type DeathToGamesRatio = Default & {
 };
 
 type MostTeamkillsInOneGame = DefaultCountNomination & {
-  missionName: PlayersGameResult['missionName'];
+  link: string;
 };
 
 type MostShots = DefaultCountNomination & {
   gamesCountWithAtleastOneShot: number;
+};
+
+type MostKillsFromOldWeapons = DefaultCountNomination & {
+  weapons: Record<string, number>;
 };
 
 type BestMission = DefaultCountNomination & {
@@ -67,12 +71,9 @@ type MostHeight = {
   vehicleName: string;
 };
 
-type MostFlyingTimeInGroundVehicle = DefaultTimeNomination & {
-  distance: number;
-  vehicleName: string;
-  maxHeight: number;
-  replayLink: string;
-  startTime: string;
+type MostPlaneKillsFromPlane = DefaultCountNomination & {
+  lastReplayDate: string;
+  lastTime: number;
 };
 
 type KillsFromSlot = DefaultCountNomination & {
@@ -83,6 +84,10 @@ type KillsFromSlot = DefaultCountNomination & {
 type RandomshikNominee = DefaultDistanceNomination & {
   kills: number;
   coef: number;
+};
+
+type MostKillsWithSmallWalkedDistance = DefaultCountNomination & {
+  minDistance: number;
 };
 
 type NomineeList<ValueType> = Record<string, ValueType>;
@@ -106,7 +111,7 @@ type WholeYearStatisticsResult = {
   mostDistantKill: MostDistantKill[];
   bestWeapon: DefaultCountNomination[];
   bestVehicle: DefaultCountNomination[];
-  mostKillsFromOldWeapons: DefaultCountNomination[];
+  mostKillsFromOldWeapons: MostKillsFromOldWeapons[];
   mostATKills: MostATKills[];
   mostAAKills: DefaultCountNomination[];
   mostWalkedDistance: DefaultDistanceNomination[];
@@ -120,6 +125,8 @@ type WholeYearStatisticsResult = {
   mostTimeInFlyingVehicle: DefaultTimeNomination[];
   mostDeathsFromTeamkills: DefaultCountNomination[];
   mostKillsInCQB: DefaultCountNomination[];
+  mostPlaneKillsFromPlane: MostPlaneKillsFromPlane[];
+  mostKillsWithSmallWalkedDistance: MostKillsWithSmallWalkedDistance[];
 };
 
 type YearResultsInfo = {

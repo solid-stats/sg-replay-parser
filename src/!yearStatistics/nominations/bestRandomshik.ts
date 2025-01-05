@@ -40,7 +40,6 @@ const bestRandomshik = ({
 
     if (eventType !== 'killed') return;
 
-    // eslint-disable-next-line array-element-newline
     const [, , killedId, killInfo] = event;
 
     if (killInfo[0] === 'null' || !killInfo[1]) return;

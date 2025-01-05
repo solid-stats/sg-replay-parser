@@ -3,7 +3,7 @@ import { colorsByPlace, titles } from '../../utils/consts';
 const mostFrequentCSFormatter = (
   { mostFrequentCS }: WholeYearStatisticsResult,
 ): string => {
-  let text = `[spoiler=${titles.mostFrequentCS}]Топ 10 игроков, которые чаще всего занимают слот КС-а:\n`;
+  let text = `[spoiler=${titles.mostFrequentCS}]Игроки, которые чаще всего занимают слот КС:\n`;
 
   mostFrequentCS.forEach(
     (nominee, index) => {

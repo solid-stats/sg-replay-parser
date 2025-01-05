@@ -19,7 +19,10 @@ export const sortMostKillsFromMedicSlot = (
   ),
 });
 
-const medicSlotNames = ['медик', 'санитар', 'санинструктор', 'врач', 'костоправ', 'medic', 'corpsman', 'life saver', 'lékař'];
+// USED ONLY WHEN PREPARING SLOTS LIST
+// const slots = {};
+
+const medicSlotNames = ['медик', 'санитар', 'санинструктор', 'врач', 'костоправ', 'фельдшер', 'medic', 'corpsman', 'life saver', 'lékař', 'sanitäter'];
 
 const mostKillsFromMedicSlot = ({
   result,
@@ -55,6 +58,13 @@ const mostKillsFromMedicSlot = ({
 
     const killerSlotName = killerEntity.description.toLowerCase();
 
+    // USED ONLY WHEN PREPARING SLOTS LIST
+    // slots[killerSlotName] = {
+    //   slot: killerSlotName,
+    //   count: (slots[killerSlotName]?.count ?? 0) + 1,
+    // };
+    // USED ONLY WHEN PREPARING SLOTS LIST
+
     if (!medicSlotNames.some((medicSlotName) => killerSlotName.includes(medicSlotName))) return;
 
     const entityName = getPlayerName(killer.name)[0];
@@ -79,6 +89,17 @@ const mostKillsFromMedicSlot = ({
       };
     }
   });
+
+  // USED ONLY WHEN PREPARING SLOTS LIST
+  // fs.writeFileSync(
+  //   'slots.json',
+  //   JSON.stringify(
+  //     limitAndOrder(slots, 'count', 'desc', 99999999999),
+  //     null,
+  //     2,
+  //   ),
+  // );
+  // USED ONLY WHEN PREPARING SLOTS LIST
 
   return {
     ...other,

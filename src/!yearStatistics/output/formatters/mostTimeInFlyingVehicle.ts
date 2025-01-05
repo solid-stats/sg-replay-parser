@@ -3,7 +3,7 @@ import { colorsByPlace, titles } from '../../utils/consts';
 const mostTimeInFlyingVehicleFormatter = (
   { mostTimeInFlyingVehicle }: WholeYearStatisticsResult,
 ): string => {
-  let text = `[spoiler=${titles.mostTimeInFlyingVehicle}]Топ 10 игроков, которые провели больше всего времени в воздушной технике:
+  let text = `[spoiler=${titles.mostTimeInFlyingVehicle}]Игроки, которые провели больше всего времени в воздушной технике:
 (время считается только пока игрок управляет живым юнитом)\n`;
 
   mostTimeInFlyingVehicle.forEach(

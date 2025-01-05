@@ -3,7 +3,7 @@ import { colorsByPlace, titles } from '../../utils/consts';
 const bestWeaponFormatter = (
   { bestWeapon }: WholeYearStatisticsResult,
 ): string => {
-  let text = `[spoiler=${titles.bestWeapon}]Топ 10 оружия, из которого было убито больше всего игроков:\n`;
+  let text = `[spoiler=${titles.bestWeapon}]Оружие, из которого было убито больше всего игроков:\n`;
 
   bestWeapon.forEach(
     (nominee, index) => {

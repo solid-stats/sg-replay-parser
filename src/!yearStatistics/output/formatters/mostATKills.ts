@@ -3,7 +3,7 @@ import { colorsByPlace, titles } from '../../utils/consts';
 const mostATKillsFormatter = (
   { mostATKills }: WholeYearStatisticsResult,
 ): string => {
-  let text = `[spoiler=${titles.mostATKills}]Топ 10 игроков, которые убивали других игроков и уничтожали технику из гранатометов:
+  let text = `[spoiler=${titles.mostATKills}]Игроков, которые эффективнее всего использовали гранатометы:
 (иногда уничтожение техники может не засчитываться, если техника взорвалась не сразу)\n`;
 
   mostATKills.forEach(

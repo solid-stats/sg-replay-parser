@@ -3,7 +3,7 @@ import { colorsByPlace, titles } from '../../utils/consts';
 const mostTimeWalkedFormatter = (
   { mostTimeWalked }: WholeYearStatisticsResult,
 ): string => {
-  let text = `[spoiler=${titles.mostTimeWalked}]Топ 10 игроков, которые провели больше всего времени на своих двоих:
+  let text = `[spoiler=${titles.mostTimeWalked}]Игроки, которые провели больше всего времени на своих двоих:
 (время считается только пока игрок управляет живым юнитом)\n`;
 
   mostTimeWalked.forEach(

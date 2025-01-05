@@ -3,7 +3,7 @@ import { colorsByPlace, titles } from '../../utils/consts';
 const mostDistanceInVehicleFormatter = (
   { mostDistanceInVehicle }: WholeYearStatisticsResult,
 ): string => {
-  let text = `[spoiler=${titles.mostDistanceInVehicle}]Топ 10 игроков, которые больше всего проехали на технике:\n`;
+  let text = `[spoiler=${titles.mostDistanceInVehicle}]Игроки, которые больше всего проехали на технике:\n`;
 
   mostDistanceInVehicle.forEach(
     (nominee, index) => {

@@ -8,7 +8,7 @@ import getEntities from '../../2 - parseReplayInfo/getEntities';
 import getPlayerNameAtEndOfTheYear from '../utils/getPlayerNameAtEndOfTheYear';
 import limitAndOrder from '../utils/limitAndOrder';
 
-const atWeapons = ['m136', 'rpg', 'fgm', 'm72', 'smaw', 'maaws', 'panzerfaust', 'rshg', 'apilas'];
+const atWeapons = ['m136', 'rpg', 'fgm', 'm72', 'smaw', 'maaws', 'panzerfaust', 'bunkerfaust', 'rshg', 'apilas', 'psrl', 'rgw', 'nlaw', 'rbr-m80'];
 
 export const sortMostATKills = (
   statistics: WholeYearStatisticsResult,

@@ -3,7 +3,7 @@ import { colorsByPlace, titles } from '../../utils/consts';
 const mostHeightPlaneFormatter = (
   { mostHeightPlane }: WholeYearStatisticsResult,
 ): string => {
-  let text = `[spoiler=${titles.mostHeightPlane}]Топ 10 максимальной высоты на самолетах:
+  let text = `[spoiler=${titles.mostHeightPlane}]Топ максимальной высоты на самолете:
 (высота считается до земли или до морского дна (если техника над водой)\n`;
 
   mostHeightPlane.forEach(

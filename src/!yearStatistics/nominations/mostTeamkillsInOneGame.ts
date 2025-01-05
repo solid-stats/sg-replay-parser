@@ -29,11 +29,15 @@ const mostTeamkillsInOneGame = ({
 
       if (teamkills < currentNominee.count) return;
 
+      const replayLink = other.replays.find(
+        (replay) => replay.mission_name === missionName && replay.date === date,
+      )?.replayLink;
+
       list[id] = {
         id,
         name,
         count: teamkills,
-        missionName,
+        link: replayLink ?? '-',
       };
     });
   });

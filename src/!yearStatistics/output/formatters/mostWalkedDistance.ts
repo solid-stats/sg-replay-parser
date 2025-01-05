@@ -3,7 +3,7 @@ import { colorsByPlace, titles } from '../../utils/consts';
 const mostWalkedDistanceFormatter = (
   { mostWalkedDistance }: WholeYearStatisticsResult,
 ): string => {
-  let text = `[spoiler=${titles.mostWalkedDistance}]Топ 10 игроков, которые дальше всех ходили пешком:\n`;
+  let text = `[spoiler=${titles.mostWalkedDistance}]Игроки, которые дальше всех ходили пешком:\n`;
 
   mostWalkedDistance.forEach(
     (nominee, index) => {

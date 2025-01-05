@@ -4,7 +4,8 @@ const mostTeamkillsFormatter = (
   { mostTeamkills }: WholeYearStatisticsResult,
 ): string => {
   let text = `[spoiler=${titles.mostTeamkills}]Список самых опасных игроков (для союзников).
-Топ 10 по количеству убитых союзников:\n`;
+
+Топ по количеству убитых союзников:\n`;
 
   mostTeamkills.forEach(
     (nominee, index) => {

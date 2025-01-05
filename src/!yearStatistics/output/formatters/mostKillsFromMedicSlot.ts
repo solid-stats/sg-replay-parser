@@ -5,7 +5,7 @@ import { colorsByPlace, titles } from '../../utils/consts';
 const mostKillsFromMedicSlotFormatter = (
   { mostKillsFromMedicSlot }: WholeYearStatisticsResult,
 ): string => {
-  let text = `[spoiler=${titles.mostKillsFromMedicSlot}]Топ 10 игроков, которые больше всех убивали на слоте медика:\n`;
+  let text = `[spoiler=${titles.mostKillsFromMedicSlot}]Самые неправильные медики:\n`;
 
   mostKillsFromMedicSlot.forEach(
     (nominee, index) => {

@@ -4,7 +4,7 @@ import getRandomshikNomineeTextLine from './getTextLine';
 const bestRandomshikFormatter = (
   { bestRandomshik }: WholeYearStatisticsResult,
 ): string => {
-  let text = `[spoiler=${titles.bestRandomshik}]Топ 10 самых эффективных рандомщиков:
+  let text = `[spoiler=${titles.bestRandomshik}]Самые эффективные рандомщики:
 (в номинации участвуют только те игроки, которые прошли более 500 000 м.)\n`;
 
   bestRandomshik.forEach((nominee, index) => {

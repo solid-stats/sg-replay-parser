@@ -3,7 +3,7 @@ import { colorsByPlace, titles } from '../../utils/consts';
 const mostTimeAliveFormatter = (
   { mostTimeAlive }: WholeYearStatisticsResult,
 ): string => {
-  let text = `[spoiler=${titles.mostTimeAlive}]Топ 10 игроков, которые провели больше всего времени в игре:
+  let text = `[spoiler=${titles.mostTimeAlive}]Игроки, которые провели больше всего времени в игре:
 (время считается только пока игрок управляет живым юнитом)\n`;
 
   mostTimeAlive.forEach(

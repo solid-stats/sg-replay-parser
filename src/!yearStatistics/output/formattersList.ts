@@ -16,6 +16,9 @@ import mostKillsFromCommanderSlotFormatter from './formatters/mostKillsFromComma
 import mostKillsFromMedicSlotFormatter from './formatters/mostKillsFromMedicSlot';
 import mostKillsFromOldWeaponsFormatter from './formatters/mostKillsFromOldWeapons';
 import mostKillsInCQBFormatter from './formatters/mostKillsInCQB';
+// eslint-disable-next-line id-length
+import mostKillsWithSmallWalkedDistanceFormatter from './formatters/mostKillsWithSmallWalkedDistance';
+import mostPlaneKillsFromPlaneFormatter from './formatters/mostPlaneKillsFromPlane';
 import mostPopularMissionFormatter from './formatters/mostPopularMission';
 import mostPopularMissionMakerFormatter from './formatters/mostPopularMissionMaker';
 import mostShotsFormatter from './formatters/mostShots';
@@ -60,6 +63,8 @@ const formatters: Record<YearStatisticsKeys, (stats: WholeYearStatisticsResult) 
   mostKillsInCQB: mostKillsInCQBFormatter,
   bestRandomshik: bestRandomshikFormatter,
   mostKillsFromMedicSlot: mostKillsFromMedicSlotFormatter,
+  mostPlaneKillsFromPlane: mostPlaneKillsFromPlaneFormatter,
+  mostKillsWithSmallWalkedDistance: mostKillsWithSmallWalkedDistanceFormatter,
 };
 
 export default formatters;

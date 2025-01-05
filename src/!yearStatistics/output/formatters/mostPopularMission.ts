@@ -3,7 +3,7 @@ import { colorsByPlace, titles } from '../../utils/consts';
 const mostPopularMissionFormatter = (
   { mostPopularMission }: WholeYearStatisticsResult,
 ): string => {
-  let text = `[spoiler=${titles.mostPopularMission}]Топ 10 миссий, которые отыграли больше всего раз:\n`;
+  let text = `[spoiler=${titles.mostPopularMission}]Миссии, которые отыграли больше всего раз:\n`;
 
   mostPopularMission.forEach(
     (nominee, index) => {

@@ -1,4 +1,4 @@
-export const year = 2023;
+export const year = 2024;
 
 export const titles: Record<keyof WholeYearStatisticsResult, string> = {
   bestDeathToGamesRatio: 'Нео, ты не в матрице',
@@ -31,6 +31,8 @@ export const titles: Record<keyof WholeYearStatisticsResult, string> = {
   mostKillsInCQB: 'Близорукий',
   bestRandomshik: 'Лучший рандомщик',
   mostKillsFromMedicSlot: 'Не лечит, а калечит',
+  mostPlaneKillsFromPlane: 'Danger Zone',
+  mostKillsWithSmallWalkedDistance: 'Глыба🗿',
 };
 
 export const defaultResult: WholeYearStatisticsResult = {
@@ -64,6 +66,8 @@ export const defaultResult: WholeYearStatisticsResult = {
   mostKillsInCQB: [],
   bestRandomshik: [],
   mostKillsFromMedicSlot: [],
+  mostPlaneKillsFromPlane: [],
+  mostKillsWithSmallWalkedDistance: [],
 };
 
 // array means several nomination in one message
@@ -78,9 +82,9 @@ export const nominationsOrder: NominationsOrder = [
   ['mostKillsFromOldWeapons', 'mostKillsInCQB'],
   ['mostKillsFromCommanderSlot', 'mostKillsFromMedicSlot'],
   ['mostATKills', 'mostAAKills'],
-  ['mostHeightHeli', 'mostHeightPlane'],
+  ['mostPlaneKillsFromPlane', 'mostHeightHeli', 'mostHeightPlane'],
   ['mostWalkedDistance', 'mostDistanceInVehicle'],
-  'bestRandomshik',
+  ['mostKillsWithSmallWalkedDistance', 'bestRandomshik'],
   ['mostTimeAlive', 'mostTimeWalked', 'mostTimeInVehicle', 'mostTimeInGroundVehicle', 'mostTimeInFlyingVehicle'],
 ];
 

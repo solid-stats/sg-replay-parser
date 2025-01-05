@@ -3,7 +3,7 @@ import { colorsByPlace, titles } from '../../utils/consts';
 const bestDeathToGamesRatioFormatter = (
   { bestDeathToGamesRatio }: WholeYearStatisticsResult,
 ): string => {
-  let text = `[spoiler=${titles.bestDeathToGamesRatio}]Топ 10 самых осторожных игроков с наибольшим процентом выживания:\n`;
+  let text = `[spoiler=${titles.bestDeathToGamesRatio}]Самые осторожных игроки с наибольшим процентом выживания:\n`;
 
   bestDeathToGamesRatio.forEach(
     (nominee, index) => {

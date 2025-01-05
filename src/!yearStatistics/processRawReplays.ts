@@ -15,6 +15,8 @@ import mostKillsFromCommanderSlot, { sortMostKillsFromCommanderSlot } from './no
 import mostKillsFromMedicSlot, { sortMostKillsFromMedicSlot } from './nominations/mostKillsFromMedicSlot';
 import mostKillsFromOldWeapons, { sortMostKillsFromOldWeapons } from './nominations/mostKillsFromOldWeapons';
 import mostKillsInCQB, { sortMostKillsInCQB } from './nominations/mostKillsInCQB';
+import mostKillsWithSmallWalkedDistance, { sortMostKillsWithSmallWalkedDistance } from './nominations/mostKillsWithSmallWalkedDistance';
+import mostPlaneKillsFromPlane, { sortMostPlaneKillsFromPlane } from './nominations/mostPlaneKillsFromPlane';
 import { processMissionDates } from './nominations/mostPopularMission';
 import mostPopularMissionMaker, { sortMostPopularMissionMaker } from './nominations/mostPopularMissionMaker';
 import mostShots, { sortMostShots } from './nominations/mostShots';
@@ -50,16 +52,16 @@ const processRawReplays = async (
       bestWeaponsAndVehicles,
       mostATKills,
       mostAAKills,
+      mostKillsWithSmallWalkedDistance,
 
-      // randomshikNomination should go after mostDistance
       mostDistance,
+      // bestRandomshik should go after mostDistance
       bestRandomshik,
-      // randomshikNomination should go after mostDistance
 
       mostHeight,
       mostTime,
       mostKillsInCQB,
-      // mostTimeFlyingInGroundVehicle,
+      mostPlaneKillsFromPlane,
     )({
       replay,
       replayInfo,
@@ -85,15 +87,14 @@ const processRawReplays = async (
     sortMostTime,
     sortMostKillsInCQB,
     sortMostKillsFromMedicSlot,
-    // sortMostTimeFlyingInGroundVehicle,
+    sortMostPlaneKillsFromPlane,
+    sortMostKillsWithSmallWalkedDistance,
 
-    // sortRandomshikNomination should go before sortMostDistance
+    // sortBestRandomshik should go before sortMostDistance
     sortBestRandomshik,
     sortMostDistance,
-    // sortRandomshikNomination should go before sortMostDistance
 
     processTime,
-    // processMostTimeFlyingInGroundVehicle,
     processMissionDates,
   )(newResult);
 
