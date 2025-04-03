@@ -20,6 +20,7 @@ const startDates: string[] = [
   '2024-07-01T00:00:00.000Z',
   '2024-10-01T00:00:00.000Z',
   '2024-12-30T00:00:00.000Z',
+  '2025-01-04T00:00:00.000Z',
 ];
 
 const rotationsStartDates: Dayjs[] = startDates.map((startDate) => (
