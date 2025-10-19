@@ -1,7 +1,9 @@
 import syncParse from 'csv-parse/sync';
+import dayjs from 'dayjs';
 
 import { getNamesList, resetNamesList } from '../../../../0 - utils/namesHelper';
 import { prepareNamesList } from '../../../../0 - utils/namesHelper/prepareNamesList';
+import { dateFormat } from '../../../../0 - utils/namesHelper/utils/consts';
 import { NamesList } from '../../../../0 - utils/namesHelper/utils/types';
 import generateNameChangeItem from '../../../utils/generators/generateNameChangeItem';
 
@@ -40,6 +42,16 @@ const getUniqueIds = (namesList: NamesList | null): number => {
     0,
   );
 };
+const checkThatAllDatesAreValid = (namesList: NamesList | null): boolean => {
+  if (!namesList) return false;
+
+  return Object.values(namesList).every(
+    ({ fromDate, endDate }) => (
+      dayjs(fromDate, dateFormat, true).isValid()
+      && dayjs(endDate, dateFormat, true).isValid()
+    ),
+  );
+};
 
 test('Common', () => {
   jest.spyOn(syncParse, 'parse').mockReturnValueOnce([
@@ -59,6 +71,9 @@ test('Common', () => {
   const uniqueIds = getUniqueIds(namesList);
 
   expect(uniqueIds).toBe(3);
+  expect(
+    checkThatAllDatesAreValid(namesList),
+  ).toBe(true);
 });
 
 test('Back and fourth', () => {
@@ -72,6 +87,9 @@ test('Back and fourth', () => {
   const uniqueIds = getUniqueIds(namesList);
 
   expect(uniqueIds).toBe(1);
+  expect(
+    checkThatAllDatesAreValid(namesList),
+  ).toBe(true);
 });
 
 test('Name collisions between different players', () => {
@@ -91,6 +109,9 @@ test('Name collisions between different players', () => {
   const uniqueIds = getUniqueIds(namesList);
 
   expect(uniqueIds).toBe(2);
+  expect(
+    checkThatAllDatesAreValid(namesList),
+  ).toBe(true);
 });
 
 describe('Different dates format', () => {
@@ -105,6 +126,9 @@ describe('Different dates format', () => {
     const uniqueIds = getUniqueIds(namesList);
 
     expect(uniqueIds).toBe(1);
+    expect(
+      checkThatAllDatesAreValid(namesList),
+    ).toBe(true);
   });
 
   test('Month variations', () => {
@@ -118,6 +142,9 @@ describe('Different dates format', () => {
     const uniqueIds = getUniqueIds(namesList);
 
     expect(uniqueIds).toBe(1);
+    expect(
+      checkThatAllDatesAreValid(namesList),
+    ).toBe(true);
   });
 
   test('Year variations', () => {
@@ -131,6 +158,9 @@ describe('Different dates format', () => {
     const uniqueIds = getUniqueIds(namesList);
 
     expect(uniqueIds).toBe(1);
+    expect(
+      checkThatAllDatesAreValid(namesList),
+    ).toBe(true);
   });
 
   test('Hour variations', () => {
@@ -144,6 +174,9 @@ describe('Different dates format', () => {
     const uniqueIds = getUniqueIds(namesList);
 
     expect(uniqueIds).toBe(1);
+    expect(
+      checkThatAllDatesAreValid(namesList),
+    ).toBe(true);
   });
 
   test('Minute variations', () => {
@@ -157,6 +190,9 @@ describe('Different dates format', () => {
     const uniqueIds = getUniqueIds(namesList);
 
     expect(uniqueIds).toBe(1);
+    expect(
+      checkThatAllDatesAreValid(namesList),
+    ).toBe(true);
   });
 
   test('With and without seconds', () => {
@@ -170,6 +206,9 @@ describe('Different dates format', () => {
     const uniqueIds = getUniqueIds(namesList);
 
     expect(uniqueIds).toBe(1);
+    expect(
+      checkThatAllDatesAreValid(namesList),
+    ).toBe(true);
   });
 
   test('With invalid time', () => {
