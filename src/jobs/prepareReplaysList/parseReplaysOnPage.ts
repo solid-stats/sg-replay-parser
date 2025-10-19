@@ -1,10 +1,34 @@
-import { compact } from 'lodash';
+import { compact, snakeCase } from 'lodash';
 import pLimit from 'p-limit';
 
 import { dayjsUnix } from '../../0 - utils/dayjs';
 import logger from '../../0 - utils/logger';
 import parseReplay from './parseReplay';
 import saveReplayFile from './saveReplayFile';
+
+export const getMissionName = (
+  linkText: string,
+  includeReplays: ConfigIncludeReplay[],
+): string | undefined => {
+  const gameTypeSplitSymbol = '@';
+
+  if (!linkText.includes(gameTypeSplitSymbol)) {
+    const replayToInclude = includeReplays.find(
+      ({ name }) => name.toLowerCase() === linkText.toLowerCase(),
+    );
+
+    if (replayToInclude) {
+      return [
+        replayToInclude.gameType,
+        snakeCase(linkText),
+      ].join(gameTypeSplitSymbol);
+    }
+
+    return undefined;
+  }
+
+  return linkText;
+};
 
 const parseTableRowInfo = async (
   el: Element,
@@ -20,14 +44,12 @@ const parseTableRowInfo = async (
 
     if (alreadyParsedReplays.includes(replayLink)) return null;
 
-    const missionInfo = linkElement.textContent.split('@');
-    let missionGameType = missionInfo[0];
-    const missionName = missionInfo[1];
-    const replayToInclude = includeReplays.find(({ name }) => (name === missionName));
+    const missionName = getMissionName(
+      linkElement.textContent || '',
+      includeReplays,
+    );
 
-    if (replayToInclude && !missionGameType) missionGameType = `${replayToInclude.gameType}@`;
-
-    if (!missionGameType) return null;
+    if (!missionName) return null;
 
     const filename = await parseReplay(replayLink);
     const date = dayjsUnix(parseInt(replayLink.split('/')[2], 10)).toJSON();
@@ -37,7 +59,7 @@ const parseTableRowInfo = async (
     if (!isFileSaved) return null;
 
     return {
-      mission_name: `${missionGameType}@${missionName}`,
+      mission_name: missionName,
       filename,
       date,
       serverId: parseInt(tableCells[2].textContent || '', 10) || 0,
