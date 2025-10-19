@@ -92,3 +92,107 @@ test('Name collisions between different players', () => {
 
   expect(uniqueIds).toBe(2);
 });
+
+describe('Different dates format', () => {
+  test('Day variations', () => {
+    jest.spyOn(syncParse, 'parse').mockReturnValueOnce([
+      generateNameChangeItem('1', '2', '01.05.2023 3:00'),
+      generateNameChangeItem('2', '3', '2.05.2023 3:00'),
+    ]);
+
+    prepareNamesList();
+    const namesList = getNamesList();
+    const uniqueIds = getUniqueIds(namesList);
+
+    expect(uniqueIds).toBe(1);
+  });
+
+  test('Month variations', () => {
+    jest.spyOn(syncParse, 'parse').mockReturnValueOnce([
+      generateNameChangeItem('1', '2', '01.05.2023 3:00'),
+      generateNameChangeItem('2', '3', '02.05.2023 3:00'),
+    ]);
+
+    prepareNamesList();
+    const namesList = getNamesList();
+    const uniqueIds = getUniqueIds(namesList);
+
+    expect(uniqueIds).toBe(1);
+  });
+
+  test('Year variations', () => {
+    jest.spyOn(syncParse, 'parse').mockReturnValueOnce([
+      generateNameChangeItem('1', '2', '01.05.2023 3:00'),
+      generateNameChangeItem('2', '3', '02.05.2024 3:00'),
+    ]);
+
+    prepareNamesList();
+    const namesList = getNamesList();
+    const uniqueIds = getUniqueIds(namesList);
+
+    expect(uniqueIds).toBe(1);
+  });
+
+  test('Hour variations', () => {
+    jest.spyOn(syncParse, 'parse').mockReturnValueOnce([
+      generateNameChangeItem('1', '2', '01.05.2023 3:00'),
+      generateNameChangeItem('2', '3', '02.05.2023 03:00'),
+    ]);
+
+    prepareNamesList();
+    const namesList = getNamesList();
+    const uniqueIds = getUniqueIds(namesList);
+
+    expect(uniqueIds).toBe(1);
+  });
+
+  test('Minute variations', () => {
+    jest.spyOn(syncParse, 'parse').mockReturnValueOnce([
+      generateNameChangeItem('1', '2', '01.05.2023 3:05'),
+      generateNameChangeItem('2', '3', '02.05.2023 3:5'),
+    ]);
+
+    prepareNamesList();
+    const namesList = getNamesList();
+    const uniqueIds = getUniqueIds(namesList);
+
+    expect(uniqueIds).toBe(1);
+  });
+
+  test('With and without seconds', () => {
+    jest.spyOn(syncParse, 'parse').mockReturnValueOnce([
+      generateNameChangeItem('1', '2', '01.05.2023 3:00'),
+      generateNameChangeItem('2', '3', '02.05.2023 3:00:00'),
+    ]);
+
+    prepareNamesList();
+    const namesList = getNamesList();
+    const uniqueIds = getUniqueIds(namesList);
+
+    expect(uniqueIds).toBe(1);
+  });
+
+  test('With invalid time', () => {
+    jest.spyOn(syncParse, 'parse').mockReturnValueOnce([
+      generateNameChangeItem('1', '2', '01.05.2023 a:b'),
+    ]);
+
+    prepareNamesList();
+    const namesList = getNamesList();
+    const uniqueIds = getUniqueIds(namesList);
+
+    expect(uniqueIds).toBe(0);
+  });
+
+  test('With invalid date', () => {
+    jest.spyOn(syncParse, 'parse').mockReturnValueOnce([
+      generateNameChangeItem('1', '2', 'a.b.c 3:00'),
+    ]);
+
+    prepareNamesList();
+    const namesList = getNamesList();
+    const uniqueIds = getUniqueIds(namesList);
+
+    expect(uniqueIds).toBe(0);
+  });
+});

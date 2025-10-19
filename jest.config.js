@@ -22,12 +22,12 @@ module.exports = {
     '!./src/!tests/**/*.ts',
     '!./src/jobs/**/*.ts',
   ],
-  "automock": false,
-  "resetMocks": false,
-  "coverageReporters": ["clover", "json", "lcov"],
-  "coverageThreshold": {
-    "global": {
-      "lines": 100,
+  automock: false,
+  resetMocks: false,
+  coverageReporters: ['clover', 'json', 'lcov'],
+  coverageThreshold: {
+    global: {
+      lines: 100,
     },
   },
-}
+};
