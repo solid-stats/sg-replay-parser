@@ -48,6 +48,8 @@ type GetTimeReturn = { hours: number, minutes: number };
 const getTime = (rawTime: string): GetTimeReturn | undefined => {
   const [hours, minutes] = rawTime.split(':');
 
+  if (!hours || !minutes) return undefined;
+
   try {
     return {
       hours: z.coerce.number().parse(hours),
@@ -60,7 +62,12 @@ const getTime = (rawTime: string): GetTimeReturn | undefined => {
 const parseDate = (rawDate: string): Dayjs | undefined => {
   const [date, rawTime] = rawDate.split(' ');
 
+  if (!date || !rawTime) return undefined;
+
   const [day, month, year] = date.split('.');
+
+  if (!day || !month || !year) return undefined;
+
   const time = getTime(rawTime);
 
   if (!time) return undefined;

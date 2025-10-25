@@ -115,6 +115,19 @@ test('Name collisions between different players', () => {
 });
 
 describe('Different dates format', () => {
+  test('Invalid date format', () => {
+    jest.spyOn(syncParse, 'parse').mockReturnValueOnce([
+      generateNameChangeItem('1', '2', '28 июля 1:00'),
+      generateNameChangeItem('2', '3', '15 12 10 10'),
+    ]);
+
+    prepareNamesList();
+    const namesList = getNamesList();
+    const uniqueIds = getUniqueIds(namesList);
+
+    expect(uniqueIds).toBe(0);
+  });
+
   test('Day variations', () => {
     jest.spyOn(syncParse, 'parse').mockReturnValueOnce([
       generateNameChangeItem('1', '2', '01.05.2023 3:00'),
