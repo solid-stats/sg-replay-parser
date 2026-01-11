@@ -51,8 +51,9 @@ const mostDistantKill = ({
 
     // eslint-disable-next-line array-element-newline
     const [frame, , killedId, killInfo, distance] = event;
+    const killedEntity = replayInfo.entities[killedId];
 
-    if (killInfo[0] === 'null' || !killInfo[1]) return;
+    if (killInfo[0] === 'null' || !killInfo[1] || !killedEntity) return;
 
     const [killerId, weaponName] = killInfo;
     const killer = players[killerId];
@@ -63,7 +64,8 @@ const mostDistantKill = ({
       || ignoredWeapons.some((ignoredWeapon) => weaponName.toLowerCase().includes(ignoredWeapon))
       || !killer
       || killerEntity.type === 'vehicle'
-      || vehicles[killedId]
+      || killedEntity.type === 'vehicle'
+      || killerEntity.side === killedEntity.side
     ) return;
 
     const entityName = getPlayerName(killer.name)[0];

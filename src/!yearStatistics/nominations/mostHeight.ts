@@ -54,17 +54,13 @@ const mostHeight = ({
       const height = pos[2];
 
       if (height > maxHeight.height) {
-        maxHeight.height = height;
-
         const playersInside = position[3];
         const apparentlyDriverId = playersInside[0];
         const playerInfo = players[apparentlyDriverId];
 
-        if (!playerInfo || playersInside.length === 0) {
-          maxHeight.playerName = 'unknown';
+        if (!playerInfo || playersInside.length === 0) return;
 
-          return;
-        }
+        maxHeight.height = height;
 
         const entityName = getPlayerName(playerInfo.name)[0];
         const playerId = getPlayerId(entityName, dayjsUTC(other.replay.date));

@@ -8,7 +8,7 @@ const mostDisconnectsFormatter = (
 
   mostDisconnects.forEach(
     (nominee, index) => {
-      text += `[color=${colorsByPlace[index] || '#fff'}]${index + 1}.[/color] [user]${nominee.name}[/user], кол-во перезаходов: ${nominee.count}, игр в которых был хотя бы один перезаход: ${nominee.gamesWithAtleastOneDisconnect};\n`;
+      text += `[color=${colorsByPlace[index] || '#fff'}]${index + 1}.[/color] [user]${nominee.name}[/user], кол-во перезаходов: ${nominee.count}, игр в которых был хотя бы один перезаход: ${nominee.gamesWithAtLeastOneDisconnect};\n`;
     },
   );
 

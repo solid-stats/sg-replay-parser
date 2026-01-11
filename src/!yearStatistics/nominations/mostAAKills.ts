@@ -3,7 +3,6 @@ import { keyBy, uniq } from 'lodash';
 import { dayjsUTC } from '../../0 - utils/dayjs';
 import getPlayerName from '../../0 - utils/getPlayerName';
 import { getPlayerId } from '../../0 - utils/namesHelper/getId';
-import { forbiddenWeapons } from '../../0 - utils/weaponsStatistic';
 import getEntities from '../../2 - parseReplayInfo/getEntities';
 import getPlayerNameAtEndOfTheYear from '../utils/getPlayerNameAtEndOfTheYear';
 import limitAndOrder from '../utils/limitAndOrder';
@@ -14,7 +13,10 @@ export const sortMostAAKills = (
   statistics: WholeYearStatisticsResult,
 ): WholeYearStatisticsResult => ({
   ...statistics,
-  mostAAKills: limitAndOrder(statistics.mostAAKills, 'count', 'desc'),
+  mostAAKills: {
+    ...statistics.mostAAKills,
+    nominations: limitAndOrder(statistics.mostAAKills.nominations, 'count', 'desc'),
+  },
 });
 
 const mostAAKills = ({
@@ -22,9 +24,11 @@ const mostAAKills = ({
   replayInfo,
   ...other
 }: InfoForRawReplayProcess): InfoForRawReplayProcess => {
-  const nomineesById = keyBy(result.mostAAKills, 'id') as NomineeList<DefaultCountNomination>;
   const { players, vehicles } = getEntities(replayInfo);
   const vehiclesName = uniq(Object.values(vehicles).map((vehicle) => vehicle.name.toLowerCase()));
+
+  const nomineesById = keyBy(result.mostAAKills.nominations, 'id') as NomineeList<DefaultCountNomination>;
+  const destroyedVehicleNames = new Set(result.mostAAKills.destroyedVehicleNames);
 
   replayInfo.events.forEach((event) => {
     const eventType = event[1];
@@ -47,7 +51,6 @@ const mostAAKills = ({
       !killer
       || killedPlayer
       || !killedVehicle
-      || forbiddenWeapons.includes(loweredWeaponName)
       || vehiclesName.includes(loweredWeaponName)
     ) return;
 
@@ -72,6 +75,8 @@ const mostAAKills = ({
 
       if (uavs.some((uav) => killedVehicle.name.toLowerCase().includes(uav))) return;
 
+      destroyedVehicleNames.add(killedVehicle.name);
+
       const currentNominee: DefaultCountNomination = nomineesById[id] || {
         id, name, count: 0,
       };
@@ -89,7 +94,10 @@ const mostAAKills = ({
     replayInfo,
     result: {
       ...result,
-      mostAAKills: Object.values(nomineesById),
+      mostAAKills: {
+        nominations: Object.values(nomineesById),
+        destroyedVehicleNames,
+      },
     },
   };
 };

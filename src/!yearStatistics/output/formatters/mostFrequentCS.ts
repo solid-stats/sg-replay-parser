@@ -1,3 +1,5 @@
+import { round } from 'lodash';
+
 import { colorsByPlace, titles } from '../../utils/consts';
 
 const mostFrequentCSFormatter = (
@@ -7,7 +9,7 @@ const mostFrequentCSFormatter = (
 
   mostFrequentCS.forEach(
     (nominee, index) => {
-      text += `[color=${colorsByPlace[index] || '#fff'}]${index + 1}.[/color] [user]${nominee.name}[/user], кол-во игр: ${nominee.count};\n`;
+      text += `[color=${colorsByPlace[index] || '#fff'}]${index + 1}.[/color] [user]${nominee.name}[/user], кол-во игр: ${nominee.count}, частота занятия слота: ${round((nominee.count / nominee.totalPlayedGames) * 100)}%;\n`;
     },
   );
 

@@ -16,7 +16,7 @@ SIMP'ы, которые сделали самое дальнее убийств�
 
   mostDistantKill.forEach(
     (nominee) => {
-      text += [nominee.playerName, nominee.weaponName, nominee.maxDistance, nominee.replayLink, nominee.replayTime, nominee.roleDescription].join(', ');
+      text += [nominee.playerName, nominee.weaponName, Intl.NumberFormat('ru-RU').format(nominee.maxDistance), nominee.replayLink, nominee.replayTime, nominee.roleDescription].join(', ');
       text += '\n';
     },
   );

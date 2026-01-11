@@ -1,6 +1,6 @@
 const toLowerCase = (name: string): string => name.toLowerCase();
 
-const oldWeapons = [
+const oldWeapons = new Set([
   '6p9',
   'amd-63',
   'apb',
@@ -43,6 +43,12 @@ const oldWeapons = [
   'svt-40',
   'tt-33',
   'uzi',
-].map(toLowerCase);
+  'aps',
+  'dp',
+  'hk g3a3',
+  'hk g3a3 (widegrip)',
+  'mg42',
+  'ptrs-41',
+].map(toLowerCase));
 
 export default oldWeapons;

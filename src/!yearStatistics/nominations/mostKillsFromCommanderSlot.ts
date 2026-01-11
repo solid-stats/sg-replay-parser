@@ -1,6 +1,4 @@
-import {
-  groupBy, keyBy, round, uniq,
-} from 'lodash';
+import { groupBy, keyBy, uniq } from 'lodash';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
 import getPlayerName from '../../0 - utils/getPlayerName';
@@ -16,8 +14,8 @@ export const sortMostKillsFromCommanderSlot = (
   ...statistics,
   mostKillsFromCommanderSlot: limitAndOrder(
     statistics.mostKillsFromCommanderSlot,
-    ['count', 'slotFrequency', 'totalSlotCount'],
-    ['desc', 'desc', 'desc'],
+    ['count', 'totalKills'],
+    ['desc', 'asc'],
   ),
 });
 
@@ -96,22 +94,19 @@ const mostKillsFromCommanderSlot = ({
     const name = getPlayerNameAtEndOfTheYear(id) ?? entityName;
 
     const currentNominee: KillsFromSlot = nomineesById[id] || {
-      id, name, count: 0, totalSlotCount: 0, slotFrequency: 0,
+      id, name, count: 0, totalKills: 0,
     };
 
-    const totalSlotCount = currentNominee.totalSlotCount + 1;
+    const globalPlayerStats = globalStatistics.find((stats) => stats.id === id);
 
-    const globalStat = globalStatistics.find((stats) => stats.id === id);
+    if (!globalPlayerStats) return;
 
-    if (globalStat) {
-      nomineesById[id] = {
-        id,
-        name,
-        count: currentNominee.count + 1,
-        totalSlotCount,
-        slotFrequency: round(totalSlotCount / globalStat.totalPlayedGames, 2),
-      };
-    }
+    nomineesById[id] = {
+      id,
+      name,
+      count: currentNominee.count + 1,
+      totalKills: globalPlayerStats.kills,
+    };
   });
 
   return {

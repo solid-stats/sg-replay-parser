@@ -1,5 +1,3 @@
-import { round } from 'lodash';
-
 import { colorsByPlace, titles } from '../../utils/consts';
 
 const mostKillsFromCommanderSlotFormatter = (
@@ -9,7 +7,7 @@ const mostKillsFromCommanderSlotFormatter = (
 
   mostKillsFromCommanderSlot.forEach(
     (nominee, index) => {
-      text += `[color=${colorsByPlace[index] || '#fff'}]${index + 1}.[/color] [user]${nominee.name}[/user], убито игроков: ${nominee.count}, частота занятия слота: ${round(nominee.slotFrequency * 100)}%;\n`;
+      text += `[color=${colorsByPlace[index] || '#fff'}]${index + 1}.[/color] [user]${nominee.name}[/user], убито игроков: ${nominee.count};\n`;
     },
   );
 

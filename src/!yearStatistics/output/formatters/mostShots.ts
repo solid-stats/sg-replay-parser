@@ -8,7 +8,7 @@ const mostShotsFormatter = (
 
   mostShots.forEach(
     (nominee, index) => {
-      text += `[color=${colorsByPlace[index] || '#fff'}]${index + 1}.[/color] [user]${nominee.name}[/user], всего выстрелов: ${nominee.count}, игр с хотя бы одним выстрелом: ${nominee.gamesCountWithAtleastOneShot};\n`;
+      text += `[color=${colorsByPlace[index] || '#fff'}]${index + 1}.[/color] [user]${nominee.name}[/user], всего выстрелов: ${Intl.NumberFormat('ru-RU').format(nominee.count)}, игр с хотя бы одним выстрелом: ${nominee.gamesCountWithAtleastOneShot};\n`;
     },
   );
 

@@ -8,7 +8,7 @@ const mostKillsWithSmallWalkedDistanceFormatter = (
 
   mostKillsWithSmallWalkedDistance.forEach(
     (nominee, index) => {
-      text += `[color=${colorsByPlace[index] || '#fff'}]${index + 1}.[/color] [user]${nominee.name}[/user], убийств: ${nominee.count}, минимальная пройденная дистанция: ${nominee.minDistance} м;\n`;
+      text += `[color=${colorsByPlace[index] || '#fff'}]${index + 1}.[/color] [user]${nominee.name}[/user], убийств: ${nominee.count}, минимальная пройденная дистанция: ${Intl.NumberFormat('ru-RU').format(nominee.minDistance)} м;\n`;
     },
   );
 

@@ -11,7 +11,7 @@ export const sortMostFrequentTL = (
   statistics: WholeYearStatisticsResult,
 ): WholeYearStatisticsResult => ({
   ...statistics,
-  mostFrequentTL: limitAndOrder(statistics.mostFrequentTL, 'count', 'desc'),
+  mostFrequentTL: limitAndOrder(statistics.mostFrequentTL, ['count', 'totalPlayedGames'], ['desc', 'asc']),
 });
 
 const mostFrequentTL = ({
@@ -19,7 +19,7 @@ const mostFrequentTL = ({
   replayInfo,
   ...other
 }: InfoForRawReplayProcess): InfoForRawReplayProcess => {
-  const nomineesById = keyBy(result.mostFrequentTL, 'id') as NomineeList<DefaultCountNomination>;
+  const nomineesById = keyBy(result.mostFrequentTL, 'id') as NomineeList<MostFrequentCommander>;
   const { players } = getEntities(replayInfo);
 
   const groupedBySide = groupBy(
@@ -40,12 +40,22 @@ const mostFrequentTL = ({
       const id = getPlayerId(entityName, dayjsUTC(other.replay.date));
       const name = getPlayerNameAtEndOfTheYear(id) ?? entityName;
 
-      const currentNominee = nomineesById[id] || { id, name, count: 0 };
+      const playerGlobalStats = other.globalStatistics.find((stat) => stat.id === id);
+
+      if (!playerGlobalStats) return;
+
+      const currentNominee: MostFrequentCommander = nomineesById[id] || {
+        id,
+        name,
+        count: 0,
+        totalPlayedGames: playerGlobalStats.totalPlayedGames,
+      };
 
       nomineesById[id] = {
         id,
         name,
         count: currentNominee.count + 1,
+        totalPlayedGames: playerGlobalStats.totalPlayedGames,
       };
     });
   });

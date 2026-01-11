@@ -13,8 +13,8 @@ export const sortMostPlaneKillsFromPlane = (
   ...statistics,
   mostPlaneKillsFromPlane: limitAndOrder(
     statistics.mostPlaneKillsFromPlane,
-    ['count', 'lastReplayDate', 'lastTime'],
-    ['desc', 'asc', 'asc'],
+    ['count', 'totalVehiclesDestroyed', 'totalKills'],
+    ['desc', 'desc', 'desc'],
   ),
 });
 
@@ -58,12 +58,18 @@ const mostPlaneKillsFromPlane = ({
     const id = getPlayerId(entityName, dayjsUTC(other.replay.date));
     const name = getPlayerNameAtEndOfTheYear(id) ?? entityName;
 
+    const playerGlobalStats = other.globalStatistics.find(
+      (stat) => stat.id === id,
+    );
+
+    if (!playerGlobalStats) return;
+
     const emptyNominee: MostPlaneKillsFromPlane = {
       id,
       name,
       count: 0,
-      lastReplayDate: dayjsUTC(other.replay.date).toJSON(),
-      lastTime: event[0],
+      totalKills: 0,
+      totalVehiclesDestroyed: 0,
     };
     const currentNominee = nominees[id] || emptyNominee;
 
@@ -71,8 +77,8 @@ const mostPlaneKillsFromPlane = ({
       id,
       name,
       count: currentNominee.count + 1,
-      lastReplayDate: dayjsUTC(other.replay.date).toJSON(),
-      lastTime: event[0],
+      totalKills: playerGlobalStats.kills,
+      totalVehiclesDestroyed: playerGlobalStats.vehicleKills,
     };
   });
 

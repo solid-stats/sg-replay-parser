@@ -1,4 +1,4 @@
-import { keyBy, round, uniq } from 'lodash';
+import { keyBy, uniq } from 'lodash';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
 import getPlayerName from '../../0 - utils/getPlayerName';
@@ -12,17 +12,59 @@ export const sortMostKillsFromMedicSlot = (
   statistics: WholeYearStatisticsResult,
 ): WholeYearStatisticsResult => ({
   ...statistics,
-  mostKillsFromMedicSlot: limitAndOrder(
-    statistics.mostKillsFromMedicSlot,
-    ['count', 'slotFrequency', 'totalSlotCount'],
-    ['desc', 'desc', 'desc'],
-  ),
+  mostKillsFromMedicSlot: {
+    ...statistics.mostKillsFromMedicSlot,
+    nominations: limitAndOrder(
+      statistics.mostKillsFromMedicSlot.nominations,
+      ['count', 'totalKills'],
+      ['desc', 'asc'],
+    ),
+  },
 });
 
-// USED ONLY WHEN PREPARING SLOTS LIST
-// const slots = {};
-
-const medicSlotNames = ['медик', 'санитар', 'санинструктор', 'врач', 'костоправ', 'фельдшер', 'medic', 'corpsman', 'life saver', 'lékař', 'sanitäter'];
+const medicSlotNames = [
+  'медик',
+  'санитар',
+  'cанитар',
+  'стрелок-санитар',
+  'разведчик-санитар',
+  'санинструктор',
+  'саниструктор',
+  'санинструцтор',
+  'старший санинструктор',
+  'взводный санинструктор',
+  'ротный санинструктор',
+  'врач',
+  'полевой врач',
+  'полевой медик',
+  'фельдшер',
+  'костоправ',
+  'медицинский специалист',
+  'водитель-санитар',
+  'боевик-лекарь',
+  'combat medic',
+  'medic',
+  'corpsman',
+  'aidman',
+  'pararescueman',
+  'combat lifesaver',
+  'sanitäter',
+  'sanitater',
+  'lékař',
+  'polní lékař',
+  'lekarz',
+  'sanitariusz',
+  'médecin',
+  'médical',
+  'infirmier',
+  'bolničar',
+  'bolničarka',
+  'doktor',
+  'oberarzt',
+  'санітар',
+  'медиц',
+  'medikus (санитар)',
+];
 
 const mostKillsFromMedicSlot = ({
   result,
@@ -30,9 +72,11 @@ const mostKillsFromMedicSlot = ({
   globalStatistics,
   ...other
 }: InfoForRawReplayProcess): InfoForRawReplayProcess => {
-  const nomineesById = keyBy(result.mostKillsFromMedicSlot, 'id') as NomineeList<KillsFromSlot>;
   const { players, vehicles } = getEntities(replayInfo);
   const vehiclesName = uniq(Object.values(vehicles).map((vehicle) => vehicle.name.toLowerCase()));
+
+  const nomineesById = keyBy(result.mostKillsFromMedicSlot.nominations, 'id') as NomineeList<KillsFromSlot>;
+  const slotNames = new Set(result.mostKillsFromMedicSlot.slotNames);
 
   replayInfo.events.forEach((event) => {
     const eventType = event[1];
@@ -58,12 +102,7 @@ const mostKillsFromMedicSlot = ({
 
     const killerSlotName = killerEntity.description.toLowerCase();
 
-    // USED ONLY WHEN PREPARING SLOTS LIST
-    // slots[killerSlotName] = {
-    //   slot: killerSlotName,
-    //   count: (slots[killerSlotName]?.count ?? 0) + 1,
-    // };
-    // USED ONLY WHEN PREPARING SLOTS LIST
+    slotNames.add(killerSlotName);
 
     if (!medicSlotNames.some((medicSlotName) => killerSlotName.includes(medicSlotName))) return;
 
@@ -72,34 +111,20 @@ const mostKillsFromMedicSlot = ({
     const name = getPlayerNameAtEndOfTheYear(id) ?? entityName;
 
     const currentNominee: KillsFromSlot = nomineesById[id] || {
-      id, name, count: 0, totalSlotCount: 0, slotFrequency: 0,
+      id, name, count: 0, totalKills: 0,
     };
 
-    const totalSlotCount = currentNominee.totalSlotCount + 1;
+    const globalPlayerStats = globalStatistics.find((stats) => stats.id === id);
 
-    const globalStat = globalStatistics.find((stats) => stats.id === id);
+    if (!globalPlayerStats) return;
 
-    if (globalStat) {
-      nomineesById[id] = {
-        id,
-        name,
-        count: currentNominee.count + 1,
-        totalSlotCount,
-        slotFrequency: round(totalSlotCount / globalStat.totalPlayedGames, 2),
-      };
-    }
+    nomineesById[id] = {
+      id,
+      name,
+      count: currentNominee.count + 1,
+      totalKills: globalPlayerStats.kills,
+    };
   });
-
-  // USED ONLY WHEN PREPARING SLOTS LIST
-  // fs.writeFileSync(
-  //   'slots.json',
-  //   JSON.stringify(
-  //     limitAndOrder(slots, 'count', 'desc', 99999999999),
-  //     null,
-  //     2,
-  //   ),
-  // );
-  // USED ONLY WHEN PREPARING SLOTS LIST
 
   return {
     ...other,
@@ -107,7 +132,10 @@ const mostKillsFromMedicSlot = ({
     globalStatistics,
     result: {
       ...result,
-      mostKillsFromMedicSlot: Object.values(nomineesById),
+      mostKillsFromMedicSlot: {
+        nominations: Object.values(nomineesById),
+        slotNames,
+      },
     },
   };
 };

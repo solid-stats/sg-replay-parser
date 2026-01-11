@@ -13,14 +13,10 @@ export const sortMostKillsFromOldWeapons = (
   statistics: WholeYearStatisticsResult,
 ): WholeYearStatisticsResult => ({
   ...statistics,
-  // USED ONLY WHEN PREPARING OLD WEAPONS LIST
-  // mostKillsFromOldWeapons: limitAndOrder(
-  //   statistics.mostKillsFromOldWeapons,
-  //   'count',
-  //   'desc',
-  //   999999,
-  // ),
-  mostKillsFromOldWeapons: limitAndOrder(statistics.mostKillsFromOldWeapons, 'count', 'desc'),
+  mostKillsFromOldWeapons: {
+    ...statistics.mostKillsFromOldWeapons,
+    nominations: limitAndOrder(statistics.mostKillsFromOldWeapons.nominations, ['count', 'totalKills'], ['desc', 'asc']),
+  },
 });
 
 const mostKillsFromOldWeapons = ({
@@ -28,7 +24,8 @@ const mostKillsFromOldWeapons = ({
   replayInfo,
   ...other
 }: InfoForRawReplayProcess): InfoForRawReplayProcess => {
-  const mostKillsFromOldWeaponsNomineesById = keyBy(result.mostKillsFromOldWeapons, 'id') as NomineeList<MostKillsFromOldWeapons>;
+  const mostKillsFromOldWeaponsNomineesById = keyBy(result.mostKillsFromOldWeapons.nominations, 'id') as NomineeList<MostKillsFromOldWeapons>;
+  const weaponNames = new Set(result.mostKillsFromOldWeapons.weaponNames);
 
   const { players, vehicles } = getEntities(replayInfo);
   const vehiclesName = uniq(Object.values(vehicles).map((vehicle) => vehicle.name.toLowerCase()));
@@ -57,45 +54,34 @@ const mostKillsFromOldWeapons = ({
 
     if (forbiddenWeapons.includes(loweredWeaponName)) return;
 
-    // THIS BLOCK USED ONLY WHEN PREPARING OLD WEAPONS LIST
-    // const id = loweredWeaponName;
-    // const name = loweredWeaponName;
+    weaponNames.add(loweredWeaponName);
 
-    // const emptyNominee: MostKillsFromOldWeapons = {
-    //   id,
-    //   name,
-    //   count: 0,
-    //   weapons: {},
-    // };
-    // const oldWeaponsCurrentNominee = mostKillsFromOldWeaponsNomineesById[id] || emptyNominee;
-
-    // mostKillsFromOldWeaponsNomineesById[loweredWeaponName] = {
-    //   id,
-    //   name,
-    //   count: oldWeaponsCurrentNominee.count + 1,
-    //   weapons: {},
-    // };
-    // THIS BLOCK USED ONLY WHEN PREPARING OLD WEAPONS LIST
-
-    if (oldWeapons.find((weapon) => loweredWeaponName === weapon)) {
+    if (oldWeapons.has(loweredWeaponName)) {
       const entityName = getPlayerName(killer.name)[0];
       const id = getPlayerId(entityName, dayjsUTC(other.replay.date));
       const name = getPlayerNameAtEndOfTheYear(id) ?? entityName;
+
+      const playerGlobalStats = other.globalStatistics.find(
+        (stat) => stat.id === id,
+      );
+
+      if (!playerGlobalStats) return;
 
       const emptyNominee: MostKillsFromOldWeapons = {
         id,
         name,
         count: 0,
+        totalKills: 0,
         weapons: {},
       };
       const oldWeaponsCurrentNominee = mostKillsFromOldWeaponsNomineesById[id] || emptyNominee;
-
       const currentWeaponStats = oldWeaponsCurrentNominee.weapons?.[weaponName];
 
       mostKillsFromOldWeaponsNomineesById[id] = {
         id,
         name,
         count: oldWeaponsCurrentNominee.count + 1,
+        totalKills: playerGlobalStats.kills,
         weapons: {
           ...oldWeaponsCurrentNominee.weapons,
           [weaponName]: (currentWeaponStats ?? 0) + 1,
@@ -109,7 +95,10 @@ const mostKillsFromOldWeapons = ({
     replayInfo,
     result: {
       ...result,
-      mostKillsFromOldWeapons: Object.values(mostKillsFromOldWeaponsNomineesById),
+      mostKillsFromOldWeapons: {
+        nominations: Object.values(mostKillsFromOldWeaponsNomineesById),
+        weaponNames,
+      },
     },
   };
 };

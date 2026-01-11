@@ -22,6 +22,7 @@ type DeathToGamesRatio = Default & {
 
 type MostTeamkillsInOneGame = DefaultCountNomination & {
   link: string;
+  totalTeamkills: number;
 };
 
 type MostShots = DefaultCountNomination & {
@@ -29,6 +30,7 @@ type MostShots = DefaultCountNomination & {
 };
 
 type MostKillsFromOldWeapons = DefaultCountNomination & {
+  totalKills: number;
   weapons: Record<string, number>;
 };
 
@@ -38,11 +40,11 @@ type BestMission = DefaultCountNomination & {
 };
 
 type MostDisconnects = DefaultCountNomination & {
-  gamesWithAtleastOneDisconnect: number;
+  gamesWithAtLeastOneDisconnect: number;
 };
 
 type MostFrequentCommander = DefaultCountNomination & {
-  frequency: string;
+  totalPlayedGames: number;
 };
 
 type MostDistantKill = {
@@ -72,13 +74,12 @@ type MostHeight = {
 };
 
 type MostPlaneKillsFromPlane = DefaultCountNomination & {
-  lastReplayDate: string;
-  lastTime: number;
+  totalKills: number;
+  totalVehiclesDestroyed: number;
 };
 
 type KillsFromSlot = DefaultCountNomination & {
-  totalSlotCount: number;
-  slotFrequency: number;
+  totalKills: number;
 };
 
 type RandomshikNominee = DefaultDistanceNomination & {
@@ -103,17 +104,26 @@ type WholeYearStatisticsResult = {
   mostPopularMissionMaker: DefaultCountNomination[];
   mostDisconnects: MostDisconnects[];
   // CS = Comander of the Side
-  mostFrequentCS: DefaultCountNomination[];
+  mostFrequentCS: MostFrequentCommander[];
   // TL = Team Leader
-  mostFrequentTL: DefaultCountNomination[];
+  mostFrequentTL: MostFrequentCommander[];
   mostKillsFromCommanderSlot: KillsFromSlot[];
-  mostKillsFromMedicSlot: KillsFromSlot[];
+  mostKillsFromMedicSlot: {
+    nominations: KillsFromSlot[];
+    slotNames: Set<string>;
+  };
   mostDistantKill: MostDistantKill[];
   bestWeapon: DefaultCountNomination[];
   bestVehicle: DefaultCountNomination[];
-  mostKillsFromOldWeapons: MostKillsFromOldWeapons[];
+  mostKillsFromOldWeapons: {
+    nominations: MostKillsFromOldWeapons[];
+    weaponNames: Set<string>;
+  };
   mostATKills: MostATKills[];
-  mostAAKills: DefaultCountNomination[];
+  mostAAKills: {
+    nominations: DefaultCountNomination[];
+    destroyedVehicleNames: Set<string>;
+  };
   mostWalkedDistance: DefaultDistanceNomination[];
   mostDistanceInVehicle: DefaultDistanceNomination[];
   mostHeightPlane: MostHeight[];

@@ -18,6 +18,7 @@ import mostTeamkillsInOneGame from './nominations/mostTeamkillsInOneGame';
 import printOutput from './output';
 import processRawReplays from './processRawReplays';
 import { defaultResult, year } from './utils/consts';
+import getPlayerNameAtEndOfTheYear from './utils/getPlayerNameAtEndOfTheYear';
 import { printFinish } from './utils/printText';
 
 /*
@@ -44,7 +45,10 @@ import { printFinish } from './utils/printText';
 
   logger.info('Started calculating global statistics.');
 
-  const globalStatistics = calculateGlobalStatistics(parsedReplays);
+  const globalStatistics = calculateGlobalStatistics(parsedReplays).map((stats) => ({
+    ...stats,
+    name: getPlayerNameAtEndOfTheYear(stats.id) ?? stats.name,
+  }));
 
   printFinish();
 

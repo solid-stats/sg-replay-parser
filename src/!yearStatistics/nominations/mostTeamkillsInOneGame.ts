@@ -33,11 +33,16 @@ const mostTeamkillsInOneGame = ({
         (replay) => replay.mission_name === missionName && replay.date === date,
       )?.replayLink;
 
+      const playerStats = other.globalStatistics.find((stat) => stat.id === id);
+
+      if (!playerStats) return;
+
       list[id] = {
         id,
         name,
         count: teamkills,
         link: replayLink ?? '-',
+        totalTeamkills: playerStats.teamkills,
       };
     });
   });
@@ -48,7 +53,7 @@ const mostTeamkillsInOneGame = ({
     ...other,
     result: {
       ...result,
-      mostTeamkillsInOneGame: limitAndOrder(list, ['count', 'missionName'], ['desc', 'desc']),
+      mostTeamkillsInOneGame: limitAndOrder(list, ['count', 'totalTeamkills'], ['desc', 'asc']),
     },
   };
 };

@@ -11,7 +11,7 @@ export const sortMostFrequentCS = (
   statistics: WholeYearStatisticsResult,
 ): WholeYearStatisticsResult => ({
   ...statistics,
-  mostFrequentCS: limitAndOrder(statistics.mostFrequentCS, 'count', 'desc'),
+  mostFrequentCS: limitAndOrder(statistics.mostFrequentCS, ['count', 'totalPlayedGames'], ['desc', 'asc']),
 });
 
 const mostFrequentCS = ({
@@ -19,7 +19,7 @@ const mostFrequentCS = ({
   replayInfo,
   ...other
 }: InfoForRawReplayProcess): InfoForRawReplayProcess => {
-  const nomineesById = keyBy(result.mostFrequentCS, 'id') as NomineeList<DefaultCountNomination>;
+  const nomineesById = keyBy(result.mostFrequentCS, 'id') as NomineeList<MostFrequentCommander>;
   const { players } = getEntities(replayInfo);
 
   const groupedBySide = groupBy(
@@ -38,12 +38,22 @@ const mostFrequentCS = ({
     const id = getPlayerId(entityName, dayjsUTC(other.replay.date));
     const name = getPlayerNameAtEndOfTheYear(id) ?? entityName;
 
-    const currentNominee = nomineesById[id] || { id, name, count: 0 };
+    const playerGlobalStats = other.globalStatistics.find((stat) => stat.id === id);
+
+    if (!playerGlobalStats) return;
+
+    const currentNominee: MostFrequentCommander = nomineesById[id] || {
+      id,
+      name,
+      count: 0,
+      totalPlayedGames: 0,
+    };
 
     nomineesById[id] = {
       id,
       name,
       count: currentNominee.count + 1,
+      totalPlayedGames: playerGlobalStats.totalPlayedGames,
     };
   });
 

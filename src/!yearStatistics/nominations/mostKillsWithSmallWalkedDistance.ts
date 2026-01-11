@@ -16,8 +16,8 @@ export const sortMostKillsWithSmallWalkedDistance = (
   ...statistics,
   mostKillsWithSmallWalkedDistance: limitAndOrder(
     statistics.mostKillsWithSmallWalkedDistance,
-    'count',
-    'desc',
+    ['count', 'minDistance'],
+    ['desc', 'asc'],
   ),
 });
 

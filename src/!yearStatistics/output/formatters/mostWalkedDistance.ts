@@ -7,7 +7,7 @@ const mostWalkedDistanceFormatter = (
 
   mostWalkedDistance.forEach(
     (nominee, index) => {
-      text += `[color=${colorsByPlace[index] || '#fff'}]${index + 1}.[/color] [user]${nominee.name}[/user], дистанция: ${nominee.distance} м;\n`;
+      text += `[color=${colorsByPlace[index] || '#fff'}]${index + 1}.[/color] [user]${nominee.name}[/user], дистанция: ${Intl.NumberFormat('ru-RU').format(nominee.distance)} м;\n`;
     },
   );
 

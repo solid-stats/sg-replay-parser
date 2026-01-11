@@ -1,4 +1,4 @@
-export const year = 2024;
+export const year = 2025;
 
 export const titles: Record<keyof WholeYearStatisticsResult, string> = {
   bestDeathToGamesRatio: 'Нео, ты не в матрице',
@@ -50,7 +50,10 @@ export const defaultResult: WholeYearStatisticsResult = {
   bestVehicle: [],
   bestWeapon: [],
   mostATKills: [],
-  mostAAKills: [],
+  mostAAKills: {
+    nominations: [],
+    destroyedVehicleNames: new Set(),
+  },
   mostWalkedDistance: [],
   mostDistanceInVehicle: [],
   mostHeightHeli: [],
@@ -61,11 +64,17 @@ export const defaultResult: WholeYearStatisticsResult = {
   mostTimeInGroundVehicle: [],
   mostTimeInFlyingVehicle: [],
   mostDeathsFromTeamkills: [],
-  mostKillsFromOldWeapons: [],
+  mostKillsFromOldWeapons: {
+    nominations: [],
+    weaponNames: new Set(),
+  },
   mostKillsFromCommanderSlot: [],
   mostKillsInCQB: [],
   bestRandomshik: [],
-  mostKillsFromMedicSlot: [],
+  mostKillsFromMedicSlot: {
+    nominations: [],
+    slotNames: new Set(),
+  },
   mostPlaneKillsFromPlane: [],
   mostKillsWithSmallWalkedDistance: [],
 };
