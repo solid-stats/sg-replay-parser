@@ -57,7 +57,7 @@ const countStatistics = (
 
 const startParsingReplays = async () => {
   generateBasicFolders();
-  fs.mkdirSync(tempResultsPath);
+  fs.emptyDirSync(tempResultsPath);
   prepareNamesList();
 
   logger.info('Started parsing replays.');

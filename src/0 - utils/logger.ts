@@ -36,8 +36,8 @@ const getTransport = () => {
 
 const logger = pino(getTransport());
 
-process.on('uncaughtException', (err) => {
-  logger.fatal('Uncaught exception detected', err);
+process.on('uncaughtException', (...args) => {
+  logger.fatal('Uncaught exception detected', args);
 
   process.exit(1);
 });
