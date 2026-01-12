@@ -3,8 +3,7 @@ import { colorsByPlace, titles } from '../../utils/consts';
 const mostShotsFormatter = (
   { mostShots }: WholeYearStatisticsResult,
 ): string => {
-  let text = `[spoiler=${titles.mostShots}]Игроки сделавшие самое большое количество выстрелов:
-(не учитываются выстрелы из техники)\n`;
+  let text = `[spoiler=${titles.mostShots}]Игроки сделавшие самое большое количество выстрелов:\n`;
 
   mostShots.forEach(
     (nominee, index) => {
