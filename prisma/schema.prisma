@@ -9,3 +9,98 @@ generator client {
 datasource db {
   provider = "sqlite"
 }
+
+enum ReplayStatus {
+  DISCOVERED
+  DOWNLOADED
+  PARSED
+  ERROR
+}
+
+enum GameType {
+  SG
+  MACE
+  SM
+}
+
+enum EntityType {
+  UNIT
+  VEHICLE
+}
+
+enum EntitySide {
+  EAST
+  WEST
+  GUER
+  CIV
+  UNKNOWN
+}
+
+enum EventType {
+  KILLED
+  CONNECTED
+  DISCONNECTED
+}
+
+model Replay {
+  id            String        @id @default(uuid())
+  filename      String        @unique
+  missionName   String
+  date          DateTime
+  gameType      GameType
+  replayLink    String
+  status        ReplayStatus  @default(DISCOVERED)
+  discoveredAt  DateTime      @default(now())
+  parsedAt      DateTime?
+  
+  entities      Entity[]
+  events        Event[]
+  
+  @@index([status, gameType])
+}
+
+model Entity {
+  id          String      @id @default(uuid())
+  replayId    String
+  entityId    Int
+  type        EntityType
+  name        String
+  side        EntitySide
+  isPlayer    Boolean
+  
+  replay      Replay @relation(fields: [replayId], references: [id], onDelete: Cascade)
+  
+  @@unique([replayId, entityId])
+  @@index([replayId, entityId])
+}
+
+model Event {
+  id          String      @id @default(uuid())
+  replayId    String
+  frameId     Int
+  eventType   EventType
+  data        String      // JSON as text for SQLite
+  
+  replay      Replay @relation(fields: [replayId], references: [id], onDelete: Cascade)
+  
+  @@index([replayId, eventType])
+}
+
+model Player {
+  id            String    @id @default(uuid())
+  createdAt     DateTime  @default(now())
+  
+  names         PlayerName[]
+}
+
+model PlayerName {
+  id          String    @id @default(uuid())
+  playerId    String
+  name        String
+  validFrom   DateTime
+  validTo     DateTime?
+  
+  player      Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  
+  @@index([name, validFrom, validTo])
+}
