@@ -42,6 +42,14 @@ enum EventType {
   DISCONNECTED
 }
 
+enum CorrectionType {
+  ADD_KILL
+  ADD_TEAMKILL
+  REMOVE_TEAMKILL
+  ADD_VEHICLE_KILL
+  REMOVE_PLAYER
+}
+
 model Replay {
   id            String        @id @default(uuid())
   filename      String        @unique
@@ -55,6 +63,8 @@ model Replay {
   
   entities      Entity[]
   events        Event[]
+  playerResults PlayerReplayResult[]
+  corrections   Correction[]
   
   @@index([status, gameType])
 }
@@ -91,6 +101,8 @@ model Player {
   createdAt     DateTime  @default(now())
   
   names         PlayerName[]
+  replayResults PlayerReplayResult[]
+  corrections   Correction[]
 }
 
 model PlayerName {
@@ -103,4 +115,53 @@ model PlayerName {
   player      Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
   
   @@index([name, validFrom, validTo])
+}
+
+model PlayerReplayResult {
+  id                String  @id @default(uuid())
+  replayId          String
+  playerId          String
+  entityName        String
+  squadPrefix       String?
+  kills             Int
+  killsFromVehicle  Int
+  vehicleKills      Int
+  teamkills         Int
+  deaths            Int
+  deathsByTeamkills Int
+  isDead            Boolean
+  isDeadByTeamkill  Boolean
+  score             Float
+  
+  // JSON fields stored as text in SQLite
+  weapons           String  // WeaponStatistic[]
+  vehicles          String  // WeaponStatistic[]
+  killed            String  // OtherPlayer[]
+  killers           String  // OtherPlayer[]
+  teamkilled        String  // OtherPlayer[]
+  teamkillers       String  // OtherPlayer[]
+  
+  replay            Replay @relation(fields: [replayId], references: [id], onDelete: Cascade)
+  player            Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  
+  @@unique([replayId, playerId])
+  @@index([playerId])
+}
+
+model Correction {
+  id              String          @id @default(uuid())
+  replayId        String
+  playerId        String
+  correctionType  CorrectionType
+  targetPlayerId  String?
+  data            String          // JSON as text
+  createdAt       DateTime        @default(now())
+  createdBy       String
+  applied         Boolean         @default(false)
+  
+  replay          Replay @relation(fields: [replayId], references: [id], onDelete: Cascade)
+  player          Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  
+  @@index([replayId, playerId])
+  @@index([applied])
 }
