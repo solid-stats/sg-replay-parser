@@ -103,6 +103,7 @@ model Player {
   names         PlayerName[]
   replayResults PlayerReplayResult[]
   corrections   Correction[]
+  statistics    PlayerStatistics[]
 }
 
 model PlayerName {
@@ -164,4 +165,143 @@ model Correction {
   
   @@index([replayId, playerId])
   @@index([applied])
+}
+
+enum InteractionType {
+  KILLED
+  KILLERS
+  TEAMKILLED
+  TEAMKILLERS
+}
+
+model PlayerStatistics {
+  id                    String    @id @default(uuid())
+  playerId              String
+  gameType              GameType
+  rotationId            String?
+  
+  totalPlayedGames      Int
+  kills                 Int
+  killsFromVehicle      Int
+  vehicleKills          Int
+  teamkills             Int
+  deathsTotal           Int
+  deathsByTeamkills     Int
+  kdRatio               Float
+  killsFromVehicleCoef  Float
+  totalScore            Float
+  lastPlayedGameDate    DateTime
+  lastSquadPrefix       String?
+  isShow                Boolean   @default(true)
+  
+  needsRecalculation    Boolean   @default(false)
+  lastCalculatedAt      DateTime
+  
+  player                Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  weeklyStats           PlayerWeeklyStats[]
+  weaponStats           PlayerWeaponStats[]
+  vehicleStats          PlayerVehicleStats[]
+  interactions          PlayerInteraction[]
+  
+  @@unique([playerId, gameType, rotationId])
+  @@index([needsRecalculation])
+  @@index([playerId, gameType])
+}
+
+model PlayerWeeklyStats {
+  id                    String    @id @default(uuid())
+  statisticsId          String
+  week                  String
+  startDate             DateTime
+  endDate               DateTime
+  totalPlayedGames      Int
+  kills                 Int
+  killsFromVehicle      Int
+  vehicleKills          Int
+  teamkills             Int
+  deathsTotal           Int
+  deathsByTeamkills     Int
+  kdRatio               Float
+  killsFromVehicleCoef  Float
+  score                 Float
+  
+  statistics            PlayerStatistics @relation(fields: [statisticsId], references: [id], onDelete: Cascade)
+  
+  @@index([statisticsId])
+}
+
+model PlayerWeaponStats {
+  id              String    @id @default(uuid())
+  statisticsId    String
+  weaponName      String
+  kills           Int
+  maxDistance     Float
+  
+  statistics      PlayerStatistics @relation(fields: [statisticsId], references: [id], onDelete: Cascade)
+  
+  @@index([statisticsId])
+}
+
+model PlayerVehicleStats {
+  id              String    @id @default(uuid())
+  statisticsId    String
+  vehicleName     String
+  kills           Int
+  maxDistance     Float
+  
+  statistics      PlayerStatistics @relation(fields: [statisticsId], references: [id], onDelete: Cascade)
+  
+  @@index([statisticsId])
+}
+
+model PlayerInteraction {
+  id                String          @id @default(uuid())
+  statisticsId      String
+  type              InteractionType
+  targetPlayerId    String
+  targetPlayerName  String
+  count             Int
+  
+  statistics        PlayerStatistics @relation(fields: [statisticsId], references: [id], onDelete: Cascade)
+  
+  @@index([statisticsId, type])
+}
+
+model SquadStatistics {
+  id                  String    @id @default(uuid())
+  prefix              String
+  gameType            GameType
+  rotationId          String?
+  fourWeeksOnly       Boolean
+  
+  averagePlayersCount Float
+  kills               Int
+  averageKills        Float
+  teamkills           Int
+  averageTeamkills    Float
+  score               Float
+  
+  players             SquadPlayer[]
+  
+  @@unique([prefix, gameType, rotationId, fourWeeksOnly])
+}
+
+model SquadPlayer {
+  id                    String    @id @default(uuid())
+  squadStatisticsId     String
+  playerId              String
+  playerName            String
+  kills                 Int
+  deathsTotal           Int
+  teamkills             Int
+  kdRatio               Float
+  totalPlayedGames      Int
+  totalScore            Float
+  vehicleKills          Int
+  killsFromVehicle      Int
+  killsFromVehicleCoef  Float
+  
+  squadStatistics       SquadStatistics @relation(fields: [squadStatisticsId], references: [id], onDelete: Cascade)
+  
+  @@index([squadStatisticsId])
 }
