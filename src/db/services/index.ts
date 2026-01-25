@@ -1,0 +1,1 @@
+export { resolvePlayerId } from './playerIdResolver';
