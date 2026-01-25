@@ -4,3 +4,5 @@
 /coverage
 /replaysList.json
 /scripts
+
+/src/generated/prisma.env
