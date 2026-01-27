@@ -1,5 +1,5 @@
-import { addWeaponStatistic, filterWeaponStatistics, unionWeaponsStatistic } from '../../../0 - utils/weaponsStatistic';
-import getDefaultTestDescription from '../../utils/getDefaultTestDescription';
+import { addWeaponStatistic, filterWeaponStatistics, unionWeaponsStatistic } from './weaponsStatistic';
+import getDefaultTestDescription from '../testing/getDefaultTestDescription';
 
 const originalWeaponStatistics: WeaponStatistic[] = [{
   name: 'M4A1',

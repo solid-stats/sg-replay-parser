@@ -1,11 +1,11 @@
 import syncParse from 'csv-parse/sync';
 import dayjs from 'dayjs';
 
-import { getNamesList, resetNamesList } from '../../../../0 - utils/namesHelper';
-import { prepareNamesList } from '../../../../0 - utils/namesHelper/prepareNamesList';
-import { dateFormat } from '../../../../0 - utils/namesHelper/utils/consts';
-import { NamesList } from '../../../../0 - utils/namesHelper/utils/types';
-import generateNameChangeItem from '../../../utils/generators/generateNameChangeItem';
+import { getNamesList, resetNamesList } from '..';
+import { prepareNamesList } from '../prepareNamesList';
+import { dateFormat } from '../utils/consts';
+import { NamesList } from '../utils/types';
+import generateNameChangeItem from '../../../testing/generators/generateNameChangeItem';
 
 jest.mock('uuid', () => {
   let id = 0;

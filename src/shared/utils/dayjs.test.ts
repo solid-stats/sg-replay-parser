@@ -1,5 +1,5 @@
-import { dayjsUnix, dayjsUTC } from '../../../0 - utils/dayjs';
-import { isInInterval } from '../../../0 - utils/isInInterval';
+import { dayjsUnix, dayjsUTC } from './dayjs';
+import { isInInterval } from './isInInterval';
 
 const testFormat = 'YYYY-MM-DDTHH:mm:ss ZZ';
 

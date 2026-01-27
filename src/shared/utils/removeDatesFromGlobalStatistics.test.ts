@@ -1,6 +1,6 @@
-import { dayjsUTC, dayjsUTCISO } from '../../../0 - utils/dayjs';
-import removeDatesFromGlobalStatistics from '../../../0 - utils/removeDatesFromGlobalStatistics';
-import getDefaultTestDescription from '../../utils/getDefaultTestDescription';
+import { dayjsUTC, dayjsUTCISO } from './dayjs';
+import removeDatesFromGlobalStatistics from './removeDatesFromGlobalStatistics';
+import getDefaultTestDescription from '../testing/getDefaultTestDescription';
 
 const globalStatistics: GlobalPlayerStatistics[] = [{
   id: '_',

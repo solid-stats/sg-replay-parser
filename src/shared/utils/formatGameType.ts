@@ -15,4 +15,5 @@ const formatGameType = (gameType: GameType): FormattedGameType => {
   }
 };
 
+// eslint-disable-next-line import/no-unused-modules
 export default formatGameType;

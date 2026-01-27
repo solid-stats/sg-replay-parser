@@ -1,4 +1,4 @@
-import calculateScore from '../../../0 - utils/calculateScore';
+import calculateScore from './calculateScore';
 
 type TestData = {
   playedGames: number;

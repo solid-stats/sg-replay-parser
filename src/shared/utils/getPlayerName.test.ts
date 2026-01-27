@@ -1,5 +1,5 @@
-import getPlayerName from '../../../0 - utils/getPlayerName';
-import getDefaultTestDescription from '../../utils/getDefaultTestDescription';
+import getPlayerName from './getPlayerName';
+import getDefaultTestDescription from '../testing/getDefaultTestDescription';
 
 type TestData = {
   input: PlayerName;

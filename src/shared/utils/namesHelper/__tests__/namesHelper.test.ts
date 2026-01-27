@@ -1,13 +1,13 @@
 import syncParse from 'csv-parse/sync';
 import fs from 'fs-extra';
 
-import { dayjsUTC } from '../../../0 - utils/dayjs';
-import logger from '../../../0 - utils/logger';
-import { getNamesList, resetNamesList } from '../../../0 - utils/namesHelper';
-import { getPlayerId } from '../../../0 - utils/namesHelper/getId';
-import moscowDateToUTC from '../../../0 - utils/namesHelper/moscowDateToUTC';
-import { prepareNamesList } from '../../../0 - utils/namesHelper/prepareNamesList';
-import generateNameChangeItem from '../../utils/generators/generateNameChangeItem';
+import { dayjsUTC } from '../../dayjs';
+import logger from '../../logger';
+import { getNamesList, resetNamesList } from '..';
+import { getPlayerId } from '../getId';
+import moscowDateToUTC from '../moscowDateToUTC';
+import { prepareNamesList } from '../prepareNamesList';
+import generateNameChangeItem from '../../../testing/generators/generateNameChangeItem';
 
 const exampleNamesChanges = [
   generateNameChangeItem('Parker', 'morpex', '12.11.2022 6:21'),
@@ -46,7 +46,7 @@ test('getId without generating name changes should throw error', () => {
 test('prepareNamesList without file should send message', () => {
   jest.spyOn(fs, 'readFileSync').mockImplementationOnce(() => { throw new Error(); });
 
-  jest.mock('../../../0 - utils/logger');
+  jest.mock('../../logger');
   logger.error = jest.fn();
 
   prepareNamesList();

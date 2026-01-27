@@ -1,5 +1,5 @@
-import mergeOtherPlayers from '../../../0 - utils/mergeOtherPlayers';
-import getDefaultTestDescription from '../../utils/getDefaultTestDescription';
+import mergeOtherPlayers from './mergeOtherPlayers';
+import getDefaultTestDescription from '../testing/getDefaultTestDescription';
 
 const first: OtherPlayer[] = [
   {

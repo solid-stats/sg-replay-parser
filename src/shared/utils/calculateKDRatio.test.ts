@@ -1,4 +1,4 @@
-import calculateKDRatio from '../../../0 - utils/calculateKDRatio';
+import calculateKDRatio from './calculateKDRatio';
 
 type TestData = {
   kills: Kills;

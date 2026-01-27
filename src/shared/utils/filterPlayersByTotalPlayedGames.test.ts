@@ -1,6 +1,6 @@
-import { dayjsUTCISO } from '../../../0 - utils/dayjs';
-import filterPlayersByTotalPlayedGames from '../../../0 - utils/filterPlayersByTotalPlayedGames';
-import generateGlobalStatistics from '../../utils/generators/generateGlobalStatistics';
+import { dayjsUTCISO } from './dayjs';
+import filterPlayersByTotalPlayedGames from './filterPlayersByTotalPlayedGames';
+import generateGlobalStatistics from '../testing/generators/generateGlobalStatistics';
 
 const date = dayjsUTCISO();
 
