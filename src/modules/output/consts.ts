@@ -1,5 +1,7 @@
+// eslint-disable-next-line import/no-unused-modules
 export const rotationStatsDefaultFolder = 'rotation';
 
+// eslint-disable-next-line import/no-unused-modules
 export const rotationsGeneralInfoFileName = 'rotations_info.json';
 
 export const globalStatsFileName = 'global_statistics.json';

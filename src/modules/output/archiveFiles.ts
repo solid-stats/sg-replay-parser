@@ -3,7 +3,7 @@ import path from 'path';
 import archiver from 'archiver';
 import fs from 'fs-extra';
 
-import { tempResultsPath } from '../0 - utils/paths';
+import { tempResultsPath } from '../../shared/utils/paths';
 
 const archiveFiles = async (folders: string[]) => {
   const output = fs.createWriteStream(path.join(tempResultsPath, 'stats.zip'));
