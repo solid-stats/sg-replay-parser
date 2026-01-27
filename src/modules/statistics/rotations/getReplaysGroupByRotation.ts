@@ -1,7 +1,7 @@
 import { cloneDeep, remove } from 'lodash';
 
-import { dayjsUTC } from '../../0 - utils/dayjs';
-import getRotations from '../../0 - utils/rotations';
+import { dayjsUTC } from '../../../shared/utils/dayjs';
+import getRotations from '../../../shared/utils/rotations';
 
 const getReplaysGroupByRotation = (replays: PlayersGameResult[]) => {
   const rotations = getRotations();

@@ -1,9 +1,9 @@
 import { Dayjs } from 'dayjs';
 import { orderBy } from 'lodash';
 
-import { dayjsUTC } from '../../0 - utils/dayjs';
-import { isInInterval } from '../../0 - utils/isInInterval';
-import pipe from '../../0 - utils/pipe';
+import { dayjsUTC } from '../../../shared/utils/dayjs';
+import { isInInterval } from '../../../shared/utils/isInInterval';
+import pipe from '../../../shared/utils/pipe';
 import { playerStatsSort } from '../consts';
 import getSquadsInfo from './getSquadInfo';
 

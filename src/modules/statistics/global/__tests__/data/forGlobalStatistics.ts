@@ -1,7 +1,12 @@
 /* eslint-disable object-curly-newline */
-import { defaultKilledName, defaultKillerName, defaultTeamkilledName, defaultTeamkillerName } from '../../../utils/consts';
-import generateDefaultWeapons from '../../../utils/generators/generateDefaultWeapons';
-import generatePlayerInfo from '../../../utils/generators/generatePlayerInfo';
+import {
+  defaultKilledName,
+  defaultKillerName,
+  defaultTeamkilledName,
+  defaultTeamkillerName,
+} from '../../../../../shared/testing/consts';
+import generateDefaultWeapons from '../../../../../shared/testing/generators/generateDefaultWeapons';
+import generatePlayerInfo from '../../../../../shared/testing/generators/generatePlayerInfo';
 
 type TestData = {
   playersGameResult: PlayersGameResult[];

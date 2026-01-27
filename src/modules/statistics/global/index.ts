@@ -1,7 +1,7 @@
 import { orderBy } from 'lodash';
 
-import { dayjsUTC } from '../../0 - utils/dayjs';
-import pipe from '../../0 - utils/pipe';
+import { dayjsUTC } from '../../../shared/utils/dayjs';
+import pipe from '../../../shared/utils/pipe';
 import { playerStatsSort } from '../consts';
 import addPlayerGameResultToGlobalStatistics from './add';
 

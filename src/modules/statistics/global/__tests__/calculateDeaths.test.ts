@@ -1,4 +1,4 @@
-import calculateDeaths from '../../../3 - statistics/global/utils/calculateDeaths';
+import calculateDeaths from '../utils/calculateDeaths';
 
 type TestData = {
   params: Parameters<typeof calculateDeaths>[0];

@@ -1,9 +1,9 @@
 /* eslint-disable object-curly-newline */
 import { Dayjs } from 'dayjs';
 
-import { defaultKilledName, defaultTeamkilledName } from '../../../utils/consts';
-import generateDefaultWeapons from '../../../utils/generators/generateDefaultWeapons';
-import generatePlayerInfo from '../../../utils/generators/generatePlayerInfo';
+import { defaultKilledName, defaultTeamkilledName } from '../../../../../shared/testing/consts';
+import generateDefaultWeapons from '../../../../../shared/testing/generators/generateDefaultWeapons';
+import generatePlayerInfo from '../../../../../shared/testing/generators/generatePlayerInfo';
 
 export const getReplays = (startDate: Dayjs): PlayersGameResult[] => ([
   {

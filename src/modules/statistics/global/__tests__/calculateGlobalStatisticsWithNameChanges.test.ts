@@ -1,9 +1,9 @@
 import syncParse from 'csv-parse/sync';
 
-import { getNamesList } from '../../../0 - utils/namesHelper';
-import { prepareNamesList } from '../../../0 - utils/namesHelper/prepareNamesList';
-import calculateGlobalStatistics from '../../../3 - statistics/global';
-import generateNameChangeItem from '../../utils/generators/generateNameChangeItem';
+import calculateGlobalStatistics from '..';
+import { getNamesList } from '../../../../shared/utils/namesHelper';
+import { prepareNamesList } from '../../../../shared/utils/namesHelper/prepareNamesList';
+import generateNameChangeItem from '../../../../shared/testing/generators/generateNameChangeItem';
 import {
   nameChangeAndChangeBackTestData,
   nameChangeAndChangeBackWithCollisionsTestData,

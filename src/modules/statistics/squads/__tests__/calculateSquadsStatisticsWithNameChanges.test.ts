@@ -1,10 +1,10 @@
 import syncParse from 'csv-parse/sync';
 
-import { dayjsUTC } from '../../../0 - utils/dayjs';
-import { getNamesList } from '../../../0 - utils/namesHelper';
-import { prepareNamesList } from '../../../0 - utils/namesHelper/prepareNamesList';
-import calculateSquadStatistics from '../../../3 - statistics/squads';
-import generateNameChangeItem from '../../utils/generators/generateNameChangeItem';
+import calculateSquadStatistics from '..';
+import { dayjsUTC } from '../../../../shared/utils/dayjs';
+import { getNamesList } from '../../../../shared/utils/namesHelper';
+import { prepareNamesList } from '../../../../shared/utils/namesHelper/prepareNamesList';
+import generateNameChangeItem from '../../../../shared/testing/generators/generateNameChangeItem';
 import {
   nameChangeAfterSquadChangeTestData,
   nameChangeAndChangeBackTestData,

@@ -1,5 +1,5 @@
-import filterPlayersByTotalPlayedGames from '../../0 - utils/filterPlayersByTotalPlayedGames';
-import getRotations from '../../0 - utils/rotations';
+import filterPlayersByTotalPlayedGames from '../../../shared/utils/filterPlayersByTotalPlayedGames';
+import getRotations from '../../../shared/utils/rotations';
 import calculateGlobalStatistics from '../global';
 import calculateSquadStatistics from '../squads';
 import getReplaysGroupByRotation from './getReplaysGroupByRotation';

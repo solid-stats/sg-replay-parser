@@ -1,10 +1,10 @@
 /* eslint-disable max-nested-callbacks */
 /* eslint-disable @typescript-eslint/no-loop-func */
-import * as dayjs from '../../../0 - utils/dayjs';
-import calculateSquadStatistics from '../../../3 - statistics/squads';
-import generatePlayerInfo from '../../utils/generators/generatePlayerInfo';
-import getDefaultTestDescription from '../../utils/getDefaultTestDescription';
-import prepareNamesWithMock from '../../utils/prepareNamesWithMock';
+import calculateSquadStatistics from '..';
+import * as dayjs from '../../../../shared/utils/dayjs';
+import generatePlayerInfo from '../../../../shared/testing/generators/generatePlayerInfo';
+import getDefaultTestDescription from '../../../../shared/testing/getDefaultTestDescription';
+import prepareNamesWithMock from '../../../../shared/testing/prepareNamesWithMock';
 import {
   parsedReplays,
   squadStatisticsOnNonWeekend,

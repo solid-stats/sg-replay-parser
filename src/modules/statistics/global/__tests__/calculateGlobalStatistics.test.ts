@@ -1,10 +1,10 @@
 import fs from 'fs-extra';
 
-import { dayjsUTCISO } from '../../../0 - utils/dayjs';
-import calculateGlobalStatistics from '../../../3 - statistics/global';
-import generatePlayerInfo from '../../utils/generators/generatePlayerInfo';
-import getDefaultTestDescription from '../../utils/getDefaultTestDescription';
-import prepareNamesWithMock from '../../utils/prepareNamesWithMock';
+import calculateGlobalStatistics from '..';
+import { dayjsUTCISO } from '../../../../shared/utils/dayjs';
+import generatePlayerInfo from '../../../../shared/testing/generators/generatePlayerInfo';
+import getDefaultTestDescription from '../../../../shared/testing/getDefaultTestDescription';
+import prepareNamesWithMock from '../../../../shared/testing/prepareNamesWithMock';
 import data from './data/forGlobalStatistics';
 
 beforeAll(() => { prepareNamesWithMock(); });

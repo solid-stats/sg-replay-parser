@@ -1,7 +1,7 @@
 /* eslint-disable object-curly-newline */
-import { dayjsUTC } from '../../../../0 - utils/dayjs';
-import { getPlayerId } from '../../../../0 - utils/namesHelper/getId';
-import generatePlayerInfo from '../../../utils/generators/generatePlayerInfo';
+import { dayjsUTC } from '../../../../../shared/utils/dayjs';
+import { getPlayerId } from '../../../../../shared/utils/namesHelper/getId';
+import generatePlayerInfo from '../../../../../shared/testing/generators/generatePlayerInfo';
 
 export const nameChangesTestData: PlayersGameResult[] = [
   {
