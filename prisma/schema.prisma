@@ -60,12 +60,12 @@ model Replay {
   status        ReplayStatus  @default(DISCOVERED)
   discoveredAt  DateTime      @default(now())
   parsedAt      DateTime?
-  
+
   entities      Entity[]
   events        Event[]
   playerResults PlayerReplayResult[]
   corrections   Correction[]
-  
+
   @@index([status, gameType])
 }
 
@@ -77,9 +77,9 @@ model Entity {
   name        String
   side        EntitySide
   isPlayer    Boolean
-  
+
   replay      Replay @relation(fields: [replayId], references: [id], onDelete: Cascade)
-  
+
   @@unique([replayId, entityId])
   @@index([replayId, entityId])
 }
@@ -90,16 +90,16 @@ model Event {
   frameId     Int
   eventType   EventType
   data        String      // JSON as text for SQLite
-  
+
   replay      Replay @relation(fields: [replayId], references: [id], onDelete: Cascade)
-  
+
   @@index([replayId, eventType])
 }
 
 model Player {
   id            String    @id @default(uuid())
   createdAt     DateTime  @default(now())
-  
+
   names         PlayerName[]
   replayResults PlayerReplayResult[]
   corrections   Correction[]
@@ -112,9 +112,9 @@ model PlayerName {
   name        String
   validFrom   DateTime
   validTo     DateTime?
-  
+
   player      Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
-  
+
   @@index([name, validFrom, validTo])
 }
 
@@ -133,7 +133,7 @@ model PlayerReplayResult {
   isDead            Boolean
   isDeadByTeamkill  Boolean
   score             Float
-  
+
   // JSON fields stored as text in SQLite
   weapons           String  // WeaponStatistic[]
   vehicles          String  // WeaponStatistic[]
@@ -141,10 +141,10 @@ model PlayerReplayResult {
   killers           String  // OtherPlayer[]
   teamkilled        String  // OtherPlayer[]
   teamkillers       String  // OtherPlayer[]
-  
+
   replay            Replay @relation(fields: [replayId], references: [id], onDelete: Cascade)
   player            Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
-  
+
   @@unique([replayId, playerId])
   @@index([playerId])
 }
@@ -159,10 +159,10 @@ model Correction {
   createdAt       DateTime        @default(now())
   createdBy       String
   applied         Boolean         @default(false)
-  
+
   replay          Replay @relation(fields: [replayId], references: [id], onDelete: Cascade)
   player          Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
-  
+
   @@index([replayId, playerId])
   @@index([applied])
 }
@@ -179,7 +179,7 @@ model PlayerStatistics {
   playerId              String
   gameType              GameType
   rotationId            String?
-  
+
   totalPlayedGames      Int
   kills                 Int
   killsFromVehicle      Int
@@ -193,16 +193,16 @@ model PlayerStatistics {
   lastPlayedGameDate    DateTime
   lastSquadPrefix       String?
   isShow                Boolean   @default(true)
-  
+
   needsRecalculation    Boolean   @default(false)
   lastCalculatedAt      DateTime
-  
+
   player                Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
   weeklyStats           PlayerWeeklyStats[]
   weaponStats           PlayerWeaponStats[]
   vehicleStats          PlayerVehicleStats[]
   interactions          PlayerInteraction[]
-  
+
   @@unique([playerId, gameType, rotationId])
   @@index([needsRecalculation])
   @@index([playerId, gameType])
@@ -224,9 +224,9 @@ model PlayerWeeklyStats {
   kdRatio               Float
   killsFromVehicleCoef  Float
   score                 Float
-  
+
   statistics            PlayerStatistics @relation(fields: [statisticsId], references: [id], onDelete: Cascade)
-  
+
   @@index([statisticsId])
 }
 
@@ -236,9 +236,9 @@ model PlayerWeaponStats {
   weaponName      String
   kills           Int
   maxDistance     Float
-  
+
   statistics      PlayerStatistics @relation(fields: [statisticsId], references: [id], onDelete: Cascade)
-  
+
   @@index([statisticsId])
 }
 
@@ -248,9 +248,9 @@ model PlayerVehicleStats {
   vehicleName     String
   kills           Int
   maxDistance     Float
-  
+
   statistics      PlayerStatistics @relation(fields: [statisticsId], references: [id], onDelete: Cascade)
-  
+
   @@index([statisticsId])
 }
 
@@ -261,9 +261,9 @@ model PlayerInteraction {
   targetPlayerId    String
   targetPlayerName  String
   count             Int
-  
+
   statistics        PlayerStatistics @relation(fields: [statisticsId], references: [id], onDelete: Cascade)
-  
+
   @@index([statisticsId, type])
 }
 
@@ -273,16 +273,16 @@ model SquadStatistics {
   gameType            GameType
   rotationId          String?
   fourWeeksOnly       Boolean
-  
+
   averagePlayersCount Float
   kills               Int
   averageKills        Float
   teamkills           Int
   averageTeamkills    Float
   score               Float
-  
+
   players             SquadPlayer[]
-  
+
   @@unique([prefix, gameType, rotationId, fourWeeksOnly])
 }
 
@@ -300,8 +300,8 @@ model SquadPlayer {
   vehicleKills          Int
   killsFromVehicle      Int
   killsFromVehicleCoef  Float
-  
+
   squadStatistics       SquadStatistics @relation(fields: [squadStatisticsId], references: [id], onDelete: Cascade)
-  
+
   @@index([squadStatisticsId])
 }

@@ -62,3 +62,48 @@ export type Player = Prisma.PlayerModel
  * 
  */
 export type PlayerName = Prisma.PlayerNameModel
+/**
+ * Model PlayerReplayResult
+ * 
+ */
+export type PlayerReplayResult = Prisma.PlayerReplayResultModel
+/**
+ * Model Correction
+ * 
+ */
+export type Correction = Prisma.CorrectionModel
+/**
+ * Model PlayerStatistics
+ * 
+ */
+export type PlayerStatistics = Prisma.PlayerStatisticsModel
+/**
+ * Model PlayerWeeklyStats
+ * 
+ */
+export type PlayerWeeklyStats = Prisma.PlayerWeeklyStatsModel
+/**
+ * Model PlayerWeaponStats
+ * 
+ */
+export type PlayerWeaponStats = Prisma.PlayerWeaponStatsModel
+/**
+ * Model PlayerVehicleStats
+ * 
+ */
+export type PlayerVehicleStats = Prisma.PlayerVehicleStatsModel
+/**
+ * Model PlayerInteraction
+ * 
+ */
+export type PlayerInteraction = Prisma.PlayerInteractionModel
+/**
+ * Model SquadStatistics
+ * 
+ */
+export type SquadStatistics = Prisma.SquadStatisticsModel
+/**
+ * Model SquadPlayer
+ * 
+ */
+export type SquadPlayer = Prisma.SquadPlayerModel

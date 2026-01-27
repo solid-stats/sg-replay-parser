@@ -1,15 +1,15 @@
 {
-  "extends": [
-    "airbnb-base",
-    "airbnb-typescript/base"
-  ],
+  "extends": ["airbnb-base", "airbnb-typescript/base"],
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "project": "./tsconfig.json",
   },
   "parser": "@typescript-eslint/parser",
   "rules": {
     "no-unreachable-loop": "error",
-    "no-unsafe-optional-chaining": ["error", { "disallowArithmeticOperators": true }],
+    "no-unsafe-optional-chaining": [
+      "error",
+      { "disallowArithmeticOperators": true },
+    ],
     "no-useless-backreference": "error",
     "default-case-last": "error",
     "no-eq-null": "error",
@@ -18,26 +18,36 @@
     "array-bracket-newline": ["error", "consistent"],
     "array-element-newline": [
       "error",
-      { "ArrayExpression": "consistent", "ArrayPattern": { "multiline": true, "minItems": 5 } }
+      {
+        "ArrayExpression": "consistent",
+        "ArrayPattern": { "multiline": true, "minItems": 5 },
+      },
     ],
     "func-style": ["error", "expression"],
     "function-call-argument-newline": ["error", "consistent"],
-    "id-length": ["error", { "min": 2, "max": 40, "exceptions": ["i", "x", "y", "z", "e", "r"] }],
+    "id-length": [
+      "error",
+      { "min": 2, "max": 40, "exceptions": ["i", "x", "y", "z", "e", "r"] },
+    ],
     "max-depth": "error",
     "max-nested-callbacks": ["error", 3],
     "padding-line-between-statements": [
       "error",
       { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*" },
-      { "blankLine": "any", "prev": ["const", "let", "var"], "next": ["const", "let", "var", "import"] },
+      {
+        "blankLine": "any",
+        "prev": ["const", "let", "var"],
+        "next": ["const", "let", "var", "import"],
+      },
       {
         "blankLine": "always",
         "prev": "*",
-        "next": ["return", "export", "for", "if", "switch", "try", "while"]
+        "next": ["return", "export", "for", "if", "switch", "try", "while"],
       },
       { "blankLine": "always", "prev": "import", "next": "*" },
       { "blankLine": "any", "prev": "import", "next": "import" },
-      { "blankLine": "never", "prev": "*", "next": "case"},
-      { "blankLine": "never", "prev": "*", "next": "default"}
+      { "blankLine": "never", "prev": "*", "next": "case" },
+      { "blankLine": "never", "prev": "*", "next": "default" },
     ],
     "prefer-exponentiation-operator": "error",
     "no-duplicate-imports": "error",
@@ -52,23 +62,49 @@
           {
             "pattern": "react",
             "group": "builtin",
-            "position": "before"
-          }, {
+            "position": "before",
+          },
+          {
             "pattern": "React",
             "group": "builtin",
-            "position": "before"
-          }
+            "position": "before",
+          },
         ],
         "pathGroupsExcludedImportTypes": ["React", "react"],
-        "groups": ["builtin", "external", "internal", "index", "object", "unknown", ["parent", "sibling"]],
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "index",
+          "object",
+          "unknown",
+          ["parent", "sibling"],
+        ],
         "alphabetize": {
           "order": "asc",
-          "caseInsensitive": false
-        }
-      }
+          "caseInsensitive": false,
+        },
+      },
     ],
     "import/no-anonymous-default-export": "error",
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
-    "import/prefer-default-export": "off"
-  }
+    "import/prefer-default-export": "off",
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.ts", "**/__tests__/**/*.ts"],
+      "rules": {
+        "init-declarations": "off",
+        "max-nested-callbacks": "off",
+        "id-length": [
+          "error",
+          { "min": 1, "max": 40, "exceptions": ["i", "x", "y", "z", "e", "r"] },
+        ],
+        "global-require": "off",
+        "@typescript-eslint/no-require-imports": "off",
+        "no-duplicate-imports": "off",
+        "max-len": "off",
+      },
+    },
+  ],
 }

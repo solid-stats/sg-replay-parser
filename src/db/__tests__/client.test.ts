@@ -7,6 +7,7 @@ describe('Database Client', () => {
 
   it('should return Prisma client instance', () => {
     const client = getDbClient();
+
     expect(client).toBeDefined();
     expect(client.replay).toBeDefined();
   });
@@ -14,6 +15,7 @@ describe('Database Client', () => {
   it('should return same instance on multiple calls (singleton)', () => {
     const client1 = getDbClient();
     const client2 = getDbClient();
+
     expect(client1).toBe(client2);
   });
 });

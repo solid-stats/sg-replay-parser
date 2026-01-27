@@ -1,3 +1,6 @@
+import { readFile } from 'fs/promises';
+
+import { getDbClient } from '../../client';
 import {
   seedNameChangesFromCSV,
   parseCSV,
@@ -7,7 +10,6 @@ import {
   groupByPlayer,
 } from '../seedNameChanges';
 import type { RawCSVRecord, ParsedNameChange } from '../seedNameChanges';
-import { getDbClient } from '../../client';
 
 // Mock the database client
 jest.mock('../../client', () => ({
@@ -18,8 +20,6 @@ jest.mock('../../client', () => ({
 jest.mock('fs/promises', () => ({
   readFile: jest.fn(),
 }));
-
-import { readFile } from 'fs/promises';
 
 const mockGetDbClient = getDbClient as jest.MockedFunction<typeof getDbClient>;
 const mockReadFile = readFile as jest.MockedFunction<typeof readFile>;
@@ -169,8 +169,12 @@ describe('seedNameChanges', () => {
   describe('processRecords', () => {
     it('should filter out declined records', () => {
       const records: RawCSVRecord[] = [
-        { oldName: 'OldAccepted', newName: 'NewAccepted', date: '10.05.2021 0:00', status: 'Принято' },
-        { oldName: 'OldDeclined', newName: 'NewDeclined', date: '11.05.2021 0:00', status: 'Отказано' },
+        {
+          oldName: 'OldAccepted', newName: 'NewAccepted', date: '10.05.2021 0:00', status: 'Принято',
+        },
+        {
+          oldName: 'OldDeclined', newName: 'NewDeclined', date: '11.05.2021 0:00', status: 'Отказано',
+        },
       ];
 
       const result = processRecords(records);
@@ -181,9 +185,15 @@ describe('seedNameChanges', () => {
 
     it('should filter out records with invalid dates', () => {
       const records: RawCSVRecord[] = [
-        { oldName: 'ValidDate', newName: 'New1', date: '10.05.2021 0:00', status: 'Принято' },
-        { oldName: 'InvalidDate', newName: 'New2', date: 'invalid', status: 'Принято' },
-        { oldName: 'MissingTime', newName: 'New3', date: '10.05.2021', status: 'Принято' },
+        {
+          oldName: 'ValidDate', newName: 'New1', date: '10.05.2021 0:00', status: 'Принято',
+        },
+        {
+          oldName: 'InvalidDate', newName: 'New2', date: 'invalid', status: 'Принято',
+        },
+        {
+          oldName: 'MissingTime', newName: 'New3', date: '10.05.2021', status: 'Принято',
+        },
       ];
 
       const result = processRecords(records);
@@ -194,9 +204,15 @@ describe('seedNameChanges', () => {
 
     it('should sort records by date ascending', () => {
       const records: RawCSVRecord[] = [
-        { oldName: 'Third', newName: 'New3', date: '10.05.2023 0:00', status: 'Принято' },
-        { oldName: 'First', newName: 'New1', date: '10.05.2021 0:00', status: 'Принято' },
-        { oldName: 'Second', newName: 'New2', date: '10.05.2022 0:00', status: 'Принято' },
+        {
+          oldName: 'Third', newName: 'New3', date: '10.05.2023 0:00', status: 'Принято',
+        },
+        {
+          oldName: 'First', newName: 'New1', date: '10.05.2021 0:00', status: 'Принято',
+        },
+        {
+          oldName: 'Second', newName: 'New2', date: '10.05.2022 0:00', status: 'Принято',
+        },
       ];
 
       const result = processRecords(records);
@@ -209,7 +225,9 @@ describe('seedNameChanges', () => {
 
     it('should preserve original name casing', () => {
       const records: RawCSVRecord[] = [
-        { oldName: 'MixedCase', newName: 'AnotherCase', date: '10.05.2021 0:00', status: 'Принято' },
+        {
+          oldName: 'MixedCase', newName: 'AnotherCase', date: '10.05.2021 0:00', status: 'Принято',
+        },
       ];
 
       const result = processRecords(records);

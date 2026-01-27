@@ -216,6 +216,8 @@ export type ReplayWhereInput = {
   parsedAt?: Prisma.DateTimeNullableFilter<"Replay"> | Date | string | null
   entities?: Prisma.EntityListRelationFilter
   events?: Prisma.EventListRelationFilter
+  playerResults?: Prisma.PlayerReplayResultListRelationFilter
+  corrections?: Prisma.CorrectionListRelationFilter
 }
 
 export type ReplayOrderByWithRelationInput = {
@@ -230,6 +232,8 @@ export type ReplayOrderByWithRelationInput = {
   parsedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   entities?: Prisma.EntityOrderByRelationAggregateInput
   events?: Prisma.EventOrderByRelationAggregateInput
+  playerResults?: Prisma.PlayerReplayResultOrderByRelationAggregateInput
+  corrections?: Prisma.CorrectionOrderByRelationAggregateInput
 }
 
 export type ReplayWhereUniqueInput = Prisma.AtLeast<{
@@ -247,6 +251,8 @@ export type ReplayWhereUniqueInput = Prisma.AtLeast<{
   parsedAt?: Prisma.DateTimeNullableFilter<"Replay"> | Date | string | null
   entities?: Prisma.EntityListRelationFilter
   events?: Prisma.EventListRelationFilter
+  playerResults?: Prisma.PlayerReplayResultListRelationFilter
+  corrections?: Prisma.CorrectionListRelationFilter
 }, "id" | "filename">
 
 export type ReplayOrderByWithAggregationInput = {
@@ -291,6 +297,8 @@ export type ReplayCreateInput = {
   parsedAt?: Date | string | null
   entities?: Prisma.EntityCreateNestedManyWithoutReplayInput
   events?: Prisma.EventCreateNestedManyWithoutReplayInput
+  playerResults?: Prisma.PlayerReplayResultCreateNestedManyWithoutReplayInput
+  corrections?: Prisma.CorrectionCreateNestedManyWithoutReplayInput
 }
 
 export type ReplayUncheckedCreateInput = {
@@ -305,6 +313,8 @@ export type ReplayUncheckedCreateInput = {
   parsedAt?: Date | string | null
   entities?: Prisma.EntityUncheckedCreateNestedManyWithoutReplayInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutReplayInput
+  playerResults?: Prisma.PlayerReplayResultUncheckedCreateNestedManyWithoutReplayInput
+  corrections?: Prisma.CorrectionUncheckedCreateNestedManyWithoutReplayInput
 }
 
 export type ReplayUpdateInput = {
@@ -319,6 +329,8 @@ export type ReplayUpdateInput = {
   parsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entities?: Prisma.EntityUpdateManyWithoutReplayNestedInput
   events?: Prisma.EventUpdateManyWithoutReplayNestedInput
+  playerResults?: Prisma.PlayerReplayResultUpdateManyWithoutReplayNestedInput
+  corrections?: Prisma.CorrectionUpdateManyWithoutReplayNestedInput
 }
 
 export type ReplayUncheckedUpdateInput = {
@@ -333,6 +345,8 @@ export type ReplayUncheckedUpdateInput = {
   parsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entities?: Prisma.EntityUncheckedUpdateManyWithoutReplayNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutReplayNestedInput
+  playerResults?: Prisma.PlayerReplayResultUncheckedUpdateManyWithoutReplayNestedInput
+  corrections?: Prisma.CorrectionUncheckedUpdateManyWithoutReplayNestedInput
 }
 
 export type ReplayCreateManyInput = {
@@ -460,6 +474,34 @@ export type ReplayUpdateOneRequiredWithoutEventsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ReplayUpdateToOneWithWhereWithoutEventsInput, Prisma.ReplayUpdateWithoutEventsInput>, Prisma.ReplayUncheckedUpdateWithoutEventsInput>
 }
 
+export type ReplayCreateNestedOneWithoutPlayerResultsInput = {
+  create?: Prisma.XOR<Prisma.ReplayCreateWithoutPlayerResultsInput, Prisma.ReplayUncheckedCreateWithoutPlayerResultsInput>
+  connectOrCreate?: Prisma.ReplayCreateOrConnectWithoutPlayerResultsInput
+  connect?: Prisma.ReplayWhereUniqueInput
+}
+
+export type ReplayUpdateOneRequiredWithoutPlayerResultsNestedInput = {
+  create?: Prisma.XOR<Prisma.ReplayCreateWithoutPlayerResultsInput, Prisma.ReplayUncheckedCreateWithoutPlayerResultsInput>
+  connectOrCreate?: Prisma.ReplayCreateOrConnectWithoutPlayerResultsInput
+  upsert?: Prisma.ReplayUpsertWithoutPlayerResultsInput
+  connect?: Prisma.ReplayWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ReplayUpdateToOneWithWhereWithoutPlayerResultsInput, Prisma.ReplayUpdateWithoutPlayerResultsInput>, Prisma.ReplayUncheckedUpdateWithoutPlayerResultsInput>
+}
+
+export type ReplayCreateNestedOneWithoutCorrectionsInput = {
+  create?: Prisma.XOR<Prisma.ReplayCreateWithoutCorrectionsInput, Prisma.ReplayUncheckedCreateWithoutCorrectionsInput>
+  connectOrCreate?: Prisma.ReplayCreateOrConnectWithoutCorrectionsInput
+  connect?: Prisma.ReplayWhereUniqueInput
+}
+
+export type ReplayUpdateOneRequiredWithoutCorrectionsNestedInput = {
+  create?: Prisma.XOR<Prisma.ReplayCreateWithoutCorrectionsInput, Prisma.ReplayUncheckedCreateWithoutCorrectionsInput>
+  connectOrCreate?: Prisma.ReplayCreateOrConnectWithoutCorrectionsInput
+  upsert?: Prisma.ReplayUpsertWithoutCorrectionsInput
+  connect?: Prisma.ReplayWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ReplayUpdateToOneWithWhereWithoutCorrectionsInput, Prisma.ReplayUpdateWithoutCorrectionsInput>, Prisma.ReplayUncheckedUpdateWithoutCorrectionsInput>
+}
+
 export type ReplayCreateWithoutEntitiesInput = {
   id?: string
   filename: string
@@ -471,6 +513,8 @@ export type ReplayCreateWithoutEntitiesInput = {
   discoveredAt?: Date | string
   parsedAt?: Date | string | null
   events?: Prisma.EventCreateNestedManyWithoutReplayInput
+  playerResults?: Prisma.PlayerReplayResultCreateNestedManyWithoutReplayInput
+  corrections?: Prisma.CorrectionCreateNestedManyWithoutReplayInput
 }
 
 export type ReplayUncheckedCreateWithoutEntitiesInput = {
@@ -484,6 +528,8 @@ export type ReplayUncheckedCreateWithoutEntitiesInput = {
   discoveredAt?: Date | string
   parsedAt?: Date | string | null
   events?: Prisma.EventUncheckedCreateNestedManyWithoutReplayInput
+  playerResults?: Prisma.PlayerReplayResultUncheckedCreateNestedManyWithoutReplayInput
+  corrections?: Prisma.CorrectionUncheckedCreateNestedManyWithoutReplayInput
 }
 
 export type ReplayCreateOrConnectWithoutEntitiesInput = {
@@ -513,6 +559,8 @@ export type ReplayUpdateWithoutEntitiesInput = {
   discoveredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   events?: Prisma.EventUpdateManyWithoutReplayNestedInput
+  playerResults?: Prisma.PlayerReplayResultUpdateManyWithoutReplayNestedInput
+  corrections?: Prisma.CorrectionUpdateManyWithoutReplayNestedInput
 }
 
 export type ReplayUncheckedUpdateWithoutEntitiesInput = {
@@ -526,6 +574,8 @@ export type ReplayUncheckedUpdateWithoutEntitiesInput = {
   discoveredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   events?: Prisma.EventUncheckedUpdateManyWithoutReplayNestedInput
+  playerResults?: Prisma.PlayerReplayResultUncheckedUpdateManyWithoutReplayNestedInput
+  corrections?: Prisma.CorrectionUncheckedUpdateManyWithoutReplayNestedInput
 }
 
 export type ReplayCreateWithoutEventsInput = {
@@ -539,6 +589,8 @@ export type ReplayCreateWithoutEventsInput = {
   discoveredAt?: Date | string
   parsedAt?: Date | string | null
   entities?: Prisma.EntityCreateNestedManyWithoutReplayInput
+  playerResults?: Prisma.PlayerReplayResultCreateNestedManyWithoutReplayInput
+  corrections?: Prisma.CorrectionCreateNestedManyWithoutReplayInput
 }
 
 export type ReplayUncheckedCreateWithoutEventsInput = {
@@ -552,6 +604,8 @@ export type ReplayUncheckedCreateWithoutEventsInput = {
   discoveredAt?: Date | string
   parsedAt?: Date | string | null
   entities?: Prisma.EntityUncheckedCreateNestedManyWithoutReplayInput
+  playerResults?: Prisma.PlayerReplayResultUncheckedCreateNestedManyWithoutReplayInput
+  corrections?: Prisma.CorrectionUncheckedCreateNestedManyWithoutReplayInput
 }
 
 export type ReplayCreateOrConnectWithoutEventsInput = {
@@ -581,6 +635,8 @@ export type ReplayUpdateWithoutEventsInput = {
   discoveredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entities?: Prisma.EntityUpdateManyWithoutReplayNestedInput
+  playerResults?: Prisma.PlayerReplayResultUpdateManyWithoutReplayNestedInput
+  corrections?: Prisma.CorrectionUpdateManyWithoutReplayNestedInput
 }
 
 export type ReplayUncheckedUpdateWithoutEventsInput = {
@@ -594,6 +650,160 @@ export type ReplayUncheckedUpdateWithoutEventsInput = {
   discoveredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   entities?: Prisma.EntityUncheckedUpdateManyWithoutReplayNestedInput
+  playerResults?: Prisma.PlayerReplayResultUncheckedUpdateManyWithoutReplayNestedInput
+  corrections?: Prisma.CorrectionUncheckedUpdateManyWithoutReplayNestedInput
+}
+
+export type ReplayCreateWithoutPlayerResultsInput = {
+  id?: string
+  filename: string
+  missionName: string
+  date: Date | string
+  gameType: $Enums.GameType
+  replayLink: string
+  status?: $Enums.ReplayStatus
+  discoveredAt?: Date | string
+  parsedAt?: Date | string | null
+  entities?: Prisma.EntityCreateNestedManyWithoutReplayInput
+  events?: Prisma.EventCreateNestedManyWithoutReplayInput
+  corrections?: Prisma.CorrectionCreateNestedManyWithoutReplayInput
+}
+
+export type ReplayUncheckedCreateWithoutPlayerResultsInput = {
+  id?: string
+  filename: string
+  missionName: string
+  date: Date | string
+  gameType: $Enums.GameType
+  replayLink: string
+  status?: $Enums.ReplayStatus
+  discoveredAt?: Date | string
+  parsedAt?: Date | string | null
+  entities?: Prisma.EntityUncheckedCreateNestedManyWithoutReplayInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutReplayInput
+  corrections?: Prisma.CorrectionUncheckedCreateNestedManyWithoutReplayInput
+}
+
+export type ReplayCreateOrConnectWithoutPlayerResultsInput = {
+  where: Prisma.ReplayWhereUniqueInput
+  create: Prisma.XOR<Prisma.ReplayCreateWithoutPlayerResultsInput, Prisma.ReplayUncheckedCreateWithoutPlayerResultsInput>
+}
+
+export type ReplayUpsertWithoutPlayerResultsInput = {
+  update: Prisma.XOR<Prisma.ReplayUpdateWithoutPlayerResultsInput, Prisma.ReplayUncheckedUpdateWithoutPlayerResultsInput>
+  create: Prisma.XOR<Prisma.ReplayCreateWithoutPlayerResultsInput, Prisma.ReplayUncheckedCreateWithoutPlayerResultsInput>
+  where?: Prisma.ReplayWhereInput
+}
+
+export type ReplayUpdateToOneWithWhereWithoutPlayerResultsInput = {
+  where?: Prisma.ReplayWhereInput
+  data: Prisma.XOR<Prisma.ReplayUpdateWithoutPlayerResultsInput, Prisma.ReplayUncheckedUpdateWithoutPlayerResultsInput>
+}
+
+export type ReplayUpdateWithoutPlayerResultsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  missionName?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  gameType?: Prisma.EnumGameTypeFieldUpdateOperationsInput | $Enums.GameType
+  replayLink?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumReplayStatusFieldUpdateOperationsInput | $Enums.ReplayStatus
+  discoveredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  parsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  entities?: Prisma.EntityUpdateManyWithoutReplayNestedInput
+  events?: Prisma.EventUpdateManyWithoutReplayNestedInput
+  corrections?: Prisma.CorrectionUpdateManyWithoutReplayNestedInput
+}
+
+export type ReplayUncheckedUpdateWithoutPlayerResultsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  missionName?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  gameType?: Prisma.EnumGameTypeFieldUpdateOperationsInput | $Enums.GameType
+  replayLink?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumReplayStatusFieldUpdateOperationsInput | $Enums.ReplayStatus
+  discoveredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  parsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  entities?: Prisma.EntityUncheckedUpdateManyWithoutReplayNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutReplayNestedInput
+  corrections?: Prisma.CorrectionUncheckedUpdateManyWithoutReplayNestedInput
+}
+
+export type ReplayCreateWithoutCorrectionsInput = {
+  id?: string
+  filename: string
+  missionName: string
+  date: Date | string
+  gameType: $Enums.GameType
+  replayLink: string
+  status?: $Enums.ReplayStatus
+  discoveredAt?: Date | string
+  parsedAt?: Date | string | null
+  entities?: Prisma.EntityCreateNestedManyWithoutReplayInput
+  events?: Prisma.EventCreateNestedManyWithoutReplayInput
+  playerResults?: Prisma.PlayerReplayResultCreateNestedManyWithoutReplayInput
+}
+
+export type ReplayUncheckedCreateWithoutCorrectionsInput = {
+  id?: string
+  filename: string
+  missionName: string
+  date: Date | string
+  gameType: $Enums.GameType
+  replayLink: string
+  status?: $Enums.ReplayStatus
+  discoveredAt?: Date | string
+  parsedAt?: Date | string | null
+  entities?: Prisma.EntityUncheckedCreateNestedManyWithoutReplayInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutReplayInput
+  playerResults?: Prisma.PlayerReplayResultUncheckedCreateNestedManyWithoutReplayInput
+}
+
+export type ReplayCreateOrConnectWithoutCorrectionsInput = {
+  where: Prisma.ReplayWhereUniqueInput
+  create: Prisma.XOR<Prisma.ReplayCreateWithoutCorrectionsInput, Prisma.ReplayUncheckedCreateWithoutCorrectionsInput>
+}
+
+export type ReplayUpsertWithoutCorrectionsInput = {
+  update: Prisma.XOR<Prisma.ReplayUpdateWithoutCorrectionsInput, Prisma.ReplayUncheckedUpdateWithoutCorrectionsInput>
+  create: Prisma.XOR<Prisma.ReplayCreateWithoutCorrectionsInput, Prisma.ReplayUncheckedCreateWithoutCorrectionsInput>
+  where?: Prisma.ReplayWhereInput
+}
+
+export type ReplayUpdateToOneWithWhereWithoutCorrectionsInput = {
+  where?: Prisma.ReplayWhereInput
+  data: Prisma.XOR<Prisma.ReplayUpdateWithoutCorrectionsInput, Prisma.ReplayUncheckedUpdateWithoutCorrectionsInput>
+}
+
+export type ReplayUpdateWithoutCorrectionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  missionName?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  gameType?: Prisma.EnumGameTypeFieldUpdateOperationsInput | $Enums.GameType
+  replayLink?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumReplayStatusFieldUpdateOperationsInput | $Enums.ReplayStatus
+  discoveredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  parsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  entities?: Prisma.EntityUpdateManyWithoutReplayNestedInput
+  events?: Prisma.EventUpdateManyWithoutReplayNestedInput
+  playerResults?: Prisma.PlayerReplayResultUpdateManyWithoutReplayNestedInput
+}
+
+export type ReplayUncheckedUpdateWithoutCorrectionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  missionName?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  gameType?: Prisma.EnumGameTypeFieldUpdateOperationsInput | $Enums.GameType
+  replayLink?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumReplayStatusFieldUpdateOperationsInput | $Enums.ReplayStatus
+  discoveredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  parsedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  entities?: Prisma.EntityUncheckedUpdateManyWithoutReplayNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutReplayNestedInput
+  playerResults?: Prisma.PlayerReplayResultUncheckedUpdateManyWithoutReplayNestedInput
 }
 
 
@@ -604,11 +814,15 @@ export type ReplayUncheckedUpdateWithoutEventsInput = {
 export type ReplayCountOutputType = {
   entities: number
   events: number
+  playerResults: number
+  corrections: number
 }
 
 export type ReplayCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   entities?: boolean | ReplayCountOutputTypeCountEntitiesArgs
   events?: boolean | ReplayCountOutputTypeCountEventsArgs
+  playerResults?: boolean | ReplayCountOutputTypeCountPlayerResultsArgs
+  corrections?: boolean | ReplayCountOutputTypeCountCorrectionsArgs
 }
 
 /**
@@ -635,6 +849,20 @@ export type ReplayCountOutputTypeCountEventsArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.EventWhereInput
 }
 
+/**
+ * ReplayCountOutputType without action
+ */
+export type ReplayCountOutputTypeCountPlayerResultsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PlayerReplayResultWhereInput
+}
+
+/**
+ * ReplayCountOutputType without action
+ */
+export type ReplayCountOutputTypeCountCorrectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CorrectionWhereInput
+}
+
 
 export type ReplaySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -648,6 +876,8 @@ export type ReplaySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   parsedAt?: boolean
   entities?: boolean | Prisma.Replay$entitiesArgs<ExtArgs>
   events?: boolean | Prisma.Replay$eventsArgs<ExtArgs>
+  playerResults?: boolean | Prisma.Replay$playerResultsArgs<ExtArgs>
+  corrections?: boolean | Prisma.Replay$correctionsArgs<ExtArgs>
   _count?: boolean | Prisma.ReplayCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["replay"]>
 
@@ -691,6 +921,8 @@ export type ReplayOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 export type ReplayInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   entities?: boolean | Prisma.Replay$entitiesArgs<ExtArgs>
   events?: boolean | Prisma.Replay$eventsArgs<ExtArgs>
+  playerResults?: boolean | Prisma.Replay$playerResultsArgs<ExtArgs>
+  corrections?: boolean | Prisma.Replay$correctionsArgs<ExtArgs>
   _count?: boolean | Prisma.ReplayCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ReplayIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -701,6 +933,8 @@ export type $ReplayPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   objects: {
     entities: Prisma.$EntityPayload<ExtArgs>[]
     events: Prisma.$EventPayload<ExtArgs>[]
+    playerResults: Prisma.$PlayerReplayResultPayload<ExtArgs>[]
+    corrections: Prisma.$CorrectionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1108,6 +1342,8 @@ export interface Prisma__ReplayClient<T, Null = never, ExtArgs extends runtime.T
   readonly [Symbol.toStringTag]: "PrismaPromise"
   entities<T extends Prisma.Replay$entitiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Replay$entitiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EntityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   events<T extends Prisma.Replay$eventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Replay$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  playerResults<T extends Prisma.Replay$playerResultsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Replay$playerResultsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PlayerReplayResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  corrections<T extends Prisma.Replay$correctionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Replay$correctionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CorrectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1577,6 +1813,54 @@ export type Replay$eventsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.EventScalarFieldEnum | Prisma.EventScalarFieldEnum[]
+}
+
+/**
+ * Replay.playerResults
+ */
+export type Replay$playerResultsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PlayerReplayResult
+   */
+  select?: Prisma.PlayerReplayResultSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PlayerReplayResult
+   */
+  omit?: Prisma.PlayerReplayResultOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PlayerReplayResultInclude<ExtArgs> | null
+  where?: Prisma.PlayerReplayResultWhereInput
+  orderBy?: Prisma.PlayerReplayResultOrderByWithRelationInput | Prisma.PlayerReplayResultOrderByWithRelationInput[]
+  cursor?: Prisma.PlayerReplayResultWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PlayerReplayResultScalarFieldEnum | Prisma.PlayerReplayResultScalarFieldEnum[]
+}
+
+/**
+ * Replay.corrections
+ */
+export type Replay$correctionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Correction
+   */
+  select?: Prisma.CorrectionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Correction
+   */
+  omit?: Prisma.CorrectionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CorrectionInclude<ExtArgs> | null
+  where?: Prisma.CorrectionWhereInput
+  orderBy?: Prisma.CorrectionOrderByWithRelationInput | Prisma.CorrectionOrderByWithRelationInput[]
+  cursor?: Prisma.CorrectionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CorrectionScalarFieldEnum | Prisma.CorrectionScalarFieldEnum[]
 }
 
 /**

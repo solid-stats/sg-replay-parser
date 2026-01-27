@@ -1,6 +1,6 @@
 # Replay Parser System Redesign
 
-**Date:** 2026-01-25  
+**Date:** 2026-01-25
 **Status:** Design validated
 
 ## Overview
@@ -10,6 +10,7 @@ Redesign of the replay parsing system to improve performance, enable incremental
 ## Problem Statement
 
 Current system issues:
+
 1. **Performance:** Full re-parsing of all replays on every run (10,000+ replays)
 2. **Memory usage:** Entire dataset passed around in giant variables
 3. **No correction mechanism:** Cannot fix incorrect kills, teamkills, or remove invalid games
@@ -35,6 +36,7 @@ Current system issues:
 ### Core Data Storage
 
 **replays** - Replay metadata and status
+
 ```prisma
 model Replay {
   id              String        @id @default(uuid())
@@ -46,12 +48,12 @@ model Replay {
   status          ReplayStatus  @default(DISCOVERED)
   discoveredAt    DateTime      @default(now())
   parsedAt        DateTime?
-  
+
   entities        Entity[]
   events          Event[]
   playerResults   PlayerReplayResult[]
   corrections     Correction[]
-  
+
   @@index([status, gameType])
 }
 
@@ -70,6 +72,7 @@ enum GameType {
 ```
 
 **entities** - All entities from replays (players, vehicles)
+
 ```prisma
 model Entity {
   id          String      @id @default(uuid())
@@ -79,9 +82,9 @@ model Entity {
   name        String
   side        EntitySide  // EAST, WEST, GUER, CIV, UNKNOWN
   isPlayer    Boolean
-  
+
   replay      Replay @relation(fields: [replayId], references: [id])
-  
+
   @@unique([replayId, entityId])
   @@index([replayId, entityId])
 }
@@ -101,6 +104,7 @@ enum EntitySide {
 ```
 
 **events** - All events from replays (kills, connections)
+
 ```prisma
 model Event {
   id          String      @id @default(uuid())
@@ -108,9 +112,9 @@ model Event {
   frameId     Int
   eventType   EventType
   data        Json        // Flexible storage for different event types
-  
+
   replay      Replay @relation(fields: [replayId], references: [id])
-  
+
   @@index([replayId, eventType])
 }
 
@@ -124,11 +128,12 @@ enum EventType {
 ### Player Identity System
 
 **players** - Unique player accounts
+
 ```prisma
 model Player {
   id            String    @id @default(uuid())
   createdAt     DateTime  @default(now())
-  
+
   names         PlayerName[]
   replayResults PlayerReplayResult[]
   statistics    PlayerStatistics[]
@@ -137,6 +142,7 @@ model Player {
 ```
 
 **player_names** - Name change history (from nameChanges.csv)
+
 ```prisma
 model PlayerName {
   id          String    @id @default(uuid())
@@ -144,14 +150,15 @@ model PlayerName {
   name        String    // Lowercase
   validFrom   DateTime
   validTo     DateTime?
-  
+
   player      Player @relation(fields: [playerId], references: [id])
-  
+
   @@index([name, validFrom, validTo])
 }
 ```
 
 **Logic:** Player identification uses existing `getPlayerId(name, date)` logic:
+
 1. Parse replay → get entity name + replay date
 2. Search `player_names` for matching name during time period
 3. Return associated `player_id`
@@ -160,6 +167,7 @@ model PlayerName {
 ### Player Results
 
 **player_replay_results** - Player performance in specific replay
+
 ```prisma
 model PlayerReplayResult {
   id              String  @id @default(uuid())
@@ -176,7 +184,7 @@ model PlayerReplayResult {
   isDead          Boolean
   isDeadByTeamkill Boolean
   score           Float
-  
+
   // JSON fields for complex data
   weapons         Json    // WeaponStatistic[]
   vehicles        Json    // WeaponStatistic[]
@@ -184,10 +192,10 @@ model PlayerReplayResult {
   killers         Json    // OtherPlayer[]
   teamkilled      Json    // OtherPlayer[]
   teamkillers     Json    // OtherPlayer[]
-  
+
   replay          Replay @relation(fields: [replayId], references: [id])
   player          Player @relation(fields: [playerId], references: [id])
-  
+
   @@unique([replayId, playerId])
 }
 ```
@@ -195,6 +203,7 @@ model PlayerReplayResult {
 ### Correction System
 
 **corrections** - Manual data corrections
+
 ```prisma
 model Correction {
   id              String          @id @default(uuid())
@@ -206,7 +215,7 @@ model Correction {
   createdAt       DateTime        @default(now())
   createdBy       String
   applied         Boolean         @default(false)
-  
+
   replay          Replay @relation(fields: [replayId], references: [id])
   player          Player @relation(fields: [playerId], references: [id])
 }
@@ -221,6 +230,7 @@ enum CorrectionType {
 ```
 
 **Correction data structures:**
+
 - `ADD_KILL`: `{ weapon?: string, distance?: number }`
 - `ADD_TEAMKILL`: `{ weapon?: string, distance?: number }`
 - `REMOVE_TEAMKILL`: `{ targetPlayerId: string }`
@@ -228,12 +238,14 @@ enum CorrectionType {
 - `REMOVE_PLAYER`: `{}` (removes entire player_replay_result)
 
 **Correction workflow:**
+
 1. Create correction → `applied = false`
 2. Mark affected players: `player_statistics.needsRecalculation = true`
 3. Cron job recalculates statistics with corrections applied
 4. Mark `applied = true` after successful recalculation
 
 **Benefits:**
+
 - Full audit history of all changes
 - Rollback capability (delete correction record)
 - Non-destructive to original data
@@ -241,13 +253,14 @@ enum CorrectionType {
 ### Materialized Statistics
 
 **player_statistics** - Aggregated player statistics
+
 ```prisma
 model PlayerStatistics {
   id                  String    @id @default(uuid())
   playerId            String
   gameType            GameType
   rotationId          String?   // For rotation-specific stats
-  
+
   // Core metrics
   totalPlayedGames    Int
   kills               Int
@@ -262,22 +275,23 @@ model PlayerStatistics {
   lastPlayedGameDate  DateTime
   lastSquadPrefix     String?
   isShow              Boolean   @default(true)
-  
+
   needsRecalculation  Boolean   @default(false)
   lastCalculatedAt    DateTime
-  
+
   player              Player @relation(fields: [playerId], references: [id])
   weeklyStats         PlayerWeeklyStats[]
   weaponStats         PlayerWeaponStats[]
   vehicleStats        PlayerVehicleStats[]
   interactions        PlayerInteraction[]
-  
+
   @@unique([playerId, gameType, rotationId])
   @@index([needsRecalculation])
 }
 ```
 
 **player_weekly_stats** - Statistics by week
+
 ```prisma
 model PlayerWeeklyStats {
   id                  String    @id @default(uuid())
@@ -295,14 +309,15 @@ model PlayerWeeklyStats {
   kdRatio             Float
   killsFromVehicleCoef Float
   score               Float
-  
+
   statistics          PlayerStatistics @relation(fields: [statisticsId], references: [id], onDelete: Cascade)
-  
+
   @@index([statisticsId])
 }
 ```
 
 **player_weapon_stats** - Weapon statistics (top 25)
+
 ```prisma
 model PlayerWeaponStats {
   id                  String    @id @default(uuid())
@@ -310,14 +325,15 @@ model PlayerWeaponStats {
   weaponName          String
   kills               Int
   maxDistance         Float
-  
+
   statistics          PlayerStatistics @relation(fields: [statisticsId], references: [id], onDelete: Cascade)
-  
+
   @@index([statisticsId])
 }
 ```
 
 **player_vehicle_stats** - Vehicle statistics (top 25)
+
 ```prisma
 model PlayerVehicleStats {
   id                  String    @id @default(uuid())
@@ -325,14 +341,15 @@ model PlayerVehicleStats {
   vehicleName         String
   kills               Int
   maxDistance         Float
-  
+
   statistics          PlayerStatistics @relation(fields: [statisticsId], references: [id], onDelete: Cascade)
-  
+
   @@index([statisticsId])
 }
 ```
 
 **player_interaction** - Player-to-player interactions (top 10 each)
+
 ```prisma
 model PlayerInteraction {
   id                  String          @id @default(uuid())
@@ -341,9 +358,9 @@ model PlayerInteraction {
   targetPlayerId      String
   targetPlayerName    String
   count               Int
-  
+
   statistics          PlayerStatistics @relation(fields: [statisticsId], references: [id], onDelete: Cascade)
-  
+
   @@index([statisticsId, type])
 }
 
@@ -356,6 +373,7 @@ enum InteractionType {
 ```
 
 **squad_statistics** - Squad/prefix statistics
+
 ```prisma
 model SquadStatistics {
   id                  String    @id @default(uuid())
@@ -363,16 +381,16 @@ model SquadStatistics {
   gameType            GameType
   rotationId          String?
   fourWeeksOnly       Boolean   // squad vs squadFull
-  
+
   averagePlayersCount Float
   kills               Int
   averageKills        Float
   teamkills           Int
   averageTeamkills    Float
   score               Float
-  
+
   players             SquadPlayer[]
-  
+
   @@unique([prefix, gameType, rotationId, fourWeeksOnly])
 }
 
@@ -390,9 +408,9 @@ model SquadPlayer {
   vehicleKills        Int
   killsFromVehicle    Int
   killsFromVehicleCoef Float
-  
+
   squadStatistics     SquadStatistics @relation(fields: [squadStatisticsId], references: [id], onDelete: Cascade)
-  
+
   @@index([squadStatisticsId])
 }
 ```
@@ -442,7 +460,7 @@ Independent of parsing pipeline
 2. If found:
    - Wait 30 seconds for next Job 1 run
    - Check: last_discovery_found_new == false?
-   
+
 3. If Job 1 found new replays:
    - goto 1 (wait for more)
 
@@ -450,10 +468,10 @@ Independent of parsing pipeline
    - Parse all status='DOWNLOADED' replays:
      * Read local /raw_replays/{filename}.json
      * Extract entities → DB
-     * Extract events → DB  
+     * Extract events → DB
      * Calculate player_replay_results → DB
      * status → 'PARSED'
-   
+
    - Recalculate statistics:
      * Find players with needsRecalculation=true
      * For each player:
@@ -462,7 +480,7 @@ Independent of parsing pipeline
        - Calculate aggregated statistics
        - Save to player_statistics and related tables
        - needsRecalculation = false
-   
+
    - Generate JSON output files (as current system)
 ```
 
@@ -473,6 +491,7 @@ Independent of parsing pipeline
 ### Regular Statistics
 
 **Process:**
+
 1. Query all `player_replay_results` for player
 2. Apply active `corrections` (where `applied = false`)
 3. Aggregate:
@@ -485,6 +504,7 @@ Independent of parsing pipeline
 ### Yearly Statistics
 
 **Process (dynamic calculation):**
+
 1. Query `player_replay_results` filtered by year from replay date
 2. Read `entities` and `events` from DB for those replays
 3. Run nomination calculations (as current system does with raw data)
@@ -495,6 +515,7 @@ Independent of parsing pipeline
 ## Data Migration
 
 Initial setup requires:
+
 1. Parse `nameChanges.csv` → populate `players` and `player_names` tables
 2. One-time full parse of existing replays:
    - Read all files from `/raw_replays/`
@@ -512,36 +533,36 @@ src/
     client.ts                 # Prisma client initialization
     schema.prisma            # Database schema
     seed.ts                  # Import nameChanges.csv
-    
+
   services/
     discovery/
       fetch-replays.ts       # Fetch from sg.zone
       download-replay.ts     # Download JSON files
-    
+
     parser/
       parse-replay.ts        # Main parsing orchestration
       extract-entities.ts    # Process entities
       extract-events.ts      # Process events
       calculate-player-results.ts  # Calculate player results
-    
+
     statistics/
       calculate-statistics.ts      # Main stats calculation
       apply-corrections.ts         # Apply correction layer
       generate-output.ts           # Generate JSON files
-      
+
     yearly/
       # Existing yearly statistics code
       # Adapted to read from DB instead of memory
-  
+
   jobs/
     quick-discovery.ts       # Job 1
-    full-discovery.ts        # Job 2  
+    full-discovery.ts        # Job 2
     mission-makers.ts        # Job 3
     parse-and-calculate.ts   # Job 4
-    
+
   utils/
     player-id-resolver.ts    # getPlayerId logic using DB
-    
+
   migrations/
     # Prisma migrations
 ```
@@ -549,11 +570,13 @@ src/
 ## Testing Strategy
 
 **Database testability:**
+
 - Use in-memory SQLite for tests (`:memory:`)
 - Prisma provides excellent test support
 - Each test gets fresh DB instance
 
 **Test coverage:**
+
 1. Player ID resolution with name changes
 2. Correction application logic
 3. Statistics aggregation with corrections
@@ -563,12 +586,14 @@ src/
 ## Future Enhancements
 
 **Runtime API (planned):**
+
 - Query statistics directly from DB
 - Apply filters (date range, game type, rotation)
 - Cache results in memory
 - Real-time statistics without file regeneration
 
 **Benefits of new architecture:**
+
 - API queries become SQL queries
 - Filtering and pagination built-in
 - No need to load entire dataset

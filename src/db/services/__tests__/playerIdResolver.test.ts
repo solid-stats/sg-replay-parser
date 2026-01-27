@@ -1,5 +1,5 @@
-import { resolvePlayerId } from '../playerIdResolver';
 import { getDbClient } from '../../client';
+import { resolvePlayerId } from '../playerIdResolver';
 
 // Mock the database client
 jest.mock('../../client', () => ({
@@ -206,12 +206,14 @@ describe('resolvePlayerId', () => {
       mockPlayerNameFindFirst.mockResolvedValueOnce({ playerId: oldPlayerId });
 
       const resultOld = await resolvePlayerId('oldname', new Date('2024-03-15'));
+
       expect(resultOld).toBe(oldPlayerId);
 
-      // Second call - query for new name period  
+      // Second call - query for new name period
       mockPlayerNameFindFirst.mockResolvedValueOnce({ playerId: newPlayerId });
 
       const resultNew = await resolvePlayerId('newname', new Date('2024-09-15'));
+
       expect(resultNew).toBe(newPlayerId);
     });
 
@@ -237,11 +239,13 @@ describe('resolvePlayerId', () => {
       // Query for player 1's period
       mockPlayerNameFindFirst.mockResolvedValueOnce({ playerId: player1Id });
       const resultForPlayer1 = await resolvePlayerId('reusedname', new Date('2024-03-15'));
+
       expect(resultForPlayer1).toBe(player1Id);
 
       // Query for player 2's period
       mockPlayerNameFindFirst.mockResolvedValueOnce({ playerId: player2Id });
       const resultForPlayer2 = await resolvePlayerId('reusedname', new Date('2024-09-15'));
+
       expect(resultForPlayer2).toBe(player2Id);
     });
 

@@ -159,12 +159,18 @@ export type PlayerWhereInput = {
   id?: Prisma.StringFilter<"Player"> | string
   createdAt?: Prisma.DateTimeFilter<"Player"> | Date | string
   names?: Prisma.PlayerNameListRelationFilter
+  replayResults?: Prisma.PlayerReplayResultListRelationFilter
+  corrections?: Prisma.CorrectionListRelationFilter
+  statistics?: Prisma.PlayerStatisticsListRelationFilter
 }
 
 export type PlayerOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   names?: Prisma.PlayerNameOrderByRelationAggregateInput
+  replayResults?: Prisma.PlayerReplayResultOrderByRelationAggregateInput
+  corrections?: Prisma.CorrectionOrderByRelationAggregateInput
+  statistics?: Prisma.PlayerStatisticsOrderByRelationAggregateInput
 }
 
 export type PlayerWhereUniqueInput = Prisma.AtLeast<{
@@ -174,6 +180,9 @@ export type PlayerWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.PlayerWhereInput | Prisma.PlayerWhereInput[]
   createdAt?: Prisma.DateTimeFilter<"Player"> | Date | string
   names?: Prisma.PlayerNameListRelationFilter
+  replayResults?: Prisma.PlayerReplayResultListRelationFilter
+  corrections?: Prisma.CorrectionListRelationFilter
+  statistics?: Prisma.PlayerStatisticsListRelationFilter
 }, "id">
 
 export type PlayerOrderByWithAggregationInput = {
@@ -196,24 +205,36 @@ export type PlayerCreateInput = {
   id?: string
   createdAt?: Date | string
   names?: Prisma.PlayerNameCreateNestedManyWithoutPlayerInput
+  replayResults?: Prisma.PlayerReplayResultCreateNestedManyWithoutPlayerInput
+  corrections?: Prisma.CorrectionCreateNestedManyWithoutPlayerInput
+  statistics?: Prisma.PlayerStatisticsCreateNestedManyWithoutPlayerInput
 }
 
 export type PlayerUncheckedCreateInput = {
   id?: string
   createdAt?: Date | string
   names?: Prisma.PlayerNameUncheckedCreateNestedManyWithoutPlayerInput
+  replayResults?: Prisma.PlayerReplayResultUncheckedCreateNestedManyWithoutPlayerInput
+  corrections?: Prisma.CorrectionUncheckedCreateNestedManyWithoutPlayerInput
+  statistics?: Prisma.PlayerStatisticsUncheckedCreateNestedManyWithoutPlayerInput
 }
 
 export type PlayerUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   names?: Prisma.PlayerNameUpdateManyWithoutPlayerNestedInput
+  replayResults?: Prisma.PlayerReplayResultUpdateManyWithoutPlayerNestedInput
+  corrections?: Prisma.CorrectionUpdateManyWithoutPlayerNestedInput
+  statistics?: Prisma.PlayerStatisticsUpdateManyWithoutPlayerNestedInput
 }
 
 export type PlayerUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   names?: Prisma.PlayerNameUncheckedUpdateManyWithoutPlayerNestedInput
+  replayResults?: Prisma.PlayerReplayResultUncheckedUpdateManyWithoutPlayerNestedInput
+  corrections?: Prisma.CorrectionUncheckedUpdateManyWithoutPlayerNestedInput
+  statistics?: Prisma.PlayerStatisticsUncheckedUpdateManyWithoutPlayerNestedInput
 }
 
 export type PlayerCreateManyInput = {
@@ -265,14 +286,62 @@ export type PlayerUpdateOneRequiredWithoutNamesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.PlayerUpdateToOneWithWhereWithoutNamesInput, Prisma.PlayerUpdateWithoutNamesInput>, Prisma.PlayerUncheckedUpdateWithoutNamesInput>
 }
 
+export type PlayerCreateNestedOneWithoutReplayResultsInput = {
+  create?: Prisma.XOR<Prisma.PlayerCreateWithoutReplayResultsInput, Prisma.PlayerUncheckedCreateWithoutReplayResultsInput>
+  connectOrCreate?: Prisma.PlayerCreateOrConnectWithoutReplayResultsInput
+  connect?: Prisma.PlayerWhereUniqueInput
+}
+
+export type PlayerUpdateOneRequiredWithoutReplayResultsNestedInput = {
+  create?: Prisma.XOR<Prisma.PlayerCreateWithoutReplayResultsInput, Prisma.PlayerUncheckedCreateWithoutReplayResultsInput>
+  connectOrCreate?: Prisma.PlayerCreateOrConnectWithoutReplayResultsInput
+  upsert?: Prisma.PlayerUpsertWithoutReplayResultsInput
+  connect?: Prisma.PlayerWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PlayerUpdateToOneWithWhereWithoutReplayResultsInput, Prisma.PlayerUpdateWithoutReplayResultsInput>, Prisma.PlayerUncheckedUpdateWithoutReplayResultsInput>
+}
+
+export type PlayerCreateNestedOneWithoutCorrectionsInput = {
+  create?: Prisma.XOR<Prisma.PlayerCreateWithoutCorrectionsInput, Prisma.PlayerUncheckedCreateWithoutCorrectionsInput>
+  connectOrCreate?: Prisma.PlayerCreateOrConnectWithoutCorrectionsInput
+  connect?: Prisma.PlayerWhereUniqueInput
+}
+
+export type PlayerUpdateOneRequiredWithoutCorrectionsNestedInput = {
+  create?: Prisma.XOR<Prisma.PlayerCreateWithoutCorrectionsInput, Prisma.PlayerUncheckedCreateWithoutCorrectionsInput>
+  connectOrCreate?: Prisma.PlayerCreateOrConnectWithoutCorrectionsInput
+  upsert?: Prisma.PlayerUpsertWithoutCorrectionsInput
+  connect?: Prisma.PlayerWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PlayerUpdateToOneWithWhereWithoutCorrectionsInput, Prisma.PlayerUpdateWithoutCorrectionsInput>, Prisma.PlayerUncheckedUpdateWithoutCorrectionsInput>
+}
+
+export type PlayerCreateNestedOneWithoutStatisticsInput = {
+  create?: Prisma.XOR<Prisma.PlayerCreateWithoutStatisticsInput, Prisma.PlayerUncheckedCreateWithoutStatisticsInput>
+  connectOrCreate?: Prisma.PlayerCreateOrConnectWithoutStatisticsInput
+  connect?: Prisma.PlayerWhereUniqueInput
+}
+
+export type PlayerUpdateOneRequiredWithoutStatisticsNestedInput = {
+  create?: Prisma.XOR<Prisma.PlayerCreateWithoutStatisticsInput, Prisma.PlayerUncheckedCreateWithoutStatisticsInput>
+  connectOrCreate?: Prisma.PlayerCreateOrConnectWithoutStatisticsInput
+  upsert?: Prisma.PlayerUpsertWithoutStatisticsInput
+  connect?: Prisma.PlayerWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PlayerUpdateToOneWithWhereWithoutStatisticsInput, Prisma.PlayerUpdateWithoutStatisticsInput>, Prisma.PlayerUncheckedUpdateWithoutStatisticsInput>
+}
+
 export type PlayerCreateWithoutNamesInput = {
   id?: string
   createdAt?: Date | string
+  replayResults?: Prisma.PlayerReplayResultCreateNestedManyWithoutPlayerInput
+  corrections?: Prisma.CorrectionCreateNestedManyWithoutPlayerInput
+  statistics?: Prisma.PlayerStatisticsCreateNestedManyWithoutPlayerInput
 }
 
 export type PlayerUncheckedCreateWithoutNamesInput = {
   id?: string
   createdAt?: Date | string
+  replayResults?: Prisma.PlayerReplayResultUncheckedCreateNestedManyWithoutPlayerInput
+  corrections?: Prisma.CorrectionUncheckedCreateNestedManyWithoutPlayerInput
+  statistics?: Prisma.PlayerStatisticsUncheckedCreateNestedManyWithoutPlayerInput
 }
 
 export type PlayerCreateOrConnectWithoutNamesInput = {
@@ -294,11 +363,161 @@ export type PlayerUpdateToOneWithWhereWithoutNamesInput = {
 export type PlayerUpdateWithoutNamesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  replayResults?: Prisma.PlayerReplayResultUpdateManyWithoutPlayerNestedInput
+  corrections?: Prisma.CorrectionUpdateManyWithoutPlayerNestedInput
+  statistics?: Prisma.PlayerStatisticsUpdateManyWithoutPlayerNestedInput
 }
 
 export type PlayerUncheckedUpdateWithoutNamesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  replayResults?: Prisma.PlayerReplayResultUncheckedUpdateManyWithoutPlayerNestedInput
+  corrections?: Prisma.CorrectionUncheckedUpdateManyWithoutPlayerNestedInput
+  statistics?: Prisma.PlayerStatisticsUncheckedUpdateManyWithoutPlayerNestedInput
+}
+
+export type PlayerCreateWithoutReplayResultsInput = {
+  id?: string
+  createdAt?: Date | string
+  names?: Prisma.PlayerNameCreateNestedManyWithoutPlayerInput
+  corrections?: Prisma.CorrectionCreateNestedManyWithoutPlayerInput
+  statistics?: Prisma.PlayerStatisticsCreateNestedManyWithoutPlayerInput
+}
+
+export type PlayerUncheckedCreateWithoutReplayResultsInput = {
+  id?: string
+  createdAt?: Date | string
+  names?: Prisma.PlayerNameUncheckedCreateNestedManyWithoutPlayerInput
+  corrections?: Prisma.CorrectionUncheckedCreateNestedManyWithoutPlayerInput
+  statistics?: Prisma.PlayerStatisticsUncheckedCreateNestedManyWithoutPlayerInput
+}
+
+export type PlayerCreateOrConnectWithoutReplayResultsInput = {
+  where: Prisma.PlayerWhereUniqueInput
+  create: Prisma.XOR<Prisma.PlayerCreateWithoutReplayResultsInput, Prisma.PlayerUncheckedCreateWithoutReplayResultsInput>
+}
+
+export type PlayerUpsertWithoutReplayResultsInput = {
+  update: Prisma.XOR<Prisma.PlayerUpdateWithoutReplayResultsInput, Prisma.PlayerUncheckedUpdateWithoutReplayResultsInput>
+  create: Prisma.XOR<Prisma.PlayerCreateWithoutReplayResultsInput, Prisma.PlayerUncheckedCreateWithoutReplayResultsInput>
+  where?: Prisma.PlayerWhereInput
+}
+
+export type PlayerUpdateToOneWithWhereWithoutReplayResultsInput = {
+  where?: Prisma.PlayerWhereInput
+  data: Prisma.XOR<Prisma.PlayerUpdateWithoutReplayResultsInput, Prisma.PlayerUncheckedUpdateWithoutReplayResultsInput>
+}
+
+export type PlayerUpdateWithoutReplayResultsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  names?: Prisma.PlayerNameUpdateManyWithoutPlayerNestedInput
+  corrections?: Prisma.CorrectionUpdateManyWithoutPlayerNestedInput
+  statistics?: Prisma.PlayerStatisticsUpdateManyWithoutPlayerNestedInput
+}
+
+export type PlayerUncheckedUpdateWithoutReplayResultsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  names?: Prisma.PlayerNameUncheckedUpdateManyWithoutPlayerNestedInput
+  corrections?: Prisma.CorrectionUncheckedUpdateManyWithoutPlayerNestedInput
+  statistics?: Prisma.PlayerStatisticsUncheckedUpdateManyWithoutPlayerNestedInput
+}
+
+export type PlayerCreateWithoutCorrectionsInput = {
+  id?: string
+  createdAt?: Date | string
+  names?: Prisma.PlayerNameCreateNestedManyWithoutPlayerInput
+  replayResults?: Prisma.PlayerReplayResultCreateNestedManyWithoutPlayerInput
+  statistics?: Prisma.PlayerStatisticsCreateNestedManyWithoutPlayerInput
+}
+
+export type PlayerUncheckedCreateWithoutCorrectionsInput = {
+  id?: string
+  createdAt?: Date | string
+  names?: Prisma.PlayerNameUncheckedCreateNestedManyWithoutPlayerInput
+  replayResults?: Prisma.PlayerReplayResultUncheckedCreateNestedManyWithoutPlayerInput
+  statistics?: Prisma.PlayerStatisticsUncheckedCreateNestedManyWithoutPlayerInput
+}
+
+export type PlayerCreateOrConnectWithoutCorrectionsInput = {
+  where: Prisma.PlayerWhereUniqueInput
+  create: Prisma.XOR<Prisma.PlayerCreateWithoutCorrectionsInput, Prisma.PlayerUncheckedCreateWithoutCorrectionsInput>
+}
+
+export type PlayerUpsertWithoutCorrectionsInput = {
+  update: Prisma.XOR<Prisma.PlayerUpdateWithoutCorrectionsInput, Prisma.PlayerUncheckedUpdateWithoutCorrectionsInput>
+  create: Prisma.XOR<Prisma.PlayerCreateWithoutCorrectionsInput, Prisma.PlayerUncheckedCreateWithoutCorrectionsInput>
+  where?: Prisma.PlayerWhereInput
+}
+
+export type PlayerUpdateToOneWithWhereWithoutCorrectionsInput = {
+  where?: Prisma.PlayerWhereInput
+  data: Prisma.XOR<Prisma.PlayerUpdateWithoutCorrectionsInput, Prisma.PlayerUncheckedUpdateWithoutCorrectionsInput>
+}
+
+export type PlayerUpdateWithoutCorrectionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  names?: Prisma.PlayerNameUpdateManyWithoutPlayerNestedInput
+  replayResults?: Prisma.PlayerReplayResultUpdateManyWithoutPlayerNestedInput
+  statistics?: Prisma.PlayerStatisticsUpdateManyWithoutPlayerNestedInput
+}
+
+export type PlayerUncheckedUpdateWithoutCorrectionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  names?: Prisma.PlayerNameUncheckedUpdateManyWithoutPlayerNestedInput
+  replayResults?: Prisma.PlayerReplayResultUncheckedUpdateManyWithoutPlayerNestedInput
+  statistics?: Prisma.PlayerStatisticsUncheckedUpdateManyWithoutPlayerNestedInput
+}
+
+export type PlayerCreateWithoutStatisticsInput = {
+  id?: string
+  createdAt?: Date | string
+  names?: Prisma.PlayerNameCreateNestedManyWithoutPlayerInput
+  replayResults?: Prisma.PlayerReplayResultCreateNestedManyWithoutPlayerInput
+  corrections?: Prisma.CorrectionCreateNestedManyWithoutPlayerInput
+}
+
+export type PlayerUncheckedCreateWithoutStatisticsInput = {
+  id?: string
+  createdAt?: Date | string
+  names?: Prisma.PlayerNameUncheckedCreateNestedManyWithoutPlayerInput
+  replayResults?: Prisma.PlayerReplayResultUncheckedCreateNestedManyWithoutPlayerInput
+  corrections?: Prisma.CorrectionUncheckedCreateNestedManyWithoutPlayerInput
+}
+
+export type PlayerCreateOrConnectWithoutStatisticsInput = {
+  where: Prisma.PlayerWhereUniqueInput
+  create: Prisma.XOR<Prisma.PlayerCreateWithoutStatisticsInput, Prisma.PlayerUncheckedCreateWithoutStatisticsInput>
+}
+
+export type PlayerUpsertWithoutStatisticsInput = {
+  update: Prisma.XOR<Prisma.PlayerUpdateWithoutStatisticsInput, Prisma.PlayerUncheckedUpdateWithoutStatisticsInput>
+  create: Prisma.XOR<Prisma.PlayerCreateWithoutStatisticsInput, Prisma.PlayerUncheckedCreateWithoutStatisticsInput>
+  where?: Prisma.PlayerWhereInput
+}
+
+export type PlayerUpdateToOneWithWhereWithoutStatisticsInput = {
+  where?: Prisma.PlayerWhereInput
+  data: Prisma.XOR<Prisma.PlayerUpdateWithoutStatisticsInput, Prisma.PlayerUncheckedUpdateWithoutStatisticsInput>
+}
+
+export type PlayerUpdateWithoutStatisticsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  names?: Prisma.PlayerNameUpdateManyWithoutPlayerNestedInput
+  replayResults?: Prisma.PlayerReplayResultUpdateManyWithoutPlayerNestedInput
+  corrections?: Prisma.CorrectionUpdateManyWithoutPlayerNestedInput
+}
+
+export type PlayerUncheckedUpdateWithoutStatisticsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  names?: Prisma.PlayerNameUncheckedUpdateManyWithoutPlayerNestedInput
+  replayResults?: Prisma.PlayerReplayResultUncheckedUpdateManyWithoutPlayerNestedInput
+  corrections?: Prisma.CorrectionUncheckedUpdateManyWithoutPlayerNestedInput
 }
 
 
@@ -308,10 +527,16 @@ export type PlayerUncheckedUpdateWithoutNamesInput = {
 
 export type PlayerCountOutputType = {
   names: number
+  replayResults: number
+  corrections: number
+  statistics: number
 }
 
 export type PlayerCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   names?: boolean | PlayerCountOutputTypeCountNamesArgs
+  replayResults?: boolean | PlayerCountOutputTypeCountReplayResultsArgs
+  corrections?: boolean | PlayerCountOutputTypeCountCorrectionsArgs
+  statistics?: boolean | PlayerCountOutputTypeCountStatisticsArgs
 }
 
 /**
@@ -331,11 +556,35 @@ export type PlayerCountOutputTypeCountNamesArgs<ExtArgs extends runtime.Types.Ex
   where?: Prisma.PlayerNameWhereInput
 }
 
+/**
+ * PlayerCountOutputType without action
+ */
+export type PlayerCountOutputTypeCountReplayResultsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PlayerReplayResultWhereInput
+}
+
+/**
+ * PlayerCountOutputType without action
+ */
+export type PlayerCountOutputTypeCountCorrectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CorrectionWhereInput
+}
+
+/**
+ * PlayerCountOutputType without action
+ */
+export type PlayerCountOutputTypeCountStatisticsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PlayerStatisticsWhereInput
+}
+
 
 export type PlayerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   createdAt?: boolean
   names?: boolean | Prisma.Player$namesArgs<ExtArgs>
+  replayResults?: boolean | Prisma.Player$replayResultsArgs<ExtArgs>
+  corrections?: boolean | Prisma.Player$correctionsArgs<ExtArgs>
+  statistics?: boolean | Prisma.Player$statisticsArgs<ExtArgs>
   _count?: boolean | Prisma.PlayerCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["player"]>
 
@@ -357,6 +606,9 @@ export type PlayerSelectScalar = {
 export type PlayerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt", ExtArgs["result"]["player"]>
 export type PlayerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   names?: boolean | Prisma.Player$namesArgs<ExtArgs>
+  replayResults?: boolean | Prisma.Player$replayResultsArgs<ExtArgs>
+  corrections?: boolean | Prisma.Player$correctionsArgs<ExtArgs>
+  statistics?: boolean | Prisma.Player$statisticsArgs<ExtArgs>
   _count?: boolean | Prisma.PlayerCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PlayerIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -366,6 +618,9 @@ export type $PlayerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name: "Player"
   objects: {
     names: Prisma.$PlayerNamePayload<ExtArgs>[]
+    replayResults: Prisma.$PlayerReplayResultPayload<ExtArgs>[]
+    corrections: Prisma.$CorrectionPayload<ExtArgs>[]
+    statistics: Prisma.$PlayerStatisticsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -765,6 +1020,9 @@ readonly fields: PlayerFieldRefs;
 export interface Prisma__PlayerClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   names<T extends Prisma.Player$namesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Player$namesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PlayerNamePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  replayResults<T extends Prisma.Player$replayResultsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Player$replayResultsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PlayerReplayResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  corrections<T extends Prisma.Player$correctionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Player$correctionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CorrectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  statistics<T extends Prisma.Player$statisticsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Player$statisticsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PlayerStatisticsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1203,6 +1461,78 @@ export type Player$namesArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.PlayerNameScalarFieldEnum | Prisma.PlayerNameScalarFieldEnum[]
+}
+
+/**
+ * Player.replayResults
+ */
+export type Player$replayResultsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PlayerReplayResult
+   */
+  select?: Prisma.PlayerReplayResultSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PlayerReplayResult
+   */
+  omit?: Prisma.PlayerReplayResultOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PlayerReplayResultInclude<ExtArgs> | null
+  where?: Prisma.PlayerReplayResultWhereInput
+  orderBy?: Prisma.PlayerReplayResultOrderByWithRelationInput | Prisma.PlayerReplayResultOrderByWithRelationInput[]
+  cursor?: Prisma.PlayerReplayResultWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PlayerReplayResultScalarFieldEnum | Prisma.PlayerReplayResultScalarFieldEnum[]
+}
+
+/**
+ * Player.corrections
+ */
+export type Player$correctionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Correction
+   */
+  select?: Prisma.CorrectionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Correction
+   */
+  omit?: Prisma.CorrectionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CorrectionInclude<ExtArgs> | null
+  where?: Prisma.CorrectionWhereInput
+  orderBy?: Prisma.CorrectionOrderByWithRelationInput | Prisma.CorrectionOrderByWithRelationInput[]
+  cursor?: Prisma.CorrectionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CorrectionScalarFieldEnum | Prisma.CorrectionScalarFieldEnum[]
+}
+
+/**
+ * Player.statistics
+ */
+export type Player$statisticsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PlayerStatistics
+   */
+  select?: Prisma.PlayerStatisticsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PlayerStatistics
+   */
+  omit?: Prisma.PlayerStatisticsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PlayerStatisticsInclude<ExtArgs> | null
+  where?: Prisma.PlayerStatisticsWhereInput
+  orderBy?: Prisma.PlayerStatisticsOrderByWithRelationInput | Prisma.PlayerStatisticsOrderByWithRelationInput[]
+  cursor?: Prisma.PlayerStatisticsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PlayerStatisticsScalarFieldEnum | Prisma.PlayerStatisticsScalarFieldEnum[]
 }
 
 /**

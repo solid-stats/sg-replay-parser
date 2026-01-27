@@ -1,9 +1,10 @@
-import { PrismaClient } from '../generated/prisma/client';
 import { PrismaLibSql } from '@prisma/adapter-libsql';
+
+import { PrismaClient } from '../generated/prisma/client';
 
 let prismaClient: PrismaClient | null = null;
 
-export const getDbClient = (): PrismaClient => {
+export const initDbClient = (): PrismaClient => {
   if (!prismaClient) {
     const adapter = new PrismaLibSql({
       url: process.env.DATABASE_URL || 'file:./dev.db',
@@ -11,6 +12,15 @@ export const getDbClient = (): PrismaClient => {
 
     prismaClient = new PrismaClient({ adapter });
   }
+
+  return prismaClient;
+};
+
+export const getDbClient = (): PrismaClient => {
+  if (!prismaClient) {
+    return initDbClient();
+  }
+
   return prismaClient;
 };
 

@@ -54,3 +54,24 @@ export const EventType = {
 } as const
 
 export type EventType = (typeof EventType)[keyof typeof EventType]
+
+
+export const CorrectionType = {
+  ADD_KILL: 'ADD_KILL',
+  ADD_TEAMKILL: 'ADD_TEAMKILL',
+  REMOVE_TEAMKILL: 'REMOVE_TEAMKILL',
+  ADD_VEHICLE_KILL: 'ADD_VEHICLE_KILL',
+  REMOVE_PLAYER: 'REMOVE_PLAYER'
+} as const
+
+export type CorrectionType = (typeof CorrectionType)[keyof typeof CorrectionType]
+
+
+export const InteractionType = {
+  KILLED: 'KILLED',
+  KILLERS: 'KILLERS',
+  TEAMKILLED: 'TEAMKILLED',
+  TEAMKILLERS: 'TEAMKILLERS'
+} as const
+
+export type InteractionType = (typeof InteractionType)[keyof typeof InteractionType]

@@ -55,7 +55,16 @@ export const ModelName = {
   Entity: 'Entity',
   Event: 'Event',
   Player: 'Player',
-  PlayerName: 'PlayerName'
+  PlayerName: 'PlayerName',
+  PlayerReplayResult: 'PlayerReplayResult',
+  Correction: 'Correction',
+  PlayerStatistics: 'PlayerStatistics',
+  PlayerWeeklyStats: 'PlayerWeeklyStats',
+  PlayerWeaponStats: 'PlayerWeaponStats',
+  PlayerVehicleStats: 'PlayerVehicleStats',
+  PlayerInteraction: 'PlayerInteraction',
+  SquadStatistics: 'SquadStatistics',
+  SquadPlayer: 'SquadPlayer'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -127,6 +136,163 @@ export const PlayerNameScalarFieldEnum = {
 } as const
 
 export type PlayerNameScalarFieldEnum = (typeof PlayerNameScalarFieldEnum)[keyof typeof PlayerNameScalarFieldEnum]
+
+
+export const PlayerReplayResultScalarFieldEnum = {
+  id: 'id',
+  replayId: 'replayId',
+  playerId: 'playerId',
+  entityName: 'entityName',
+  squadPrefix: 'squadPrefix',
+  kills: 'kills',
+  killsFromVehicle: 'killsFromVehicle',
+  vehicleKills: 'vehicleKills',
+  teamkills: 'teamkills',
+  deaths: 'deaths',
+  deathsByTeamkills: 'deathsByTeamkills',
+  isDead: 'isDead',
+  isDeadByTeamkill: 'isDeadByTeamkill',
+  score: 'score',
+  weapons: 'weapons',
+  vehicles: 'vehicles',
+  killed: 'killed',
+  killers: 'killers',
+  teamkilled: 'teamkilled',
+  teamkillers: 'teamkillers'
+} as const
+
+export type PlayerReplayResultScalarFieldEnum = (typeof PlayerReplayResultScalarFieldEnum)[keyof typeof PlayerReplayResultScalarFieldEnum]
+
+
+export const CorrectionScalarFieldEnum = {
+  id: 'id',
+  replayId: 'replayId',
+  playerId: 'playerId',
+  correctionType: 'correctionType',
+  targetPlayerId: 'targetPlayerId',
+  data: 'data',
+  createdAt: 'createdAt',
+  createdBy: 'createdBy',
+  applied: 'applied'
+} as const
+
+export type CorrectionScalarFieldEnum = (typeof CorrectionScalarFieldEnum)[keyof typeof CorrectionScalarFieldEnum]
+
+
+export const PlayerStatisticsScalarFieldEnum = {
+  id: 'id',
+  playerId: 'playerId',
+  gameType: 'gameType',
+  rotationId: 'rotationId',
+  totalPlayedGames: 'totalPlayedGames',
+  kills: 'kills',
+  killsFromVehicle: 'killsFromVehicle',
+  vehicleKills: 'vehicleKills',
+  teamkills: 'teamkills',
+  deathsTotal: 'deathsTotal',
+  deathsByTeamkills: 'deathsByTeamkills',
+  kdRatio: 'kdRatio',
+  killsFromVehicleCoef: 'killsFromVehicleCoef',
+  totalScore: 'totalScore',
+  lastPlayedGameDate: 'lastPlayedGameDate',
+  lastSquadPrefix: 'lastSquadPrefix',
+  isShow: 'isShow',
+  needsRecalculation: 'needsRecalculation',
+  lastCalculatedAt: 'lastCalculatedAt'
+} as const
+
+export type PlayerStatisticsScalarFieldEnum = (typeof PlayerStatisticsScalarFieldEnum)[keyof typeof PlayerStatisticsScalarFieldEnum]
+
+
+export const PlayerWeeklyStatsScalarFieldEnum = {
+  id: 'id',
+  statisticsId: 'statisticsId',
+  week: 'week',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  totalPlayedGames: 'totalPlayedGames',
+  kills: 'kills',
+  killsFromVehicle: 'killsFromVehicle',
+  vehicleKills: 'vehicleKills',
+  teamkills: 'teamkills',
+  deathsTotal: 'deathsTotal',
+  deathsByTeamkills: 'deathsByTeamkills',
+  kdRatio: 'kdRatio',
+  killsFromVehicleCoef: 'killsFromVehicleCoef',
+  score: 'score'
+} as const
+
+export type PlayerWeeklyStatsScalarFieldEnum = (typeof PlayerWeeklyStatsScalarFieldEnum)[keyof typeof PlayerWeeklyStatsScalarFieldEnum]
+
+
+export const PlayerWeaponStatsScalarFieldEnum = {
+  id: 'id',
+  statisticsId: 'statisticsId',
+  weaponName: 'weaponName',
+  kills: 'kills',
+  maxDistance: 'maxDistance'
+} as const
+
+export type PlayerWeaponStatsScalarFieldEnum = (typeof PlayerWeaponStatsScalarFieldEnum)[keyof typeof PlayerWeaponStatsScalarFieldEnum]
+
+
+export const PlayerVehicleStatsScalarFieldEnum = {
+  id: 'id',
+  statisticsId: 'statisticsId',
+  vehicleName: 'vehicleName',
+  kills: 'kills',
+  maxDistance: 'maxDistance'
+} as const
+
+export type PlayerVehicleStatsScalarFieldEnum = (typeof PlayerVehicleStatsScalarFieldEnum)[keyof typeof PlayerVehicleStatsScalarFieldEnum]
+
+
+export const PlayerInteractionScalarFieldEnum = {
+  id: 'id',
+  statisticsId: 'statisticsId',
+  type: 'type',
+  targetPlayerId: 'targetPlayerId',
+  targetPlayerName: 'targetPlayerName',
+  count: 'count'
+} as const
+
+export type PlayerInteractionScalarFieldEnum = (typeof PlayerInteractionScalarFieldEnum)[keyof typeof PlayerInteractionScalarFieldEnum]
+
+
+export const SquadStatisticsScalarFieldEnum = {
+  id: 'id',
+  prefix: 'prefix',
+  gameType: 'gameType',
+  rotationId: 'rotationId',
+  fourWeeksOnly: 'fourWeeksOnly',
+  averagePlayersCount: 'averagePlayersCount',
+  kills: 'kills',
+  averageKills: 'averageKills',
+  teamkills: 'teamkills',
+  averageTeamkills: 'averageTeamkills',
+  score: 'score'
+} as const
+
+export type SquadStatisticsScalarFieldEnum = (typeof SquadStatisticsScalarFieldEnum)[keyof typeof SquadStatisticsScalarFieldEnum]
+
+
+export const SquadPlayerScalarFieldEnum = {
+  id: 'id',
+  squadStatisticsId: 'squadStatisticsId',
+  playerId: 'playerId',
+  playerName: 'playerName',
+  kills: 'kills',
+  deathsTotal: 'deathsTotal',
+  teamkills: 'teamkills',
+  kdRatio: 'kdRatio',
+  totalPlayedGames: 'totalPlayedGames',
+  totalScore: 'totalScore',
+  vehicleKills: 'vehicleKills',
+  killsFromVehicle: 'killsFromVehicle',
+  killsFromVehicleCoef: 'killsFromVehicleCoef'
+} as const
+
+export type SquadPlayerScalarFieldEnum = (typeof SquadPlayerScalarFieldEnum)[keyof typeof SquadPlayerScalarFieldEnum]
 
 
 export const SortOrder = {
