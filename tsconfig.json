@@ -6,18 +6,14 @@
     "outDir": "dist",
     "lib": ["es6", "dom"],
     "esModuleInterop": true,
-    "typeRoots": ["./node_modules/@types", "src/0 - types"],
+    "typeRoots": ["./node_modules/@types", "src/shared/types"],
     "removeComments": true,
     "strictNullChecks": true,
+    "skipLibCheck": true
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ],
+  "include": ["src/**/*.ts", "src/**/*.d.ts"],
+  "exclude": ["node_modules"],
   "ts-node": {
-    "esm": true,
+    "esm": true
   }
 }
