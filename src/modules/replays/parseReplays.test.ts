@@ -1,12 +1,12 @@
 import fs from 'fs-extra';
 
-import logger from '../../../0 - utils/logger';
-import parseReplays from '../../../1 - replays/parseReplays';
-import * as parse from '../../../2 - parseReplayInfo';
-import generatePlayerEntity from '../../utils/generators/generatePlayerEntity';
-import generateReplay from '../../utils/generators/generateReplay';
-import generateReplayInfo from '../../utils/generators/generateReplayInfo';
-import prepareNamesWithMock from '../../utils/prepareNamesWithMock';
+import parseReplays from './parseReplays';
+import * as parse from '../parsing';
+import logger from '../../shared/utils/logger';
+import generatePlayerEntity from '../../shared/testing/generators/generatePlayerEntity';
+import generateReplay from '../../shared/testing/generators/generateReplay';
+import generateReplayInfo from '../../shared/testing/generators/generateReplayInfo';
+import prepareNamesWithMock from '../../shared/testing/prepareNamesWithMock';
 import testData from './data/parseReplays';
 
 const mockReadJSONSync = () => {
@@ -31,7 +31,7 @@ test('Errors during fetching should be handled correctly', async () => {
   jest.spyOn(fs, 'readJsonSync').mockImplementationOnce(() => {
     throw new Error('some error');
   });
-  jest.mock('../../../0 - utils/logger');
+  jest.mock('../../shared/utils/logger');
   logger.error = jest.fn();
 
   expect(await parseReplays([generateReplay('sg', 'test_1')], 'sg')).toMatchObject([]);
@@ -43,7 +43,7 @@ test('Errors during parsing should be handled correctly', async () => {
     throw new Error('some error');
   });
 
-  jest.mock('../../../0 - utils/logger');
+  jest.mock('../../shared/utils/logger');
   logger.error = jest.fn();
 
   jest.spyOn(fs, 'readJsonSync').mockImplementationOnce(() => testData.replayInfo.file_1);

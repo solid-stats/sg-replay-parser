@@ -4,9 +4,9 @@ import fs from 'fs-extra';
 import { compact, orderBy } from 'lodash';
 import pLimit from 'p-limit';
 
-import logger from '../0 - utils/logger';
-import { rawReplaysPath } from '../0 - utils/paths';
-import parseReplayInfo from '../2 - parseReplayInfo';
+import parseReplayInfo from '../../2 - parseReplayInfo';
+import logger from '../../shared/utils/logger';
+import { rawReplaysPath } from '../../shared/utils/paths';
 
 export const fetchReplayInfo = async (filename: Replay['filename']): Promise<ReplayInfo | null> => {
   try {
