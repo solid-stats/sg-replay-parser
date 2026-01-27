@@ -3,11 +3,11 @@ import path from 'path';
 import fs from 'fs-extra';
 import { JSDOM } from 'jsdom';
 
-import { dayjsUTC } from '../../0 - utils/dayjs';
+import { dayjsUTC } from '../../shared/utils/dayjs';
 import defaultDateFormat from '../generateMissionMakersList/utils/defaultDateFormat';
-import generateBasicHTML from '../../0 - utils/generateBasicHTML';
-import logger from '../../0 - utils/logger';
-import { listsPath, replaysListPath } from '../../0 - utils/paths';
+import generateBasicHTML from '../../shared/utils/generateBasicHTML';
+import logger from '../../shared/utils/logger';
+import { listsPath, replaysListPath } from '../../shared/utils/paths';
 import body from './utils/body';
 
 type MaceReplayItem = {

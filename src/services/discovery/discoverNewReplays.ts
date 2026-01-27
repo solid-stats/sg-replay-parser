@@ -1,5 +1,5 @@
+import logger from '../../shared/utils/logger';
 import { getDbClient } from '../../db/client';
-import logger from '../../0 - utils/logger';
 import { fetchReplaysPage } from './fetchReplays';
 import type { DiscoverOptions, ReplayLink } from './types';
 
@@ -22,8 +22,10 @@ export const getKnownReplayIds = async (): Promise<Set<string>> => {
 
   // Extract replay IDs from replayLinks (format: '/replays/1657308763')
   const ids = new Set<string>();
+
   replays.forEach((replay) => {
     const match = replay.replayLink.match(/\/replays\/(\d+)/);
+
     if (match) {
       ids.add(match[1]);
     }
@@ -62,6 +64,7 @@ export const discoverNewReplays = async (
 
   // Get known replay IDs from database
   const knownIds = await getKnownReplayIds();
+
   logger.info(`Found ${knownIds.size} known replays in database`);
 
   const newReplayIds: string[] = [];
@@ -77,8 +80,10 @@ export const discoverNewReplays = async (
   for (const replay of firstPageResult.replays) {
     if (knownIds.has(replay.replayId)) {
       consecutiveKnownCount += 1;
+
       if (consecutiveKnownCount >= stopAfterKnownCount) {
         logger.info(`Found ${stopAfterKnownCount} consecutive known replays, stopping discovery`);
+
         return newReplayIds;
       }
     } else {
@@ -95,8 +100,10 @@ export const discoverNewReplays = async (
     for (const replay of pageResult.replays) {
       if (knownIds.has(replay.replayId)) {
         consecutiveKnownCount += 1;
+
         if (consecutiveKnownCount >= stopAfterKnownCount) {
           logger.info(`Found ${stopAfterKnownCount} consecutive known replays on page ${page}, stopping discovery`);
+
           return newReplayIds;
         }
       } else {
@@ -107,6 +114,7 @@ export const discoverNewReplays = async (
   }
 
   logger.info(`Discovery complete. Found ${newReplayIds.length} new replays`);
+
   return newReplayIds;
 };
 
@@ -126,6 +134,7 @@ export const discoverNewReplayLinks = async (
   logger.info('Starting replay discovery (full links)...');
 
   const knownIds = await getKnownReplayIds();
+
   logger.info(`Found ${knownIds.size} known replays in database`);
 
   const newReplays: ReplayLink[] = [];
@@ -139,8 +148,10 @@ export const discoverNewReplayLinks = async (
   for (const replay of firstPageResult.replays) {
     if (knownIds.has(replay.replayId)) {
       consecutiveKnownCount += 1;
+
       if (consecutiveKnownCount >= stopAfterKnownCount) {
         logger.info(`Found ${stopAfterKnownCount} consecutive known replays, stopping discovery`);
+
         return newReplays;
       }
     } else {
@@ -156,8 +167,10 @@ export const discoverNewReplayLinks = async (
     for (const replay of pageResult.replays) {
       if (knownIds.has(replay.replayId)) {
         consecutiveKnownCount += 1;
+
         if (consecutiveKnownCount >= stopAfterKnownCount) {
           logger.info(`Found ${stopAfterKnownCount} consecutive known replays on page ${page}, stopping discovery`);
+
           return newReplays;
         }
       } else {
@@ -168,5 +181,6 @@ export const discoverNewReplayLinks = async (
   }
 
   logger.info(`Discovery complete. Found ${newReplays.length} new replays`);
+
   return newReplays;
 };

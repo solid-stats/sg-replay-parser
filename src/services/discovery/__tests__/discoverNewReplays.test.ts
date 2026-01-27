@@ -1,10 +1,10 @@
+import { getDbClient } from '../../../db/client';
 import {
   discoverNewReplays,
   getKnownReplayIds,
   filterNewReplays,
 } from '../discoverNewReplays';
 import { fetchReplaysPage } from '../fetchReplays';
-import { getDbClient } from '../../../db/client';
 import type { ReplayLink } from '../types';
 
 // Mock dependencies
@@ -12,7 +12,7 @@ jest.mock('../fetchReplays');
 jest.mock('../../../db/client', () => ({
   getDbClient: jest.fn(),
 }));
-jest.mock('../../../0 - utils/logger', () => ({
+jest.mock('../../../shared/utils/logger', () => ({
   warn: jest.fn(),
   error: jest.fn(),
   info: jest.fn(),

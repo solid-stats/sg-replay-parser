@@ -1,5 +1,5 @@
-import { getMissionName } from '../../../../jobs/prepareReplaysList/parseReplaysOnPage';
-import getDefaultTestDescription from '../../../utils/getDefaultTestDescription';
+import { getMissionName } from './parseReplaysOnPage';
+import getDefaultTestDescription from '../../shared/testing/getDefaultTestDescription';
 
 type TestData = {
   input: {

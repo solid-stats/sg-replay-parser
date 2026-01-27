@@ -10,6 +10,10 @@ export interface ReplayLink {
   title?: string;
   /** Optional: date if visible on listing */
   date?: Date;
+  /** Map/world name (e.g., 'Altis', 'Tanoa') */
+  worldName?: string;
+  /** Server number (1 or 2) */
+  serverId?: number;
 }
 
 /**

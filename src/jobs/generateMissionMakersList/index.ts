@@ -3,10 +3,10 @@ import path from 'path';
 import fs from 'fs-extra';
 import { JSDOM } from 'jsdom';
 
-import { dayjsUTC } from '../../0 - utils/dayjs';
-import generateBasicHTML from '../../0 - utils/generateBasicHTML';
-import logger from '../../0 - utils/logger';
-import { listsPath } from '../../0 - utils/paths';
+import { dayjsUTC } from '../../shared/utils/dayjs';
+import generateBasicHTML from '../../shared/utils/generateBasicHTML';
+import logger from '../../shared/utils/logger';
+import { listsPath } from '../../shared/utils/paths';
 import body from './utils/body';
 import defaultDateFormat from './utils/defaultDateFormat';
 import fetchTeamPage from './utils/requestTeamPage';

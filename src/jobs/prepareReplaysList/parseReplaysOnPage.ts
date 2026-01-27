@@ -1,8 +1,8 @@
 import { compact, snakeCase } from 'lodash';
 import pLimit from 'p-limit';
 
-import { dayjsUnix } from '../../0 - utils/dayjs';
-import logger from '../../0 - utils/logger';
+import { dayjsUnix } from '../../shared/utils/dayjs';
+import logger from '../../shared/utils/logger';
 import parseReplay from './parseReplay';
 import saveReplayFile from './saveReplayFile';
 

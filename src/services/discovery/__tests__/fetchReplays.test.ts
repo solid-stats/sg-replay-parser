@@ -6,14 +6,14 @@ import {
 } from '../fetchReplays';
 
 // Mock the request module
-jest.mock('../../../0 - utils/request', () => jest.fn());
-jest.mock('../../../0 - utils/logger', () => ({
+jest.mock('../../../shared/utils/request', () => jest.fn());
+jest.mock('../../../shared/utils/logger', () => ({
   warn: jest.fn(),
   error: jest.fn(),
   info: jest.fn(),
 }));
 
-const mockRequest = require('../../../0 - utils/request') as jest.MockedFunction<typeof import('../../../0 - utils/request').default>;
+const mockRequest = require('../../../shared/utils/request') as jest.MockedFunction<typeof import('../../../shared/utils/request').default>;
 
 describe('fetchReplays', () => {
   beforeEach(() => {
@@ -46,6 +46,7 @@ describe('fetchReplays', () => {
     it('should parse Unix timestamp to Date', () => {
       const timestamp = '1657308763';
       const result = parseDateFromId(timestamp);
+
       expect(result).toBeInstanceOf(Date);
       expect(result?.getTime()).toBe(1657308763000);
     });
@@ -99,6 +100,8 @@ describe('fetchReplays', () => {
         replayId: '1657308763',
         title: 'SG@MissionName1',
         date: new Date(1657308763000),
+        worldName: 'Altis',
+        serverId: 1,
       });
 
       expect(result.replays[1]).toEqual({
@@ -106,6 +109,8 @@ describe('fetchReplays', () => {
         replayId: '1657308800',
         title: 'Mace@MissionName2',
         date: new Date(1657308800000),
+        worldName: 'Tanoa',
+        serverId: 2,
       });
     });
 
@@ -248,6 +253,76 @@ describe('fetchReplays', () => {
 
       expect(result.replays).toHaveLength(1);
       expect(result.replays[0].title).toBeUndefined();
+    });
+
+    it('should handle missing worldName and serverId cells', () => {
+      const html = `
+        <html>
+          <body>
+            <table class="common-table">
+              <tbody>
+                <tr>
+                  <td><a href="/replays/1657308763">Mission</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </body>
+        </html>
+      `;
+
+      const result = parseReplaysPage(html, 1);
+
+      expect(result.replays).toHaveLength(1);
+      expect(result.replays[0].worldName).toBeUndefined();
+      expect(result.replays[0].serverId).toBeUndefined();
+    });
+
+    it('should handle invalid serverId gracefully', () => {
+      const html = `
+        <html>
+          <body>
+            <table class="common-table">
+              <tbody>
+                <tr>
+                  <td><a href="/replays/1657308763">Mission</a></td>
+                  <td>Altis</td>
+                  <td>not-a-number</td>
+                </tr>
+              </tbody>
+            </table>
+          </body>
+        </html>
+      `;
+
+      const result = parseReplaysPage(html, 1);
+
+      expect(result.replays).toHaveLength(1);
+      expect(result.replays[0].worldName).toBe('Altis');
+      expect(result.replays[0].serverId).toBeUndefined();
+    });
+
+    it('should extract worldName with whitespace trimmed', () => {
+      const html = `
+        <html>
+          <body>
+            <table class="common-table">
+              <tbody>
+                <tr>
+                  <td><a href="/replays/1657308763">Mission</a></td>
+                  <td>  Green Sea  </td>
+                  <td>1</td>
+                </tr>
+              </tbody>
+            </table>
+          </body>
+        </html>
+      `;
+
+      const result = parseReplaysPage(html, 1);
+
+      expect(result.replays).toHaveLength(1);
+      expect(result.replays[0].worldName).toBe('Green Sea');
+      expect(result.replays[0].serverId).toBe(1);
     });
   });
 

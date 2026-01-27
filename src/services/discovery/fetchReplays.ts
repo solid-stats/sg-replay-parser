@@ -1,7 +1,7 @@
 import { JSDOM } from 'jsdom';
 
-import logger from '../../0 - utils/logger';
-import request from '../../0 - utils/request';
+import logger from '../../shared/utils/logger';
+import request from '../../shared/utils/request';
 import type { FetchReplaysPageResult, ReplayLink } from './types';
 
 const BASE_URL = 'https://sg.zone';
@@ -30,6 +30,7 @@ const sleep = (ms: number): Promise<void> => new Promise((resolve) => {
  */
 export const extractReplayId = (url: string): string | null => {
   const match = url.match(/\/replays\/(\d+)/);
+
   return match ? match[1] : null;
 };
 
@@ -40,34 +41,55 @@ export const extractReplayId = (url: string): string | null => {
  */
 export const parseDateFromId = (replayId: string): Date | undefined => {
   const timestamp = parseInt(replayId, 10);
+
   if (Number.isNaN(timestamp)) return undefined;
+
   return new Date(timestamp * 1000);
 };
 
 /**
  * Parse a single table row to extract replay information
+ * Table structure:
+ * - td[0]: Mission name with link
+ * - td[1]: Map/World name
+ * - td[2]: Server number
+ * - td[3]: Date (not used, we parse from ID)
+ *
  * @param row - TR element from the replays table
  * @returns ReplayLink or null if row is invalid
  */
 const parseTableRow = (row: Element): ReplayLink | null => {
   try {
+    const cells = row.querySelectorAll('td');
     const linkElement = row.querySelector('a');
+
     if (!linkElement) return null;
 
     const href = linkElement.getAttribute('href');
+
     if (!href) return null;
 
     const replayId = extractReplayId(href);
+
     if (!replayId) return null;
 
     const title = linkElement.textContent?.trim() || undefined;
     const date = parseDateFromId(replayId);
+
+    // Extract worldName from second cell
+    const worldName = cells[1]?.textContent?.trim() || undefined;
+
+    // Extract serverId from third cell
+    const serverIdText = cells[2]?.textContent?.trim();
+    const serverId = serverIdText ? parseInt(serverIdText, 10) : undefined;
 
     return {
       url: href,
       replayId,
       title,
       date,
+      worldName,
+      serverId: Number.isNaN(serverId) ? undefined : serverId,
     };
   } catch {
     return null;
@@ -82,9 +104,11 @@ const parseTableRow = (row: Element): ReplayLink | null => {
 const extractTotalPages = (document: Document): number => {
   // Pagination structure: .pagination-item:nth-last-child(2) contains the last page number
   const lastPageItem = document.querySelector('.pagination-item:nth-last-child(2) > a');
+
   if (!lastPageItem?.textContent) return 1;
 
   const totalPages = parseInt(lastPageItem.textContent, 10);
+
   return Number.isNaN(totalPages) ? 1 : totalPages;
 };
 
@@ -128,12 +152,14 @@ export const fetchReplaysPage = async (pageNumber: number): Promise<FetchReplays
       if (attempt > 0) {
         // Exponential backoff: 1s, 2s, 4s
         const backoffDelay = BACKOFF_BASE_DELAY * (2 ** (attempt - 1));
+
         // eslint-disable-next-line no-await-in-loop
         await sleep(backoffDelay);
       }
 
       // eslint-disable-next-line no-await-in-loop
       const response = await request(url);
+
       if (!response) {
         throw new Error(`Failed to fetch replays page ${pageNumber}: no response`);
       }
@@ -172,6 +198,7 @@ export const fetchMultiplePages = async (
   for (let page = startPage; page <= endPage; page += 1) {
     // eslint-disable-next-line no-await-in-loop
     const result = await fetchReplaysPage(page);
+
     allReplays.push(...result.replays);
   }
 

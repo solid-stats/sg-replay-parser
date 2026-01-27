@@ -3,9 +3,9 @@
 import fs from 'fs-extra';
 import { union } from 'lodash';
 
-import generateBasicFolders from '../../0 - utils/generateBasicFolders';
-import logger from '../../0 - utils/logger';
-import { replaysListPath } from '../../0 - utils/paths';
+import generateBasicFolders from '../../shared/utils/generateBasicFolders';
+import logger from '../../shared/utils/logger';
+import { replaysListPath } from '../../shared/utils/paths';
 import { defaultEmptyOutput, excludeReplaysPath, includeReplaysPath } from './consts';
 import parseReplaysOnPage from './parseReplaysOnPage';
 import checks from './utils/checks';

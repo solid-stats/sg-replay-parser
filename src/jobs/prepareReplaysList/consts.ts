@@ -1,6 +1,6 @@
 import path from 'path';
 
-import { configPath } from '../../0 - utils/paths';
+import { configPath } from '../../shared/utils/paths';
 
 export const includeReplaysPath = path.join(configPath, 'includeReplays.json');
 

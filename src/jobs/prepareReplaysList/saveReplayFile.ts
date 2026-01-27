@@ -2,9 +2,9 @@ import path from 'path';
 
 import fs from 'fs-extra';
 
-import logger from '../../0 - utils/logger';
-import { rawReplaysPath } from '../../0 - utils/paths';
-import request from '../../0 - utils/request';
+import logger from '../../shared/utils/logger';
+import { rawReplaysPath } from '../../shared/utils/paths';
+import request from '../../shared/utils/request';
 
 const saveReplayFile = async (filename: string): Promise<Boolean> => {
   const resultFilenamePath = path.join(rawReplaysPath, `${filename}.json`);
