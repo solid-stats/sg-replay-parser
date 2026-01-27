@@ -14,6 +14,20 @@
 
 This app contains several jobs, that parses replays data from <https://sg.zone/replays>
 
+## Architecture
+
+- `src/shared` — shared consts, types, utils, and testing helpers
+- `src/modules` — domain logic (`replays`, `parsing`, `statistics`, `output`, `yearStatistics`)
+- `src/services` — orchestration over modules and IO
+- `src/jobs` — executable entrypoints
+- `src/db` — persistence layer
+
+## Entrypoints
+
+- `npm run pipeline:full` — full pipeline (discover → download → parse → stats → output)
+- `npm run parse-new-year` — year statistics generation
+- `npm run generate-replays-list` — fetch and cache replay list
+
 ## Contacts
 
 - Discord: [link](https://discordapp.com/users/270491849066545153)
