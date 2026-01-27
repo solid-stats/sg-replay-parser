@@ -1,4 +1,4 @@
-import combineSamePlayersInfo from '../../../2 - parseReplayInfo/combineSamePlayersInfo';
+import combineSamePlayersInfo from './combineSamePlayersInfo';
 import {
   defaultDistance,
   defaultKilledName,
@@ -6,9 +6,9 @@ import {
   defaultTeamkilledName,
   defaultTeamkillerName,
   defaultWeapon,
-} from '../../utils/consts';
-import generatePlayerInfo from '../../utils/generators/generatePlayerInfo';
-import getDefaultTestDescription from '../../utils/getDefaultTestDescription';
+} from '../../shared/testing/consts';
+import generatePlayerInfo from '../../shared/testing/generators/generatePlayerInfo';
+import getDefaultTestDescription from '../../shared/testing/getDefaultTestDescription';
 
 const playersInfo: PlayerInfo[] = [
   generatePlayerInfo({

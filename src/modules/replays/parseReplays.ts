@@ -4,7 +4,7 @@ import fs from 'fs-extra';
 import { compact, orderBy } from 'lodash';
 import pLimit from 'p-limit';
 
-import parseReplayInfo from '../../2 - parseReplayInfo';
+import parseReplayInfo from '../parsing';
 import logger from '../../shared/utils/logger';
 import { rawReplaysPath } from '../../shared/utils/paths';
 

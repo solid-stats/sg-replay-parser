@@ -1,10 +1,10 @@
 import { Dayjs } from 'dayjs';
 import { keyBy } from 'lodash';
 
-import getPlayerName from '../0 - utils/getPlayerName';
-import mergeOtherPlayers from '../0 - utils/mergeOtherPlayers';
-import { getPlayerId } from '../0 - utils/namesHelper/getId';
-import { addWeaponStatistic, filterWeaponStatistics } from '../0 - utils/weaponsStatistic';
+import getPlayerName from '../../shared/utils/getPlayerName';
+import mergeOtherPlayers from '../../shared/utils/mergeOtherPlayers';
+import { getPlayerId } from '../../shared/utils/namesHelper/getId';
+import { addWeaponStatistic, filterWeaponStatistics } from '../../shared/utils/weaponsStatistic';
 
 type CommonParams = {
   players: PlayersList;

@@ -2,8 +2,8 @@
 // there may be a situation when 2 entities are attached to one player
 // and this leads to several additional total games played
 
-import mergeOtherPlayers from '../0 - utils/mergeOtherPlayers';
-import { unionWeaponsStatistic } from '../0 - utils/weaponsStatistic';
+import mergeOtherPlayers from '../../shared/utils/mergeOtherPlayers';
+import { unionWeaponsStatistic } from '../../shared/utils/weaponsStatistic';
 
 // in such situation we should left only one entity
 const combineSamePlayersInfo = (entities: PlayersList): PlayerInfo[] => {
