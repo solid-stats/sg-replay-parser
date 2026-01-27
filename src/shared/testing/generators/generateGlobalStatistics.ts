@@ -1,4 +1,4 @@
-import { defaultStatistics } from '../../../3 - statistics/consts';
+import { defaultStatistics } from '../../../modules/statistics/consts';
 
 const generateGlobalStatistics = (
   name: PlayerName,

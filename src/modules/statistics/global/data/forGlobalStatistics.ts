@@ -4,9 +4,9 @@ import {
   defaultKillerName,
   defaultTeamkilledName,
   defaultTeamkillerName,
-} from '../../../../../shared/testing/consts';
-import generateDefaultWeapons from '../../../../../shared/testing/generators/generateDefaultWeapons';
-import generatePlayerInfo from '../../../../../shared/testing/generators/generatePlayerInfo';
+} from '../../../../shared/testing/consts';
+import generateDefaultWeapons from '../../../../shared/testing/generators/generateDefaultWeapons';
+import generatePlayerInfo from '../../../../shared/testing/generators/generatePlayerInfo';
 
 type TestData = {
   playersGameResult: PlayersGameResult[];

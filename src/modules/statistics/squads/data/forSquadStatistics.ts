@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable object-curly-newline */
 
-import generatePlayerInfo from '../../../../../shared/testing/generators/generatePlayerInfo';
+import generatePlayerInfo from '../../../../shared/testing/generators/generatePlayerInfo';
 
 // replays here not count in statistics
 const replaysOutOfTimeInterval: PlayersGameResult[] = [

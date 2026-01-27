@@ -10,7 +10,7 @@ import {
   nameChangesSequenceTestData,
   nameChangesTestData,
   otherPlayersStatisticsWithNameChangesTestData,
-} from './data/forGlobalStatisticsWithNameChanges';
+} from '../data/forGlobalStatisticsWithNameChanges';
 
 const exampleNamesChanges = [
   generateNameChangeItem('Parker', 'morpex', '12.11.2022 6:21'),

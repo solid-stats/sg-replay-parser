@@ -1,5 +1,5 @@
 /* eslint-disable object-curly-newline */
-import generatePlayerInfo from '../../../../../shared/testing/generators/generatePlayerInfo';
+import generatePlayerInfo from '../../../../shared/testing/generators/generatePlayerInfo';
 
 const getDummies = (prefix: string = 'A'): PlayerInfo[] => [
   generatePlayerInfo({ id: 10, name: `[${prefix}]Dummy_1` }),

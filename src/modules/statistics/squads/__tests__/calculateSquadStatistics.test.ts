@@ -12,7 +12,7 @@ import {
   squadStatisticsAfterFirstDay,
   parsedReplaysOnLastSaturday,
   squadStatisticsAfterGameWeekend,
-} from './data/forSquadStatistics';
+} from '../data/forSquadStatistics';
 
 beforeAll(() => { prepareNamesWithMock(); });
 

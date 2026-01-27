@@ -1,9 +1,9 @@
 /* eslint-disable object-curly-newline */
 import { Dayjs } from 'dayjs';
 
-import { defaultKilledName, defaultTeamkilledName } from '../../../../../shared/testing/consts';
-import generateDefaultWeapons from '../../../../../shared/testing/generators/generateDefaultWeapons';
-import generatePlayerInfo from '../../../../../shared/testing/generators/generatePlayerInfo';
+import { defaultKilledName, defaultTeamkilledName } from '../../../../shared/testing/consts';
+import generateDefaultWeapons from '../../../../shared/testing/generators/generateDefaultWeapons';
+import generatePlayerInfo from '../../../../shared/testing/generators/generatePlayerInfo';
 import { getReplays as getReplaysShort } from './forRotationsStatisticsShort';
 
 const getDate = (date: Dayjs, weeks: number, weekday: number, hour: number) => (

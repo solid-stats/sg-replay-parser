@@ -1,4 +1,4 @@
-import { RawCSVContentType } from '../../../utils/namesHelper/prepareNamesList';
+import { RawCSVContentType } from '../../utils/namesHelper/prepareNamesList';
 
 const generateNameChangeItem = (
   oldName: string,

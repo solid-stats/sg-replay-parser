@@ -71,7 +71,7 @@ export const fetchYearReplays = async (year: number): Promise<YearReplay[]> => {
     filePath: null, // Files are stored in raw_replays by filename
     playerResults: replay.playerResults.map((pr) => ({
       playerId: pr.playerId,
-      playerName: pr.player.names[0]?.name ?? pr.entityName,
+      playerName: pr.player?.names?.[0]?.name ?? pr.entityName,
       kills: pr.kills,
       deaths: pr.deaths,
       teamkills: pr.teamkills,
@@ -99,9 +99,10 @@ export const aggregatePlayerStats = (
         existing.teamkills += pr.teamkills;
         existing.deathsByTeamkills += pr.deathsByTeamkills;
         existing.score = calculateScore(
+          existing.totalGames,
           existing.totalKills,
-          existing.totalDeaths,
           existing.teamkills,
+          { total: existing.totalDeaths, byTeamkills: existing.deathsByTeamkills },
         );
       } else {
         statsMap.set(pr.playerId, {
@@ -112,7 +113,12 @@ export const aggregatePlayerStats = (
           totalGames: 1,
           teamkills: pr.teamkills,
           deathsByTeamkills: pr.deathsByTeamkills,
-          score: calculateScore(pr.kills, pr.deaths, pr.teamkills),
+          score: calculateScore(
+            1,
+            pr.kills,
+            pr.teamkills,
+            { total: pr.deaths, byTeamkills: pr.deathsByTeamkills },
+          ),
         });
       }
     }

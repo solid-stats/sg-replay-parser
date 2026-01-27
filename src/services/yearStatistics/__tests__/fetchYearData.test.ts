@@ -85,6 +85,7 @@ describe('fetchYearData', () => {
           playerResults: [
             {
               playerId: 'player-1',
+              entityName: 'TestPlayer',
               kills: 5,
               deaths: 2,
               teamkills: 1,

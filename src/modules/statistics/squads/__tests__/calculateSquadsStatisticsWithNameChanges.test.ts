@@ -11,7 +11,7 @@ import {
   nameChangeAndChangeBackWithCollisionsTestData,
   nameChangesSequenceTestData,
   nameChangesTestData,
-} from './data/forSquadStatisticsWithNameChanges';
+} from '../data/forSquadStatisticsWithNameChanges';
 
 const exampleNamesChanges = [
   generateNameChangeItem('Parker', 'morpex', '12.11.2022 3:00'),

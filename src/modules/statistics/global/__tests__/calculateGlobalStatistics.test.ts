@@ -5,7 +5,7 @@ import { dayjsUTCISO } from '../../../../shared/utils/dayjs';
 import generatePlayerInfo from '../../../../shared/testing/generators/generatePlayerInfo';
 import getDefaultTestDescription from '../../../../shared/testing/getDefaultTestDescription';
 import prepareNamesWithMock from '../../../../shared/testing/prepareNamesWithMock';
-import data from './data/forGlobalStatistics';
+import data from '../data/forGlobalStatistics';
 
 beforeAll(() => { prepareNamesWithMock(); });
 

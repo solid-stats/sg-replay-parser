@@ -9,8 +9,8 @@ import {
   getReplays,
   globalStatistics as longGlobalStatistics,
   squadStatistics as longSquadStatistics,
-} from './__tests__/data/forRotationsStatistics';
-import { shortGlobalStatistics, shortSquadStatistics } from './__tests__/data/forRotationsStatisticsShort';
+} from './data/forRotationsStatistics';
+import { shortGlobalStatistics, shortSquadStatistics } from './data/forRotationsStatisticsShort';
 
 const removeDates = (rotation: StatisticsByRotation) => ({
   ...rotation,
