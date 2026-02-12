@@ -15,11 +15,8 @@
     "test": "jest --silent src/!tests",
     "test:watch": "jest src/!tests --watch",
     "generate-replays-list": "npm run build-dist && node dist/jobs/prepareReplaysList/start.js",
-    "generate-replays-list-dev": "npm run build-dist && NODE_ENV=development node dist/jobs/prepareReplaysList/start.js",
     "parse": "npm run build-dist && node ./dist/start.js",
-    "parse-dev": "npm run build-dist && NODE_ENV=development node ./dist/start.js",
-    "parse-new-year": "npm run build-dist && node ./dist/!yearStatistics/index.js",
-    "parse-new-year-dev": "npm run build-dist && NODE_ENV=development node ./dist/!yearStatistics/index.js"
+    "parse-new-year": "npm run build-dist && node ./dist/!yearStatistics/index.js"
   },
   "author": "Afgan0r",
   "devDependencies": {
