@@ -1,29 +1,32 @@
-import fetch from 'node-fetch';
+import fetch, { Response } from 'node-fetch';
 
+import getProxiedRequest from './getProxiedRequest';
 import logger from './logger';
 
 const defaultRetryCount = 3;
 
 const request = async (
   url: string,
-  options?: RequestInit,
   retryCount: number = defaultRetryCount,
-  initialRetryCount?: number,
 ): Promise<Response | null> => {
   try {
-    const resp = await fetch(url, options);
+    const proxiedResponse = await getProxiedRequest(url);
+
+    if (proxiedResponse) return proxiedResponse;
+
+    const resp = await fetch(url);
 
     return resp;
   } catch (err) {
     if (retryCount === defaultRetryCount) { logger.error(`Unknown error occurred during fetching: ${err.message}.`); }
 
     if (retryCount === 0) {
-      logger.error(`The fetching error did not disappear after ${initialRetryCount} retries. Trace: ${err.stack}`);
+      logger.error(`The fetching error did not disappear after ${defaultRetryCount} retries. Trace: ${err.stack}`);
 
       throw err;
     }
 
-    return await request(url, options, retryCount - 1, initialRetryCount ?? retryCount);
+    return await request(url, retryCount - 1);
   }
 };
 

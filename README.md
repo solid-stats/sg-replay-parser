@@ -14,6 +14,28 @@
 
 This app contains several jobs, that parses replays data from <https://sg.zone/replays>
 
+## Local development and Cloudflare rate limit
+
+`sg.zone` is protected by Cloudflare and has strict polling/rate limits for non-whitelisted IPs.
+Without proxying, replays list parsing can fail during local development.
+
+Use external relay service (for example `sg_stats_relay`) on a whitelisted server.
+
+### Configure parser locally via `.env`
+
+Copy sample env and set values:
+
+```bash
+REPLAYS_RELAY_URL=https://relay.your-domain/relay
+REPLAYS_RELAY_TOKEN=<the-same-token-from-server>
+```
+
+Run parser
+
+```bash
+npm run generate-replays-list-dev
+```
+
 ## Contacts
 
 - Discord: [link](https://discordapp.com/users/270491849066545153)

@@ -4,3 +4,4 @@
 /coverage
 /replaysList.json
 /scripts
+.env
