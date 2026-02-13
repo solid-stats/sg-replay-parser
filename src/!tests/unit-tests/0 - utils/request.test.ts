@@ -265,6 +265,50 @@ test('should recover from transient non-sg.zone fetch error and continue on retr
   expect(mockedLogger.error).toHaveBeenCalledWith(expect.stringContaining('Temporary non-sg.zone failure'));
 });
 
+test('should fallback to direct fetch for non-sg.zone URL when relay supports only sg.zone', async () => {
+  const defaultResponse = { status: 200 } as Response;
+
+  mockedGetProxiedRequest.mockRejectedValue(
+    new Error('Relay mode supports only https://sg.zone URLs.'),
+  );
+  mockedFetch.mockResolvedValue(defaultResponse);
+
+  await expect(request('https://docs.google.com/spreadsheets/d/abc')).resolves.toBe(defaultResponse);
+
+  expect(mockedGetProxiedRequest).toHaveBeenCalledTimes(1);
+  expect(mockedFetch).toHaveBeenCalledTimes(1);
+  expect(mockedLogger.error).not.toHaveBeenCalled();
+});
+
+test('should not swallow relay unsupported-url error for sg.zone requests', async () => {
+  const dateNowSpy = jest.spyOn(Date, 'now').mockReturnValue(9_999_999_999_999);
+
+  try {
+    mockedGetProxiedRequest.mockRejectedValue(
+      new Error('Relay mode supports only https://sg.zone URLs.'),
+    );
+
+    await expect(request('https://sg.zone/replays?p=8', 0))
+      .rejects
+      .toThrow('Relay mode supports only https://sg.zone URLs.');
+
+    expect(mockedFetch).not.toHaveBeenCalled();
+  } finally {
+    dateNowSpy.mockRestore();
+  }
+});
+
+test('should not swallow unexpected relay errors for non-sg.zone requests', async () => {
+  mockedGetProxiedRequest.mockRejectedValue(new Error('Relay unavailable'));
+
+  await expect(request('https://docs.google.com/spreadsheets/d/abc'))
+    .rejects
+    .toThrow('Relay unavailable');
+
+  expect(mockedFetch).not.toHaveBeenCalled();
+  expect(mockedLogger.error).toHaveBeenCalledWith(expect.stringContaining('Relay unavailable'));
+});
+
 test('should detect Cloudflare ban errors by instance', () => {
   expect(isCloudflareBanError(new CloudflareBanError('https://sg.zone/replays?p=1', null))).toBe(true);
 });

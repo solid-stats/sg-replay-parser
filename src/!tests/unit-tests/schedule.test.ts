@@ -1,11 +1,14 @@
 import Cron from 'croner';
+import fs from 'fs-extra';
 
 import logger from '../../0 - utils/logger';
-import {
+import { resetNamesList } from '../../0 - utils/namesHelper';
+import request, {
   getSgZoneRequestQueueState,
   isCloudflareBanError,
   waitForSgZoneRequestQueueToDrain,
 } from '../../0 - utils/request';
+import startParsingReplays from '../../index';
 import generateMaceList from '../../jobs/generateMaceListHTML';
 import generateMissionMakersList from '../../jobs/generateMissionMakersList';
 import startFetchingReplays from '../../jobs/prepareReplaysList';
@@ -13,9 +16,15 @@ import startFetchingReplays from '../../jobs/prepareReplaysList';
 jest.mock('croner', () => jest.fn());
 jest.mock('fs-extra', () => ({
   removeSync: jest.fn(),
+  ensureDirSync: jest.fn(),
+  writeFileSync: jest.fn(),
 }));
 jest.mock('../../index', () => jest.fn());
 jest.mock('../../0 - utils/generateBasicFolders', () => jest.fn());
+jest.mock('../../0 - utils/namesHelper', () => ({
+  __esModule: true,
+  resetNamesList: jest.fn(),
+}));
 jest.mock('../../jobs/generateMaceListHTML', () => jest.fn());
 jest.mock('../../jobs/generateMissionMakersList', () => jest.fn());
 jest.mock('../../jobs/prepareReplaysList', () => jest.fn());
@@ -28,6 +37,7 @@ jest.mock('../../0 - utils/logger', () => ({
 }));
 jest.mock('../../0 - utils/request', () => ({
   __esModule: true,
+  default: jest.fn(),
   getSgZoneRequestQueueState: jest.fn(),
   waitForSgZoneRequestQueueToDrain: jest.fn(),
   isCloudflareBanError: jest.fn(),
@@ -44,10 +54,15 @@ const mockedCron = Cron as unknown as jest.Mock;
 const mockedGenerateMissionMakersList = generateMissionMakersList as jest.MockedFunction<
   typeof generateMissionMakersList
 >;
+const mockedStartParsingReplays = startParsingReplays as jest.MockedFunction<
+  typeof startParsingReplays
+>;
 const mockedStartFetchingReplays = startFetchingReplays as jest.MockedFunction<
   typeof startFetchingReplays
 >;
 const mockedGenerateMaceList = generateMaceList as jest.MockedFunction<typeof generateMaceList>;
+const mockedRequest = request as jest.MockedFunction<typeof request>;
+const mockedResetNamesList = resetNamesList as jest.MockedFunction<typeof resetNamesList>;
 const mockedGetSgZoneRequestQueueState = getSgZoneRequestQueueState as jest.MockedFunction<
   typeof getSgZoneRequestQueueState
 >;
@@ -61,8 +76,14 @@ const mockedLogger = logger as unknown as {
   info: jest.Mock;
   error: jest.Mock;
 };
+const mockedFs = fs as unknown as {
+  removeSync: jest.Mock;
+  ensureDirSync: jest.Mock;
+  writeFileSync: jest.Mock;
+};
 
 const cronJobs: RegisteredCronJob[] = [];
+const nameChangesCsvURL = 'https://docs.google.com/spreadsheets/d/1d2XHhGC0S0QgSegwL4HF279PLjH6fJzPJfTVLSrgpGQ/gviz/tq?tqx=out:csv&sheet=%D0%9F%D0%B5%D1%80%D0%B5%D0%BD%D0%BE%D1%81%20%D1%81%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B8%20%D0%BD%D0%B0%20%D0%BD%D0%BE%D0%B2%D1%8B%D0%B9%20%D0%BF%D0%BE%D0%B7%D1%8B%D0%B2%D0%BD%D0%BE%D0%B9';
 
 const cloudflareBanError = (): Error => {
   const error = new Error('sg.zone request was blocked by Cloudflare');
@@ -93,19 +114,29 @@ beforeAll(() => {
 
 beforeEach(() => {
   mockedGenerateMissionMakersList.mockReset();
+  mockedStartParsingReplays.mockReset();
   mockedStartFetchingReplays.mockReset();
   mockedGenerateMaceList.mockReset();
+  mockedRequest.mockReset();
+  mockedResetNamesList.mockReset();
   mockedGetSgZoneRequestQueueState.mockReset();
   mockedWaitForSgZoneRequestQueueToDrain.mockReset();
   mockedIsCloudflareBanError.mockReset();
   mockedLogger.info.mockReset();
   mockedLogger.error.mockReset();
+  mockedFs.removeSync.mockReset();
+  mockedFs.ensureDirSync.mockReset();
+  mockedFs.writeFileSync.mockReset();
 
   mockedGetSgZoneRequestQueueState.mockReturnValue({
     pending: 0,
     active: 0,
     total: 0,
   });
+  mockedRequest.mockResolvedValue({
+    text: jest.fn().mockResolvedValue(''),
+  } as never);
+  mockedStartParsingReplays.mockResolvedValue(undefined);
   mockedWaitForSgZoneRequestQueueToDrain.mockResolvedValue(undefined);
   mockedIsCloudflareBanError.mockImplementation((error) => (
     (error as Error | null)?.name === 'CloudflareBanError'
@@ -150,4 +181,45 @@ test('should keep mace list generation for non-Cloudflare startFetchingReplays e
   expect(mockedStartFetchingReplays).toHaveBeenCalledTimes(1);
   expect(mockedGenerateMaceList).toHaveBeenCalledTimes(1);
   expect(mockedLogger.error).toHaveBeenCalledWith(expect.stringContaining('Trace:'));
+});
+
+test('should download nameChanges.csv and reset names cache before parsing replays', async () => {
+  const parseReplaysCronJob = cronJobs[2];
+  const csvContent = 'old,new,date,status\noldName,newName,11.02.2026 20:10,Принято';
+
+  mockedRequest.mockResolvedValue({
+    text: jest.fn().mockResolvedValue(csvContent),
+  } as never);
+
+  await expect(parseReplaysCronJob.callback()).resolves.toBeUndefined();
+
+  expect(parseReplaysCronJob.expression).toBe('0 1-23/2 * * *');
+  expect(mockedRequest).toHaveBeenCalledWith(nameChangesCsvURL);
+  expect(mockedFs.ensureDirSync).toHaveBeenCalledWith(expect.stringContaining('/sg_stats/config'));
+  expect(mockedFs.writeFileSync).toHaveBeenCalledWith(
+    expect.stringContaining('/sg_stats/config/nameChanges.csv'),
+    csvContent,
+    'utf8',
+  );
+  expect(mockedResetNamesList).toHaveBeenCalledTimes(1);
+  expect(mockedStartParsingReplays).toHaveBeenCalledTimes(1);
+  expect(mockedRequest.mock.invocationCallOrder[0]).toBeLessThan(
+    mockedStartParsingReplays.mock.invocationCallOrder[0],
+  );
+  expect(mockedResetNamesList.mock.invocationCallOrder[0]).toBeLessThan(
+    mockedStartParsingReplays.mock.invocationCallOrder[0],
+  );
+});
+
+test('should continue parsing when nameChanges.csv download fails', async () => {
+  const parseReplaysCronJob = cronJobs[2];
+  const downloadError = new Error('CSV download failed');
+
+  mockedRequest.mockRejectedValue(downloadError);
+
+  await expect(parseReplaysCronJob.callback()).resolves.toBeUndefined();
+
+  expect(mockedStartParsingReplays).toHaveBeenCalledTimes(1);
+  expect(mockedResetNamesList).not.toHaveBeenCalled();
+  expect(mockedLogger.error).toHaveBeenCalledWith(expect.stringContaining('nameChanges.csv'));
 });

@@ -1,5 +1,3 @@
-import path from 'path';
-
 import { parse } from 'csv-parse/sync';
 import { Dayjs } from 'dayjs';
 import fs from 'fs-extra';
@@ -11,7 +9,7 @@ import { getNamesList, setNamesList } from '.';
 
 import { dayjsUTC, dayjsUnix } from '../dayjs';
 import logger from '../logger';
-import { configPath } from '../paths';
+import { nameChangesPath } from '../paths';
 import { findNameInfo } from './findNameInfo';
 import moscowDateToUTC from './moscowDateToUTC';
 import { dateFormat, delimiter } from './utils/consts';
@@ -33,8 +31,6 @@ type CSVContentType = {
 };
 
 const readCSVFile = () => {
-  const nameChangesPath = path.join(configPath, 'nameChanges.csv');
-
   try {
     return fs.readFileSync(nameChangesPath, 'utf8');
   } catch (e) {

@@ -15,6 +15,7 @@
     "test": "jest --silent src/!tests",
     "test:watch": "jest src/!tests --watch",
     "generate-replays-list": "npm run build-dist && node dist/jobs/prepareReplaysList/start.js",
+    "update-name-changes-csv": "npm run build-dist && node dist/jobs/updateNameChangesCsv/start.js",
     "parse": "npm run build-dist && node ./dist/start.js",
     "parse-new-year": "npm run build-dist && node ./dist/!yearStatistics/index.js"
   },

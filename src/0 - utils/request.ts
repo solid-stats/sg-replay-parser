@@ -7,6 +7,7 @@ const defaultRetryCount = 3;
 const requestsPerMinuteLimit = 10;
 const minuteInMs = 60 * 1000;
 const sgZoneHost = 'sg.zone';
+const relayUnsupportedUrlErrorMessage = `Relay mode supports only https://${sgZoneHost} URLs.`;
 const requestTimestamps: number[] = [];
 let slotReservationQueue: Promise<void> = Promise.resolve();
 let pendingSgZoneRequests = 0;
@@ -50,6 +51,10 @@ const isSgZoneRequest = (url: string): boolean => {
     return false;
   }
 };
+
+const isRelayUnsupportedUrlError = (error: unknown): boolean => (
+  error instanceof Error && error.message === relayUnsupportedUrlErrorMessage
+);
 
 const clearExpiredTimestamps = (now: number): void => {
   while (
@@ -146,7 +151,13 @@ const request = async (
       isSgZoneRequestActive = true;
     }
 
-    const proxiedResponse = await getProxiedRequest(url);
+    let proxiedResponse: Response | null = null;
+
+    try {
+      proxiedResponse = await getProxiedRequest(url);
+    } catch (err) {
+      if (!(isRelayUnsupportedUrlError(err) && !isSgZoneUrl)) throw err;
+    }
 
     if (proxiedResponse) {
       if (isSgZoneUrl) await throwIfCloudflareBanPage(url, proxiedResponse);

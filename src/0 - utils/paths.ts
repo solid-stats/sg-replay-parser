@@ -22,3 +22,5 @@ export const basicPaths = [
 export const replaysListPath = path.join(listsPath, 'replaysList.json');
 
 export const configPath = path.join(statsPath, 'config');
+
+export const nameChangesPath = path.join(configPath, 'nameChanges.csv');

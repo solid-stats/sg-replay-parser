@@ -14,6 +14,7 @@ import {
 import generateMaceList from './jobs/generateMaceListHTML';
 import generateMissionMakersList from './jobs/generateMissionMakersList';
 import startFetchingReplays from './jobs/prepareReplaysList';
+import updateNameChangesCsv from './jobs/updateNameChangesCsv';
 
 generateBasicFolders();
 
@@ -131,6 +132,7 @@ Cron(
     }
 
     try {
+      await updateNameChangesCsv();
       fs.removeSync(tempResultsPath);
 
       await startParsingReplays();
