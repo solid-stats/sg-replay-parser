@@ -236,9 +236,57 @@ describe('Different dates format', () => {
     expect(uniqueIds).toBe(0);
   });
 
+  test('With missing minutes', () => {
+    jest.spyOn(syncParse, 'parse').mockReturnValueOnce([
+      generateNameChangeItem('1', '2', '01.05.2023 3'),
+    ]);
+
+    prepareNamesList();
+    const namesList = getNamesList();
+    const uniqueIds = getUniqueIds(namesList);
+
+    expect(uniqueIds).toBe(0);
+  });
+
   test('With invalid date', () => {
     jest.spyOn(syncParse, 'parse').mockReturnValueOnce([
       generateNameChangeItem('1', '2', 'a.b.c 3:00'),
+    ]);
+
+    prepareNamesList();
+    const namesList = getNamesList();
+    const uniqueIds = getUniqueIds(namesList);
+
+    expect(uniqueIds).toBe(0);
+  });
+
+  test('With missing year', () => {
+    jest.spyOn(syncParse, 'parse').mockReturnValueOnce([
+      generateNameChangeItem('1', '2', '01.05 3:00'),
+    ]);
+
+    prepareNamesList();
+    const namesList = getNamesList();
+    const uniqueIds = getUniqueIds(namesList);
+
+    expect(uniqueIds).toBe(0);
+  });
+
+  test('With missing month segment', () => {
+    jest.spyOn(syncParse, 'parse').mockReturnValueOnce([
+      generateNameChangeItem('1', '2', '01..2023 3:00'),
+    ]);
+
+    prepareNamesList();
+    const namesList = getNamesList();
+    const uniqueIds = getUniqueIds(namesList);
+
+    expect(uniqueIds).toBe(0);
+  });
+
+  test('Without time part', () => {
+    jest.spyOn(syncParse, 'parse').mockReturnValueOnce([
+      generateNameChangeItem('1', '2', '01.05.2023'),
     ]);
 
     prepareNamesList();
