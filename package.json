@@ -8,7 +8,7 @@
     "tsc": "tsc",
     "build-dist": "rimraf dist && rimraf output && tsc --project tsconfig.build.json",
     "schedule": "npm run build-dist && node dist/schedule.js",
-    "schedule-prod": "npm run build-dist && pm2 start dist/schedule.js --cron-restart=\"59 0 * * *\"",
+    "schedule-prod": "npm run build-dist && pm2 start dist/schedule.js --name sg-replay-parser-schedule",
     "lint-files": "eslint ./src/**/*.ts",
     "lint-tests": "eslint ./src/**/*.test.ts",
     "lint": "npm run lint-files && npm run lint-tests",
