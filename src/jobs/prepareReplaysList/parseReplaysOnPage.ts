@@ -3,6 +3,7 @@ import pLimit from 'p-limit';
 
 import { dayjsUnix } from '../../0 - utils/dayjs';
 import logger from '../../0 - utils/logger';
+import { isCloudflareBanError } from '../../0 - utils/request';
 import parseReplay from './parseReplay';
 import saveReplayFile from './saveReplayFile';
 
@@ -67,6 +68,8 @@ const parseTableRowInfo = async (
       replayLink,
     };
   } catch (err) {
+    if (isCloudflareBanError(err)) throw err;
+
     const error = err as Error;
 
     logger.error(`Error occurred during parsing replay info. Error: ${error.message}, stack: ${error.stack}`);

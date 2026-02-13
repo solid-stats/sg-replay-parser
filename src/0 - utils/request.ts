@@ -12,6 +12,23 @@ let slotReservationQueue: Promise<void> = Promise.resolve();
 let pendingSgZoneRequests = 0;
 let activeSgZoneRequests = 0;
 
+class CloudflareBanError extends Error {
+  constructor(url: string, rayId: string | null) {
+    const rayIdPart = rayId ? ` Cloudflare Ray ID: ${rayId}.` : '';
+
+    super(`sg.zone request was blocked by Cloudflare while requesting ${url}.${rayIdPart}`);
+    this.name = 'CloudflareBanError';
+  }
+}
+
+const isCloudflareBanError = (err: unknown): boolean => {
+  if (err instanceof CloudflareBanError) return true;
+
+  if (typeof err !== 'object' || err === null) return false;
+
+  return (err as { name?: unknown }).name === 'CloudflareBanError';
+};
+
 const getSgZoneRequestQueueState = () => ({
   pending: pendingSgZoneRequests,
   active: activeSgZoneRequests,
@@ -78,6 +95,36 @@ const waitForSgZoneRequestQueueToDrain = async (): Promise<void> => {
   await waitForSgZoneRequestQueueToDrain();
 };
 
+const getCloudflareRayId = (html: string): string | null => (
+  html.match(/Cloudflare Ray ID:\s*<strong[^>]*>([^<]+)<\/strong>/i)?.[1] ?? null
+);
+
+const isCloudflareBanPage = (html: string): boolean => (
+  html.includes('<title>Attention Required! | Cloudflare</title>')
+  && html.includes('Sorry, you have been blocked')
+  && html.includes('You are unable to access')
+  && html.includes(sgZoneHost)
+);
+
+const throwIfCloudflareBanPage = async (
+  url: string,
+  response: Response,
+): Promise<void> => {
+  if (typeof response.clone !== 'function') return;
+
+  let pageHTML = '';
+
+  try {
+    pageHTML = await response.clone().text();
+  } catch {
+    return;
+  }
+
+  if (!isCloudflareBanPage(pageHTML)) return;
+
+  throw new CloudflareBanError(url, getCloudflareRayId(pageHTML));
+};
+
 const request = async (
   url: string,
   retryCount: number = defaultRetryCount,
@@ -101,12 +148,24 @@ const request = async (
 
     const proxiedResponse = await getProxiedRequest(url);
 
-    if (proxiedResponse) return proxiedResponse;
+    if (proxiedResponse) {
+      if (isSgZoneUrl) await throwIfCloudflareBanPage(url, proxiedResponse);
+
+      return proxiedResponse;
+    }
 
     const resp = await fetch(url);
 
+    if (isSgZoneUrl) await throwIfCloudflareBanPage(url, resp);
+
     return resp;
   } catch (err) {
+    if (err instanceof CloudflareBanError) {
+      logger.error(err.message);
+
+      throw err;
+    }
+
     if (retryCount === defaultRetryCount) { logger.error(`Unknown error occurred during fetching: ${err.message}.`); }
 
     if (retryCount === 0) {
@@ -128,6 +187,11 @@ const request = async (
   }
 };
 
-export { getSgZoneRequestQueueState, waitForSgZoneRequestQueueToDrain };
+export {
+  CloudflareBanError,
+  getSgZoneRequestQueueState,
+  waitForSgZoneRequestQueueToDrain,
+  isCloudflareBanError,
+};
 
 export default request;

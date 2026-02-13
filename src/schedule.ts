@@ -8,6 +8,7 @@ import logger from './0 - utils/logger';
 import { tempResultsPath } from './0 - utils/paths';
 import {
   getSgZoneRequestQueueState,
+  isCloudflareBanError,
   waitForSgZoneRequestQueueToDrain,
 } from './0 - utils/request';
 import generateMaceList from './jobs/generateMaceListHTML';
@@ -57,6 +58,12 @@ Cron(
         try {
           await generateMissionMakersList();
         } catch (err) {
+          if (isCloudflareBanError(err)) {
+            logger.error((err as Error).message);
+
+            return;
+          }
+
           logger.error(`Error during fetching mission makers list. Trace: ${err.stack}`);
         }
       },
@@ -82,6 +89,12 @@ const replaysFetcherJob = Cron(
         try {
           await startFetchingReplays();
         } catch (err) {
+          if (isCloudflareBanError(err)) {
+            logger.error((err as Error).message);
+
+            return;
+          }
+
           logger.error(`Error during fetching replays list. Trace: ${err.stack}`);
         }
 

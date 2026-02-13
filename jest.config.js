@@ -15,7 +15,6 @@ module.exports = {
     '!./src/*utils/generateBasicFolders.ts',
     '!./src/*utils/generateBasicHTML.ts',
     '!./src/*utils/logger.ts',
-    '!./src/*utils/request.ts',
     '!./src/*output/**/*.ts',
     '!./src/!prepareReplaysList/**/*.ts',
     '!./src/!yearStatistics/**/*.ts',
