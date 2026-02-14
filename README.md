@@ -36,6 +36,61 @@ Run parser
 npm run generate-replays-list
 ```
 
+## CD (GitHub Actions)
+
+Workflow: `.github/workflows/cd.yml`.
+
+Trigger:
+
+- `push` to `main` or `master`
+- `workflow_dispatch` (manual run)
+
+### GitHub Secrets
+
+Create repository secrets:
+
+- `CD_SSH_HOST` - server IP or host.
+- `CD_SSH_PORT` - SSH port (usually `22`).
+- `CD_SSH_USER` - deploy user on server.
+- `CD_SSH_PRIVATE_KEY` - private SSH key for this deploy user.
+- `CD_APP_DIR` - absolute path to this project on server.
+
+Example for `CD_APP_DIR`:
+
+```text
+/home/deploy/sg-replay-parser
+```
+
+### One-time server setup
+
+```bash
+mkdir -p /home/deploy
+cd /home/deploy
+git clone git@github.com:<org>/<repo>.git sg-replay-parser
+cd sg-replay-parser
+
+cp .env.sample .env
+# fill .env manually
+
+npm ci
+npm run build-dist
+pm2 startOrReload ecosystem.config.cjs --update-env
+pm2 save
+```
+
+After that, each push to `main`/`master` runs remote script `deploy/remote-deploy.sh`:
+
+- fetch + checkout target branch
+- hard reset to `origin/<branch>`
+- `npm ci`
+- `npm run build-dist`
+- `pm2 startOrReload ecosystem.config.cjs --update-env`
+
+### Notes
+
+- Keep production `.env` only on server (never commit it).
+- Deploy user should have minimal rights for project directory and `pm2`.
+
 ## Contacts
 
 - Discord: [link](https://discordapp.com/users/270491849066545153)
