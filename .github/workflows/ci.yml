@@ -1,40 +1,71 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+name: CI/CD
 
-name: CI
-
-on: push
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
 
 jobs:
-
   lint:
-    runs-on: ubuntu-latest
     name: Linter
+    runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v3
-    - name: Install dependencies
-      run: npm i
-    - name: Run linter
-      run: npm run lint
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: npm ci
+      - name: Run linter
+        run: npm run lint
 
   tsc:
-    runs-on: ubuntu-latest
     name: Types check
+    runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v3
-    - name: Install dependencies
-      run: npm i
-    - name: Run the types check
-      run: npm run tsc
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: npm ci
+      - name: Run the types check
+        run: npm run tsc
 
   tests:
-    runs-on: ubuntu-latest
     name: Tests
+    runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v3
-    - name: Install dependencies
-      run: npm i
-    - name: Run the tests
-      run: npm run test
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: npm ci
+      - name: Run the tests
+        run: npm run test
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [lint, tsc, tests]
+    if: ${{ github.event_name != 'pull_request' && (github.ref_name == 'main' || github.ref_name == 'master') }}
+    timeout-minutes: 30
+    concurrency:
+      group: sg-replay-parser-prod
+      cancel-in-progress: true
+
+    steps:
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1.2.2
+        env:
+          APP_DIR: ${{ secrets.CD_APP_DIR }}
+          BRANCH: ${{ github.ref_name }}
+        with:
+          host: ${{ secrets.CD_SSH_HOST }}
+          username: ${{ secrets.CD_SSH_USER }}
+          key: ${{ secrets.CD_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.CD_SSH_PORT }}
+          script_stop: true
+          command_timeout: 30m
+          envs: APP_DIR,BRANCH
+          script: |
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+            bash "$APP_DIR/deploy/remote-deploy.sh" "$APP_DIR" "$BRANCH"

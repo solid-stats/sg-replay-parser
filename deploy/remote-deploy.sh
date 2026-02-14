@@ -23,7 +23,7 @@ cd "$APP_DIR"
 
 git fetch --prune origin
 
-if git show-ref --verify --quiet "refs/heads/$BRANCH"; thenc
+if git show-ref --verify --quiet "refs/heads/$BRANCH"; then
   git checkout "$BRANCH"
 else
   git checkout -b "$BRANCH" "origin/$BRANCH"

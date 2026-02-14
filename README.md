@@ -38,7 +38,7 @@ npm run generate-replays-list
 
 ## CD (GitHub Actions)
 
-Workflow: `.github/workflows/cd.yml`.
+Workflow: `.github/workflows/ci.yml` (job `deploy`).
 
 Trigger:
 
