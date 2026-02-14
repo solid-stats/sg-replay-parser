@@ -4,6 +4,7 @@ import fetch, { Response } from 'node-fetch';
 const relayUrlEnvVariableName = 'REPLAYS_RELAY_URL';
 const relayTokenEnvVariableName = 'REPLAYS_RELAY_TOKEN';
 const relaySupportedHost = 'sg.zone';
+const requestTimeoutMs = 30 * 1000;
 
 type RelayConfig = {
   relayToken: string;
@@ -62,6 +63,7 @@ const getProxiedRequest = async (url: string): Promise<Response | null> => {
     headers: {
       'x-relay-token': relayConfig.relayToken,
     },
+    timeout: requestTimeoutMs,
   });
 };
 

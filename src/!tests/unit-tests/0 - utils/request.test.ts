@@ -24,6 +24,8 @@ const mockedLogger = logger as unknown as {
   error: jest.Mock;
 };
 const minuteInMs = 60 * 1000;
+const requestTimeoutMs = 30 * 1000;
+const requestsPerMinuteLimit = 50;
 let fakeNow = new Date('2026-01-01T00:00:00.000Z').getTime();
 
 beforeEach(() => {
@@ -40,33 +42,33 @@ afterEach(() => {
   jest.useRealTimers();
 });
 
-test('should limit sg.zone requests to 10 per minute', async () => {
+test(`should limit sg.zone requests to ${requestsPerMinuteLimit} per minute`, async () => {
   mockedFetch.mockResolvedValue({ status: 200 } as Response);
 
-  const pendingRequests = Array.from({ length: 11 }, (_item, index) => (
+  const pendingRequests = Array.from({ length: requestsPerMinuteLimit + 1 }, (_item, index) => (
     request(`https://sg.zone/replays?p=${index + 1}`)
   ));
-  const firstTenRequests = pendingRequests.slice(0, 10);
-  const eleventhRequest = pendingRequests[10];
-  let isEleventhRequestResolved = false;
+  const requestsWithinLimit = pendingRequests.slice(0, requestsPerMinuteLimit);
+  const overLimitRequest = pendingRequests[requestsPerMinuteLimit];
+  let isOverLimitRequestResolved = false;
 
-  eleventhRequest.then(() => {
-    isEleventhRequestResolved = true;
+  overLimitRequest.then(() => {
+    isOverLimitRequestResolved = true;
   });
 
-  await expect(Promise.all(firstTenRequests)).resolves.toHaveLength(10);
-  expect(mockedFetch).toHaveBeenCalledTimes(10);
-  expect(isEleventhRequestResolved).toBe(false);
+  await expect(Promise.all(requestsWithinLimit)).resolves.toHaveLength(requestsPerMinuteLimit);
+  expect(mockedFetch).toHaveBeenCalledTimes(requestsPerMinuteLimit);
+  expect(isOverLimitRequestResolved).toBe(false);
 
   jest.advanceTimersByTime(59_999);
   await Promise.resolve();
 
-  expect(mockedFetch).toHaveBeenCalledTimes(10);
-  expect(isEleventhRequestResolved).toBe(false);
+  expect(mockedFetch).toHaveBeenCalledTimes(requestsPerMinuteLimit);
+  expect(isOverLimitRequestResolved).toBe(false);
 
   jest.advanceTimersByTime(1);
-  await expect(eleventhRequest).resolves.toEqual({ status: 200 });
-  expect(mockedFetch).toHaveBeenCalledTimes(11);
+  await expect(overLimitRequest).resolves.toEqual({ status: 200 });
+  expect(mockedFetch).toHaveBeenCalledTimes(requestsPerMinuteLimit + 1);
 });
 
 test('should wait until sg.zone request queue is drained', async () => {
@@ -105,6 +107,36 @@ test('should treat invalid URL as non-sg.zone request', async () => {
 
   await expect(request('invalid-url')).resolves.toBe(defaultResponse);
   expect(mockedFetch).toHaveBeenCalledWith('invalid-url');
+});
+
+test('should pass timeout option to direct fetch requests', async () => {
+  const defaultResponse = { status: 200 } as Response;
+
+  mockedFetch.mockResolvedValue(defaultResponse);
+
+  await expect(request('https://sg.zone/replays?p=timeout-check')).resolves.toBe(defaultResponse);
+
+  expect(mockedFetch).toHaveBeenCalledWith('https://sg.zone/replays?p=timeout-check', {
+    timeout: requestTimeoutMs,
+  });
+});
+
+test('should skip Cloudflare body inspection for sg.zone non-html responses', async () => {
+  const cloneTextMock = jest.fn(async () => '{"unexpected":"clone-read"}');
+  const defaultResponse = {
+    status: 200,
+    headers: {
+      get: (headerName: string) => (headerName === 'content-type' ? 'application/json' : null),
+    },
+    clone: () => ({
+      text: cloneTextMock,
+    }),
+  } as unknown as Response;
+
+  mockedFetch.mockResolvedValue(defaultResponse);
+
+  await expect(request('https://sg.zone/data/test.json')).resolves.toBe(defaultResponse);
+  expect(cloneTextMock).not.toHaveBeenCalled();
 });
 
 test('should return proxied response for sg.zone when proxy response is not Cloudflare ban page', async () => {

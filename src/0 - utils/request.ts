@@ -4,7 +4,8 @@ import getProxiedRequest from './getProxiedRequest';
 import logger from './logger';
 
 const defaultRetryCount = 3;
-const requestsPerMinuteLimit = 10;
+const requestTimeoutMs = 30 * 1000;
+const requestsPerMinuteLimit = 50;
 const minuteInMs = 60 * 1000;
 const sgZoneHost = 'sg.zone';
 const relayUnsupportedUrlErrorMessage = `Relay mode supports only https://${sgZoneHost} URLs.`;
@@ -117,6 +118,10 @@ const throwIfCloudflareBanPage = async (
 ): Promise<void> => {
   if (typeof response.clone !== 'function') return;
 
+  const responseContentType = response.headers?.get('content-type') || '';
+
+  if (responseContentType && !responseContentType.toLowerCase().includes('text/html')) return;
+
   let pageHTML = '';
 
   try {
@@ -165,7 +170,9 @@ const request = async (
       return proxiedResponse;
     }
 
-    const resp = await fetch(url);
+    const resp = isSgZoneUrl
+      ? await fetch(url, { timeout: requestTimeoutMs })
+      : await fetch(url);
 
     if (isSgZoneUrl) await throwIfCloudflareBanPage(url, resp);
 

@@ -65,5 +65,6 @@ test('should call relay with relay token and encoded path', async () => {
     headers: {
       'x-relay-token': 'token',
     },
+    timeout: 30 * 1000,
   });
 });
