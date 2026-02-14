@@ -4,9 +4,7 @@ import getProxiedRequest from '../../../0 - utils/getProxiedRequest';
 import logger from '../../../0 - utils/logger';
 import request, {
   CloudflareBanError,
-  getSgZoneRequestQueueState,
   isCloudflareBanError,
-  waitForSgZoneRequestQueueToDrain,
 } from '../../../0 - utils/request';
 
 jest.mock('node-fetch', () => jest.fn());
@@ -25,7 +23,7 @@ const mockedLogger = logger as unknown as {
 };
 const minuteInMs = 60 * 1000;
 const requestTimeoutMs = 30 * 1000;
-const requestsPerMinuteLimit = 50;
+const requestsBurstCount = 100;
 let fakeNow = new Date('2026-01-01T00:00:00.000Z').getTime();
 
 beforeEach(() => {
@@ -42,62 +40,15 @@ afterEach(() => {
   jest.useRealTimers();
 });
 
-test(`should limit sg.zone requests to ${requestsPerMinuteLimit} per minute`, async () => {
+test(`should not limit sg.zone requests under burst of ${requestsBurstCount} requests`, async () => {
   mockedFetch.mockResolvedValue({ status: 200 } as Response);
 
-  const pendingRequests = Array.from({ length: requestsPerMinuteLimit + 1 }, (_item, index) => (
+  const pendingRequests = Array.from({ length: requestsBurstCount }, (_item, index) => (
     request(`https://sg.zone/replays?p=${index + 1}`)
   ));
-  const requestsWithinLimit = pendingRequests.slice(0, requestsPerMinuteLimit);
-  const overLimitRequest = pendingRequests[requestsPerMinuteLimit];
-  let isOverLimitRequestResolved = false;
 
-  overLimitRequest.then(() => {
-    isOverLimitRequestResolved = true;
-  });
-
-  await expect(Promise.all(requestsWithinLimit)).resolves.toHaveLength(requestsPerMinuteLimit);
-  expect(mockedFetch).toHaveBeenCalledTimes(requestsPerMinuteLimit);
-  expect(isOverLimitRequestResolved).toBe(false);
-
-  jest.advanceTimersByTime(59_999);
-  await Promise.resolve();
-
-  expect(mockedFetch).toHaveBeenCalledTimes(requestsPerMinuteLimit);
-  expect(isOverLimitRequestResolved).toBe(false);
-
-  jest.advanceTimersByTime(1);
-  await expect(overLimitRequest).resolves.toEqual({ status: 200 });
-  expect(mockedFetch).toHaveBeenCalledTimes(requestsPerMinuteLimit + 1);
-});
-
-test('should wait until sg.zone request queue is drained', async () => {
-  jest.useRealTimers();
-  mockedFetch.mockResolvedValue({ status: 200 } as Response);
-  const pendingRequest = request('https://sg.zone/replays?p=1');
-
-  const waitForDrainPromise = waitForSgZoneRequestQueueToDrain();
-  let isQueueDrained = false;
-
-  waitForDrainPromise.then(() => {
-    isQueueDrained = true;
-  });
-
-  await Promise.resolve();
-  await Promise.resolve();
-
-  expect(isQueueDrained).toBe(false);
-
-  await expect(pendingRequest).resolves.toEqual({ status: 200 });
-  await expect(waitForDrainPromise).resolves.toBeUndefined();
-});
-
-test('should expose sg.zone queue state for diagnostics', () => {
-  const queueState = getSgZoneRequestQueueState();
-
-  expect(queueState.pending).toBeGreaterThanOrEqual(0);
-  expect(queueState.active).toBeGreaterThanOrEqual(0);
-  expect(queueState.total).toBe(queueState.pending + queueState.active);
+  await expect(Promise.all(pendingRequests)).resolves.toHaveLength(requestsBurstCount);
+  expect(mockedFetch).toHaveBeenCalledTimes(requestsBurstCount);
 });
 
 test('should treat invalid URL as non-sg.zone request', async () => {
@@ -273,14 +224,14 @@ test('should retry fetch errors and throw after retry limit is reached', async (
   expect(mockedLogger.error).toHaveBeenCalledWith(expect.stringContaining('did not disappear after 3 retries'));
 });
 
-test('should handle sg.zone slot reservation rejection and throw when no retries left', async () => {
+test('should not depend on Date.now for sg.zone requests when limiter is disabled', async () => {
   const dateNowSpy = jest.spyOn(Date, 'now');
+  const defaultResponse = { status: 200 } as Response;
 
   dateNowSpy.mockImplementation(() => { throw new Error('Date.now failure'); });
+  mockedFetch.mockResolvedValue(defaultResponse);
 
-  await expect(request('https://sg.zone/replays?p=6', 0))
-    .rejects
-    .toThrow('Date.now failure');
+  await expect(request('https://sg.zone/replays?p=6', 0)).resolves.toBe(defaultResponse);
 
   dateNowSpy.mockRestore();
 });
@@ -313,21 +264,15 @@ test('should fallback to direct fetch for non-sg.zone URL when relay supports on
 });
 
 test('should not swallow relay unsupported-url error for sg.zone requests', async () => {
-  const dateNowSpy = jest.spyOn(Date, 'now').mockReturnValue(9_999_999_999_999);
+  mockedGetProxiedRequest.mockRejectedValue(
+    new Error('Relay mode supports only https://sg.zone URLs.'),
+  );
 
-  try {
-    mockedGetProxiedRequest.mockRejectedValue(
-      new Error('Relay mode supports only https://sg.zone URLs.'),
-    );
+  await expect(request('https://sg.zone/replays?p=8', 0))
+    .rejects
+    .toThrow('Relay mode supports only https://sg.zone URLs.');
 
-    await expect(request('https://sg.zone/replays?p=8', 0))
-      .rejects
-      .toThrow('Relay mode supports only https://sg.zone URLs.');
-
-    expect(mockedFetch).not.toHaveBeenCalled();
-  } finally {
-    dateNowSpy.mockRestore();
-  }
+  expect(mockedFetch).not.toHaveBeenCalled();
 });
 
 test('should not swallow unexpected relay errors for non-sg.zone requests', async () => {

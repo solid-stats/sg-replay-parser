@@ -85,7 +85,7 @@ const parseReplaysOnPage = async (
 ): Promise<Output> => {
   const replaysList = Array.from(dom.querySelectorAll('.common-table > tbody > tr'));
 
-  const limit = pLimit(10);
+  const limit = pLimit(1);
   const rawReplays = await Promise.all(
     replaysList.map((replay) => limit(() => parseTableRowInfo(
       replay,

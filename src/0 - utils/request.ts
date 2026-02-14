@@ -5,14 +5,8 @@ import logger from './logger';
 
 const defaultRetryCount = 3;
 const requestTimeoutMs = 30 * 1000;
-const requestsPerMinuteLimit = 50;
-const minuteInMs = 60 * 1000;
 const sgZoneHost = 'sg.zone';
 const relayUnsupportedUrlErrorMessage = `Relay mode supports only https://${sgZoneHost} URLs.`;
-const requestTimestamps: number[] = [];
-let slotReservationQueue: Promise<void> = Promise.resolve();
-let pendingSgZoneRequests = 0;
-let activeSgZoneRequests = 0;
 
 class CloudflareBanError extends Error {
   constructor(url: string, rayId: string | null) {
@@ -31,18 +25,6 @@ const isCloudflareBanError = (err: unknown): boolean => {
   return (err as { name?: unknown }).name === 'CloudflareBanError';
 };
 
-const getSgZoneRequestQueueState = () => ({
-  pending: pendingSgZoneRequests,
-  active: activeSgZoneRequests,
-  total: pendingSgZoneRequests + activeSgZoneRequests,
-});
-
-const sleep = async (ms: number): Promise<void> => (
-  new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  })
-);
-
 const isSgZoneRequest = (url: string): boolean => {
   try {
     const parsedUrl = new URL(url);
@@ -56,50 +38,6 @@ const isSgZoneRequest = (url: string): boolean => {
 const isRelayUnsupportedUrlError = (error: unknown): boolean => (
   error instanceof Error && error.message === relayUnsupportedUrlErrorMessage
 );
-
-const clearExpiredTimestamps = (now: number): void => {
-  while (
-    requestTimestamps.length > 0
-    && (now - requestTimestamps[0]) >= minuteInMs
-  ) {
-    requestTimestamps.shift();
-  }
-};
-
-const waitForSgZoneRequestSlot = async (): Promise<void> => {
-  const now = Date.now();
-
-  clearExpiredTimestamps(now);
-
-  if (requestTimestamps.length < requestsPerMinuteLimit) {
-    requestTimestamps.push(now);
-
-    return;
-  }
-
-  const oldestRequestTimestamp = requestTimestamps[0];
-  const waitTime = minuteInMs - (now - oldestRequestTimestamp);
-
-  await sleep(waitTime);
-
-  await waitForSgZoneRequestSlot();
-};
-
-const reserveSgZoneRequestSlot = async (): Promise<void> => {
-  const slotReservation = slotReservationQueue.then(waitForSgZoneRequestSlot);
-
-  slotReservationQueue = slotReservation.catch(() => undefined);
-
-  await slotReservation;
-};
-
-const waitForSgZoneRequestQueueToDrain = async (): Promise<void> => {
-  if (getSgZoneRequestQueueState().total === 0) return;
-
-  await sleep(20);
-
-  await waitForSgZoneRequestQueueToDrain();
-};
 
 const getCloudflareRayId = (html: string): string | null => (
   html.match(/Cloudflare Ray ID:\s*<strong[^>]*>([^<]+)<\/strong>/i)?.[1] ?? null
@@ -140,22 +78,8 @@ const request = async (
   retryCount: number = defaultRetryCount,
 ): Promise<Response | null> => {
   const isSgZoneUrl = isSgZoneRequest(url);
-  let isSgZoneRequestActive = false;
 
   try {
-    if (isSgZoneUrl) {
-      pendingSgZoneRequests += 1;
-
-      try {
-        await reserveSgZoneRequestSlot();
-      } finally {
-        pendingSgZoneRequests -= 1;
-      }
-
-      activeSgZoneRequests += 1;
-      isSgZoneRequestActive = true;
-    }
-
     let proxiedResponse: Response | null = null;
 
     try {
@@ -192,23 +116,12 @@ const request = async (
       throw err;
     }
 
-    if (isSgZoneRequestActive) {
-      activeSgZoneRequests -= 1;
-      isSgZoneRequestActive = false;
-    }
-
     return await request(url, retryCount - 1);
-  } finally {
-    if (isSgZoneRequestActive) {
-      activeSgZoneRequests -= 1;
-    }
   }
 };
 
 export {
   CloudflareBanError,
-  getSgZoneRequestQueueState,
-  waitForSgZoneRequestQueueToDrain,
   isCloudflareBanError,
 };
 

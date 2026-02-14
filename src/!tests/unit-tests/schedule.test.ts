@@ -4,9 +4,7 @@ import fs from 'fs-extra';
 import logger from '../../0 - utils/logger';
 import { resetNamesList } from '../../0 - utils/namesHelper';
 import request, {
-  getSgZoneRequestQueueState,
   isCloudflareBanError,
-  waitForSgZoneRequestQueueToDrain,
 } from '../../0 - utils/request';
 import startParsingReplays from '../../index';
 import generateMaceList from '../../jobs/generateMaceListHTML';
@@ -38,8 +36,6 @@ jest.mock('../../0 - utils/logger', () => ({
 jest.mock('../../0 - utils/request', () => ({
   __esModule: true,
   default: jest.fn(),
-  getSgZoneRequestQueueState: jest.fn(),
-  waitForSgZoneRequestQueueToDrain: jest.fn(),
   isCloudflareBanError: jest.fn(),
 }));
 
@@ -63,12 +59,6 @@ const mockedStartFetchingReplays = startFetchingReplays as jest.MockedFunction<
 const mockedGenerateMaceList = generateMaceList as jest.MockedFunction<typeof generateMaceList>;
 const mockedRequest = request as jest.MockedFunction<typeof request>;
 const mockedResetNamesList = resetNamesList as jest.MockedFunction<typeof resetNamesList>;
-const mockedGetSgZoneRequestQueueState = getSgZoneRequestQueueState as jest.MockedFunction<
-  typeof getSgZoneRequestQueueState
->;
-const mockedWaitForSgZoneRequestQueueToDrain = (
-  waitForSgZoneRequestQueueToDrain
-) as jest.MockedFunction<typeof waitForSgZoneRequestQueueToDrain>;
 const mockedIsCloudflareBanError = (
   isCloudflareBanError
 ) as jest.MockedFunction<typeof isCloudflareBanError>;
@@ -119,8 +109,6 @@ beforeEach(() => {
   mockedGenerateMaceList.mockReset();
   mockedRequest.mockReset();
   mockedResetNamesList.mockReset();
-  mockedGetSgZoneRequestQueueState.mockReset();
-  mockedWaitForSgZoneRequestQueueToDrain.mockReset();
   mockedIsCloudflareBanError.mockReset();
   mockedLogger.info.mockReset();
   mockedLogger.error.mockReset();
@@ -128,16 +116,10 @@ beforeEach(() => {
   mockedFs.ensureDirSync.mockReset();
   mockedFs.writeFileSync.mockReset();
 
-  mockedGetSgZoneRequestQueueState.mockReturnValue({
-    pending: 0,
-    active: 0,
-    total: 0,
-  });
   mockedRequest.mockResolvedValue({
     text: jest.fn().mockResolvedValue(''),
   } as never);
   mockedStartParsingReplays.mockResolvedValue(undefined);
-  mockedWaitForSgZoneRequestQueueToDrain.mockResolvedValue(undefined);
   mockedIsCloudflareBanError.mockImplementation((error) => (
     (error as Error | null)?.name === 'CloudflareBanError'
   ));
@@ -150,9 +132,8 @@ test('should log Cloudflare ban without stack trace in generateMissionMakersList
 
   await expect(missionMakersCronJob.callback()).resolves.toBeUndefined();
 
-  expect(missionMakersCronJob.expression).toBe('5 */2 * * *');
+  expect(missionMakersCronJob.expression).toBe('0 */1 * * *');
   expect(mockedGenerateMissionMakersList).toHaveBeenCalledTimes(1);
-  expect(mockedWaitForSgZoneRequestQueueToDrain).toHaveBeenCalledTimes(1);
   expect(mockedLogger.error).toHaveBeenCalledWith(expect.stringContaining('Cloudflare'));
   expect(hasVerboseErrorLogs()).toBe(false);
 });
@@ -164,7 +145,7 @@ test('should stop startFetchingReplays scheduled job flow on Cloudflare ban and 
 
   await expect(fetchReplaysCronJob.callback()).resolves.toBeUndefined();
 
-  expect(fetchReplaysCronJob.expression).toBe('5 */2 * * *');
+  expect(fetchReplaysCronJob.expression).toBe('0 */1 * * *');
   expect(mockedStartFetchingReplays).toHaveBeenCalledTimes(1);
   expect(mockedGenerateMaceList).not.toHaveBeenCalled();
   expect(mockedLogger.error).toHaveBeenCalledWith(expect.stringContaining('Cloudflare'));
@@ -193,7 +174,7 @@ test('should download nameChanges.csv and reset names cache before parsing repla
 
   await expect(parseReplaysCronJob.callback()).resolves.toBeUndefined();
 
-  expect(parseReplaysCronJob.expression).toBe('0 1-23/2 * * *');
+  expect(parseReplaysCronJob.expression).toBe('15 */1 * * *');
   expect(mockedRequest).toHaveBeenCalledWith(nameChangesCsvURL);
   expect(mockedFs.ensureDirSync).toHaveBeenCalledWith(expect.stringContaining('/sg_stats/config'));
   expect(mockedFs.writeFileSync).toHaveBeenCalledWith(
