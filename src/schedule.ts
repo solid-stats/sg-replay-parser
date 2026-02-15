@@ -14,8 +14,11 @@ import updateNameChangesCsv from './jobs/updateNameChangesCsv';
 
 generateBasicFolders();
 
+const webParsersCron = '*/20 * * * *';
+const parsingCron = '10-50/20 * * * *';
+
 Cron(
-  '0 */1 * * *',
+  webParsersCron,
   { protect: true },
   async () => {
     try {
@@ -41,7 +44,7 @@ const generateMaceListJob = async () => {
 };
 
 const replaysFetcherJob = Cron(
-  '0 */1 * * *',
+  webParsersCron,
   { protect: true },
   async () => {
     try {
@@ -72,7 +75,7 @@ const waitReplaysFetchingToFinish = async (): Promise<void> => (
 );
 
 Cron(
-  '15 */1 * * *',
+  parsingCron,
   { protect: true },
   async () => {
     if (replaysFetcherJob.isBusy()) {
