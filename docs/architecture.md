@@ -27,7 +27,11 @@ Primary npm scripts:
 1. `npm run generate-replays-list`
 2. `npm run parse`
 3. `npm run schedule`
-4. `npm run parse-new-year`
+4. `npm run schedule-prod` (builds and starts via pm2)
+5. `npm run parse-new-year`
+6. `npm run update-name-changes-csv`
+
+Dev/CI scripts: `tsc`, `build-dist`, `lint-files`, `lint-tests`, `lint`, `test`, `test:watch`.
 
 ## 3. Source Code Structure
 
@@ -53,37 +57,42 @@ Paths are defined in `src/0 - utils/paths.ts`, with runtime root at `~/sg_stats`
 6. `~/sg_stats/logs` - logs.
 7. `~/sg_stats/year_results` - yearly nomination output.
 
-Important: most runtime data is written outside the repository.
+Auto-created paths (`basicPaths` via `generateBasicFolders()`): `statsPath`, `raw_replays`, `lists`, `results`, `year_results`. Paths `config`, `logs`, and `temp_results` are **not** in `basicPaths` — they are created on demand (`config` by `updateNameChangesCsv` via `ensureDirSync`, `logs` by logger, `temp_results` by `emptyDirSync`).
+
+Important: most runtime data is written outside the repository. The repo root `config/` directory contains reference versions of config files, but the runtime code reads exclusively from `~/sg_stats/config/`.
 
 ## 5. Logging Architecture (`src/0 - utils/logger.ts`)
 
-The logger uses Pino with `pino.transport()` multi-target configuration and pino-pretty formatting.
+The logger uses Pino with `pino.multistream()` combining two separate `pino.transport()` streams and pino-pretty formatting.
 
 ### 5.1 Transport Targets
 
-`pino.transport()` with `dedupe: false` sends each log entry to all matching targets:
+Two `pino.transport()` instances are created and combined via `pino.multistream()`:
 
-1. Console (pino-pretty with colors) — level from `LOG_LEVEL` env (default `debug`).
-2. `debug.log` — level `debug` and above.
-3. `info.log` — level `info` and above.
-4. `warning.log` — level `warn` and above.
-5. `error.log` — level `error` and above.
+**Console stream** — a standalone `pino.transport()` targeting `pino-pretty`, added to multistream at `LOG_LEVEL` (default `debug`).
 
-Log files use cumulative filtering: each file receives its own level and all higher-severity levels.
+**Files stream** — a `pino.transport()` with `targets` array and `dedupe: true` (each log entry goes to exactly one target — the highest matching level):
+
+1. `debug.log` — level `debug` and above.
+2. `info.log` — level `info` and above.
+3. `warning.log` — level `warn` and above.
+4. `error.log` — level `error` and above.
+
+Because `dedupe: true`, each file receives only log entries at its exact level. The `debug.log` file handles the overflow — all levels not matched by a more specific target.
 
 ### 5.2 File Structure
 
 Logs are written to `~/sg_stats/logs/DD.MM.YYYY HH:mm/` (Moscow timezone).
 
-Log files are created with `fs.createFileSync` before transport initialization. Log folder is not cleared on restart — new runs with the same minute timestamp append to existing files.
+Log files are created with `fs.ensureFileSync` (from `fs-extra`) before transport initialization. Log folder is not cleared on restart — new runs with the same minute timestamp append to existing files.
 
 Console output includes all levels with colorization (`colorize: true`, `colorizeObjects: true`).
 
 ### 5.3 Implementation Details
 
-1. Transport runs in a worker thread (Pino's built-in async transport mechanism via `pino.transport()`).
+1. Each `pino.transport()` call runs its target(s) in a worker thread (Pino's built-in async transport mechanism). The two transports (console and files) are combined synchronously via `pino.multistream()`.
 2. In test environment (`NODE_ENV === 'test'`), transport is disabled — plain pino logger without file output.
-3. Log files are pre-created with `fs.createFileSync` to ensure target paths exist before async transport starts.
+3. Log files are pre-created with `fs.ensureFileSync` to ensure target paths exist before async transport starts.
 4. Process-level handlers for `uncaughtException`, `unhandledRejection`, `SIGINT`, and `SIGTERM` write fatal logs before termination.
 
 ## 6. Scheduler (Production Flow)
@@ -107,9 +116,11 @@ Main file: `src/jobs/prepareReplaysList/index.ts`.
 ### 7.1 Inputs
 
 1. Existing `replaysList.json` (if present).
-2. `config/includeReplays.json` - whitelist for missions without explicit game type prefix.
-3. `config/excludeReplays.json` - blacklist of replay links.
+2. `~/sg_stats/config/includeReplays.json` - whitelist for missions without explicit game type prefix.
+3. `~/sg_stats/config/excludeReplays.json` - blacklist of replay links.
 4. HTML pages from `https://sg.zone/replays?p=N`.
+
+Note: config files are read from the runtime `~/sg_stats/config/` directory (see `src/jobs/prepareReplaysList/consts.ts`), not from the repo root `config/`.
 
 ### 7.2 Algorithm
 
@@ -147,10 +158,11 @@ Main file: `src/index.ts`.
 ### 8.1 Pre-run Setup
 
 1. `generateBasicFolders()`.
-2. Full cleanup of `temp_results`.
+2. Full cleanup of `temp_results` via `fs.emptyDirSync()`.
 3. `prepareNamesList()` initializes in-memory name-change map.
-4. Runtime config is resolved via `getRuntimeConfig()`.
+4. Runtime config is resolved via `getRuntimeConfig()` — worker count defaults to `os.cpus().length - 1`, clamped between 1 and 64, configurable via `WORKER_COUNT` env variable.
 5. One shared `WorkerPool` is created for the whole parse run and destroyed in `finally`.
+6. All three game types (`sg`, `mace`, `sm`) are parsed concurrently via `Promise.all`, sharing the single `WorkerPool`. Statistics for each game type are also computed concurrently via `Promise.all`.
 
 ### 8.2 Replay Selection by Game Type
 
@@ -357,12 +369,13 @@ Practical effect:
 ## 15. Separate Yearly Pipeline (`src/!yearStatistics`)
 
 1. Takes SG replays for configured `year` (currently `2025`).
-2. Creates its own `WorkerPool` for that run and destroys it in `finally`.
+2. Creates its own `WorkerPool` with hardcoded `workerCount: 1` and destroys it in `finally`.
 3. Runs standard `parseReplays(replays, 'sg', workerPool)` + `calculateGlobalStatistics`.
-4. Re-reads raw replay data for nomination logic that needs low-level replay details (via `src/1 - replays/fetchReplayInfo.ts`).
-5. Writes nomination text files to `~/sg_stats/year_results`.
+4. Applies nomination calculations via a `pipe()` pattern: `deathToGamesRatio`, `mostTeamkillsInOneGame`, `mostTeamkills`, `mostPopularMission`, `mostDeathsFromTeamkills`.
+5. Re-reads raw replay data for nomination logic that needs low-level replay details (via `processRawReplays`).
+6. Writes nomination text files to `~/sg_stats/year_results` (folder is cleaned before output via `fs.emptyDirSync`).
 
-Nuance: this flow relies on sequential `for ... of` + `await` over replays.
+Nuance: `processRawReplays` relies on sequential `for ... of` + `await` over replays for nominations that need raw replay data.
 
 ## 16. Main Pitfalls for Future Changes
 
@@ -371,8 +384,9 @@ Nuance: this flow relies on sequential `for ... of` + `await` over replays.
 3. Some sections are algorithmically expensive (`findIndex`, `cloneDeep`, repeated config reads, repeated `keyBy`).
 4. Rotation logic depends on manually maintained hardcoded dates.
 5. Player identity is sensitive to `nameChanges.csv` quality and timezone conversion correctness.
-6. Runtime state lives in `~/sg_stats`, not repo-local paths.
-7. Logger (see section 5) uses async `pino.transport()` with multiple targets. Log files use cumulative level filtering (each file gets its level and above). Log folder is not cleared on restart — runs within the same minute append to existing files.
+6. Runtime state lives in `~/sg_stats`, not repo-local paths. Repo root `config/` directory is a reference copy; runtime code reads from `~/sg_stats/config/`.
+7. Logger (see section 5) uses `pino.multistream()` combining two async `pino.transport()` instances. File targets use `dedupe: true` (each entry goes to exactly one file target). Log folder is not cleared on restart — runs within the same minute append to existing files.
+8. All game types are parsed concurrently via `Promise.all` sharing one `WorkerPool`, which means worker contention across game types is possible under heavy load.
 
 ## 17. Fast Code Reading Order for New Contributors
 
