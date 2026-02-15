@@ -11,8 +11,11 @@ jest.mock('../../../../jobs/generateMissionMakersList/utils/requestTeamPage', ()
 jest.mock('../../../../0 - utils/logger', () => ({
   __esModule: true,
   default: {
+    debug: jest.fn(),
     info: jest.fn(),
+    warn: jest.fn(),
     error: jest.fn(),
+    fatal: jest.fn(),
   },
 }));
 

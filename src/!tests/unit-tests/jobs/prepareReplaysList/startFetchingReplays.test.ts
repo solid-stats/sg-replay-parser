@@ -29,8 +29,11 @@ jest.mock('../../../../jobs/prepareReplaysList/utils/fetchReplaysPage', () => je
 jest.mock('../../../../0 - utils/logger', () => ({
   __esModule: true,
   default: {
+    debug: jest.fn(),
     info: jest.fn(),
+    warn: jest.fn(),
     error: jest.fn(),
+    fatal: jest.fn(),
   },
 }));
 
@@ -43,6 +46,7 @@ const mockedRequest = request as jest.MockedFunction<typeof request>;
 const mockedFetchReplayPage = fetchReplayPage as jest.MockedFunction<typeof fetchReplayPage>;
 const mockedFetchReplaysPage = fetchReplaysPage as jest.MockedFunction<typeof fetchReplaysPage>;
 const mockedLogger = logger as unknown as {
+  debug: jest.Mock;
   info: jest.Mock;
   error: jest.Mock;
 };
@@ -118,6 +122,7 @@ beforeEach(() => {
   mockedRequest.mockReset();
   mockedFetchReplayPage.mockReset();
   mockedFetchReplaysPage.mockReset();
+  mockedLogger.debug.mockReset();
   mockedLogger.info.mockReset();
   mockedLogger.error.mockReset();
 

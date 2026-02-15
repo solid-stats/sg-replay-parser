@@ -7,6 +7,7 @@ const defaultRetryCount = 3;
 const requestTimeoutMs = 30 * 1000;
 const sgZoneHost = 'sg.zone';
 const relayUnsupportedUrlErrorMessage = `Relay mode supports only https://${sgZoneHost} URLs.`;
+const timeoutErrorName = 'RequestTimeoutError';
 
 class CloudflareBanError extends Error {
   constructor(url: string, rayId: string | null) {
@@ -16,6 +17,34 @@ class CloudflareBanError extends Error {
     this.name = 'CloudflareBanError';
   }
 }
+
+const withTimeout = async <T>(
+  promise: Promise<T>,
+  timeoutMs: number,
+  timeoutMessage: string,
+): Promise<T> => (
+  // We keep a manual timeout wrapper globally because:
+  // 1) It also protects non-fetch async paths (e.g. getProxiedRequest),
+  // 2) It gives one consistent timeout error shape/name across all request flows.
+  new Promise<T>((resolve, reject) => {
+    const timeoutId = setTimeout(() => {
+      const timeoutError = new Error(timeoutMessage);
+
+      timeoutError.name = timeoutErrorName;
+      reject(timeoutError);
+    }, timeoutMs);
+
+    promise
+      .then((result) => {
+        clearTimeout(timeoutId);
+        resolve(result);
+      })
+      .catch((error) => {
+        clearTimeout(timeoutId);
+        reject(error);
+      });
+  })
+);
 
 const isCloudflareBanError = (err: unknown): boolean => {
   if (err instanceof CloudflareBanError) return true;
@@ -83,7 +112,11 @@ const request = async (
     let proxiedResponse: Response | null = null;
 
     try {
-      proxiedResponse = await getProxiedRequest(url);
+      proxiedResponse = await withTimeout(
+        getProxiedRequest(url),
+        requestTimeoutMs,
+        `Timeout while fetching proxied request for ${url}`,
+      );
     } catch (err) {
       if (!(isRelayUnsupportedUrlError(err) && !isSgZoneUrl)) throw err;
     }
@@ -94,9 +127,15 @@ const request = async (
       return proxiedResponse;
     }
 
-    const resp = isSgZoneUrl
-      ? await fetch(url, { timeout: requestTimeoutMs })
-      : await fetch(url);
+    const fetchPromise = isSgZoneUrl
+      // node-fetch timeout is still kept as a transport-level guard.
+      ? fetch(url, { timeout: requestTimeoutMs })
+      : fetch(url);
+    const resp = await withTimeout(
+      fetchPromise,
+      requestTimeoutMs,
+      `Timeout while fetching ${url}`,
+    );
 
     if (isSgZoneUrl) await throwIfCloudflareBanPage(url, resp);
 

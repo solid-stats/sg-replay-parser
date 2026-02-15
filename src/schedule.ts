@@ -22,12 +22,12 @@ Cron(
       await generateMissionMakersList();
     } catch (err) {
       if (isCloudflareBanError(err)) {
-        logger.error((err as Error).message);
+        logger.fatal((err as Error).message);
 
         return;
       }
 
-      logger.error(`Error during fetching mission makers list. Trace: ${err.stack}`);
+      logger.fatal(`Error during fetching mission makers list. Trace: ${err.stack}`);
     }
   },
 );
@@ -36,7 +36,7 @@ const generateMaceListJob = async () => {
   try {
     generateMaceList();
   } catch (err) {
-    logger.error(`Error during mace list generation. Trace: ${err.stack}`);
+    logger.fatal(`Error during mace list generation. Trace: ${err.stack}`);
   }
 };
 
@@ -48,12 +48,12 @@ const replaysFetcherJob = Cron(
       await startFetchingReplays();
     } catch (err) {
       if (isCloudflareBanError(err)) {
-        logger.error((err as Error).message);
+        logger.fatal((err as Error).message);
 
         return;
       }
 
-      logger.error(`Error during fetching replays list. Trace: ${err.stack}`);
+      logger.fatal(`Error during fetching replays list. Trace: ${err.stack}`);
     }
 
     generateMaceListJob();
@@ -92,7 +92,7 @@ Cron(
 
       await startParsingReplays();
     } catch (err) {
-      logger.error(`Error during parsing replays list. Trace: ${err.stack}`);
+      logger.fatal(`Error during parsing replays list. Trace: ${err.stack}`);
 
       fs.removeSync(tempResultsPath);
     }

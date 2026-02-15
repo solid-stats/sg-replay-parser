@@ -1,5 +1,6 @@
-import fs from 'fs-extra';
 import path from 'path';
+
+import fs from 'fs-extra';
 
 import { gameTypes } from './0 - consts/gameTypesArray';
 import { dayjsUTC } from './0 - utils/dayjs';
@@ -66,6 +67,7 @@ const startParsingReplays = async () => {
   generateBasicFolders();
   fs.emptyDirSync(tempResultsPath);
   prepareNamesList();
+
   const workerPool = new WorkerPool({
     workerCount: getRuntimeConfig().workerCount,
     workerScriptPath: path.join(__dirname, '1 - replays/workers/parseReplayWorker.js'),

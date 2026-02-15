@@ -36,3 +36,13 @@ After every code, config, or documentation change:
 3. update `docs/replay-parser-architecture.md` immediately if anything became outdated
 
 A task is not complete until the architecture document is up to date.
+
+## Mandatory Lint and Test Verification After Code Changes
+
+After any code change, you must run all verification commands:
+
+1. `npm run lint`
+2. `npm run test`
+3. `npm run build-dist`
+
+You must not mark the task as complete until all commands pass.

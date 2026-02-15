@@ -12,12 +12,14 @@ In practice, there are two main stages:
 2. Parse raw replay JSON into player game events and aggregate statistics (`startParsingReplays`).
 
 There are also support jobs (name-change CSV update, HTML list generation, yearly nominations).
+All `src/**/start.ts` entrypoints use top-level error handling (`fatal` log + non-zero process exit code).
+Additionally, `src/0 - utils/logger.ts` has process-level handlers for `uncaughtException`, `unhandledRejection`, `SIGINT`, and `SIGTERM`, with fatal logs before termination.
 
 ## 2. Main Entry Points
 
 1. `src/schedule.ts` - production runtime (cron jobs).
-2. `src/jobs/prepareReplaysList/start.ts` - manual replay-list preparation run.
-3. `src/start.ts` - manual parse/statistics run.
+2. `src/jobs/prepareReplaysList/start.ts` - manual replay-list preparation run with top-level error handling (`fatal` log + non-zero process exit code).
+3. `src/start.ts` - manual parse/statistics run with top-level error handling (`fatal` log + non-zero process exit code).
 4. `src/!yearStatistics/index.ts` - separate yearly pipeline.
 
 Primary npm scripts:
@@ -53,7 +55,38 @@ Paths are defined in `src/0 - utils/paths.ts`, with runtime root at `~/sg_stats`
 
 Important: most runtime data is written outside the repository.
 
-## 5. Scheduler (Production Flow)
+## 5. Logging Architecture (`src/0 - utils/logger.ts`)
+
+The logger uses Pino with `pino.transport()` multi-target configuration and pino-pretty formatting.
+
+### 5.1 Transport Targets
+
+`pino.transport()` with `dedupe: false` sends each log entry to all matching targets:
+
+1. Console (pino-pretty with colors) — level from `LOG_LEVEL` env (default `debug`).
+2. `debug.log` — level `debug` and above.
+3. `info.log` — level `info` and above.
+4. `warning.log` — level `warn` and above.
+5. `error.log` — level `error` and above.
+
+Log files use cumulative filtering: each file receives its own level and all higher-severity levels.
+
+### 5.2 File Structure
+
+Logs are written to `~/sg_stats/logs/DD.MM.YYYY HH:mm/` (Moscow timezone).
+
+Log files are created with `fs.createFileSync` before transport initialization. Log folder is not cleared on restart — new runs with the same minute timestamp append to existing files.
+
+Console output includes all levels with colorization (`colorize: true`, `colorizeObjects: true`).
+
+### 5.3 Implementation Details
+
+1. Transport runs in a worker thread (Pino's built-in async transport mechanism via `pino.transport()`).
+2. In test environment (`NODE_ENV === 'test'`), transport is disabled — plain pino logger without file output.
+3. Log files are pre-created with `fs.createFileSync` to ensure target paths exist before async transport starts.
+4. Process-level handlers for `uncaughtException`, `unhandledRejection`, `SIGINT`, and `SIGTERM` write fatal logs before termination.
+
+## 6. Scheduler (Production Flow)
 
 `src/schedule.ts` registers 3 cron jobs:
 
@@ -67,18 +100,18 @@ Additional orchestration details:
 2. Cloudflare errors are handled via `isCloudflareBanError`.
 3. `temp_results` is cleaned before parsing.
 
-## 6. Stage A: `prepareReplaysList` (Replay List Collection)
+## 7. Stage A: `prepareReplaysList` (Replay List Collection)
 
 Main file: `src/jobs/prepareReplaysList/index.ts`.
 
-### 6.1 Inputs
+### 7.1 Inputs
 
 1. Existing `replaysList.json` (if present).
 2. `config/includeReplays.json` - whitelist for missions without explicit game type prefix.
 3. `config/excludeReplays.json` - blacklist of replay links.
 4. HTML pages from `https://sg.zone/replays?p=N`.
 
-### 6.2 Algorithm
+### 7.2 Algorithm
 
 1. Ensure base runtime folders exist.
 2. Fetch page 1 and detect `totalPages` from pagination.
@@ -96,20 +129,22 @@ Main file: `src/jobs/prepareReplaysList/index.ts`.
 7. Mark problematic replays (empty `filename`) as `problematicReplays`.
 8. Run `checks()` and write resulting `replaysList.json`.
 
-### 6.3 Nuances and Constraints
+### 7.3 Nuances and Constraints
 
 1. Row-level concurrency is hardcoded as `pLimit(1)` in `parseReplaysOnPage.ts`.
 2. `saveReplayFile` uses sync I/O (`accessSync`, `writeFileSync`).
 3. Existing raw files are not re-downloaded.
 4. Non-Cloudflare row-level errors are swallowed and replay is skipped.
 5. Cloudflare errors stop the job and propagate upward.
-6. `utils/problematicReplays.ts` has a behavior trap: after `splice` operations, state is reassigned via `newResult = { ...result, problematicReplays }`, so removals from `replays/parsedReplays` are effectively lost.
+6. While iterating pages, memory usage (`rss/heapUsed/heapTotal`) is logged every 25 pages and on the last page for long-run diagnostics.
+7. Global HTTP helper `src/0 - utils/request.ts` enforces explicit 30-second request timeouts (including relay/proxy and direct fetch paths). Manual timeout wrapping is intentionally kept even with `fetch(..., { timeout })` so non-fetch paths (relay/proxy) are covered and timeout errors stay uniform across all request branches.
+8. `utils/problematicReplays.ts` has a behavior trap: after `splice` operations, state is reassigned via `newResult = { ...result, problematicReplays }`, so removals from `replays/parsedReplays` are effectively lost.
 
-## 7. Stage B: `startParsingReplays` (Parsing + Statistics)
+## 8. Stage B: `startParsingReplays` (Parsing + Statistics)
 
 Main file: `src/index.ts`.
 
-### 7.1 Pre-run Setup
+### 8.1 Pre-run Setup
 
 1. `generateBasicFolders()`.
 2. Full cleanup of `temp_results`.
@@ -117,7 +152,7 @@ Main file: `src/index.ts`.
 4. Runtime config is resolved via `getRuntimeConfig()`.
 5. One shared `WorkerPool` is created for the whole parse run and destroyed in `finally`.
 
-### 7.2 Replay Selection by Game Type
+### 8.2 Replay Selection by Game Type
 
 `getReplays(gameType)`:
 
@@ -129,7 +164,7 @@ Additional `sm` filter:
 
 1. Keep only replays after Jan 2023 (`dayjsUTC(...).isAfter('2023-01-01', 'month')`).
 
-### 7.3 Per-replay Parsing
+### 8.3 Per-replay Parsing
 
 `parseReplays(replays, gameType, workerPool)`:
 
@@ -141,9 +176,9 @@ Additional `sm` filter:
 
 Important: replay parsing now runs in worker threads (real multi-core CPU parallelism), while main thread handles orchestration and statistics.
 
-## 8. Parsing One Raw Replay (`src/2 - parseReplayInfo`)
+## 9. Parsing One Raw Replay (`src/2 - parseReplayInfo`)
 
-### 8.1 Step 1: `getEntities`
+### 9.1 Step 1: `getEntities`
 
 Builds:
 
@@ -157,7 +192,7 @@ Then processes `connected` events:
 
 Nuance: each `connected` event does linear `entities.find(...)`.
 
-### 8.2 Step 2: `getKillsAndDeaths`
+### 9.2 Step 2: `getKillsAndDeaths`
 
 Iterates all `killed` events and updates players:
 
@@ -177,7 +212,7 @@ Nuances:
 1. Vehicle lookup map is rebuilt on each kill event (`Object.values` + `keyBy`).
 2. In teamkill branch, `teamkillers` is built with `mergeOtherPlayers(killers, ...)`, so it uses current `killers` array instead of `teamkillers`.
 
-### 8.3 Step 3: `combineSamePlayersInfo`
+### 9.3 Step 3: `combineSamePlayersInfo`
 
 If one nickname appears in multiple entities in the same replay (slot change), entries are merged:
 
@@ -187,14 +222,14 @@ If one nickname appears in multiple entities in the same replay (slot change), e
 
 Merge key is exact `player.name` match.
 
-## 9. Name Normalization and Player Identity
+## 10. Name Normalization and Player Identity
 
-### 9.1 `getPlayerName`
+### 10.1 `getPlayerName`
 
 1. Extracts squad prefix in `[]`.
 2. Returns `[cleanName, prefix | null]`.
 
-### 9.2 `prepareNamesList` + `getPlayerId`
+### 10.2 `prepareNamesList` + `getPlayerId`
 
 1. Name-change CSV is read from `~/sg_stats/config/nameChanges.csv`.
 2. All timestamps are parsed as Moscow time and converted to UTC.
@@ -206,9 +241,9 @@ Cache behavior:
 1. `namesList` is an in-memory singleton.
 2. New CSV content is ignored until `resetNamesList()` is called.
 
-## 10. Statistics Calculation (`src/3 - statistics`)
+## 11. Statistics Calculation (`src/3 - statistics`)
 
-### 10.1 Global (`global/index.ts`)
+### 11.1 Global (`global/index.ts`)
 
 For each `PlayerGameResult`:
 
@@ -230,7 +265,7 @@ Post-processing:
    - `killed`, `killers`, `teamkilled`, `teamkillers` up to 10.
 3. Replace names in `otherPlayers` using final player names + prefixes.
 
-### 10.2 Exclude Players Logic
+### 11.2 Exclude Players Logic
 
 In `global/add.ts`, `config/excludePlayers.json` is read on every update:
 
@@ -240,7 +275,7 @@ In `global/add.ts`, `config/excludePlayers.json` is read on every update:
 
 Performance nuance: file is read from disk per `addPlayerGameResultToGlobalStatistics` call.
 
-### 10.3 Rotations (`rotations/index.ts`)
+### 11.3 Rotations (`rotations/index.ts`)
 
 1. Replays are grouped by configured rotation date ranges (`utils/rotations.ts`).
 2. For each rotation, calculate:
@@ -253,13 +288,13 @@ Nuances:
 1. `getReplaysGroupByRotation` uses `cloneDeep` over full replay array plus repeated `remove` calls.
 2. Rotation boundaries are hardcoded in source.
 
-### 10.4 Squads (`squads/*`)
+### 11.4 Squads (`squads/*`)
 
 1. A player belongs to a squad only if nickname contains a prefix.
 2. Squad and per-player-in-squad stats are calculated.
 3. Final filter keeps squads with `players.length > 4` only.
 
-## 11. Output Artifacts (`src/4 - output`)
+## 12. Output Artifacts (`src/4 - output`)
 
 `generateOutput` writes into `temp_results`, then swaps to `results`:
 
@@ -283,7 +318,7 @@ Nuances:
 
 Nuance: output generation is mostly sync (`writeFileSync`, `mkdirSync`, `moveSync`).
 
-## 12. Network Layer and Cloudflare
+## 13. Network Layer and Cloudflare
 
 `src/0 - utils/request.ts`:
 
@@ -299,27 +334,27 @@ Practical effect:
 1. Cloudflare blocks are not masked as generic network failures.
 2. Scheduler/jobs can handle Cloudflare failures separately without noisy stack traces.
 
-## 13. Additional Jobs
+## 14. Additional Jobs
 
-### 13.1 `updateNameChangesCsv`
+### 14.1 `updateNameChangesCsv`
 
 1. Downloads CSV from Google Sheets.
 2. Saves it to `~/sg_stats/config/nameChanges.csv`.
 3. Calls `resetNamesList()`.
 
-### 13.2 `generateMissionMakersList`
+### 14.2 `generateMissionMakersList`
 
 1. Parses `https://sg.zone/team`.
 2. Extracts `Mission Makers` and `Junior Mission Makers` sections.
 3. Writes HTML to `~/sg_stats/lists/mission_makers_list.html`.
 
-### 13.3 `generateMaceListHTML`
+### 14.3 `generateMaceListHTML`
 
 1. Reads `replaysList.json`.
 2. Filters `mace` missions.
 3. Writes HTML to `~/sg_stats/lists/mace_list.html`.
 
-## 14. Separate Yearly Pipeline (`src/!yearStatistics`)
+## 15. Separate Yearly Pipeline (`src/!yearStatistics`)
 
 1. Takes SG replays for configured `year` (currently `2025`).
 2. Creates its own `WorkerPool` for that run and destroys it in `finally`.
@@ -329,7 +364,7 @@ Practical effect:
 
 Nuance: this flow relies on sequential `for ... of` + `await` over replays.
 
-## 15. Main Pitfalls for Future Changes
+## 16. Main Pitfalls for Future Changes
 
 1. Some hot paths still use sync I/O and can block the event loop.
 2. `parseReplays` now uses true multi-core execution via worker threads; performance bottlenecks shifted to worker lifecycle/queueing and downstream aggregation.
@@ -337,9 +372,9 @@ Nuance: this flow relies on sequential `for ... of` + `await` over replays.
 4. Rotation logic depends on manually maintained hardcoded dates.
 5. Player identity is sensitive to `nameChanges.csv` quality and timezone conversion correctness.
 6. Runtime state lives in `~/sg_stats`, not repo-local paths.
-7. Logger clears the daily log folder on process start (`fs.emptyDirSync(logsFolderPath)`), so logs for current date are overwritten.
+7. Logger (see section 5) uses async `pino.transport()` with multiple targets. Log files use cumulative level filtering (each file gets its level and above). Log folder is not cleared on restart — runs within the same minute append to existing files.
 
-## 16. Fast Code Reading Order for New Contributors
+## 17. Fast Code Reading Order for New Contributors
 
 Recommended reading order to rebuild the full model quickly:
 

@@ -26,7 +26,7 @@ const parseReplays = async (
       }
 
       if (response.status === 'error') {
-        logger.error(
+        logger.warn(
           `
 Error occurred during replay parsing.
 Replay: ${response.error.filename};

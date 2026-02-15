@@ -16,9 +16,13 @@ const saveReplayFile = async (filename: string): Promise<Boolean> => {
   // eslint-disable-next-line no-empty
   } catch (e) { }
 
+  logger.debug(`Replay file ${filename} is not downloaded`);
+
   const replay = await request(`https://sg.zone/data/${filename}.json`);
 
   if (!replay) return false;
+
+  logger.debug(`Replay file ${filename} downloaded`);
 
   try {
     const replayJSON = await replay.text() as string;

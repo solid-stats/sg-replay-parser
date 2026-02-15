@@ -44,6 +44,10 @@ const readExcludeReplays = (): ConfigExcludeReplays => {
   }
 };
 
+const bytesToMb = (bytes: number): number => (
+  Math.round((bytes / (1024 * 1024)) * 10) / 10
+);
+
 const startFetchingReplays = async () => {
   generateBasicFolders();
   const replaysList = readReplaysListFile();
@@ -65,6 +69,8 @@ Start preparing new replays list.`,
   let newReplaysCount = 0;
 
   for (let page = 1; page <= totalPages; page += 1) {
+    logger.debug(`Processing page ${page} of ${totalPages}`);
+
     const pageDom = page === 1
       ? dom
       : parseDOM(await fetchReplaysPage(page));
@@ -81,7 +87,18 @@ Start preparing new replays list.`,
       replays: union(result.replays, newReplays.replays),
     };
     newReplaysCount += newReplays.parsedReplays.length;
+    logger.debug(`New replays: ${newReplays.parsedReplays.length}, total new replays: ${newReplaysCount}`);
+
+    if (page % 25 === 0 || page === totalPages) {
+      const memoryUsage = process.memoryUsage();
+
+      logger.debug(
+        `Memory usage on page ${page}: rss=${bytesToMb(memoryUsage.rss)}MB heapUsed=${bytesToMb(memoryUsage.heapUsed)}MB heapTotal=${bytesToMb(memoryUsage.heapTotal)}MB`,
+      );
+    }
   }
+
+  logger.debug('Parsed replays list');
 
   result = unionReplaysInfo(replaysList, result);
   result = {
