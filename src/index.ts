@@ -9,6 +9,10 @@ import formatGameType from './0 - utils/formatGameType';
 import generateBasicFolders from './0 - utils/generateBasicFolders';
 import logger from './0 - utils/logger';
 import { prepareNamesList } from './0 - utils/namesHelper/prepareNamesList';
+import {
+  commitParsingStatus,
+  readRunReplayListPreparedAt,
+} from './0 - utils/parsingStatus';
 import { tempResultsPath } from './0 - utils/paths';
 import { getRuntimeConfig } from './0 - utils/runtimeConfig';
 import getReplays from './1 - replays/getReplays';
@@ -55,6 +59,7 @@ const startParsingReplays = async () => {
   generateBasicFolders();
   fs.emptyDirSync(tempResultsPath);
   prepareNamesList();
+  const runUpdateTime = readRunReplayListPreparedAt();
 
   const workerPool = new WorkerPool({
     workerCount: getRuntimeConfig().workerCount,
@@ -128,6 +133,10 @@ const startParsingReplays = async () => {
       mace: { ...maceStats },
       sm: { ...smStats },
     });
+
+    if (runUpdateTime) {
+      commitParsingStatus(runUpdateTime);
+    }
 
     logger.info('Replays parsing completed.');
   } finally {

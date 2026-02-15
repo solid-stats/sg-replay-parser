@@ -9,6 +9,8 @@ export const listsPath = path.join(statsPath, 'lists');
 
 export const resultsPath = path.join(statsPath, 'results');
 
+export const parsingStatusPath = path.join(resultsPath, 'parsing_status.json');
+
 export const tempResultsPath = path.join(statsPath, 'temp_results');
 
 export const yearResultsPath = path.join(statsPath, 'year_results');

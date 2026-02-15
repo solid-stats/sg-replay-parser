@@ -329,6 +329,10 @@ Nuances:
 6. On success:
    - remove old `results`,
    - move `temp_results` to `results`.
+7. After successful output publish, parse pipeline writes `results/parsing_status.json` with committed `updateTime`.
+   - `updateTime` value is the `replaysListPreparedAt` snapshot captured at parse-run start.
+   - This metadata is committed only on successful full parse run; failed runs must not overwrite previous committed status.
+   - If parse-run-start snapshot is missing, committed status is also left unchanged.
 
 Nuance: output generation is mostly sync (`writeFileSync`, `mkdirSync`, `moveSync`).
 
@@ -390,6 +394,7 @@ Nuance: `processRawReplays` relies on sequential `for ... of` + `await` over rep
 6. Runtime state lives in `~/sg_stats`, not repo-local paths. Repo root `config/` directory is a reference copy; runtime code reads from `~/sg_stats/config/`.
 7. Logger (see section 5) uses `pino.multistream()` combining two async `pino.transport()` instances. File targets use `dedupe: true` (each entry goes to exactly one file target). Log folder is not cleared on restart — runs within the same minute append to existing files.
 8. All game types are parsed concurrently via `Promise.all` sharing one `WorkerPool`, which means worker contention across game types is possible under heavy load.
+9. Do not derive public parse `update_time` from live `replaysList.json`: replay list refresh can complete before parse run finishes. Use committed `results/parsing_status.json` instead.
 
 ## 17. Fast Code Reading Order for New Contributors
 
