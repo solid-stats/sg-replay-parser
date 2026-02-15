@@ -97,6 +97,7 @@ const parseReplaysOnPage = async (
   const parsedReplays = replays.map((val) => val.replayLink);
 
   return {
+    replaysListPreparedAt: null,
     parsedReplays,
     replays,
     problematicReplays: [],

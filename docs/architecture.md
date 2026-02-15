@@ -139,6 +139,7 @@ Note: config files are read from the runtime `~/sg_stats/config/` directory (see
 6. Apply blacklist (`excludeReplays`) by `replayLink`.
 7. Mark problematic replays (empty `filename`) as `problematicReplays`.
 8. Run `checks()` and write resulting `replaysList.json`.
+9. Before writing, set `replaysListPreparedAt` to the timestamp captured at the start of `prepareReplaysList` run. This marks the exact "as-of" time for the current replay list snapshot used by parsing.
 
 ### 7.3 Nuances and Constraints
 

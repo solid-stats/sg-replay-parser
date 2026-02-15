@@ -52,6 +52,7 @@ const mockedLogger = logger as unknown as {
 };
 
 const defaultReplaysList = {
+  replaysListPreparedAt: null,
   parsedReplays: [],
   replays: [],
   problematicReplays: [],
@@ -219,5 +220,10 @@ test('should not stop startFetchingReplays job on non-Cloudflare parsing error',
   await expect(startFetchingReplays(null)).resolves.toBeUndefined();
 
   expect(mockedFs.writeFileSync).toHaveBeenCalledTimes(1);
+
+  const savedReplaysListRaw = mockedFs.writeFileSync.mock.calls[0]?.[1];
+  const savedReplaysList = JSON.parse(savedReplaysListRaw) as Output;
+
+  expect(savedReplaysList.replaysListPreparedAt).toEqual(expect.any(String));
   expect(mockedLogger.error).toHaveBeenCalledWith(expect.stringContaining('Error occurred during parsing replay info.'));
 });

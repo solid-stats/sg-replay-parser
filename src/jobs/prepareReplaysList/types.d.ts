@@ -1,4 +1,5 @@
 type Output = {
+  replaysListPreparedAt: string | null;
   parsedReplays: string[];
   replays: Replay[];
   problematicReplays: Replay[];

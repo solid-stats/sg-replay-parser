@@ -49,6 +49,8 @@ const bytesToMb = (bytes: number): number => (
 );
 
 const startFetchingReplays = async (maxPages: number | null) => {
+  const prepareReplaysListStartedAt = new Date().toISOString();
+
   generateBasicFolders();
   const replaysList = readReplaysListFile();
   const includeReplays = readIncludeReplays();
@@ -115,6 +117,10 @@ Start preparing new replays list.`,
     ),
   };
   result = processProblematicReplays(result);
+  result = {
+    ...result,
+    replaysListPreparedAt: prepareReplaysListStartedAt,
+  };
 
   logger.info(
     `

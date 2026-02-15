@@ -7,6 +7,7 @@ export const includeReplaysPath = path.join(configPath, 'includeReplays.json');
 export const excludeReplaysPath = path.join(configPath, 'excludeReplays.json');
 
 export const defaultEmptyOutput: Output = {
+  replaysListPreparedAt: null,
   parsedReplays: [],
   replays: [],
   problematicReplays: [],
