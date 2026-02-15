@@ -70,8 +70,22 @@ const workerPort = parentPort;
 
 if (workerPort) {
   workerPort.on('message', async (task: ParseReplayTaskMessage) => {
-    const response = await runParseTask(task);
+    try {
+      const response = await runParseTask(task);
 
-    workerPort.postMessage(response);
+      workerPort.postMessage(response);
+    } catch (error) {
+      const parsedError = getError(error);
+
+      workerPort.postMessage({
+        taskId: task.taskId,
+        status: 'error',
+        error: {
+          filename: task.filename,
+          message: parsedError.message,
+          stack: parsedError.stack,
+        },
+      });
+    }
   });
 }

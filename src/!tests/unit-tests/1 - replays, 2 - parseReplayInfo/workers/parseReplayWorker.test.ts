@@ -76,6 +76,20 @@ test('runParseTask should skip mace replay with less than 10 players', async () 
   });
 });
 
+test('runParseTask should return success for mace replay with exactly 10 players', async () => {
+  jest.spyOn(fs, 'readJson').mockResolvedValueOnce({} as ReplayInfo);
+  jest.spyOn(parseReplayInfoModule, 'default').mockReturnValueOnce(createPlayersMap(10));
+
+  const response = await runParseTask(getTask('mace'));
+
+  expect(response.status).toBe('success');
+
+  if (response.status === 'success') {
+    expect(response.taskId).toBe('task-1');
+    expect(response.data.result).toHaveLength(10);
+  }
+});
+
 test('runParseTask should return error response when replay read throws non Error value', async () => {
   jest.spyOn(fs, 'readJson').mockRejectedValueOnce('read failed');
 
@@ -108,52 +122,112 @@ test('runParseTask should return error response when parsing throws', async () =
 });
 
 test('worker thread listener should post task response', async () => {
-  jest.resetModules();
+  try {
+    jest.resetModules();
 
-  const on = jest.fn();
-  const postMessage = jest.fn();
-  const mockedReadJson = jest.fn().mockResolvedValue({});
-  const mockedParseReplayInfo = jest.fn().mockReturnValue(createPlayersMap(1));
+    const on = jest.fn();
+    const postMessage = jest.fn();
+    const mockedReadJson = jest.fn().mockResolvedValue({});
+    const mockedParseReplayInfo = jest.fn().mockReturnValue(createPlayersMap(1));
 
-  jest.doMock('worker_threads', () => ({
-    parentPort: {
-      on,
-      postMessage,
-    },
-  }));
-  jest.doMock('fs-extra', () => ({
-    __esModule: true,
-    default: {
-      readJson: mockedReadJson,
-    },
-  }));
-  jest.doMock('../../../../0 - utils/paths', () => ({
-    rawReplaysPath: '/tmp/raw_replays',
-  }));
-  jest.doMock('../../../../2 - parseReplayInfo', () => ({
-    __esModule: true,
-    default: mockedParseReplayInfo,
-  }));
+    jest.doMock('worker_threads', () => ({
+      parentPort: {
+        on,
+        postMessage,
+      },
+    }));
+    jest.doMock('fs-extra', () => ({
+      __esModule: true,
+      default: {
+        readJson: mockedReadJson,
+      },
+    }));
+    jest.doMock('../../../../0 - utils/paths', () => ({
+      rawReplaysPath: '/tmp/raw_replays',
+    }));
+    jest.doMock('../../../../2 - parseReplayInfo', () => ({
+      __esModule: true,
+      default: mockedParseReplayInfo,
+    }));
 
-  await import('../../../../1 - replays/workers/parseReplayWorker');
+    await import('../../../../1 - replays/workers/parseReplayWorker');
 
-  expect(on).toBeCalledTimes(1);
+    expect(on).toBeCalledTimes(1);
 
-  const messageHandler = on.mock.calls[0][1] as (
-    task: ParseReplayTaskMessage
-  ) => Promise<void>;
+    const messageHandler = on.mock.calls[0][1] as (
+      task: ParseReplayTaskMessage
+    ) => Promise<void>;
 
-  await messageHandler(getTask('sg'));
+    await messageHandler(getTask('sg'));
 
-  expect(mockedReadJson).toBeCalledWith('/tmp/raw_replays/file_1.json');
-  expect(postMessage).toBeCalledWith(expect.objectContaining({
-    taskId: 'task-1',
-    status: 'success',
-  }));
+    expect(mockedReadJson).toBeCalledWith('/tmp/raw_replays/file_1.json');
+    expect(postMessage).toBeCalledWith(expect.objectContaining({
+      taskId: 'task-1',
+      status: 'success',
+    }));
+  } finally {
+    jest.dontMock('worker_threads');
+    jest.dontMock('fs-extra');
+    jest.dontMock('../../../../0 - utils/paths');
+    jest.dontMock('../../../../2 - parseReplayInfo');
+    jest.resetModules();
+  }
+});
 
-  jest.dontMock('worker_threads');
-  jest.dontMock('fs-extra');
-  jest.dontMock('../../../../0 - utils/paths');
-  jest.dontMock('../../../../2 - parseReplayInfo');
-  jest.resetModules();
+test('worker thread listener should handle postMessage throw without unhandled rejection', async () => {
+  try {
+    jest.resetModules();
+
+    const on = jest.fn();
+    const postMessage = jest.fn()
+      .mockImplementationOnce(() => {
+        throw new Error('post failed');
+      })
+      .mockImplementationOnce(() => undefined);
+    const mockedReadJson = jest.fn().mockResolvedValue({});
+    const mockedParseReplayInfo = jest.fn().mockReturnValue(createPlayersMap(1));
+
+    jest.doMock('worker_threads', () => ({
+      parentPort: {
+        on,
+        postMessage,
+      },
+    }));
+    jest.doMock('fs-extra', () => ({
+      __esModule: true,
+      default: {
+        readJson: mockedReadJson,
+      },
+    }));
+    jest.doMock('../../../../0 - utils/paths', () => ({
+      rawReplaysPath: '/tmp/raw_replays',
+    }));
+    jest.doMock('../../../../2 - parseReplayInfo', () => ({
+      __esModule: true,
+      default: mockedParseReplayInfo,
+    }));
+
+    await import('../../../../1 - replays/workers/parseReplayWorker');
+
+    const messageHandler = on.mock.calls[0][1] as (
+      task: ParseReplayTaskMessage
+    ) => Promise<void>;
+
+    await expect(messageHandler(getTask('sg'))).resolves.toBeUndefined();
+    expect(postMessage).toBeCalledTimes(2);
+    expect(postMessage.mock.calls[1][0]).toMatchObject({
+      taskId: 'task-1',
+      status: 'error',
+      error: {
+        filename: 'file_1',
+        message: 'post failed',
+      },
+    });
+  } finally {
+    jest.dontMock('worker_threads');
+    jest.dontMock('fs-extra');
+    jest.dontMock('../../../../0 - utils/paths');
+    jest.dontMock('../../../../2 - parseReplayInfo');
+    jest.resetModules();
+  }
 });
