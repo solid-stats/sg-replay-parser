@@ -1,84 +1,120 @@
-import fs from 'fs-extra';
-
 import logger from '../../../0 - utils/logger';
 import parseReplays from '../../../1 - replays/parseReplays';
-import * as parse from '../../../2 - parseReplayInfo';
-import generatePlayerEntity from '../../utils/generators/generatePlayerEntity';
+import { ParseReplayTaskResponseMessage } from '../../../1 - replays/workers/types';
 import generateReplay from '../../utils/generators/generateReplay';
-import generateReplayInfo from '../../utils/generators/generateReplayInfo';
-import prepareNamesWithMock from '../../utils/prepareNamesWithMock';
-import testData from './data/parseReplays';
 
-const mockReadJSONSync = () => {
-  const { replays, replayInfo } = testData;
+jest.mock('../../../0 - utils/logger', () => ({
+  __esModule: true,
+  default: {
+    error: jest.fn(),
+  },
+}));
 
-  replays.forEach(({ filename }) => {
-    jest.spyOn(fs, 'readJsonSync').mockImplementationOnce(() => replayInfo[filename]);
-  });
+type WorkerPoolMock = {
+  runTask: jest.Mock<Promise<ParseReplayTaskResponseMessage>, [{
+    filename: Replay['filename'];
+    date: Replay['date'];
+    missionName: Replay['mission_name'];
+    gameType: GameType;
+  }]>;
 };
 
-beforeAll(() => { prepareNamesWithMock(); });
-
-test('SG replays should be parsed correctly', async () => {
-  const { replays, result } = testData;
-
-  mockReadJSONSync();
-
-  expect(await parseReplays(replays, 'sg')).toMatchObject(result);
+const createWorkerPoolMock = (): WorkerPoolMock => ({
+  runTask: jest.fn(),
 });
 
-test('Errors during fetching should be handled correctly', async () => {
-  jest.spyOn(fs, 'readJsonSync').mockImplementationOnce(() => {
-    throw new Error('some error');
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
+test('parseReplays should submit tasks, ignore skipped and keep success results sorted by date', async () => {
+  const replays = [
+    generateReplay('sg', 'file_3', '2024-03-03T00:00:00.000Z'),
+    generateReplay('sg', 'file_1', '2024-01-01T00:00:00.000Z'),
+    generateReplay('sg', 'file_2', '2024-02-02T00:00:00.000Z'),
+  ];
+  const workerPool = createWorkerPoolMock();
+
+  workerPool.runTask
+    .mockResolvedValueOnce({
+      taskId: 'task-1',
+      status: 'success',
+      data: {
+        date: replays[0].date,
+        missionName: replays[0].mission_name,
+        result: [],
+      },
+    })
+    .mockResolvedValueOnce({
+      taskId: 'task-2',
+      status: 'skipped',
+      filename: replays[1].filename,
+      reason: 'empty_replay',
+    })
+    .mockResolvedValueOnce({
+      taskId: 'task-3',
+      status: 'success',
+      data: {
+        date: replays[2].date,
+        missionName: replays[2].mission_name,
+        result: [],
+      },
+    });
+
+  const parsedReplays = await parseReplays(replays, 'sg', workerPool);
+
+  expect(workerPool.runTask).toHaveBeenCalledTimes(3);
+  expect(workerPool.runTask).toHaveBeenNthCalledWith(1, {
+    filename: replays[0].filename,
+    date: replays[0].date,
+    missionName: replays[0].mission_name,
+    gameType: 'sg',
   });
-  jest.mock('../../../0 - utils/logger');
-  logger.error = jest.fn();
-
-  expect(await parseReplays([generateReplay('sg', 'test_1')], 'sg')).toMatchObject([]);
-  expect(logger.error).toBeCalledTimes(1);
-});
-
-test('Errors during parsing should be handled correctly', async () => {
-  jest.spyOn(parse, 'default').mockImplementationOnce(() => {
-    throw new Error('some error');
+  expect(workerPool.runTask).toHaveBeenNthCalledWith(2, {
+    filename: replays[1].filename,
+    date: replays[1].date,
+    missionName: replays[1].mission_name,
+    gameType: 'sg',
+  });
+  expect(workerPool.runTask).toHaveBeenNthCalledWith(3, {
+    filename: replays[2].filename,
+    date: replays[2].date,
+    missionName: replays[2].mission_name,
+    gameType: 'sg',
   });
 
-  jest.mock('../../../0 - utils/logger');
-  logger.error = jest.fn();
-
-  jest.spyOn(fs, 'readJsonSync').mockImplementationOnce(() => testData.replayInfo.file_1);
-
-  expect(await parseReplays([generateReplay('sg', 'test_2')], 'sg')).toMatchObject([]);
-  expect(logger.error).toBeCalledTimes(1);
+  expect(parsedReplays).toEqual([
+    {
+      date: replays[2].date,
+      missionName: replays[2].mission_name,
+      result: [],
+    },
+    {
+      date: replays[0].date,
+      missionName: replays[0].mission_name,
+      result: [],
+    },
+  ]);
 });
 
-const getReplayInfoForMace = (playersCount: number): ReplayInfo => {
-  const entities: ReplayInfo['entities'] = [];
+test('parseReplays should log worker errors and omit error responses from output', async () => {
+  const replay = generateReplay('sg', 'file_error', '2024-04-04T00:00:00.000Z');
+  const workerPool = createWorkerPoolMock();
 
-  for (let index = 0; index < playersCount; index += 1) {
-    entities.push(generatePlayerEntity({
-      id: index,
-      side: 'EAST',
-    }));
-  }
+  workerPool.runTask.mockResolvedValueOnce({
+    taskId: 'task-1',
+    status: 'error',
+    error: {
+      filename: replay.filename,
+      message: 'worker failed',
+      stack: 'stack trace',
+    },
+  });
 
-  return generateReplayInfo([], entities);
-};
+  const parsedReplays = await parseReplays([replay], 'sg', workerPool);
 
-test('Mace replays with less than 10 players should be skipped', async () => {
-  const replays: Replay[] = [generateReplay('mace', 'mace_1')];
-  const replayInfo = getReplayInfoForMace(5);
-
-  jest.spyOn(fs, 'readJsonSync').mockImplementationOnce(() => replayInfo);
-
-  expect(await parseReplays(replays, 'mace')).toHaveLength(0);
-});
-
-test("Mace replays with 10 or more players shouldn't be skipped", async () => {
-  const replays: Replay[] = [generateReplay('mace', 'mace_2')];
-  const replayInfo = getReplayInfoForMace(20);
-
-  jest.spyOn(fs, 'readJsonSync').mockImplementationOnce(() => replayInfo);
-
-  expect(await parseReplays(replays, 'mace')).toHaveLength(1);
+  expect(parsedReplays).toEqual([]);
+  expect(logger.error).toHaveBeenCalledTimes(1);
+  expect(logger.error).toHaveBeenCalledWith(expect.stringContaining('worker failed'));
+  expect(logger.error).toHaveBeenCalledWith(expect.stringContaining(replay.filename));
 });
