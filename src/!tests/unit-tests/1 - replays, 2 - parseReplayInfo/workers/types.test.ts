@@ -47,22 +47,22 @@ const successData: PlayersGameResult = {
 };
 
 // @ts-expect-error ParseReplayTaskResponseMessage requires taskId for all statuses.
-const responseWithoutTaskId: ParseReplayTaskResponseMessage = {
+satisfies<ParseReplayTaskResponseMessage>({
   status: 'success',
   data: successData,
-};
-void responseWithoutTaskId;
+});
 
-const responseWithInvalidSkippedReason: ParseReplayTaskResponseMessage = {
+satisfies<ParseReplayTaskResponseMessage>({
   taskId: 'task-invalid',
   status: 'skipped',
   filename: 'file_invalid',
   // @ts-expect-error ParseReplayTaskSkippedReason is restricted to known values.
   reason: 'too_few_players',
-};
-void responseWithInvalidSkippedReason;
+});
 
-const correlatedTaskSuccessResponse = satisfies<ParseReplayTaskResponseMessage<typeof correlatedTaskId>>({
+const correlatedTaskSuccessResponse = satisfies<
+ParseReplayTaskResponseMessage<typeof correlatedTaskId>
+>({
   taskId: correlatedTaskMessage.taskId,
   status: 'success',
   data: successData,
