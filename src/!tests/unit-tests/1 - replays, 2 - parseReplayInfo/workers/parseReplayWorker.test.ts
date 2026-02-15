@@ -2,6 +2,7 @@ import path from 'path';
 
 import fs from 'fs-extra';
 
+import * as namesHelperModule from '../../../../0 - utils/namesHelper/prepareNamesList';
 import { rawReplaysPath } from '../../../../0 - utils/paths';
 import { runParseTask } from '../../../../1 - replays/workers/parseReplayWorker';
 import { ParseReplayTaskMessage } from '../../../../1 - replays/workers/types';
@@ -31,11 +32,13 @@ beforeEach(() => {
 
 test('runParseTask should return success response', async () => {
   jest.spyOn(fs, 'readJson').mockResolvedValueOnce({} as ReplayInfo);
+  jest.spyOn(namesHelperModule, 'prepareNamesList').mockImplementation(() => undefined);
   jest.spyOn(parseReplayInfoModule, 'default').mockReturnValueOnce(createPlayersMap(2));
 
   const response = await runParseTask(getTask('sg'));
 
   expect(fs.readJson).toBeCalledWith(path.join(rawReplaysPath, 'file_1.json'));
+  expect(namesHelperModule.prepareNamesList).toBeCalledTimes(1);
   expect(parseReplayInfoModule.default).toBeCalledWith({}, '2024-01-01');
 
   expect(response.status).toBe('success');
@@ -149,6 +152,9 @@ test('worker thread listener should post task response', async () => {
       __esModule: true,
       default: mockedParseReplayInfo,
     }));
+    jest.doMock('../../../../0 - utils/namesHelper/prepareNamesList', () => ({
+      prepareNamesList: jest.fn(),
+    }));
 
     await import('../../../../1 - replays/workers/parseReplayWorker');
 
@@ -170,6 +176,7 @@ test('worker thread listener should post task response', async () => {
     jest.dontMock('fs-extra');
     jest.dontMock('../../../../0 - utils/paths');
     jest.dontMock('../../../../2 - parseReplayInfo');
+    jest.dontMock('../../../../0 - utils/namesHelper/prepareNamesList');
     jest.resetModules();
   }
 });
@@ -206,6 +213,9 @@ test('worker thread listener should handle postMessage throw without unhandled r
       __esModule: true,
       default: mockedParseReplayInfo,
     }));
+    jest.doMock('../../../../0 - utils/namesHelper/prepareNamesList', () => ({
+      prepareNamesList: jest.fn(),
+    }));
 
     await import('../../../../1 - replays/workers/parseReplayWorker');
 
@@ -228,6 +238,7 @@ test('worker thread listener should handle postMessage throw without unhandled r
     jest.dontMock('fs-extra');
     jest.dontMock('../../../../0 - utils/paths');
     jest.dontMock('../../../../2 - parseReplayInfo');
+    jest.dontMock('../../../../0 - utils/namesHelper/prepareNamesList');
     jest.resetModules();
   }
 });

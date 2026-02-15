@@ -3,6 +3,7 @@ import { parentPort } from 'worker_threads';
 
 import fs from 'fs-extra';
 
+import { prepareNamesList } from '../../0 - utils/namesHelper/prepareNamesList';
 import { rawReplaysPath } from '../../0 - utils/paths';
 import parseReplayInfo from '../../2 - parseReplayInfo';
 import {
@@ -21,6 +22,7 @@ export const runParseTask = async <TTaskId extends string>(
 ): Promise<ParseReplayTaskResponseMessage<TTaskId>> => {
   try {
     const replayInfo = await fs.readJson(path.join(rawReplaysPath, `${task.filename}.json`)) as ReplayInfo;
+    prepareNamesList();
     const parsedReplayInfo = parseReplayInfo(replayInfo, task.date);
     const result = Object.values(parsedReplayInfo);
 
