@@ -137,7 +137,7 @@ test('should log Cloudflare ban without stack trace in generateMissionMakersList
 
   await expect(missionMakersCronJob.callback()).resolves.toBeUndefined();
 
-  expect(missionMakersCronJob.expression).toBe('0 */1 * * *');
+  expect(missionMakersCronJob.expression).toBe('*/20 * * * *');
   expect(mockedGenerateMissionMakersList).toHaveBeenCalledTimes(1);
   expect(mockedLogger.fatal).toHaveBeenCalledWith(expect.stringContaining('Cloudflare'));
   expect(hasVerboseErrorLogs()).toBe(false);
@@ -150,7 +150,7 @@ test('should stop startFetchingReplays scheduled job flow on Cloudflare ban and 
 
   await expect(fetchReplaysCronJob.callback()).resolves.toBeUndefined();
 
-  expect(fetchReplaysCronJob.expression).toBe('0 */1 * * *');
+  expect(fetchReplaysCronJob.expression).toBe('*/20 * * * *');
   expect(mockedStartFetchingReplays).toHaveBeenCalledTimes(1);
   expect(mockedGenerateMaceList).not.toHaveBeenCalled();
   expect(mockedLogger.fatal).toHaveBeenCalledWith(expect.stringContaining('Cloudflare'));
@@ -179,7 +179,7 @@ test('should download nameChanges.csv and reset names cache before parsing repla
 
   await expect(parseReplaysCronJob.callback()).resolves.toBeUndefined();
 
-  expect(parseReplaysCronJob.expression).toBe('15 */1 * * *');
+  expect(parseReplaysCronJob.expression).toBe('10-50/20 * * * *');
   expect(mockedRequest).toHaveBeenCalledWith(nameChangesCsvURL);
   expect(mockedFs.ensureDirSync).toHaveBeenCalledWith(expect.stringContaining('/sg_stats/config'));
   expect(mockedFs.writeFileSync).toHaveBeenCalledWith(

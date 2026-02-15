@@ -90,9 +90,9 @@ Console output includes all levels with colorization (`colorize: true`, `coloriz
 
 `src/schedule.ts` registers 3 cron jobs:
 
-1. `0 */1 * * *` - refresh mission makers list.
-2. `0 */1 * * *` - run `startFetchingReplays()` (replay list prep/update), then generate MACE list.
-3. `15 */1 * * *` - update `nameChanges.csv`, then run `startParsingReplays()`.
+1. `*/20 * * * *` - refresh mission makers list (every 20 minutes).
+2. `*/20 * * * *` - run `startFetchingReplays()` (replay list prep/update), then generate MACE list (every 20 minutes).
+3. `10-50/20 * * * *` - update `nameChanges.csv`, then run `startParsingReplays()` (at minutes 10, 30, 50 of every hour).
 
 Additional orchestration details:
 
