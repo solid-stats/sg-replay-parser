@@ -4,12 +4,39 @@ import {
 } from '../../../../1 - replays/workers/types';
 
 const satisfies = <T>(value: T): T => value;
+const assertNever = (value: never): never => {
+  throw new Error(`Unhandled response status: ${value}`);
+};
+
+const getResponseStatus = (
+  responseMessage: ParseReplayTaskResponseMessage,
+): ParseReplayTaskResponseMessage['status'] => {
+  switch (responseMessage.status) {
+    case 'success':
+      return 'success';
+    case 'skipped':
+      return 'skipped';
+    case 'error':
+      return 'error';
+    default:
+      return assertNever(responseMessage);
+  }
+};
 
 const taskMessage = satisfies<ParseReplayTaskMessage>({
   taskId: 'task-1',
   filename: 'file_1',
   date: '2024-01-01',
   missionName: 'sg@test_mission',
+  gameType: 'sg',
+});
+
+const correlatedTaskId = 'task-correlated' as const;
+const correlatedTaskMessage = satisfies<ParseReplayTaskMessage<typeof correlatedTaskId>>({
+  taskId: correlatedTaskId,
+  filename: 'file_correlated',
+  date: '2024-01-02',
+  missionName: 'sg@correlated_task',
   gameType: 'sg',
 });
 
@@ -35,6 +62,12 @@ const responseWithInvalidSkippedReason: ParseReplayTaskResponseMessage = {
 };
 void responseWithInvalidSkippedReason;
 
+const correlatedTaskSuccessResponse = satisfies<ParseReplayTaskResponseMessage<typeof correlatedTaskId>>({
+  taskId: correlatedTaskMessage.taskId,
+  status: 'success',
+  data: successData,
+});
+
 test('ParseReplayTaskMessage should contain required fields', () => {
   expect(taskMessage).toMatchObject({
     taskId: 'task-1',
@@ -45,6 +78,10 @@ test('ParseReplayTaskMessage should contain required fields', () => {
   });
 });
 
+test('ParseReplayTaskResponseMessage should keep correlated taskId typing', () => {
+  expect(correlatedTaskSuccessResponse.taskId).toBe(correlatedTaskId);
+});
+
 test('ParseReplayTaskResponseMessage should represent success status', () => {
   const successMessage = satisfies<ParseReplayTaskResponseMessage>({
     taskId: 'task-2',
@@ -53,6 +90,7 @@ test('ParseReplayTaskResponseMessage should represent success status', () => {
   });
 
   expect(successMessage.status).toBe('success');
+  expect(getResponseStatus(successMessage)).toBe('success');
 
   if (successMessage.status === 'success') {
     expect(successMessage.taskId).toBe('task-2');

@@ -1,5 +1,5 @@
-export type ParseReplayTaskMessage = {
-  taskId: string;
+export type ParseReplayTaskMessage<TTaskId extends string = string> = {
+  taskId: TTaskId;
   filename: Replay['filename'];
   date: Replay['date'];
   missionName: Replay['mission_name'];
@@ -8,21 +8,21 @@ export type ParseReplayTaskMessage = {
 
 export type ParseReplayTaskSkippedReason = 'mace_min_players' | 'empty_replay';
 
-export type ParseReplayTaskSuccessResponseMessage = {
-  taskId: ParseReplayTaskMessage['taskId'];
+export type ParseReplayTaskSuccessResponseMessage<TTaskId extends string = string> = {
+  taskId: TTaskId;
   status: 'success';
   data: PlayersGameResult;
 };
 
-export type ParseReplayTaskSkippedResponseMessage = {
-  taskId: ParseReplayTaskMessage['taskId'];
+export type ParseReplayTaskSkippedResponseMessage<TTaskId extends string = string> = {
+  taskId: TTaskId;
   status: 'skipped';
   filename: Replay['filename'];
   reason: ParseReplayTaskSkippedReason;
 };
 
-export type ParseReplayTaskErrorResponseMessage = {
-  taskId: ParseReplayTaskMessage['taskId'];
+export type ParseReplayTaskErrorResponseMessage<TTaskId extends string = string> = {
+  taskId: TTaskId;
   status: 'error';
   error: {
     filename: Replay['filename'];
@@ -31,7 +31,7 @@ export type ParseReplayTaskErrorResponseMessage = {
   };
 };
 
-export type ParseReplayTaskResponseMessage =
-  | ParseReplayTaskSuccessResponseMessage
-  | ParseReplayTaskSkippedResponseMessage
-  | ParseReplayTaskErrorResponseMessage;
+export type ParseReplayTaskResponseMessage<TTaskId extends string = string> =
+  | ParseReplayTaskSuccessResponseMessage<TTaskId>
+  | ParseReplayTaskSkippedResponseMessage<TTaskId>
+  | ParseReplayTaskErrorResponseMessage<TTaskId>;
