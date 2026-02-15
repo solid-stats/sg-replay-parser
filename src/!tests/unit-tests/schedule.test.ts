@@ -68,6 +68,7 @@ const mockedIsCloudflareBanError = (
 const mockedLogger = logger as unknown as {
   info: jest.Mock;
   error: jest.Mock;
+  fatal: jest.Mock;
 };
 const mockedFs = fs as unknown as {
   removeSync: jest.Mock;
@@ -87,7 +88,7 @@ const cloudflareBanError = (): Error => {
 };
 
 const hasVerboseErrorLogs = (): boolean => (
-  mockedLogger.error.mock.calls.some(
+  mockedLogger.fatal.mock.calls.some(
     ([message]) => /Trace:|stack:/i.test(String(message)),
   )
 );
@@ -115,6 +116,7 @@ beforeEach(() => {
   mockedIsCloudflareBanError.mockReset();
   mockedLogger.info.mockReset();
   mockedLogger.error.mockReset();
+  mockedLogger.fatal.mockReset();
   mockedFs.removeSync.mockReset();
   mockedFs.ensureDirSync.mockReset();
   mockedFs.writeFileSync.mockReset();
@@ -137,7 +139,7 @@ test('should log Cloudflare ban without stack trace in generateMissionMakersList
 
   expect(missionMakersCronJob.expression).toBe('0 */1 * * *');
   expect(mockedGenerateMissionMakersList).toHaveBeenCalledTimes(1);
-  expect(mockedLogger.error).toHaveBeenCalledWith(expect.stringContaining('Cloudflare'));
+  expect(mockedLogger.fatal).toHaveBeenCalledWith(expect.stringContaining('Cloudflare'));
   expect(hasVerboseErrorLogs()).toBe(false);
 });
 
@@ -151,7 +153,7 @@ test('should stop startFetchingReplays scheduled job flow on Cloudflare ban and 
   expect(fetchReplaysCronJob.expression).toBe('0 */1 * * *');
   expect(mockedStartFetchingReplays).toHaveBeenCalledTimes(1);
   expect(mockedGenerateMaceList).not.toHaveBeenCalled();
-  expect(mockedLogger.error).toHaveBeenCalledWith(expect.stringContaining('Cloudflare'));
+  expect(mockedLogger.fatal).toHaveBeenCalledWith(expect.stringContaining('Cloudflare'));
   expect(hasVerboseErrorLogs()).toBe(false);
 });
 
@@ -164,7 +166,7 @@ test('should keep mace list generation for non-Cloudflare startFetchingReplays e
 
   expect(mockedStartFetchingReplays).toHaveBeenCalledTimes(1);
   expect(mockedGenerateMaceList).toHaveBeenCalledTimes(1);
-  expect(mockedLogger.error).toHaveBeenCalledWith(expect.stringContaining('Trace:'));
+  expect(mockedLogger.fatal).toHaveBeenCalledWith(expect.stringContaining('Trace:'));
 });
 
 test('should download nameChanges.csv and reset names cache before parsing replays', async () => {

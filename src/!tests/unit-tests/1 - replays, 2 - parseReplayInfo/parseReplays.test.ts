@@ -118,7 +118,7 @@ test('parseReplays should log worker errors and omit error responses from output
   const parsedReplays = await parseReplays([replay], 'sg', workerPool);
 
   expect(parsedReplays).toEqual([]);
-  expect(logger.error).toHaveBeenCalledTimes(1);
-  expect(logger.error).toHaveBeenCalledWith(expect.stringContaining('worker failed'));
-  expect(logger.error).toHaveBeenCalledWith(expect.stringContaining(replay.filename));
+  expect(logger.warn).toHaveBeenCalledTimes(1);
+  expect(logger.warn).toHaveBeenCalledWith(expect.stringContaining('worker failed'));
+  expect(logger.warn).toHaveBeenCalledWith(expect.stringContaining(replay.filename));
 });
