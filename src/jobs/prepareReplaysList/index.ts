@@ -62,6 +62,7 @@ Start preparing new replays list.`,
   const dom = parseDOM(response);
 
   const totalPages = parseInt(dom.querySelector('.pagination-item:nth-last-child(2) > a')?.textContent || '', 10) || 1;
+  let newReplaysCount = 0;
 
   for (let page = 1; page <= totalPages; page += 1) {
     const pageDom = page === 1
@@ -79,6 +80,7 @@ Start preparing new replays list.`,
       parsedReplays: union(result.parsedReplays, newReplays.parsedReplays),
       replays: union(result.replays, newReplays.replays),
     };
+    newReplaysCount += newReplays.parsedReplays.length;
   }
 
   result = unionReplaysInfo(replaysList, result);
@@ -100,7 +102,7 @@ Start preparing new replays list.`,
   logger.info(
     `
 Fetched replays.
-Found: ${result.parsedReplays.length} new replays and ${result.problematicReplays.length} problematic replays.
+Found: ${newReplaysCount} new replays and ${result.problematicReplays.length} problematic replays.
 Total replays: ${result.parsedReplays.length}.`,
   );
 
