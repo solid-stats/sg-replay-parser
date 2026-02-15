@@ -305,3 +305,14 @@ test('should detect Cloudflare ban errors by name', () => {
 test('should not detect null value as Cloudflare ban error', () => {
   expect(isCloudflareBanError(null)).toBe(false);
 });
+
+test('should throw timeout error when request exceeds timeout limit', async () => {
+  mockedFetch.mockImplementation(() => new Promise(() => {}));
+  mockedGetProxiedRequest.mockResolvedValue(null);
+
+  const requestPromise = request('https://example.com/slow', 0);
+
+  jest.advanceTimersByTime(requestTimeoutMs);
+
+  await expect(requestPromise).rejects.toThrow('Timeout while fetching');
+});
