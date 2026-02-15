@@ -1,4 +1,5 @@
 import fs from 'fs-extra';
+import path from 'path';
 
 import { gameTypes } from './0 - consts/gameTypesArray';
 import { dayjsUTC } from './0 - utils/dayjs';
@@ -8,13 +9,18 @@ import generateBasicFolders from './0 - utils/generateBasicFolders';
 import logger from './0 - utils/logger';
 import { prepareNamesList } from './0 - utils/namesHelper/prepareNamesList';
 import { tempResultsPath } from './0 - utils/paths';
+import { getRuntimeConfig } from './0 - utils/runtimeConfig';
 import getReplays from './1 - replays/getReplays';
 import parseReplays from './1 - replays/parseReplays';
+import { WorkerPool } from './1 - replays/workers/workerPool';
 import calculateGlobalStatistics from './3 - statistics/global';
 import getStatsByRotations from './3 - statistics/rotations';
 import generateOutput from './4 - output';
 
-const getParsedReplays = async (gameType: GameType): Promise<PlayersGameResult[]> => {
+const getParsedReplays = async (
+  gameType: GameType,
+  workerPool: WorkerPool,
+): Promise<PlayersGameResult[]> => {
   let replays = await getReplays(gameType);
 
   if (gameType === 'sm') {
@@ -23,12 +29,13 @@ const getParsedReplays = async (gameType: GameType): Promise<PlayersGameResult[]
     );
   }
 
-  const parsedReplays = await parseReplays(replays, gameType);
+  const parsedReplays = await parseReplays(replays, gameType, workerPool);
 
   // used only in development
   // const parsedReplays = await parseReplays(
   //   gameType === 'sg' ? replays.slice(0, 100) : [],
   //   gameType,
+  //   workerPool,
   // );
 
   return parsedReplays;
@@ -59,33 +66,41 @@ const startParsingReplays = async () => {
   generateBasicFolders();
   fs.emptyDirSync(tempResultsPath);
   prepareNamesList();
+  const workerPool = new WorkerPool({
+    workerCount: getRuntimeConfig().workerCount,
+    workerScriptPath: path.join(__dirname, '1 - replays/workers/parseReplayWorker.js'),
+  });
 
   logger.info('Started parsing replays.');
 
-  const [sgParsedReplays, maceParsedReplays, smParsedReplays] = await Promise.all(
-    gameTypes.map((gameType) => getParsedReplays(gameType)),
-  );
+  try {
+    const [sgParsedReplays, maceParsedReplays, smParsedReplays] = await Promise.all(
+      gameTypes.map((gameType) => getParsedReplays(gameType, workerPool)),
+    );
 
-  logger.info('All replays parsed, start collecting statistics:');
+    logger.info('All replays parsed, start collecting statistics:');
 
-  const parsedReplays: Record<GameType, PlayersGameResult[]> = {
-    sg: sgParsedReplays,
-    mace: maceParsedReplays,
-    sm: smParsedReplays,
-  };
-  const [sgStats, maceStats, smStats] = await Promise.all(
-    gameTypes.map((gameType) => countStatistics(parsedReplays[gameType], gameType)),
-  );
+    const parsedReplays: Record<GameType, PlayersGameResult[]> = {
+      sg: sgParsedReplays,
+      mace: maceParsedReplays,
+      sm: smParsedReplays,
+    };
+    const [sgStats, maceStats, smStats] = await Promise.all(
+      gameTypes.map((gameType) => countStatistics(parsedReplays[gameType], gameType)),
+    );
 
-  logger.info('All statistics collected, start generating output files.');
+    logger.info('All statistics collected, start generating output files.');
 
-  await generateOutput({
-    sg: { ...sgStats },
-    mace: { ...maceStats },
-    sm: { ...smStats },
-  });
+    await generateOutput({
+      sg: { ...sgStats },
+      mace: { ...maceStats },
+      sm: { ...smStats },
+    });
 
-  logger.info('Replays parsing completed.');
+    logger.info('Replays parsing completed.');
+  } finally {
+    await workerPool.destroy();
+  }
 };
 
 export default startParsingReplays;

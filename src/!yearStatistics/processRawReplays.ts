@@ -1,6 +1,6 @@
 import logger from '../0 - utils/logger';
 import pipe from '../0 - utils/pipe';
-import { fetchReplayInfo } from '../1 - replays/parseReplays';
+import fetchReplayInfo from '../1 - replays/fetchReplayInfo';
 import bestRandomshik, { sortBestRandomshik } from './nominations/bestRandomshik';
 import bestWeaponsAndVehicles, { sortBestWeaponsAndVehicles } from './nominations/bestWeaponAndVehicle';
 import mostAAKills, { sortMostAAKills } from './nominations/mostAAKills';

@@ -1,4 +1,5 @@
 import fs from 'fs-extra';
+import path from 'path';
 
 import { dayjsUTC } from '../0 - utils/dayjs';
 import generateBasicFolders from '../0 - utils/generateBasicFolders';
@@ -9,6 +10,7 @@ import { yearResultsPath } from '../0 - utils/paths';
 import pipe from '../0 - utils/pipe';
 import getReplays from '../1 - replays/getReplays';
 import parseReplays from '../1 - replays/parseReplays';
+import { WorkerPool } from '../1 - replays/workers/workerPool';
 import calculateGlobalStatistics from '../3 - statistics/global';
 import deathToGamesRatio from './nominations/deathToGamesRatio';
 import mostDeathsFromTeamkills from './nominations/mostDeathsFromTeamkills';
@@ -36,10 +38,20 @@ import { printFinish } from './utils/printText';
     dayjsUTC().year(year).startOf('year'),
     dayjsUTC().year(year).endOf('year'),
   )).reverse();
+  const workerPool = new WorkerPool({
+    workerCount: 1,
+    workerScriptPath: path.join(__dirname, '../1 - replays/workers/parseReplayWorker.js'),
+  });
 
   logger.info(`Replays count: ${replays.length}`);
 
-  const parsedReplays = await parseReplays(replays, 'sg');
+  let parsedReplays: PlayersGameResult[] = [];
+
+  try {
+    parsedReplays = await parseReplays(replays, 'sg', workerPool);
+  } finally {
+    await workerPool.destroy();
+  }
 
   printFinish();
 
