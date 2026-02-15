@@ -10,7 +10,7 @@ type MockWorker = EventEmitter & {
   scriptPath: string;
   postedMessages: unknown[];
   terminate: jest.Mock<Promise<void>, []>;
-  postMessage: (message: unknown) => void;
+  postMessage: jest.Mock<void, [unknown]>;
 };
 
 const mockWorkerInstances: MockWorker[] = [];
@@ -30,9 +30,9 @@ jest.mock('worker_threads', () => ({
       mockWorkerInstances.push(this as unknown as MockWorker);
     }
 
-    postMessage(message: unknown): void {
+    public postMessage = jest.fn((message: unknown): void => {
       this.postedMessages.push(message);
-    }
+    });
   },
 }));
 
@@ -255,6 +255,36 @@ test('WorkerPool should resolve active task with exit error on abnormal worker e
   await pool.destroy();
 });
 
+test('WorkerPool should resolve active task with error on zero exit code', async () => {
+  const pool = new WorkerPool({
+    workerCount: 1,
+    workerScriptPath: '/tmp/parseReplayWorker.js',
+  });
+
+  const taskPromise = pool.runTask({
+    filename: 'file-exit-zero',
+    date: '2024-01-01',
+    missionName: 'sg@exit_zero',
+    gameType: 'sg',
+  });
+
+  const worker = mockWorkerInstances[0];
+  const activeTask = getPostedTask(worker);
+
+  worker.emit('exit', 0);
+
+  await expect(taskPromise).resolves.toMatchObject({
+    taskId: activeTask.taskId,
+    status: 'error',
+    error: {
+      filename: 'file-exit-zero',
+      message: 'Worker exited with code 0',
+    },
+  });
+
+  await pool.destroy();
+});
+
 test('WorkerPool should ignore unknown responses and keep processing active task', async () => {
   const pool = new WorkerPool({
     workerCount: 1,
@@ -300,53 +330,49 @@ test('WorkerPool should ignore unknown responses and keep processing active task
   await pool.destroy();
 });
 
-test('WorkerPool should tolerate stale active marker after cross-worker response routing', async () => {
+test('WorkerPool should resolve task as error when postMessage throws and continue queue', async () => {
   const pool = new WorkerPool({
-    workerCount: 2,
+    workerCount: 1,
     workerScriptPath: '/tmp/parseReplayWorker.js',
   });
 
+  const worker = mockWorkerInstances[0];
+
+  worker.postMessage.mockImplementationOnce(() => {
+    throw new Error('post failed');
+  });
+
   const firstPromise = pool.runTask({
-    filename: 'file-first',
+    filename: 'file-post-failed',
     date: '2024-01-01',
-    missionName: 'sg@first',
+    missionName: 'sg@post_failed',
     gameType: 'sg',
   });
   const secondPromise = pool.runTask({
-    filename: 'file-second',
+    filename: 'file-post-next',
     date: '2024-01-02',
-    missionName: 'sg@second',
+    missionName: 'sg@post_next',
     gameType: 'sg',
   });
 
-  const [firstWorker, secondWorker] = mockWorkerInstances;
-  const firstTask = getPostedTask(firstWorker);
-  const secondTask = getPostedTask(secondWorker);
-
-  secondWorker.emit('message', {
-    taskId: firstTask.taskId,
-    status: 'success',
-    data: {
-      date: '2024-01-01',
-      missionName: 'sg@first',
-      result: [],
-    },
-  } as ParseReplayTaskResponseMessage);
-
   await expect(firstPromise).resolves.toMatchObject({
-    taskId: firstTask.taskId,
-    status: 'success',
+    status: 'error',
+    error: {
+      filename: 'file-post-failed',
+      message: 'post failed',
+    },
   });
 
-  firstWorker.emit('error', new Error('stale marker failure'));
-  firstWorker.emit('exit', 1);
+  expect(worker.postedMessages).toHaveLength(1);
 
-  secondWorker.emit('message', {
+  const secondTask = getPostedTask(worker, 0);
+
+  worker.emit('message', {
     taskId: secondTask.taskId,
     status: 'success',
     data: {
       date: '2024-01-02',
-      missionName: 'sg@second',
+      missionName: 'sg@post_next',
       result: [],
     },
   } as ParseReplayTaskResponseMessage);
@@ -416,4 +442,55 @@ test('WorkerPool destroy should resolve queued and in-flight tasks as errors and
     missionName: 'sg@after_destroy',
     gameType: 'sg',
   })).rejects.toThrow('WorkerPool is destroyed');
+});
+
+test('WorkerPool should throw on non-positive workerCount', () => {
+  expect(() => new WorkerPool({
+    workerCount: 0,
+    workerScriptPath: '/tmp/parseReplayWorker.js',
+  })).toThrow('WorkerPool workerCount must be greater than 0');
+});
+
+test('WorkerPool should recover when worker has stale active task marker on exit', async () => {
+  const pool = new WorkerPool({
+    workerCount: 1,
+    workerScriptPath: '/tmp/parseReplayWorker.js',
+  });
+
+  const worker = mockWorkerInstances[0];
+  const { workerActiveTaskId } = (
+    pool as unknown as { workerActiveTaskId: Map<MockWorker, string | null> }
+  );
+
+  workerActiveTaskId.set(worker, 'task-missing-from-inflight');
+
+  worker.emit('exit', 1);
+
+  expect(mockWorkerInstances).toHaveLength(2);
+
+  const recoveredWorker = mockWorkerInstances[1];
+  const taskPromise = pool.runTask({
+    filename: 'file-after-stale-marker',
+    date: '2024-01-01',
+    missionName: 'sg@after_stale_marker',
+    gameType: 'sg',
+  });
+  const postedTask = getPostedTask(recoveredWorker);
+
+  recoveredWorker.emit('message', {
+    taskId: postedTask.taskId,
+    status: 'success',
+    data: {
+      date: '2024-01-01',
+      missionName: 'sg@after_stale_marker',
+      result: [],
+    },
+  } as ParseReplayTaskResponseMessage);
+
+  await expect(taskPromise).resolves.toMatchObject({
+    taskId: postedTask.taskId,
+    status: 'success',
+  });
+
+  await pool.destroy();
 });

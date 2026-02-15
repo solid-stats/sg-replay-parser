@@ -43,6 +43,10 @@ export class WorkerPool {
   private isDestroyed = false;
 
   constructor(config: WorkerPoolConfig) {
+    if (!Number.isInteger(config.workerCount) || config.workerCount <= 0) {
+      throw new Error('WorkerPool workerCount must be greater than 0');
+    }
+
     this.workerScriptPath = config.workerScriptPath;
 
     for (let index = 0; index < config.workerCount; index += 1) {
@@ -132,12 +136,10 @@ export class WorkerPool {
   }
 
   private onWorkerExit(worker: Worker, code: number): void {
-    if (code !== 0) {
-      this.resolveWorkerActiveTaskAsError(
-        worker,
-        new Error(`Worker exited with code ${code}`),
-      );
-    }
+    this.resolveWorkerActiveTaskAsError(
+      worker,
+      new Error(`Worker exited with code ${code}`),
+    );
 
     this.detachWorker(worker);
 
@@ -199,7 +201,26 @@ export class WorkerPool {
       worker,
     });
 
-    worker.postMessage(queuedTask.task);
+    try {
+      worker.postMessage(queuedTask.task);
+    } catch (error) {
+      const parsedError = toError(error);
+
+      this.workerActiveTaskId.set(worker, null);
+      this.inFlightTasks.delete(queuedTask.task.taskId);
+
+      queuedTask.resolve({
+        taskId: queuedTask.task.taskId,
+        status: 'error',
+        error: {
+          filename: queuedTask.task.filename,
+          message: parsedError.message,
+          stack: parsedError.stack,
+        },
+      });
+
+      this.dispatchTasks();
+    }
   }
 
   private flushQueuedTasksWithError(error: Error): void {
