@@ -114,6 +114,8 @@ Main file: `src/index.ts`.
 1. `generateBasicFolders()`.
 2. Full cleanup of `temp_results`.
 3. `prepareNamesList()` initializes in-memory name-change map.
+4. Runtime config is resolved via `getRuntimeConfig()`.
+5. One shared `WorkerPool` is created for the whole parse run and destroyed in `finally`.
 
 ### 7.2 Replay Selection by Game Type
 
@@ -129,20 +131,15 @@ Additional `sm` filter:
 
 ### 7.3 Per-replay Parsing
 
-`parseReplays(replays, gameType)`:
+`parseReplays(replays, gameType, workerPool)`:
 
-1. Reads raw JSON from `raw_replays` (`fetchReplayInfo`).
-2. Parses replay via `parseReplayInfo(replayInfo, replay.date)`.
-3. Converts player map to `PlayerInfo[]`.
-4. For `mace`, skips replays with fewer than 10 players.
-5. Sorts parsed results by date ascending.
+1. Submits each replay to shared `WorkerPool` as a task (`filename`, `date`, `missionName`, `gameType`).
+2. Worker reads raw JSON from `raw_replays`, initializes names list, and runs `parseReplayInfo`.
+3. Worker returns one of: `success`, `skipped`, `error`.
+4. Main thread keeps only `success`, ignores `skipped`, logs `error`.
+5. Results are sorted by date ascending.
 
-`p-limit` values:
-
-1. `mace` - 50.
-2. Others - 25.
-
-Important: because hot paths still use sync I/O, this is not real CPU parallelism.
+Important: replay parsing now runs in worker threads (real multi-core CPU parallelism), while main thread handles orchestration and statistics.
 
 ## 8. Parsing One Raw Replay (`src/2 - parseReplayInfo`)
 
@@ -325,16 +322,17 @@ Practical effect:
 ## 14. Separate Yearly Pipeline (`src/!yearStatistics`)
 
 1. Takes SG replays for configured `year` (currently `2025`).
-2. Runs standard `parseReplays` + `calculateGlobalStatistics`.
-3. Re-reads raw replay data for nomination logic that needs low-level replay details.
-4. Writes nomination text files to `~/sg_stats/year_results`.
+2. Creates its own `WorkerPool` for that run and destroys it in `finally`.
+3. Runs standard `parseReplays(replays, 'sg', workerPool)` + `calculateGlobalStatistics`.
+4. Re-reads raw replay data for nomination logic that needs low-level replay details (via `src/1 - replays/fetchReplayInfo.ts`).
+5. Writes nomination text files to `~/sg_stats/year_results`.
 
 Nuance: this flow relies on sequential `for ... of` + `await` over replays.
 
 ## 15. Main Pitfalls for Future Changes
 
-1. Most hot paths still use sync I/O and block the event loop.
-2. Concurrency is high in places (`parseReplays`) but without true multi-core execution.
+1. Some hot paths still use sync I/O and can block the event loop.
+2. `parseReplays` now uses true multi-core execution via worker threads; performance bottlenecks shifted to worker lifecycle/queueing and downstream aggregation.
 3. Some sections are algorithmically expensive (`findIndex`, `cloneDeep`, repeated config reads, repeated `keyBy`).
 4. Rotation logic depends on manually maintained hardcoded dates.
 5. Player identity is sensitive to `nameChanges.csv` quality and timezone conversion correctness.
