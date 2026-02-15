@@ -366,7 +366,8 @@ Practical effect:
 
 1. Reads `replaysList.json`.
 2. Filters `mace` missions.
-3. Writes HTML to `~/sg_stats/lists/mace_list.html`.
+3. Uses `replaysListPreparedAt` (if available) as update time in HTML (`#update-date`) so the timestamp reflects the replay-list snapshot time.
+4. Writes HTML to `~/sg_stats/lists/mace_list.html`.
 
 ## 15. Separate Yearly Pipeline (`src/!yearStatistics`)
 

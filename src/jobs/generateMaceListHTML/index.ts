@@ -78,10 +78,12 @@ const generateMaceList = () => {
   });
 
   const replaysCount = maceReplays.length;
-  const dateNow = dayjsUTC().format(defaultDateFormat);
+  const preparedAt = replaysList.replaysListPreparedAt
+    ? dayjsUTC(replaysList.replaysListPreparedAt).format(defaultDateFormat)
+    : dayjsUTC().format(defaultDateFormat);
 
   replaysCountElement.textContent = replaysCount.toString();
-  updateDateElement.textContent = dateNow;
+  updateDateElement.textContent = preparedAt;
 
   fs.writeFileSync(path.join(listsPath, 'mace_list.html'), dom.serialize());
 
