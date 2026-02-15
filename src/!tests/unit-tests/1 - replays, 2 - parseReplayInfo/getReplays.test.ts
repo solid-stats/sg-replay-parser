@@ -4,6 +4,7 @@ import getReplays from '../../../1 - replays/getReplays';
 import generateReplay from '../../utils/generators/generateReplay';
 
 const data: Output = {
+  replaysListPreparedAt: null,
   parsedReplays: [],
   replays: [
     generateReplay('sg', 'test_name_1'),
