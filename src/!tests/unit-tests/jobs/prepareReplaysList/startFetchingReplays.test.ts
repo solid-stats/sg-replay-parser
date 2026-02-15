@@ -150,7 +150,7 @@ test('should stop startFetchingReplays job immediately when first replays page r
     cloudflareBanError('https://sg.zone/replays?p=1'),
   );
 
-  await expect(startFetchingReplays()).rejects.toThrow('Cloudflare');
+  await expect(startFetchingReplays(null)).rejects.toThrow('Cloudflare');
 
   expect(mockedFetchReplaysPage).toHaveBeenCalledTimes(1);
   expect(mockedFs.writeFileSync).not.toHaveBeenCalled();
@@ -162,7 +162,7 @@ test('should stop startFetchingReplays job when second replays page request is b
     .mockResolvedValueOnce(firstReplaysListPageWithPaginationHTML)
     .mockRejectedValueOnce(cloudflareBanError('https://sg.zone/replays?p=2'));
 
-  await expect(startFetchingReplays()).rejects.toThrow('Cloudflare');
+  await expect(startFetchingReplays(null)).rejects.toThrow('Cloudflare');
 
   expect(mockedFetchReplaysPage).toHaveBeenCalledTimes(2);
   expect(mockedFs.writeFileSync).not.toHaveBeenCalled();
@@ -174,7 +174,7 @@ test('should stop startFetchingReplays job when parseReplay fails with Cloudflar
     cloudflareBanError('https://sg.zone/replays/1657308763'),
   );
 
-  await expect(startFetchingReplays()).rejects.toThrow('Cloudflare');
+  await expect(startFetchingReplays(null)).rejects.toThrow('Cloudflare');
 
   expect(mockedFetchReplaysPage).toHaveBeenCalledTimes(1);
   expect(mockedRequest).not.toHaveBeenCalled();
@@ -187,7 +187,7 @@ test('should stop startFetchingReplays job when saveReplayFile fails with Cloudf
     cloudflareBanErrorByName(),
   );
 
-  await expect(startFetchingReplays()).rejects.toThrow('Cloudflare');
+  await expect(startFetchingReplays(null)).rejects.toThrow('Cloudflare');
 
   expect(mockedFetchReplaysPage).toHaveBeenCalledTimes(1);
   expect(mockedFetchReplayPage).toHaveBeenCalledTimes(1);
@@ -202,7 +202,7 @@ test('should stop startFetchingReplays job when one replay parsing task fails wi
     .mockRejectedValueOnce(cloudflareBanError('https://sg.zone/replays/1657308763'))
     .mockResolvedValueOnce('<html><body data-ocap="second-file-name"></body></html>');
 
-  await expect(startFetchingReplays()).rejects.toThrow('Cloudflare');
+  await expect(startFetchingReplays(null)).rejects.toThrow('Cloudflare');
 
   expect(mockedFetchReplaysPage).toHaveBeenCalledTimes(1);
   expect(mockedFetchReplayPage).toHaveBeenCalledTimes(2);
@@ -216,7 +216,7 @@ test('should stop startFetchingReplays job when one replay parsing task fails wi
 test('should not stop startFetchingReplays job on non-Cloudflare parsing error', async () => {
   mockedFetchReplayPage.mockRejectedValue(new Error('Replay page fetch failed'));
 
-  await expect(startFetchingReplays()).resolves.toBeUndefined();
+  await expect(startFetchingReplays(null)).resolves.toBeUndefined();
 
   expect(mockedFs.writeFileSync).toHaveBeenCalledTimes(1);
   expect(mockedLogger.error).toHaveBeenCalledWith(expect.stringContaining('Error occurred during parsing replay info.'));

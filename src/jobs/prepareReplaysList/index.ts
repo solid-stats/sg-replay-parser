@@ -48,7 +48,7 @@ const bytesToMb = (bytes: number): number => (
   Math.round((bytes / (1024 * 1024)) * 10) / 10
 );
 
-const startFetchingReplays = async () => {
+const startFetchingReplays = async (maxPages: number | null) => {
   generateBasicFolders();
   const replaysList = readReplaysListFile();
   const includeReplays = readIncludeReplays();
@@ -65,7 +65,7 @@ Start preparing new replays list.`,
   const response: string = await fetchReplaysPage(1);
   const dom = parseDOM(response);
 
-  const totalPages = parseInt(dom.querySelector('.pagination-item:nth-last-child(2) > a')?.textContent || '', 10) || 1;
+  const totalPages = maxPages ?? (parseInt(dom.querySelector('.pagination-item:nth-last-child(2) > a')?.textContent || '', 10) || 1);
   let newReplaysCount = 0;
 
   for (let page = 1; page <= totalPages; page += 1) {

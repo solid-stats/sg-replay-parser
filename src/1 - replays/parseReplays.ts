@@ -4,19 +4,29 @@ import logger from '../0 - utils/logger';
 import type { WorkerPool } from './workers/workerPool';
 
 type WorkerPoolLike = Pick<WorkerPool, 'runTask'>;
+type ProgressCallback = () => void;
 
 const parseReplays = async (
   replays: Replay[],
   gameType: GameType,
   workerPool: WorkerPoolLike,
+  onProgress?: ProgressCallback,
 ): Promise<PlayersGameResult[]> => {
   const responses = await Promise.all(
-    replays.map((replay) => workerPool.runTask({
-      filename: replay.filename,
-      date: replay.date,
-      missionName: replay.mission_name,
-      gameType,
-    })),
+    replays.map((replay) => workerPool
+      .runTask({
+        filename: replay.filename,
+        date: replay.date,
+        missionName: replay.mission_name,
+        gameType,
+      })
+      .then((response) => {
+        if (onProgress) {
+          onProgress();
+        }
+
+        return response;
+      })),
   );
 
   const parsedReplays = responses.reduce<PlayersGameResult[]>(

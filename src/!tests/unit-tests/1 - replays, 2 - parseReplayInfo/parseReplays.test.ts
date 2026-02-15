@@ -122,3 +122,36 @@ test('parseReplays should log worker errors and omit error responses from output
   expect(logger.warn).toHaveBeenCalledWith(expect.stringContaining('worker failed'));
   expect(logger.warn).toHaveBeenCalledWith(expect.stringContaining(replay.filename));
 });
+
+test('parseReplays should invoke progress callback for each replay', async () => {
+  const replays = [
+    generateReplay('sg', 'file_1', '2024-01-01T00:00:00.000Z'),
+    generateReplay('sg', 'file_2', '2024-02-02T00:00:00.000Z'),
+  ];
+  const workerPool = createWorkerPoolMock();
+  const onProgress = jest.fn();
+
+  workerPool.runTask
+    .mockResolvedValueOnce({
+      taskId: 'task-1',
+      status: 'success',
+      data: {
+        date: replays[0].date,
+        missionName: replays[0].mission_name,
+        result: [],
+      },
+    })
+    .mockResolvedValueOnce({
+      taskId: 'task-2',
+      status: 'success',
+      data: {
+        date: replays[1].date,
+        missionName: replays[1].mission_name,
+        result: [],
+      },
+    });
+
+  await parseReplays(replays, 'sg', workerPool, onProgress);
+
+  expect(onProgress).toHaveBeenCalledTimes(2);
+});

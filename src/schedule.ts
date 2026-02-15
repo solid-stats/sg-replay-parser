@@ -15,7 +15,7 @@ import updateNameChangesCsv from './jobs/updateNameChangesCsv';
 generateBasicFolders();
 
 const webParsersCron = '*/20 * * * *';
-const parsingCron = '10-50/20 * * * *';
+const parsingCron = '1-59/20 * * * *';
 
 Cron(
   webParsersCron,
@@ -48,7 +48,7 @@ const replaysFetcherJob = Cron(
   { protect: true },
   async () => {
     try {
-      await startFetchingReplays();
+      await startFetchingReplays(10);
     } catch (err) {
       if (isCloudflareBanError(err)) {
         logger.fatal((err as Error).message);

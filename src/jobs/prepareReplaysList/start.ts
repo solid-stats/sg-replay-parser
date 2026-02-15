@@ -6,7 +6,7 @@ import logger from '../../0 - utils/logger';
 
 const runPrepareReplaysList = async (): Promise<void> => {
   try {
-    await startFetchingReplays();
+    await startFetchingReplays(null);
     logger.info('prepareReplaysList completed successfully.');
   } catch (err) {
     const error = err instanceof Error ? err : new Error(String(err));

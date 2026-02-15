@@ -179,7 +179,7 @@ test('should download nameChanges.csv and reset names cache before parsing repla
 
   await expect(parseReplaysCronJob.callback()).resolves.toBeUndefined();
 
-  expect(parseReplaysCronJob.expression).toBe('10-50/20 * * * *');
+  expect(parseReplaysCronJob.expression).toBe('1-59/20 * * * *');
   expect(mockedRequest).toHaveBeenCalledWith(nameChangesCsvURL);
   expect(mockedFs.ensureDirSync).toHaveBeenCalledWith(expect.stringContaining('/sg_stats/config'));
   expect(mockedFs.writeFileSync).toHaveBeenCalledWith(

@@ -17,7 +17,7 @@ Do not add or keep non-English text in documentation.
 
 Before making any change in this repository, you must read:
 
-`docs/replay-parser-architecture.md`
+`docs/architecture.md`
 
 This is the primary reference for:
 
@@ -31,9 +31,9 @@ You must not start implementation, refactoring, or review without reading it fir
 
 After every code, config, or documentation change:
 
-1. re-read `docs/replay-parser-architecture.md`
+1. re-read `docs/architecture.md`
 2. verify whether behavior, flow, constraints, or component responsibilities changed
-3. update `docs/replay-parser-architecture.md` immediately if anything became outdated
+3. update `docs/architecture.md` immediately if anything became outdated
 
 A task is not complete until the architecture document is up to date.
 

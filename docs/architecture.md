@@ -101,7 +101,7 @@ Console output includes all levels with colorization (`colorize: true`, `coloriz
 
 1. `*/20 * * * *` - refresh mission makers list (every 20 minutes).
 2. `*/20 * * * *` - run `startFetchingReplays()` (replay list prep/update), then generate MACE list (every 20 minutes).
-3. `10-50/20 * * * *` - update `nameChanges.csv`, then run `startParsingReplays()` (at minutes 10, 30, 50 of every hour).
+3. `1-59/20 * * * *` - update `nameChanges.csv`, then run `startParsingReplays()` (every 20 minutes).
 
 Additional orchestration details:
 
@@ -185,6 +185,7 @@ Additional `sm` filter:
 3. Worker returns one of: `success`, `skipped`, `error`.
 4. Main thread keeps only `success`, ignores `skipped`, logs `error`.
 5. Results are sorted by date ascending.
+6. Overall progress across all game types is logged every 5% of completed tasks.
 
 Important: replay parsing now runs in worker threads (real multi-core CPU parallelism), while main thread handles orchestration and statistics.
 

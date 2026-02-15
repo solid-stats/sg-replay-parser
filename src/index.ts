@@ -18,10 +18,7 @@ import calculateGlobalStatistics from './3 - statistics/global';
 import getStatsByRotations from './3 - statistics/rotations';
 import generateOutput from './4 - output';
 
-const getParsedReplays = async (
-  gameType: GameType,
-  workerPool: WorkerPool,
-): Promise<PlayersGameResult[]> => {
+const getReplaysForGameType = async (gameType: GameType): Promise<Replay[]> => {
   let replays = await getReplays(gameType);
 
   if (gameType === 'sm') {
@@ -30,16 +27,7 @@ const getParsedReplays = async (
     );
   }
 
-  const parsedReplays = await parseReplays(replays, gameType, workerPool);
-
-  // used only in development
-  // const parsedReplays = await parseReplays(
-  //   gameType === 'sg' ? replays.slice(0, 100) : [],
-  //   gameType,
-  //   workerPool,
-  // );
-
-  return parsedReplays;
+  return replays;
 };
 
 const countStatistics = (
@@ -76,8 +64,50 @@ const startParsingReplays = async () => {
   logger.info('Started parsing replays.');
 
   try {
+    const replaysByGameTypeEntries = await Promise.all(
+      gameTypes.map(async (gameType) => [
+        gameType,
+        await getReplaysForGameType(gameType),
+      ] as const),
+    );
+
+    const replaysByGameType = Object.fromEntries(
+      replaysByGameTypeEntries,
+    ) as Record<GameType, Replay[]>;
+
+    const totalReplays = gameTypes.reduce(
+      (sum, gameType) => sum + replaysByGameType[gameType].length,
+      0,
+    );
+    let processedCount = 0;
+    let nextLogPercent = 5;
+
+    const logProgress = (): void => {
+      if (totalReplays === 0) return;
+
+      const processedPercent = Math.floor((processedCount / totalReplays) * 100);
+
+      while (processedPercent >= nextLogPercent) {
+        logger.info(
+          `- Processed ${nextLogPercent}% of replays (${processedCount}/${totalReplays}).`,
+        );
+
+        nextLogPercent += 5;
+      }
+    };
+
+    const onProgress = (): void => {
+      processedCount += 1;
+      logProgress();
+    };
+
     const [sgParsedReplays, maceParsedReplays, smParsedReplays] = await Promise.all(
-      gameTypes.map((gameType) => getParsedReplays(gameType, workerPool)),
+      gameTypes.map((gameType) => parseReplays(
+        replaysByGameType[gameType],
+        gameType,
+        workerPool,
+        onProgress,
+      )),
     );
 
     logger.info('All replays parsed, start collecting statistics:');
