@@ -29,6 +29,7 @@ test('ParseReplayTaskMessage should contain required fields', () => {
 
 test('ParseReplayTaskResponseMessage should represent success status', () => {
   const successMessage: ParseReplayTaskResponseMessage = {
+    taskId: 'task-2',
     status: 'success',
     data: successData,
   };
@@ -36,27 +37,48 @@ test('ParseReplayTaskResponseMessage should represent success status', () => {
   expect(successMessage.status).toBe('success');
 
   if (successMessage.status === 'success') {
+    expect(successMessage.taskId).toBe('task-2');
     expect(successMessage.data).toMatchObject(successData);
   }
 });
 
-test('ParseReplayTaskResponseMessage should represent skipped status', () => {
-  const skippedMessage: ParseReplayTaskResponseMessage = {
+test('ParseReplayTaskResponseMessage should represent skipped status for mace_min_players', () => {
+  const skippedByPlayersCountMessage: ParseReplayTaskResponseMessage = {
+    taskId: 'task-3',
     status: 'skipped',
     filename: 'file_2',
     reason: 'mace_min_players',
   };
 
-  expect(skippedMessage.status).toBe('skipped');
+  expect(skippedByPlayersCountMessage.status).toBe('skipped');
 
-  if (skippedMessage.status === 'skipped') {
-    expect(skippedMessage.reason).toBe('mace_min_players');
-    expect(skippedMessage.filename).toBe('file_2');
+  if (skippedByPlayersCountMessage.status === 'skipped') {
+    expect(skippedByPlayersCountMessage.taskId).toBe('task-3');
+    expect(skippedByPlayersCountMessage.reason).toBe('mace_min_players');
+    expect(skippedByPlayersCountMessage.filename).toBe('file_2');
+  }
+});
+
+test('ParseReplayTaskResponseMessage should represent skipped status for empty_replay', () => {
+  const skippedEmptyReplayMessage: ParseReplayTaskResponseMessage = {
+    taskId: 'task-4',
+    status: 'skipped',
+    filename: 'file_4',
+    reason: 'empty_replay',
+  };
+
+  expect(skippedEmptyReplayMessage.status).toBe('skipped');
+
+  if (skippedEmptyReplayMessage.status === 'skipped') {
+    expect(skippedEmptyReplayMessage.taskId).toBe('task-4');
+    expect(skippedEmptyReplayMessage.reason).toBe('empty_replay');
+    expect(skippedEmptyReplayMessage.filename).toBe('file_4');
   }
 });
 
 test('ParseReplayTaskResponseMessage should represent error status', () => {
   const errorMessage: ParseReplayTaskResponseMessage = {
+    taskId: 'task-5',
     status: 'error',
     error: {
       filename: 'file_3',
@@ -68,6 +90,7 @@ test('ParseReplayTaskResponseMessage should represent error status', () => {
   expect(errorMessage.status).toBe('error');
 
   if (errorMessage.status === 'error') {
+    expect(errorMessage.taskId).toBe('task-5');
     expect(errorMessage.error).toMatchObject({
       filename: 'file_3',
       message: 'parse failed',
