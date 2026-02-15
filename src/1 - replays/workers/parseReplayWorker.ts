@@ -1,7 +1,7 @@
 import path from 'path';
+import { parentPort } from 'worker_threads';
 
 import fs from 'fs-extra';
-import { parentPort } from 'worker_threads';
 
 import { rawReplaysPath } from '../../0 - utils/paths';
 import parseReplayInfo from '../../2 - parseReplayInfo';
