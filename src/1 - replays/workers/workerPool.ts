@@ -4,10 +4,12 @@ import {
   ParseReplayTaskMessage,
   ParseReplayTaskResponseMessage,
 } from './types';
+import { WorkerData } from './workerData';
 
 type WorkerPoolConfig = {
   workerCount: number;
   workerScriptPath: string;
+  workerData?: WorkerData;
 };
 
 type TaskWithoutId = Omit<ParseReplayTaskMessage, 'taskId'>;
@@ -30,6 +32,8 @@ const toError = (error: unknown): Error => {
 export class WorkerPool {
   private readonly workerScriptPath: string;
 
+  private readonly workerData: WorkerData | undefined;
+
   private readonly workers: Worker[] = [];
 
   private readonly queuedTasks: QueuedTask[] = [];
@@ -48,6 +52,7 @@ export class WorkerPool {
     }
 
     this.workerScriptPath = config.workerScriptPath;
+    this.workerData = config.workerData;
 
     for (let index = 0; index < config.workerCount; index += 1) {
       this.spawnWorker();
@@ -93,7 +98,10 @@ export class WorkerPool {
   }
 
   private spawnWorker(): void {
-    const worker = new Worker(this.workerScriptPath);
+    const worker = new Worker(
+      this.workerScriptPath,
+      { workerData: this.workerData },
+    );
 
     this.workers.push(worker);
     this.workerActiveTaskId.set(worker, null);

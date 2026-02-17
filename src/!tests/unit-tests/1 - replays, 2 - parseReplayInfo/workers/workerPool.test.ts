@@ -23,7 +23,8 @@ jest.mock('worker_threads', () => ({
 
     public terminate = jest.fn(async () => undefined);
 
-    constructor(scriptPath: string) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    constructor(scriptPath: string, _options?: Record<string, unknown>) {
       super();
 
       this.scriptPath = scriptPath;

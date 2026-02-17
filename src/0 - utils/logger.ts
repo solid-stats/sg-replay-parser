@@ -1,19 +1,39 @@
 import path from 'path';
+import { workerData as rawWorkerData } from 'worker_threads';
 
 import fs from 'fs-extra';
 import pino from 'pino';
 
+import { workerDataSchema } from '../1 - replays/workers/workerData';
 import { dayjsUTC } from './dayjs';
 import { dateFormat } from './namesHelper/utils/consts';
 import { logsPath } from './paths';
 
+const parseWorkerData = (): string | null => {
+  if (rawWorkerData === null || rawWorkerData === undefined) return null;
+
+  const result = workerDataSchema.safeParse(rawWorkerData);
+
+  return result.success ? result.data.logsFolderPath : null;
+};
+
 const pinoPrettyDefaultOptions = { sync: true, colorize: true, colorizeObjects: true };
 const loggerLevel = process.env.LOG_LEVEL || 'debug';
 
+const resolveLogsFolderPath = (): string => {
+  const workerLogsFolderPath = parseWorkerData();
+
+  if (workerLogsFolderPath) {
+    return workerLogsFolderPath;
+  }
+
+  return path.join(logsPath, dayjsUTC().tz('Europe/Moscow').format(dateFormat));
+};
+
+export const logsFolderPath = resolveLogsFolderPath();
+
 const getTransport = () => {
   fs.ensureDirSync(logsPath);
-
-  const logsFolderPath = path.join(logsPath, dayjsUTC().tz('Europe/Moscow').format(dateFormat));
 
   const debugFilePath = path.join(logsFolderPath, 'debug.log');
   const infoFilePath = path.join(logsFolderPath, 'info.log');

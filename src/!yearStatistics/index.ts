@@ -5,7 +5,7 @@ import fs from 'fs-extra';
 import { dayjsUTC } from '../0 - utils/dayjs';
 import generateBasicFolders from '../0 - utils/generateBasicFolders';
 import { isInInterval } from '../0 - utils/isInInterval';
-import logger from '../0 - utils/logger';
+import logger, { logsFolderPath } from '../0 - utils/logger';
 import { prepareNamesList } from '../0 - utils/namesHelper/prepareNamesList';
 import { yearResultsPath } from '../0 - utils/paths';
 import pipe from '../0 - utils/pipe';
@@ -42,6 +42,7 @@ import { printFinish } from './utils/printText';
   const workerPool = new WorkerPool({
     workerCount: 1,
     workerScriptPath: path.join(__dirname, '../1 - replays/workers/parseReplayWorker.js'),
+    workerData: { logsFolderPath },
   });
 
   logger.info(`Replays count: ${replays.length}`);

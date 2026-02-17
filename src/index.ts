@@ -7,7 +7,7 @@ import { dayjsUTC } from './0 - utils/dayjs';
 import filterPlayersByTotalPlayedGames from './0 - utils/filterPlayersByTotalPlayedGames';
 import formatGameType from './0 - utils/formatGameType';
 import generateBasicFolders from './0 - utils/generateBasicFolders';
-import logger from './0 - utils/logger';
+import logger, { logsFolderPath } from './0 - utils/logger';
 import { prepareNamesList } from './0 - utils/namesHelper/prepareNamesList';
 import {
   commitParsingStatus,
@@ -64,6 +64,7 @@ const startParsingReplays = async () => {
   const workerPool = new WorkerPool({
     workerCount: getRuntimeConfig().workerCount,
     workerScriptPath: path.join(__dirname, '1 - replays/workers/parseReplayWorker.js'),
+    workerData: { logsFolderPath },
   });
 
   logger.info('Started parsing replays.');

@@ -94,6 +94,7 @@ Console output includes all levels with colorization (`colorize: true`, `coloriz
 2. In test environment (`NODE_ENV === 'test'`), transport is disabled — plain pino logger without file output.
 3. Log files are pre-created with `fs.ensureFileSync` to ensure target paths exist before async transport starts.
 4. Process-level handlers for `uncaughtException`, `unhandledRejection`, `SIGINT`, and `SIGTERM` write fatal logs before termination.
+5. Worker threads receive the log folder path from the main thread via `workerData.logsFolderPath`, so all workers write to the same log folder that was created at application startup instead of generating a new timestamped folder. The `workerData` shape is defined by a shared zod schema in `src/1 - replays/workers/workerData.ts`, which is used both for validation in the logger and for typing in `WorkerPool`.
 
 ## 6. Scheduler (Production Flow)
 
