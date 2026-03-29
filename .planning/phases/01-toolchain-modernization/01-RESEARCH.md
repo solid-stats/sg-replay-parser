@@ -30,6 +30,9 @@
 - **D-09:** Phase 1 must migrate the repository from Jest to Vitest instead of retaining Jest on the modernized toolchain.
 - **D-10:** The Vitest migration must preserve deterministic, behavior-focused tests and maintain equivalent or better verification confidence for existing parser behavior.
 
+### Local skill inputs
+- **D-12:** Phase 1 planning and execution should directly use the repository-local `.agents/skills/dependency-upgrade` and `.agents/skills/javascript-testing-patterns` guidance as implementation inputs for dependency sequencing, compatibility handling, and test migration decisions.
+
 ### Risk posture
 - **D-11:** Treat Phase 1 as a clean baseline reset. A cleaner long-term toolchain is more important than keeping temporary compatibility layers for old commands or module assumptions.
 

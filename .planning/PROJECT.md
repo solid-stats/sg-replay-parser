@@ -27,6 +27,7 @@ The parser must produce stable, correct statistics continuously, with much lower
 - [ ] Upgrade the project dependencies and core tooling to current maintained versions without breaking the existing output contract
 - [ ] Replace the current TypeScript and ESLint setup with the reusable configs from `new_config_files`, trimmed for this non-React Node.js parser
 - [ ] Migrate package management and scripts from npm to pnpm
+- [ ] Migrate the test runner from Jest to Vitest as an explicit part of Phase 1 modernization
 - [ ] Adopt `tsx` for TypeScript runtime entrypoints and `tsup` for build output generation
 - [ ] Redesign runtime orchestration so parsing runs in a continuous loop instead of waiting for the next cron boundary
 - [ ] Reduce Cloudflare-ban risk by using a lightweight replay-page refresh strategy with a full replay-list sweep every 6 hours and a hard limit of 15 replay-list requests per minute
@@ -52,6 +53,8 @@ Two mandatory project-level practices must shape implementation:
 
 1. Testing changes should follow the repository's deterministic, behavior-first unit testing style.
 2. TypeScript refactors should keep or improve type safety instead of relying on broad casts during migration.
+
+Local repo skills are also an explicit planning input for this milestone. When relevant, planning and execution should reference the repository-scoped guides under `.agents/skills/`, especially `dependency-upgrade` for toolchain changes and `javascript-testing-patterns` for test-runner migration and compatibility work.
 
 ## Constraints
 
