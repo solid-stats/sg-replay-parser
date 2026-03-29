@@ -32,8 +32,8 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. Operator can invoke the production commands or their documented replacements without depending on npm-specific script semantics.
 **Plans**: 4 plans
 Plans:
-- [ ] 01-01-PLAN.md — Restore `docs/architecture.md`, enforce pnpm-only package management, and define the `tsx` source-entry script surface
-- [ ] 01-02-PLAN.md — Add the `tsup` build, preserve `dist/*` entrypoints, and rewire worker/PM2 runtime paths with fail-fast smokes
+- [x] 01-01-PLAN.md — Restore `docs/architecture.md`, enforce pnpm-only package management, and define the `tsx` source-entry script surface
+- [x] 01-02-PLAN.md — Add the `tsup` build, preserve `dist/*` entrypoints, and rewire worker/PM2 runtime paths with fail-fast smokes
 - [ ] 01-03-PLAN.md — Migrate the repo to strict Node-focused TypeScript and backend-only ESLint flat config
 - [ ] 01-04-PLAN.md — Replace Jest with Vitest and finish the pnpm-based README, CI, deploy, and PM2 command surface
 
@@ -98,7 +98,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Toolchain Modernization | 0/0 | Not started | - |
+| 1. Toolchain Modernization | 2/4 | In Progress | - |
 | 2. Contract Verification Harness | 0/0 | Not started | - |
 | 3. Durable Control Plane | 0/0 | Not started | - |
 | 4. Anti-Ban Discovery Flow | 0/0 | Not started | - |
