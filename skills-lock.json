@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "skills": {
+    "dependency-upgrade": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "computedHash": "48ee1ca8e94666736fe6f39723f091dca3b26487e9da4bd933cd3a8b3951ac46"
+    },
+    "javascript-testing-patterns": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "computedHash": "8d0a8d7615ff343770af0218720691d56c55ae258793565936c8b3a97e188f51"
+    },
+    "nodejs-backend-patterns": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "computedHash": "c6a99966c2565acc388e574039127abc770bb9a3338be761e421e16f023f702b"
+    },
+    "refactor-plan": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "computedHash": "e4b09e28e20bcfcd1c48b7a2504fb3cdab4c36b455f2d7689574470c76ea5c2c"
+    },
+    "typescript-advanced-types": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "computedHash": "3a3be8c925f96ac4e1280db28a01677e7ca5197f3792de2bbf35ab3bb324b6dd"
+    }
+  }
+}
