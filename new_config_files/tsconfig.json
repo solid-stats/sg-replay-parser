@@ -1,0 +1,53 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": false,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "resolveJsonModule": true,
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noImplicitReturns": true,
+    "verbatimModuleSyntax": true,
+    "strictPropertyInitialization": true,
+    "noUncheckedIndexedAccess": true,
+    "skipLibCheck": true,
+    /* Other */
+    "baseUrl": "./src",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "src/shared/lib/types/signal/svgr.d.ts",
+    "next-env.d.ts",
+    "src",
+    "eslint.config.ts",
+    "linterRules",
+    ".next/types/**/*.ts",
+    "vitest.setup.ts",
+    "vite.config.ts",
+    "next.config.ts"
+  ],
+  "exclude": ["node_modules", ".swagger"]
+}
