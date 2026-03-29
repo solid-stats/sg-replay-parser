@@ -106,3 +106,8 @@ Cron(
     }
   },
 );
+
+if (process.env.NODE_ENV !== 'production') {
+  logger.info('Schedule bootstrapped successfully in non-production mode.');
+  process.exit(0);
+}

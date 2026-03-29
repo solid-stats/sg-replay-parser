@@ -1,5 +1,3 @@
-import path from 'path';
-
 import fs from 'fs-extra';
 
 import showCliHelp from '../0 - utils/cliHelp';
@@ -12,7 +10,10 @@ import { yearResultsPath } from '../0 - utils/paths';
 import pipe from '../0 - utils/pipe';
 import getReplays from '../1 - replays/getReplays';
 import parseReplays from '../1 - replays/parseReplays';
-import { WorkerPool } from '../1 - replays/workers/workerPool';
+import {
+  getParseReplayWorkerPath,
+  WorkerPool,
+} from '../1 - replays/workers/workerPool';
 import calculateGlobalStatistics from '../3 - statistics/global';
 import deathToGamesRatio from './nominations/deathToGamesRatio';
 import mostDeathsFromTeamkills from './nominations/mostDeathsFromTeamkills';
@@ -46,7 +47,7 @@ if (showCliHelp('parse-new-year', 'Run the yearly SG statistics pipeline.')) {
   )).reverse();
   const workerPool = new WorkerPool({
     workerCount: 1,
-    workerScriptPath: path.join(__dirname, '../1 - replays/workers/parseReplayWorker.js'),
+    workerScriptPath: getParseReplayWorkerPath(),
     workerData: { logsFolderPath },
   });
 

@@ -1,5 +1,3 @@
-import path from 'path';
-
 import fs from 'fs-extra';
 
 import { gameTypes } from './0 - consts/gameTypesArray';
@@ -17,7 +15,7 @@ import { tempResultsPath } from './0 - utils/paths';
 import { getRuntimeConfig } from './0 - utils/runtimeConfig';
 import getReplays from './1 - replays/getReplays';
 import parseReplays from './1 - replays/parseReplays';
-import { WorkerPool } from './1 - replays/workers/workerPool';
+import { getParseReplayWorkerPath, WorkerPool } from './1 - replays/workers/workerPool';
 import calculateGlobalStatistics from './3 - statistics/global';
 import getStatsByRotations from './3 - statistics/rotations';
 import generateOutput from './4 - output';
@@ -63,7 +61,7 @@ const startParsingReplays = async () => {
 
   const workerPool = new WorkerPool({
     workerCount: getRuntimeConfig().workerCount,
-    workerScriptPath: path.join(__dirname, '1 - replays/workers/parseReplayWorker.js'),
+    workerScriptPath: getParseReplayWorkerPath(),
     workerData: { logsFolderPath },
   });
 

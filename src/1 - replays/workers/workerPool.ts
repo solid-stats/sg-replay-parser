@@ -1,4 +1,7 @@
+import { existsSync } from 'fs';
+import path from 'path';
 import { Worker } from 'worker_threads';
+import { pathToFileURL } from 'url';
 
 import {
   ParseReplayTaskMessage,
@@ -8,7 +11,7 @@ import { WorkerData } from './workerData';
 
 type WorkerPoolConfig = {
   workerCount: number;
-  workerScriptPath: string;
+  workerScriptPath: string | URL;
   workerData?: WorkerData;
 };
 
@@ -29,8 +32,60 @@ const toError = (error: unknown): Error => {
   return new Error(String(error));
 };
 
+const getExistingWorkerScriptPath = (workerScriptPath: string): string => {
+  if (existsSync(workerScriptPath)) {
+    return workerScriptPath;
+  }
+
+  if (workerScriptPath.endsWith('.js')) {
+    const sourceWorkerScriptPath = workerScriptPath.replace(/\.js$/u, '.ts');
+
+    if (existsSync(sourceWorkerScriptPath)) {
+      return sourceWorkerScriptPath;
+    }
+  }
+
+  return workerScriptPath;
+};
+
+export const getParseReplayWorkerPath = (): URL => {
+  const builtWorkerScriptUrl = new URL('./parseReplayWorker.js', import.meta.url);
+
+  if (existsSync(builtWorkerScriptUrl)) {
+    return builtWorkerScriptUrl;
+  }
+
+  return new URL('./parseReplayWorker.ts', import.meta.url);
+};
+
+const resolveWorkerScriptPath = (workerScriptPath: string | URL): string | URL => {
+  if (workerScriptPath instanceof URL) {
+    return workerScriptPath;
+  }
+
+  if (workerScriptPath.startsWith('file:')) {
+    return new URL(workerScriptPath);
+  }
+
+  if (path.isAbsolute(workerScriptPath)) {
+    return pathToFileURL(getExistingWorkerScriptPath(workerScriptPath));
+  }
+
+  const resolvedUrl = new URL(workerScriptPath, import.meta.url);
+
+  if (existsSync(resolvedUrl)) {
+    return resolvedUrl;
+  }
+
+  if (workerScriptPath.endsWith('.js')) {
+    return new URL(workerScriptPath.replace(/\.js$/u, '.ts'), import.meta.url);
+  }
+
+  return resolvedUrl;
+};
+
 export class WorkerPool {
-  private readonly workerScriptPath: string;
+  private readonly workerScriptPath: string | URL;
 
   private readonly workerData: WorkerData | undefined;
 
@@ -51,7 +106,7 @@ export class WorkerPool {
       throw new Error('WorkerPool workerCount must be greater than 0');
     }
 
-    this.workerScriptPath = config.workerScriptPath;
+    this.workerScriptPath = resolveWorkerScriptPath(config.workerScriptPath);
     this.workerData = config.workerData;
 
     for (let index = 0; index < config.workerCount; index += 1) {

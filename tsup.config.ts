@@ -19,4 +19,5 @@ export default defineConfig({
   splitting: false,
   dts: false,
   shims: false,
+  noExternal: ['lodash', 'uuid', /^dayjs/u, /^csv-parse/u],
 });

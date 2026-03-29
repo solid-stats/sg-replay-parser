@@ -1,16 +1,16 @@
 import vanillaDayjs from 'dayjs';
-import advancedFormat from 'dayjs/plugin/advancedFormat';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-import duration from 'dayjs/plugin/duration';
-import isBetween from 'dayjs/plugin/isBetween';
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import isoWeek from 'dayjs/plugin/isoWeek';
-import timezone from 'dayjs/plugin/timezone';
-import updateLocale from 'dayjs/plugin/updateLocale';
-import utc from 'dayjs/plugin/utc';
-import weekOfYear from 'dayjs/plugin/weekOfYear';
-import weekday from 'dayjs/plugin/weekday';
+import advancedFormat from 'dayjs/plugin/advancedFormat.js';
+import customParseFormat from 'dayjs/plugin/customParseFormat.js';
+import duration from 'dayjs/plugin/duration.js';
+import isBetween from 'dayjs/plugin/isBetween.js';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter.js';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore.js';
+import isoWeek from 'dayjs/plugin/isoWeek.js';
+import timezone from 'dayjs/plugin/timezone.js';
+import updateLocale from 'dayjs/plugin/updateLocale.js';
+import utc from 'dayjs/plugin/utc.js';
+import weekOfYear from 'dayjs/plugin/weekOfYear.js';
+import weekday from 'dayjs/plugin/weekday.js';
 
 vanillaDayjs.extend(advancedFormat);
 vanillaDayjs.extend(customParseFormat);
