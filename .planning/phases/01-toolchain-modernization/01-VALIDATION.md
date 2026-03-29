@@ -1,10 +1,11 @@
 ---
 phase: 1
 slug: toolchain-modernization
-status: draft
-nyquist_compliant: false
-wave_0_complete: false
+status: ready_for_execution
+nyquist_compliant: true
+wave_0_complete: true
 created: 2026-03-29
+updated: 2026-03-29
 ---
 
 # Phase 1 — Validation Strategy
@@ -27,8 +28,10 @@ created: 2026-03-29
 
 ## Sampling Rate
 
-- **After every task commit:** Run `pnpm exec vitest run src/!tests/unit-tests/...` or the nearest affected subset plus `pnpm typecheck`
-- **After every plan wave:** Run `pnpm lint && pnpm typecheck && pnpm exec vitest run`
+- **After Plan 01:** Run `pnpm install --frozen-lockfile` and the source-entry smokes from Plan 01
+- **After Plan 02:** Run `pnpm build` plus the built-runtime smokes from Plan 02
+- **After Plan 03:** Run `pnpm typecheck && pnpm lint`
+- **After Plan 04:** Run `pnpm lint && pnpm typecheck && pnpm test && pnpm exec vitest run --coverage && pnpm build`
 - **Before `$gsd-verify-work`:** Full suite must be green
 - **Max feedback latency:** 90 seconds
 
@@ -38,25 +41,27 @@ created: 2026-03-29
 
 | Task ID | Plan | Wave | Requirement | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|-----------|-------------------|-------------|--------|
-| 01-01-01 | 01 | 0 | TOOL-01 | smoke | `pnpm install --frozen-lockfile` | ❌ W0 | ⬜ pending |
-| 01-01-02 | 01 | 0 | TOOL-02 | smoke | `pnpm exec tsx src/start.ts --help` or equivalent harmless entry smoke | ❌ W0 | ⬜ pending |
-| 01-01-03 | 01 | 0 | TOOL-03 | smoke | `pnpm build && test -f dist/schedule.js && test -f dist/start.js` | ❌ W0 | ⬜ pending |
-| 01-01-04 | 01 | 0 | TOOL-04 | typecheck | `pnpm typecheck` | ❌ W0 | ⬜ pending |
-| 01-01-05 | 01 | 0 | TOOL-05 | lint | `pnpm lint` | ❌ W0 | ⬜ pending |
-| 01-01-06 | 01 | 0 | TOOL-06 | unit | `pnpm test && pnpm exec vitest run --coverage` | ❌ W0 | ⬜ pending |
-| 01-01-07 | 01 | 0 | TOOL-07 | smoke/manual | `pnpm build` plus command docs verification in README/deploy files | ❌ W0 | ⬜ pending |
+| 01-01-01 | 01 | 1 | TOOL-01 | file/doc smoke | `test -f docs/architecture.md && rg -n "~/sg_stats|src/start.ts|src/schedule.ts|parseReplayWorker" docs/architecture.md` | ✅ | ⬜ pending |
+| 01-01-02 | 01 | 1 | TOOL-01, TOOL-02 | install + source runtime smoke | `pnpm install --frozen-lockfile && pnpm run parse --help >/dev/null 2>&1 && pnpm run generate-replays-list --help >/dev/null 2>&1` | ✅ | ⬜ pending |
+| 01-02-01 | 02 | 2 | TOOL-03 | build artifact smoke | `pnpm build && test -f dist/start.js && test -f dist/schedule.js && test -f "dist/1 - replays/workers/parseReplayWorker.js"` | ✅ | ⬜ pending |
+| 01-02-02 | 02 | 2 | TOOL-03 | fail-fast built runtime smoke | `pnpm build && pnpm run parse:dist --help >/dev/null 2>&1 && node dist/jobs/prepareReplaysList/start.js --help >/dev/null 2>&1 && timeout 5s node dist/schedule.js >/dev/null 2>&1` | ✅ | ⬜ pending |
+| 01-03-01 | 03 | 3 | TOOL-05 | lint | `pnpm lint` | ✅ | ⬜ pending |
+| 01-03-02 | 03 | 3 | TOOL-04 | typecheck | `pnpm typecheck` | ✅ | ⬜ pending |
+| 01-04-01 | 04 | 4 | TOOL-06 | unit + coverage | `pnpm test && pnpm exec vitest run --coverage` | ✅ | ⬜ pending |
+| 01-04-02 | 04 | 4 | TOOL-07 | full toolchain + docs smoke | `pnpm lint && pnpm typecheck && pnpm test && pnpm build && ! rg -n "npm (run|ci)|\\bnpm\\b" README.md .github/workflows/ci.yml deploy/remote-deploy.sh ecosystem.config.cjs` | ✅ | ⬜ pending |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
 ---
 
-## Wave 0 Requirements
+## Plan / Wave Graph
 
-- [ ] `vitest.config.ts` — required for TOOL-06
-- [ ] `eslint.config.mjs` or `eslint.config.ts` — required for TOOL-05
-- [ ] `package.json` `packageManager` pin and `preinstall` enforcement — required for TOOL-01
-- [ ] `tsup` build entry configuration and `pnpm build` script — required for TOOL-03
-- [ ] `pnpm-lock.yaml` — required for deterministic installs under TOOL-01
+| Wave | Plan | Depends On | Focus |
+|------|------|------------|-------|
+| 1 | `01-01` | — | Restore `docs/architecture.md`, enforce pnpm-only manifest, define `tsx` source scripts |
+| 2 | `01-02` | `01-01` | Add `tsup` build, preserve `dist/*` entrypoints, rewire worker paths and PM2 |
+| 3 | `01-03` | `01-02` | Apply strict TypeScript and backend-only flat ESLint |
+| 4 | `01-04` | `01-02`, `01-03` | Migrate Jest to Vitest and finish README/CI/deploy/operator command migration |
 
 ---
 
@@ -64,16 +69,17 @@ created: 2026-03-29
 
 | Behavior | Requirement | Why Manual | Test Instructions |
 |----------|-------------|------------|-------------------|
-| Operator-facing command replacements remain understandable and complete across docs and deploy assets | TOOL-07 | The requirement spans README, CI, deploy, and PM2 semantics rather than one runtime assertion | Read `README.md`, `.github/workflows/ci.yml`, `deploy/remote-deploy.sh`, and `ecosystem.config.cjs`; verify every documented/operator invocation uses `pnpm` or the documented replacement command surface and no required operational step still depends on `npm` |
-| ESM-forward build still preserves usable runtime entrypoints and worker startup behavior | TOOL-03 | Built files can exist while runtime semantics are still broken | Run the built schedule/parse entry smoke commands and verify worker-thread startup paths still resolve under the emitted build layout |
+| Operator-facing command replacements remain understandable and complete across docs and deploy assets | TOOL-07 | The requirement spans README, CI, deploy, and PM2 semantics as one human-facing command surface | Read `README.md`, `.github/workflows/ci.yml`, `deploy/remote-deploy.sh`, and `ecosystem.config.cjs`; verify every required operator invocation uses `pnpm` and that PM2 still points at `dist/schedule.js` |
+| ESM-forward build preserves usable runtime entrypoints and worker startup behavior | TOOL-03 | The built smokes prove execution succeeds, but a quick human audit still checks that the emitted layout matches the documented runtime surface | Compare `tsup.config.ts`, `package.json` `parse:dist` / `schedule:dist`, `ecosystem.config.cjs`, and `src/1 - replays/workers/workerPool.ts` to confirm the same emitted `dist/*.js` paths are used everywhere |
 
 ---
 
 ## Validation Sign-Off
 
-- [ ] All tasks have `<automated>` verify or Wave 0 dependencies
+- [ ] All tasks have explicit `<automated>` verification commands
+- [ ] Every plan/task pair in `01-01` through `01-04` appears in the table above
 - [ ] Sampling continuity: no 3 consecutive tasks without automated verify
-- [ ] Wave 0 covers all MISSING references
+- [ ] No generic Wave 0 placeholders remain
 - [ ] No watch-mode flags
 - [ ] Feedback latency < 90s
 - [ ] `nyquist_compliant: true` set in frontmatter
