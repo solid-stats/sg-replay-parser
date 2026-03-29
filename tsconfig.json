@@ -1,14 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "rootDir": "src",
-    "outDir": "dist",
-    "lib": ["es6", "dom"],
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2022", "DOM"],
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "typeRoots": ["./node_modules/@types", "src/0 - types"],
-    "removeComments": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
     "strictNullChecks": true,
+    "strict": false
   },
   "include": [
     "src/**/*.ts",
@@ -18,6 +21,6 @@
     "node_modules"
   ],
   "ts-node": {
-    "esm": true,
+    "esm": true
   }
 }

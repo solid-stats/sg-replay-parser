@@ -4,13 +4,15 @@
   "description": "",
   "main": "index.js",
   "packageManager": "pnpm@10.33.0",
+  "type": "module",
   "license": "GPL-3.0-or-later",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "tsc": "tsc",
-    "build-dist": "rimraf dist && rimraf output && tsc --project tsconfig.build.json",
+    "build": "tsup --config tsup.config.ts",
     "schedule": "tsx src/schedule.ts",
-    "schedule-prod": "pnpm run build-dist && pm2 start dist/schedule.js --name sg-replay-parser-schedule",
+    "schedule-prod": "pnpm run build && pm2 start dist/schedule.js --name sg-replay-parser-schedule",
+    "schedule:dist": "node dist/schedule.js",
     "lint-files": "eslint ./src/**/*.ts",
     "lint-tests": "eslint ./src/**/*.test.ts",
     "lint": "pnpm run lint-files && pnpm run lint-tests",
@@ -21,6 +23,7 @@
     "generate-mission-makers-list": "tsx src/jobs/generateMissionMakersList/start.ts",
     "generate-mace-list": "tsx src/jobs/generateMaceListHTML/start.ts",
     "parse": "tsx src/start.ts",
+    "parse:dist": "node dist/start.js",
     "parse-new-year": "tsx src/!yearStatistics/index.ts"
   },
   "author": "Afgan0r",
@@ -48,6 +51,7 @@
     "jest": "28.1.3",
     "only-allow": "^1.2.1",
     "rimraf": "^3.0.2",
+    "tsup": "^8.5.1",
     "ts-jest": "^28.0.7",
     "tsx": "^4.20.6",
     "typescript": "^4.6.3"
