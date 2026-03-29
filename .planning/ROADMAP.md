@@ -30,7 +30,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Developer can execute operational and local TypeScript entrypoints through `tsx` and build distributable output with the modernized build pipeline.
   3. Maintainer can run strict typecheck, lint, tests, and build verification on the new toolchain without weakening TypeScript rigor or deterministic test behavior.
   4. Operator can invoke the production commands or their documented replacements without depending on npm-specific script semantics.
-**Plans**: TBD
+**Plans**: 3 plans
+Plans:
+- [ ] 01-01-PLAN.md — Establish the pnpm-only manifest, restore `docs/architecture.md`, and replace the legacy build with tsx + tsup while preserving `dist/*` entrypoints
+- [ ] 01-02-PLAN.md — Migrate the repo to strict Node-focused TypeScript and backend-only ESLint flat config
+- [ ] 01-03-PLAN.md — Replace Jest with Vitest and finish the pnpm-based README, CI, deploy, and PM2 command surface
 
 ### Phase 2: Contract Verification Harness
 **Goal**: Maintainers can prove that modernization preserves replay discovery, parse outputs, statistics outputs, and runtime compatibility on representative corpora before deeper runtime changes land.
