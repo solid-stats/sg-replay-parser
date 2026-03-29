@@ -33,7 +33,7 @@ updated: 2026-03-29
 - **After Plan 03:** Run `pnpm typecheck && pnpm lint`
 - **After Plan 04:** Run `pnpm lint && pnpm typecheck && pnpm test && pnpm exec vitest run --coverage && pnpm build`
 - **Before `$gsd-verify-work`:** Full suite must be green
-- **Max feedback latency:** 90 seconds
+- **Max feedback latency:** 60 seconds
 
 ---
 
@@ -42,9 +42,9 @@ updated: 2026-03-29
 | Task ID | Plan | Wave | Requirement | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|-----------|-------------------|-------------|--------|
 | 01-01-01 | 01 | 1 | TOOL-01 | file/doc smoke | `test -f docs/architecture.md && rg -n "~/sg_stats|src/start.ts|src/schedule.ts|parseReplayWorker" docs/architecture.md` | ✅ | ⬜ pending |
-| 01-01-02 | 01 | 1 | TOOL-01, TOOL-02 | install + source runtime smoke | `pnpm install --frozen-lockfile && pnpm run parse --help >/dev/null 2>&1 && pnpm run generate-replays-list --help >/dev/null 2>&1` | ✅ | ⬜ pending |
+| 01-01-02 | 01 | 1 | TOOL-01, TOOL-02 | install + source runtime smoke | `pnpm install --frozen-lockfile && pnpm run parse --help >/dev/null 2>&1 && pnpm run schedule --help >/dev/null 2>&1 && pnpm run generate-replays-list --help >/dev/null 2>&1 && pnpm run update-name-changes-csv --help >/dev/null 2>&1 && pnpm run generate-mission-makers-list --help >/dev/null 2>&1 && pnpm run generate-mace-list --help >/dev/null 2>&1 && pnpm run parse-new-year --help >/dev/null 2>&1` | ✅ | ⬜ pending |
 | 01-02-01 | 02 | 2 | TOOL-03 | build artifact smoke | `pnpm build && test -f dist/start.js && test -f dist/schedule.js && test -f "dist/1 - replays/workers/parseReplayWorker.js"` | ✅ | ⬜ pending |
-| 01-02-02 | 02 | 2 | TOOL-03 | fail-fast built runtime smoke | `pnpm build && pnpm run parse:dist --help >/dev/null 2>&1 && node dist/jobs/prepareReplaysList/start.js --help >/dev/null 2>&1 && timeout 5s node dist/schedule.js >/dev/null 2>&1` | ✅ | ⬜ pending |
+| 01-02-02 | 02 | 2 | TOOL-03 | fail-fast built runtime smoke | `pnpm build && pnpm run parse:dist --help >/dev/null 2>&1 && node dist/jobs/prepareReplaysList/start.js --help >/dev/null 2>&1 && node dist/jobs/updateNameChangesCsv/start.js --help >/dev/null 2>&1 && node dist/jobs/generateMissionMakersList/start.js --help >/dev/null 2>&1 && node dist/jobs/generateMaceListHTML/start.js --help >/dev/null 2>&1 && node dist/!yearStatistics/index.js --help >/dev/null 2>&1 && timeout 5s node dist/schedule.js >/dev/null 2>&1` | ✅ | ⬜ pending |
 | 01-03-01 | 03 | 3 | TOOL-05 | lint | `pnpm lint` | ✅ | ⬜ pending |
 | 01-03-02 | 03 | 3 | TOOL-04 | typecheck | `pnpm typecheck` | ✅ | ⬜ pending |
 | 01-04-01 | 04 | 4 | TOOL-06 | unit + coverage | `pnpm test && pnpm exec vitest run --coverage` | ✅ | ⬜ pending |
@@ -81,7 +81,19 @@ updated: 2026-03-29
 - [ ] Sampling continuity: no 3 consecutive tasks without automated verify
 - [ ] No generic Wave 0 placeholders remain
 - [ ] No watch-mode flags
-- [ ] Feedback latency < 90s
+- [ ] Feedback latency < 60s
+
+---
+
+## Tooling Discoverability
+
+- This phase keeps Nyquist planning validation in `01-VALIDATION.md`.
+- A companion `01-VERIFICATION.md` file exists only so `gsd-tools init phase-op` reports `has_verification: true` during pre-execution workflow checks.
+- Execution-phase verification evidence should continue to update the verification artifact without replacing the validation matrix above.
+
+**Verification artifact path:** `.planning/phases/01-toolchain-modernization/01-VERIFICATION.md`
+
+**Approval:** pending
 - [ ] `nyquist_compliant: true` set in frontmatter
 
 **Approval:** pending
