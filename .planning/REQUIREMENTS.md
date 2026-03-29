@@ -7,8 +7,8 @@
 
 ### Tooling
 
-- [ ] **TOOL-01**: Developer can install and run the project with `pnpm` as the only supported package manager
-- [ ] **TOOL-02**: Developer can run TypeScript entrypoints directly with `tsx` for local and operational source-mode workflows
+- [x] **TOOL-01**: Developer can install and run the project with `pnpm` as the only supported package manager
+- [x] **TOOL-02**: Developer can run TypeScript entrypoints directly with `tsx` for local and operational source-mode workflows
 - [ ] **TOOL-03**: Developer can build production-ready output with the new build pipeline while preserving current runtime entrypoint behavior
 - [ ] **TOOL-04**: Developer can typecheck the repository with a modern strict TypeScript configuration trimmed for a backend Node.js parser
 - [ ] **TOOL-05**: Developer can lint the repository with an ESLint flat config derived from `new_config_files` without React, Next.js, JSX, or browser-only rules
@@ -84,8 +84,8 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| TOOL-01 | Phase 1 | Pending |
-| TOOL-02 | Phase 1 | Pending |
+| TOOL-01 | Phase 1 | Complete |
+| TOOL-02 | Phase 1 | Complete |
 | TOOL-03 | Phase 1 | Pending |
 | TOOL-04 | Phase 1 | Pending |
 | TOOL-05 | Phase 1 | Pending |
