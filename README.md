@@ -33,7 +33,7 @@ REPLAYS_RELAY_TOKEN=<the-same-token-from-server>
 Run parser
 
 ```bash
-npm run generate-replays-list
+pnpm run generate-replays-list
 ```
 
 ## CD (GitHub Actions)
@@ -72,8 +72,8 @@ cd sg-replay-parser
 cp .env.sample .env
 # fill .env manually
 
-npm ci
-npm run build-dist
+pnpm install --frozen-lockfile
+pnpm run build-dist
 pm2 startOrReload ecosystem.config.cjs --update-env
 pm2 save
 ```
@@ -82,8 +82,8 @@ After that, each push to `main`/`master` runs remote script `deploy/remote-deplo
 
 - fetch + checkout target branch
 - hard reset to `origin/<branch>`
-- `npm ci`
-- `npm run build-dist`
+- `pnpm install --frozen-lockfile`
+- `pnpm run build-dist`
 - `pm2 startOrReload ecosystem.config.cjs --update-env`
 
 ### Notes

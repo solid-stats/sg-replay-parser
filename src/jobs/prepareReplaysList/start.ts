@@ -1,8 +1,13 @@
 import startFetchingReplays from '.';
 
+import showCliHelp from '../../0 - utils/cliHelp';
 import logger from '../../0 - utils/logger';
 
 // used in development
+
+if (showCliHelp('generate-replays-list', 'Fetch replay metadata and raw replay files.')) {
+  process.exit(0);
+}
 
 const runPrepareReplaysList = async (): Promise<void> => {
   try {

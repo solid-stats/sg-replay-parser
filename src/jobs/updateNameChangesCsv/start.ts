@@ -1,8 +1,13 @@
 import updateNameChangesCsv from '.';
 
+import showCliHelp from '../../0 - utils/cliHelp';
 import logger from '../../0 - utils/logger';
 
 // used in development
+
+if (showCliHelp('update-name-changes-csv', 'Refresh the runtime name-changes CSV data.')) {
+  process.exit(0);
+}
 
 const runUpdateNameChangesCsv = async (): Promise<void> => {
   try {

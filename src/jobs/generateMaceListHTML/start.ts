@@ -1,8 +1,13 @@
 import generateMaceList from '.';
 
+import showCliHelp from '../../0 - utils/cliHelp';
 import logger from '../../0 - utils/logger';
 
 // used in development
+
+if (showCliHelp('generate-mace-list', 'Generate the MACE list HTML output.')) {
+  process.exit(0);
+}
 
 const runGenerateMaceList = async (): Promise<void> => {
   try {

@@ -3,6 +3,7 @@ import fs from 'fs-extra';
 
 import startParsingReplays from '.';
 
+import showCliHelp from './0 - utils/cliHelp';
 import generateBasicFolders from './0 - utils/generateBasicFolders';
 import logger from './0 - utils/logger';
 import { tempResultsPath } from './0 - utils/paths';
@@ -11,6 +12,10 @@ import generateMaceList from './jobs/generateMaceListHTML';
 import generateMissionMakersList from './jobs/generateMissionMakersList';
 import startFetchingReplays from './jobs/prepareReplaysList';
 import updateNameChangesCsv from './jobs/updateNameChangesCsv';
+
+if (showCliHelp('schedule', 'Start the cron-based runtime orchestration loop.')) {
+  process.exit(0);
+}
 
 generateBasicFolders();
 

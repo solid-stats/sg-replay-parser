@@ -2,6 +2,7 @@ import path from 'path';
 
 import fs from 'fs-extra';
 
+import showCliHelp from '../0 - utils/cliHelp';
 import { dayjsUTC } from '../0 - utils/dayjs';
 import generateBasicFolders from '../0 - utils/generateBasicFolders';
 import { isInInterval } from '../0 - utils/isInInterval';
@@ -28,6 +29,10 @@ import { printFinish } from './utils/printText';
   This statistics includes different funny and interesting nominations
   that we usually show when it's New Year's Eve
 */
+
+if (showCliHelp('parse-new-year', 'Run the yearly SG statistics pipeline.')) {
+  process.exit(0);
+}
 
 (async () => {
   generateBasicFolders();

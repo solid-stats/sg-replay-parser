@@ -1,8 +1,13 @@
 import startParsingReplays from '.';
 
+import showCliHelp from './0 - utils/cliHelp';
 import logger from './0 - utils/logger';
 
 // used in development
+
+if (showCliHelp('parse', 'Run the main replay parsing and statistics pipeline.')) {
+  process.exit(0);
+}
 
 const runStartParsingReplays = async (): Promise<void> => {
   try {

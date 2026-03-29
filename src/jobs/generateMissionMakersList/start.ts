@@ -1,6 +1,11 @@
 import generateMissionMakersList from '.';
 
+import showCliHelp from '../../0 - utils/cliHelp';
 import logger from '../../0 - utils/logger';
+
+if (showCliHelp('generate-mission-makers-list', 'Generate the mission makers HTML output.')) {
+  process.exit(0);
+}
 
 const runGenerateMissionMakersList = async (): Promise<void> => {
   try {

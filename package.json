@@ -3,21 +3,25 @@
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
+  "packageManager": "pnpm@10.33.0",
   "license": "GPL-3.0-or-later",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "tsc": "tsc",
     "build-dist": "rimraf dist && rimraf output && tsc --project tsconfig.build.json",
-    "schedule": "npm run build-dist && node dist/schedule.js",
-    "schedule-prod": "npm run build-dist && pm2 start dist/schedule.js --name sg-replay-parser-schedule",
+    "schedule": "tsx src/schedule.ts",
+    "schedule-prod": "pnpm run build-dist && pm2 start dist/schedule.js --name sg-replay-parser-schedule",
     "lint-files": "eslint ./src/**/*.ts",
     "lint-tests": "eslint ./src/**/*.test.ts",
-    "lint": "npm run lint-files && npm run lint-tests",
+    "lint": "pnpm run lint-files && pnpm run lint-tests",
     "test": "jest --silent src/!tests",
     "test:watch": "jest src/!tests --watch",
-    "generate-replays-list": "npm run build-dist && node dist/jobs/prepareReplaysList/start.js",
-    "update-name-changes-csv": "npm run build-dist && node dist/jobs/updateNameChangesCsv/start.js",
-    "parse": "npm run build-dist && node ./dist/start.js",
-    "parse-new-year": "npm run build-dist && node ./dist/!yearStatistics/index.js"
+    "generate-replays-list": "tsx src/jobs/prepareReplaysList/start.ts",
+    "update-name-changes-csv": "tsx src/jobs/updateNameChangesCsv/start.ts",
+    "generate-mission-makers-list": "tsx src/jobs/generateMissionMakersList/start.ts",
+    "generate-mace-list": "tsx src/jobs/generateMaceListHTML/start.ts",
+    "parse": "tsx src/start.ts",
+    "parse-new-year": "tsx src/!yearStatistics/index.ts"
   },
   "author": "Afgan0r",
   "devDependencies": {
@@ -42,8 +46,10 @@
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-plugin-import": "^2.25.2",
     "jest": "28.1.3",
+    "only-allow": "^1.2.1",
     "rimraf": "^3.0.2",
     "ts-jest": "^28.0.7",
+    "tsx": "^4.20.6",
     "typescript": "^4.6.3"
   },
   "dependencies": {
