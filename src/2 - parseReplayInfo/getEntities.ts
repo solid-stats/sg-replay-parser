@@ -1,4 +1,6 @@
-import { isUndefined } from 'lodash';
+import lodash from 'lodash';
+
+const { isUndefined } = lodash;
 
 const defaultPlayerInfo: PlayerInfo = {
   id: -1,

@@ -1,8 +1,10 @@
-import { keyBy, uniq } from 'lodash';
 
 import { forbiddenWeapons } from '../../0 - utils/weaponsStatistic';
 import getEntities from '../../2 - parseReplayInfo/getEntities';
 import limitAndOrder from '../utils/limitAndOrder';
+import lodash from 'lodash';
+
+const { keyBy, uniq } = lodash;
 
 export const sortBestWeaponsAndVehicles = (
   statistics: WholeYearStatisticsResult,

@@ -1,8 +1,10 @@
-import { round } from 'lodash';
 
 import filterPlayersByTotalPlayedGames from '../../0 - utils/filterPlayersByTotalPlayedGames';
 import limitAndOrder from '../utils/limitAndOrder';
 import { printFinish, printNominationProcessStart } from '../utils/printText';
+import lodash from 'lodash';
+
+const { round } = lodash;
 
 const deathToGamesRatioNomination = ({
   result,

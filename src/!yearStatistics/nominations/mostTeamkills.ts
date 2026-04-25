@@ -1,8 +1,10 @@
-import { orderBy, take } from 'lodash';
 
 import { maxRecords } from '../utils/consts';
 import limitAndOrder from '../utils/limitAndOrder';
 import { printFinish, printNominationProcessStart } from '../utils/printText';
+import lodash from 'lodash';
+
+const { orderBy, take } = lodash;
 
 const mostTeamkills = ({
   result,

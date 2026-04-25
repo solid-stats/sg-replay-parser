@@ -1,4 +1,3 @@
-import { keyBy, uniq } from 'lodash';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
 import getPlayerName from '../../0 - utils/getPlayerName';
@@ -8,6 +7,9 @@ import { secondsInFrame } from '../utils/consts';
 import formatTime from '../utils/formatTime';
 import getPlayerNameAtEndOfTheYear from '../utils/getPlayerNameAtEndOfTheYear';
 import limitAndOrder from '../utils/limitAndOrder';
+import lodash from 'lodash';
+
+const { keyBy, uniq } = lodash;
 
 const ignoredWeapons = [
   'fim-92',

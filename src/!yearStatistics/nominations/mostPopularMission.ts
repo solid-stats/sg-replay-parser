@@ -1,8 +1,10 @@
-import { orderBy } from 'lodash';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
 import limitAndOrder from '../utils/limitAndOrder';
 import { printFinish, printNominationProcessStart } from '../utils/printText';
+import lodash from 'lodash';
+
+const { orderBy } = lodash;
 
 // eslint-disable-next-line no-useless-escape
 const regex = /(?<=sg\@\d\d\d\_)(.*?)(?=\_v\d)/gm;

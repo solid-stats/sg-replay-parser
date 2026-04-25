@@ -1,4 +1,6 @@
-import { isNull } from 'lodash';
+import lodash from 'lodash';
+
+const { isNull } = lodash;
 
 const getPlayerName = (playerName: PlayerName): [PlayerName, PlayerPrefix] => {
   if (!playerName.includes('[')) return [playerName.trim(), null];

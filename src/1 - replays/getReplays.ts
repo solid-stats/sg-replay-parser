@@ -1,7 +1,9 @@
 import fs from 'fs-extra';
-import { uniqBy } from 'lodash';
 
 import { replaysListPath } from '../0 - utils/paths';
+import lodash from 'lodash';
+
+const { uniqBy } = lodash;
 
 const getReplays = async (gameType: GameType): Promise<Replay[]> => {
   let allReplays: Replay[] = [];

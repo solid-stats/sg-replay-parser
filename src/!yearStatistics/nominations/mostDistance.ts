@@ -1,4 +1,3 @@
-import { keyBy } from 'lodash';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
 import getPlayerName from '../../0 - utils/getPlayerName';
@@ -8,6 +7,9 @@ import calculateDistance from '../utils/calculateDistance';
 import getPlayerNameAtEndOfTheYear from '../utils/getPlayerNameAtEndOfTheYear';
 import getPlayerVehicleClass from '../utils/getPlayerVehicleClass';
 import limitAndOrder from '../utils/limitAndOrder';
+import lodash from 'lodash';
+
+const { keyBy } = lodash;
 
 // max speed is 300 km/h
 // 300 km/h is 83 m/s

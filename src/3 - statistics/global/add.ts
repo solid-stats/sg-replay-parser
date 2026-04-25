@@ -2,7 +2,6 @@ import path from 'path';
 
 import { Dayjs } from 'dayjs';
 import fs from 'fs-extra';
-import { round } from 'lodash';
 
 import calculateKDRatio from '../../0 - utils/calculateKDRatio';
 import calculateScore from '../../0 - utils/calculateScore';
@@ -16,6 +15,9 @@ import { unionWeaponsStatistic } from '../../0 - utils/weaponsStatistic';
 import { defaultStatistics } from '../consts';
 import addPlayerGameResultToWeekStatistics from './addToResultsByWeek';
 import calculateDeaths from './utils/calculateDeaths';
+import lodash from 'lodash';
+
+const { round } = lodash;
 
 const readExcludePlayer = (): ConfigExcludePlayer[] => {
   try {

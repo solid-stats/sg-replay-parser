@@ -1,11 +1,13 @@
 import { Dayjs } from 'dayjs';
-import { orderBy } from 'lodash';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
 import { isInInterval } from '../../0 - utils/isInInterval';
 import pipe from '../../0 - utils/pipe';
 import { playerStatsSort } from '../consts';
 import getSquadsInfo from './getSquadInfo';
+import lodash from 'lodash';
+
+const { orderBy } = lodash;
 
 const sortStatistics = (stats: GlobalSquadStatistics[]) => (
   orderBy(stats, ['score', 'averagePlayersCount', 'averageKills'], ['desc', 'desc', 'desc']).map((squadStats) => ({

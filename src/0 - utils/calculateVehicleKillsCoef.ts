@@ -1,4 +1,6 @@
-import { round } from 'lodash';
+import lodash from 'lodash';
+
+const { round } = lodash;
 
 const calculateVehicleKillsCoef = (
   kills: GlobalPlayerStatistics['kills'],

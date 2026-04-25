@@ -1,5 +1,5 @@
 import fs from 'fs-extra';
-import { isEmpty, omit, toPairs } from 'lodash';
+import lodash from 'lodash';
 
 import {
   globalStatsFileName,
@@ -9,6 +9,8 @@ import {
   weaponsStatisticsFolder,
   weeksStatisticsFolder,
 } from './consts';
+
+const { isEmpty, omit, toPairs } = lodash;
 
 type Stats = Omit<Statistics, 'byRotations'>;
 

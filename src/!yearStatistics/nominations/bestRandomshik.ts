@@ -1,4 +1,3 @@
-import { keyBy, round, uniq } from 'lodash';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
 import getPlayerName from '../../0 - utils/getPlayerName';
@@ -7,6 +6,9 @@ import { forbiddenWeapons } from '../../0 - utils/weaponsStatistic';
 import getEntities from '../../2 - parseReplayInfo/getEntities';
 import getPlayerNameAtEndOfTheYear from '../utils/getPlayerNameAtEndOfTheYear';
 import limitAndOrder from '../utils/limitAndOrder';
+import lodash from 'lodash';
+
+const { keyBy, round, uniq } = lodash;
 
 export const sortBestRandomshik = (
   statistics: WholeYearStatisticsResult,

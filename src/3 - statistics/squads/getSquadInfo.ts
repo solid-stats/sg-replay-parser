@@ -1,4 +1,3 @@
-import { round } from 'lodash';
 
 import calculateKDRatio from '../../0 - utils/calculateKDRatio';
 import calculateScore from '../../0 - utils/calculateScore';
@@ -9,6 +8,9 @@ import { getPlayerId } from '../../0 - utils/namesHelper/getId';
 import calculateDeaths from '../global/utils/calculateDeaths';
 import { getEmptyPlayer, getEmptySquad } from './utils/funcs';
 import { SquadInfo } from './utils/types';
+import lodash from 'lodash';
+
+const { round } = lodash;
 
 type SquadsInfo = Record<string, SquadInfo>;
 

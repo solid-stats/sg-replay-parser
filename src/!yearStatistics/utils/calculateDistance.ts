@@ -1,4 +1,6 @@
-import { round } from 'lodash';
+import lodash from 'lodash';
+
+const { round } = lodash;
 
 const calculateDistance = (
   point1: Position | Position3D,

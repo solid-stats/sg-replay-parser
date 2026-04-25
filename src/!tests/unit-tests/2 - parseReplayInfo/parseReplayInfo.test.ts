@@ -1,8 +1,10 @@
-import { orderBy } from 'lodash';
 
 import parseReplayInfo from '../../../2 - parseReplayInfo';
 import prepareNamesWithMock from '../../utils/prepareNamesWithMock';
 import testData from '../1 - replays, 2 - parseReplayInfo/data/parseReplays';
+import lodash from 'lodash';
+
+const { orderBy } = lodash;
 
 beforeAll(() => { prepareNamesWithMock(); });
 

@@ -1,9 +1,11 @@
-import { orderBy } from 'lodash';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
 import pipe from '../../0 - utils/pipe';
 import { playerStatsSort } from '../consts';
 import addPlayerGameResultToGlobalStatistics from './add';
+import lodash from 'lodash';
+
+const { orderBy } = lodash;
 
 const sortPlayerStatistics = (statistics: GlobalPlayerStatistics[]): GlobalPlayerStatistics[] => {
   const sortedStatisticsByScore = orderBy(statistics, ...playerStatsSort);

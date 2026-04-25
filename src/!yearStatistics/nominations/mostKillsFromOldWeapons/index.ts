@@ -1,4 +1,3 @@
-import { keyBy, uniq } from 'lodash';
 
 import { dayjsUTC } from '../../../0 - utils/dayjs';
 import getPlayerName from '../../../0 - utils/getPlayerName';
@@ -8,6 +7,9 @@ import getEntities from '../../../2 - parseReplayInfo/getEntities';
 import getPlayerNameAtEndOfTheYear from '../../utils/getPlayerNameAtEndOfTheYear';
 import limitAndOrder from '../../utils/limitAndOrder';
 import oldWeapons from './oldWeapons';
+import lodash from 'lodash';
+
+const { keyBy, uniq } = lodash;
 
 export const sortMostKillsFromOldWeapons = (
   statistics: WholeYearStatisticsResult,

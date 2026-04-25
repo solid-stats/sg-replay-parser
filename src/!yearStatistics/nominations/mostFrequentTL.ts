@@ -1,4 +1,3 @@
-import { groupBy, keyBy } from 'lodash';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
 import getPlayerName from '../../0 - utils/getPlayerName';
@@ -6,6 +5,9 @@ import { getPlayerId } from '../../0 - utils/namesHelper/getId';
 import getEntities from '../../2 - parseReplayInfo/getEntities';
 import getPlayerNameAtEndOfTheYear from '../utils/getPlayerNameAtEndOfTheYear';
 import limitAndOrder from '../utils/limitAndOrder';
+import lodash from 'lodash';
+
+const { groupBy, keyBy } = lodash;
 
 export const sortMostFrequentTL = (
   statistics: WholeYearStatisticsResult,

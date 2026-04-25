@@ -1,4 +1,3 @@
-import { keyBy, max, uniq } from 'lodash';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
 import getPlayerName from '../../0 - utils/getPlayerName';
@@ -7,6 +6,9 @@ import { forbiddenWeapons } from '../../0 - utils/weaponsStatistic';
 import getEntities from '../../2 - parseReplayInfo/getEntities';
 import getPlayerNameAtEndOfTheYear from '../utils/getPlayerNameAtEndOfTheYear';
 import limitAndOrder from '../utils/limitAndOrder';
+import lodash from 'lodash';
+
+const { keyBy, max, uniq } = lodash;
 
 const atWeapons = ['m136', 'rpg', 'fgm', 'm72', 'smaw', 'maaws', 'panzerfaust', 'bunkerfaust', 'rshg', 'apilas', 'psrl', 'rgw', 'nlaw', 'rbr-m80'];
 

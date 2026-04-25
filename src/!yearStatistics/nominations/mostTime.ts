@@ -1,9 +1,9 @@
-import { keyBy } from 'lodash';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
 import getPlayerName from '../../0 - utils/getPlayerName';
 import { getPlayerId } from '../../0 - utils/namesHelper/getId';
 import getEntities from '../../2 - parseReplayInfo/getEntities';
+import lodash from 'lodash';
 import {
   defaultTimeDuration, flyingVehicle, groundVehicle, secondsInFrame,
 } from '../utils/consts';
@@ -11,6 +11,8 @@ import formatTime from '../utils/formatTime';
 import getPlayerNameAtEndOfTheYear from '../utils/getPlayerNameAtEndOfTheYear';
 import getPlayerVehicleClass from '../utils/getPlayerVehicleClass';
 import limitAndOrder from '../utils/limitAndOrder';
+
+const { keyBy } = lodash;
 
 export const sortMostTime = (
   statistics: WholeYearStatisticsResult,

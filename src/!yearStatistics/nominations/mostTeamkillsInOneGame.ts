@@ -1,4 +1,3 @@
-import { orderBy } from 'lodash';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
 import getPlayerName from '../../0 - utils/getPlayerName';
@@ -6,6 +5,9 @@ import { getPlayerId } from '../../0 - utils/namesHelper/getId';
 import getPlayerNameAtEndOfTheYear from '../utils/getPlayerNameAtEndOfTheYear';
 import limitAndOrder from '../utils/limitAndOrder';
 import { printFinish, printNominationProcessStart } from '../utils/printText';
+import lodash from 'lodash';
+
+const { orderBy } = lodash;
 
 const mostTeamkillsInOneGame = ({
   result,

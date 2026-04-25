@@ -1,5 +1,8 @@
+import lodash from 'lodash';
+
+const { groupBy, keyBy, uniqBy } = lodash;
+
 /* eslint-disable no-continue */
-import { groupBy, keyBy, uniqBy } from 'lodash';
 
 import { dayjsUTC } from '../../0 - utils/dayjs';
 import getPlayerName from '../../0 - utils/getPlayerName';

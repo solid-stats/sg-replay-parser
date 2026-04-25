@@ -1,7 +1,9 @@
-import { keyBy } from 'lodash';
 
 import getPlayerName from '../../0 - utils/getPlayerName';
 import limitAndOrder from '../utils/limitAndOrder';
+import lodash from 'lodash';
+
+const { keyBy } = lodash;
 
 export const sortMostPopularMissionMaker = (
   statistics: WholeYearStatisticsResult,

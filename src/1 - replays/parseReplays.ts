@@ -1,7 +1,9 @@
-import { orderBy } from 'lodash';
 
 import logger from '../0 - utils/logger';
 import type { WorkerPool } from './workers/workerPool';
+import lodash from 'lodash';
+
+const { orderBy } = lodash;
 
 type WorkerPoolLike = Pick<WorkerPool, 'runTask'>;
 type ProgressCallback = () => void;

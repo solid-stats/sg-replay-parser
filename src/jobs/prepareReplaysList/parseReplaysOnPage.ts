@@ -1,4 +1,3 @@
-import { compact, snakeCase } from 'lodash';
 import pLimit from 'p-limit';
 
 import { dayjsUnix } from '../../0 - utils/dayjs';
@@ -6,6 +5,9 @@ import logger from '../../0 - utils/logger';
 import { isCloudflareBanError } from '../../0 - utils/request';
 import parseReplay from './parseReplay';
 import saveReplayFile from './saveReplayFile';
+import lodash from 'lodash';
+
+const { compact, snakeCase } = lodash;
 
 export const getMissionName = (
   linkText: string,

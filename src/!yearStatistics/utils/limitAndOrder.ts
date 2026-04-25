@@ -1,6 +1,8 @@
-import { orderBy, take } from 'lodash';
 
 import { maxRecords } from './consts';
+import lodash from 'lodash';
+
+const { orderBy, take } = lodash;
 
 const limitAndOrder = <ListType>(
   list: NomineeList<ListType> | ListType[],

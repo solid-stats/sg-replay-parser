@@ -1,9 +1,11 @@
 import fs from 'fs-extra';
-import { isArray } from 'lodash';
 
 import { yearResultsPath } from '../../0 - utils/paths';
 import { nominationsOrder } from '../utils/consts';
 import formatters from './formattersList';
+import lodash from 'lodash';
+
+const { isArray } = lodash;
 
 const print = (
   statistics: WholeYearStatisticsResult,

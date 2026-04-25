@@ -1,6 +1,8 @@
-import { round } from 'lodash';
 
 import { colorsByPlace, titles } from '../../utils/consts';
+import lodash from 'lodash';
+
+const { round } = lodash;
 
 const mostFrequentCSFormatter = (
   { mostFrequentCS }: WholeYearStatisticsResult,

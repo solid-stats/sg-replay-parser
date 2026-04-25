@@ -1,7 +1,10 @@
+import lodash from 'lodash';
+
+const { union } = lodash;
+
 /* eslint-disable no-await-in-loop */
 
 import fs from 'fs-extra';
-import { union } from 'lodash';
 
 import generateBasicFolders from '../../0 - utils/generateBasicFolders';
 import logger from '../../0 - utils/logger';

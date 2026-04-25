@@ -1,13 +1,15 @@
 import path from 'path';
 
 import fs from 'fs-extra';
-import { omit, pick } from 'lodash';
 
 import { resultsPath, tempResultsPath } from '../0 - utils/paths';
 import archiveFiles from './archiveFiles';
 import { allTimeFolder, rotationsGeneralInfoFileName } from './consts';
 import generateJSONOutput from './json';
 import generateRotationJSONOutput from './rotationsJSON';
+import lodash from 'lodash';
+
+const { omit, pick } = lodash;
 
 const generateOutput = async (statistics: StatisticsForOutput): Promise<void> => {
   const folderNames = Object.keys(statistics) as FolderName[];

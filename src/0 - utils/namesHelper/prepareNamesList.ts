@@ -1,7 +1,6 @@
 import { parse } from 'csv-parse/sync';
 import { Dayjs } from 'dayjs';
 import fs from 'fs-extra';
-import { isEmpty } from 'lodash';
 import { v4 as uuid } from 'uuid';
 import z from 'zod';
 
@@ -14,6 +13,9 @@ import { findNameInfo } from './findNameInfo';
 import moscowDateToUTC from './moscowDateToUTC';
 import { dateFormat, delimiter } from './utils/consts';
 import { NamesList } from './utils/types';
+import lodash from 'lodash';
+
+const { isEmpty } = lodash;
 
 // accepted | declined
 type StatusRU = 'Принято' | 'Отказано';

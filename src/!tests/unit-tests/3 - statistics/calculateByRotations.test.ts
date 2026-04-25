@@ -1,16 +1,18 @@
-import { dropRight, flatten, maxBy } from 'lodash';
 
 import { dayjsUTC } from '../../../0 - utils/dayjs';
 import removeDatesFromGlobalStatistics from '../../../0 - utils/removeDatesFromGlobalStatistics';
 import getRotations from '../../../0 - utils/rotations';
 import getStatsByRotations from '../../../3 - statistics/rotations';
 import prepareNamesWithMock from '../../utils/prepareNamesWithMock';
+import lodash from 'lodash';
 import {
   getReplays,
   globalStatistics as longGlobalStatistics,
   squadStatistics as longSquadStatistics,
 } from './data/forRotationsStatistics';
 import { shortGlobalStatistics, shortSquadStatistics } from './data/forRotationsStatisticsShort';
+
+const { dropRight, flatten, maxBy } = lodash;
 
 const removeDates = (rotation: StatisticsByRotation) => ({
   ...rotation,

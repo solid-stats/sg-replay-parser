@@ -1,6 +1,8 @@
-import { orderBy, take } from 'lodash';
 
 import { printFinish, printNominationProcessStart } from '../utils/printText';
+import lodash from 'lodash';
+
+const { orderBy, take } = lodash;
 
 const mostDeathsFromTeamkills = ({
   result,

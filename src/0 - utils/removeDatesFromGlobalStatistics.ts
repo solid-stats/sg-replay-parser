@@ -1,4 +1,6 @@
-import { omit } from 'lodash';
+import lodash from 'lodash';
+
+const { omit } = lodash;
 
 const removeDatesFromGlobalStatistics = (
   globalStatistics: GlobalPlayerStatistics[],

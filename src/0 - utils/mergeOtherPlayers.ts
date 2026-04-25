@@ -1,4 +1,6 @@
-import { cloneDeep } from 'lodash';
+import lodash from 'lodash';
+
+const { cloneDeep } = lodash;
 
 const mergeOtherPlayers = (first: OtherPlayer[], second: OtherPlayer[]): OtherPlayer[] => {
   const result = cloneDeep(first);
