@@ -62,10 +62,44 @@ jobs:
           username: ${{ secrets.CD_SSH_USER }}
           key: ${{ secrets.CD_SSH_PRIVATE_KEY }}
           port: ${{ secrets.CD_SSH_PORT }}
-          script_stop: true
           command_timeout: 30m
           envs: APP_DIR,BRANCH
           script: |
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-            bash "$APP_DIR/deploy/remote-deploy.sh" "$APP_DIR" "$BRANCH"
+            if not test -d "$APP_DIR/.git"
+              echo "ERROR: $APP_DIR is not a git repository" >&2
+              exit 66
+            end
+
+            set node_version (string trim < "$APP_DIR/.nvmrc")
+            set node_bin "$HOME/.nvm/versions/node/$node_version/bin"
+
+            if not test -d "$node_bin"
+              echo "ERROR: Node version $node_version is not installed at $node_bin" >&2
+              exit 69
+            end
+
+            set -gx PATH "$node_bin" $PATH
+
+            if not command -q pm2
+              echo "ERROR: pm2 is not installed on server" >&2
+              exit 69
+            end
+
+            cd "$APP_DIR"; or exit $status
+
+            git fetch --prune origin; or exit $status
+
+            if git show-ref --verify --quiet "refs/heads/$BRANCH"
+              git checkout "$BRANCH"; or exit $status
+            else
+              git checkout -b "$BRANCH" "origin/$BRANCH"; or exit $status
+            end
+
+            git reset --hard "origin/$BRANCH"; or exit $status
+
+            npm ci; or exit $status
+            npm run build-dist; or exit $status
+            pm2 startOrReload ecosystem.config.cjs --update-env; or exit $status
+            pm2 save; or exit $status
+
+            echo "Deploy finished: branch=$BRANCH dir=$APP_DIR"
