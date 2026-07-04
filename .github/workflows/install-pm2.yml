@@ -1,0 +1,43 @@
+name: Install PM2
+
+on:
+  workflow_dispatch:
+
+jobs:
+  install-pm2:
+    name: Install PM2 for deploy user
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Install PM2 over SSH
+        uses: appleboy/ssh-action@v1.2.2
+        env:
+          APP_DIR: ${{ secrets.CD_APP_DIR }}
+        with:
+          host: ${{ secrets.CD_SSH_HOST }}
+          username: ${{ secrets.CD_SSH_USER }}
+          key: ${{ secrets.CD_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.CD_SSH_PORT }}
+          command_timeout: 10m
+          envs: APP_DIR
+          script: |
+            if not test -d "$APP_DIR/.git"
+              echo "ERROR: $APP_DIR is not a git repository" >&2
+              exit 66
+            end
+
+            set node_version (string trim < "$APP_DIR/.nvmrc")
+            set node_bin "$HOME/.nvm/versions/node/$node_version/bin"
+
+            if not test -d "$node_bin"
+              echo "ERROR: Node version $node_version is not installed at $node_bin" >&2
+              exit 69
+            end
+
+            set -gx PATH "$node_bin" $PATH
+
+            node --version; or exit $status
+            npm --version; or exit $status
+            npm install --global pm2; or exit $status
+            pm2 --version; or exit $status
