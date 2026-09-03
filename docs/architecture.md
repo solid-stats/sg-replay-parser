@@ -102,7 +102,8 @@ Console output includes all levels with colorization (`colorize: true`, `coloriz
 
 1. `*/20 * * * *` - refresh mission makers list (every 20 minutes).
 2. `*/20 * * * *` - run `startFetchingReplays()` (replay list prep/update), then generate MACE list (every 20 minutes).
-3. `1-59/20 * * * *` - update `nameChanges.csv`, then run `startParsingReplays()` (every 20 minutes).
+3. `1 * * * *` - update `nameChanges.csv`, then run `startParsingReplays()`
+   (once per hour, at minute 1).
 
 Additional orchestration details:
 

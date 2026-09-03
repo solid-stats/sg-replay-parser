@@ -15,7 +15,7 @@ import updateNameChangesCsv from './jobs/updateNameChangesCsv';
 generateBasicFolders();
 
 const webParsersCron = '*/20 * * * *';
-const parsingCron = '1-59/20 * * * *';
+const parsingCron = '1 * * * *';
 
 Cron(
   webParsersCron,
